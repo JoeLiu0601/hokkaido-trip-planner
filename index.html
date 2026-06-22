@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>北海道行程</title>
+    <meta
+      name="description"
+      content="排北海道行程的APP。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="orb orb-three"></div>
+
+    <main class="shell">
+      <header class="hero card">
+        <div class="hero-copy">
+          <p class="eyebrow">Hokkaido winter planner</p>
+          <h1>北海道行程</h1>
+          <p class="lede">
+            排北海道行程的APP。先把冬季的城市、溫泉、海港與雪景拼成一條好走的路線，再慢慢細修成你自己的旅行節奏。
+          </p>
+          <div class="hero-actions">
+            <button class="button button-primary" data-action="apply-winter">套用冬季 10 天游程</button>
+            <button class="button button-secondary" data-action="focus-hakodate">聚焦函館夜景</button>
+          </div>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric">
+            <span>行程天數</span>
+            <strong id="metric-days">10</strong>
+          </div>
+          <div class="metric">
+            <span>推薦景點</span>
+            <strong id="metric-spots">16</strong>
+          </div>
+          <div class="metric">
+            <span>模板</span>
+            <strong id="metric-season">冬季限定</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="toolbar card">
+        <div class="toolbar-block grow">
+          <span class="toolbar-label">景點搜尋</span>
+          <label class="search-wrap">
+            <span class="search-icon">⌕</span>
+            <input id="search-input" type="search" placeholder="搜尋札幌、小樽、溫泉、雪景、夜景..." />
+          </label>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <section class="panel card itinerary-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">行程編排</p>
+              <h2>10 天游程</h2>
+            </div>
+            <p class="panel-note" id="day-note">今天編輯第 1 天的行程</p>
+          </div>
+
+          <div class="day-tabs" id="day-tabs"></div>
+          <div class="itinerary-list" id="itinerary-list"></div>
+        </section>
+
+        <section class="panel card explore-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">景點庫</p>
+              <h2>可加入的北海道地點</h2>
+            </div>
+            <p class="panel-note">點一下就把景點丟進目前天數</p>
+          </div>
+
+          <div class="spot-grid" id="spot-grid"></div>
+        </section>
+
+        <aside class="panel card detail-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">行程概覽</p>
+              <h2>你的北海道輪廓</h2>
+            </div>
+          </div>
+
+          <div class="summary-figure">
+            <span>焦點地區</span>
+            <strong id="focus-area">札幌 / 小樽 / 定山溪</strong>
+            <p id="focus-copy">先用城市、海港、雪山與溫泉建立骨架，整趟都維持冬季節奏。</p>
+          </div>
+
+          <div class="summary-grid">
+            <div>
+              <span>旅程風格</span>
+              <strong id="style-value">冬季限定</strong>
+            </div>
+            <div>
+              <span>推薦動線</span>
+              <strong id="route-value">札幌核心，向小樽與函館延伸</strong>
+            </div>
+            <div>
+              <span>適合天氣</span>
+              <strong id="weather-value">雪天、冷風、熱湯</strong>
+            </div>
+            <div>
+              <span>最近更新</span>
+              <strong id="updated-value">即時同步</strong>
+            </div>
+          </div>
+
+          <div class="focus-card" id="focus-card">
+            <span class="focus-tag">今日推薦</span>
+            <h3 id="focus-title">函館山夜景</h3>
+            <p id="focus-desc">
+              夜景與海港景色都很適合放在傍晚，讓整趟北海道行程在最後一晚收得很漂亮。
+            </p>
+            <div class="focus-meta" id="focus-meta"></div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
