@@ -11,9 +11,3 @@
 ## 開啟方式
 1. 直接用瀏覽器打開 `index.html`
 2. 或用 VS Code 的 Live Server 開啟
-
-## 下一步
-如果你要，我可以把這個原型再升級成真正可部署的 Web App，例如：
-- Next.js + TypeScript 版
-- 加上地圖與拖曳排程
-- 加上住宿、交通、預算模組
