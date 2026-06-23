@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>北海道冬季行程 12/23-1/1</title>
+    <meta
+      name="description"
+      content="新千歲 → 旭川 → 札幌 → 洞爺湖 → 函館。10天北海道冬季行程規劃。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="orb orb-three"></div>
+
+    <main class="shell">
+      <header class="hero card">
+        <div class="hero-copy">
+          <p class="eyebrow">Hokkaido winter planner</p>
+          <h1>北海道冬季行程</h1>
+          <p class="lede">
+            12 月 23 日 ~ 1 月 1 日。新千歲機場進，旭川起程；札幌核心 6 天，洞爺湖溫泉 1 天，最後兩天拉到函館收尾。冬季粉雪、夜景、溫泉、海港全收。
+          </p>
+          <div class="hero-actions">
+            <button class="button button-primary" data-action="apply-winter">載入旅遊範本</button>
+            <button class="button button-secondary" data-action="focus-sapporo">聚焦札幌夜景</button>
+            <button class="button button-secondary" data-action="focus-hakodate">聚焦函館夜景</button>
+          </div>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric">
+            <span>行程天數</span>
+            <strong id="metric-days">10</strong>
+          </div>
+          <div class="metric">
+            <span>推薦景點</span>
+            <strong id="metric-spots">16</strong>
+          </div>
+          <div class="metric">
+              <span>旅遊日期</span>
+              <strong id="metric-season">12/23 - 1/1</strong>
+            </div>
+            <div class="metric">
+              <span>旅遊人數</span>
+              <strong id="metric-travelers">4 人</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="toolbar card">
+        <div class="toolbar-block grow">
+          <span class="toolbar-label">景點搜尋</span>
+          <label class="search-wrap">
+            <span class="search-icon">⌕</span>
+            <input id="search-input" type="search" placeholder="搜尋札幌、小樽、溫泉、雪景、夜景..." />
+          </label>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <section class="panel card itinerary-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">行程編排</p>
+              <h2>10 天游程</h2>
+            </div>
+            <p class="panel-note" id="day-note">今天編輯第 1 天的行程</p>
+          </div>
+
+          <div class="day-tabs" id="day-tabs"></div>
+          <div class="itinerary-list" id="itinerary-list"></div>
+          <div class="itinerary-dropzone" id="itinerary-dropzone">拖曳行程到這裡移除</div>
+        </section>
+
+        <section class="panel card explore-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">景點庫</p>
+              <h2>可加入的北海道地點</h2>
+            </div>
+            <p class="panel-note">拖曳或點按即可加入目前天數</p>
+          </div>
+
+          <div class="spot-grid" id="spot-grid"></div>
+          <div class="spot-pagination" id="spot-pagination"></div>
+        </section>
+
+        <aside class="panel card detail-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">行程概覽</p>
+              <h2>旅程全貌</h2>
+            </div>
+          </div>
+
+          <div class="summary-figure">
+            <span>焦點地區</span>
+            <strong id="focus-area">札幌 / 小樽 / 定山溪</strong>
+            <p id="focus-copy">先用城市、海港、雪山與溫泉建立骨架，整趟都維持冬季節奏。</p>
+          </div>
+
+          <div class="summary-grid">
+            <div>
+              <span>旅程風格</span>
+              <strong id="style-value">冬季限定</strong>
+            </div>
+            <div>
+              <span>自駕安排</span>
+              <strong id="route-value">札幌核心，向小樽、洞爺與函館延伸</strong>
+            </div>
+            <div>
+              <span>租車車型</span>
+              <input id="car-model-input" class="summary-input" type="text" placeholder="等租好車再填" />
+            </div>
+            <div>
+              <span>適合天氣</span>
+              <strong id="weather-value">雪天、冷風、熱湯</strong>
+            </div>
+            <div>
+              <span>最近更新</span>
+              <strong id="updated-value">即時同步</strong>
+            </div>
+          </div>
+
+          <div class="focus-card" id="focus-card">
+            <span class="focus-tag">今日推薦</span>
+            <h3 id="focus-title">函館山夜景</h3>
+            <p id="focus-desc">
+              夜景與海港景色都很適合放在傍晚，讓整趟北海道行程在最後一晚收得很漂亮。
+            </p>
+            <div class="focus-meta" id="focus-meta"></div>
+          </div>
+
+          <div class="stay-section">
+            <div class="stay-head">
+              <div>
+                <p class="panel-kicker">住宿安排</p>
+                <h2>這趟會住的飯店</h2>
+              </div>
+            </div>
+            <div class="stay-grid" id="stay-grid"></div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
