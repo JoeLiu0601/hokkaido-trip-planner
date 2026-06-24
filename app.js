@@ -643,8 +643,6 @@ function renderItinerary() {
     dom.itineraryList.innerHTML = ids
       .map((id, index) => {
         const spot = spotById(id);
-        const isFirst = index === 0;
-        const isLast = index === ids.length - 1;
         return `
           <article class="stop-card" draggable="true" data-index="${index}" data-spot-id="${spot.id}">
             <div class="stop-top">
@@ -663,8 +661,8 @@ function renderItinerary() {
               <span class="tag">${spot.best}</span>
             </div>
             <div class="stop-actions">
-              <button class="small-button" data-move-up="${spot.id}" ${isFirst ? "disabled" : ""}>上移</button>
-              <button class="small-button" data-move-down="${spot.id}" ${isLast ? "disabled" : ""}>下移</button>
+              <button class="small-button" data-move-up="${spot.id}">上移</button>
+              <button class="small-button" data-move-down="${spot.id}">下移</button>
               <button class="small-button alt" data-focus="${spot.id}">看細節</button>
               <button class="small-button" data-remove="${spot.id}">移除</button>
             </div>
@@ -680,15 +678,23 @@ function renderItinerary() {
 
   dom.itineraryList.querySelectorAll("[data-move-up]").forEach((button) => {
     button.addEventListener("click", () => {
+      if (ids.length < 2) {
+        return;
+      }
       const index = ids.indexOf(button.dataset.moveUp);
-      moveSpotInDay(state.selectedDay, index, index - 1);
+      const toIndex = index <= 0 ? ids.length - 1 : index - 1;
+      moveSpotInDay(state.selectedDay, index, toIndex);
     });
   });
 
   dom.itineraryList.querySelectorAll("[data-move-down]").forEach((button) => {
     button.addEventListener("click", () => {
+      if (ids.length < 2) {
+        return;
+      }
       const index = ids.indexOf(button.dataset.moveDown);
-      moveSpotInDay(state.selectedDay, index, index + 1);
+      const toIndex = index >= ids.length - 1 ? 0 : index + 1;
+      moveSpotInDay(state.selectedDay, index, toIndex);
     });
   });
 
