@@ -413,6 +413,10 @@ const winterProfile = {
   style: "冬季限定"
 };
 
+const requiredTemplateStops = {
+  10: ["hakodate-airport"]
+};
+
 const accommodations = [
   {
     label: "12/23-12/24 旭川",
@@ -461,6 +465,23 @@ function createDefaultPlan() {
   return buildPlan();
 }
 
+function ensureRequiredStops(plan) {
+  Object.keys(requiredTemplateStops).forEach((key) => {
+    const day = Number(key);
+    if (!Array.isArray(plan[day])) {
+      plan[day] = [];
+    }
+
+    requiredTemplateStops[day].forEach((spotId) => {
+      if (spotById(spotId) && !plan[day].includes(spotId)) {
+        plan[day].push(spotId);
+      }
+    });
+  });
+
+  return plan;
+}
+
 function loadPlan() {
   const stored = window.localStorage.getItem(storageKey);
   if (!stored) {
@@ -476,7 +497,7 @@ function loadPlan() {
     }, {});
 
     const hasAnyStops = Object.values(plan).some((dayStops) => dayStops.length > 0);
-    return hasAnyStops ? plan : createDefaultPlan();
+    return hasAnyStops ? ensureRequiredStops(plan) : createDefaultPlan();
   } catch {
     return createDefaultPlan();
   }
@@ -831,7 +852,7 @@ function normalizeImportedPlan(rawPlan) {
     });
   });
 
-  return normalized;
+  return ensureRequiredStops(normalized);
 }
 
 function exportPlanAsJson() {
