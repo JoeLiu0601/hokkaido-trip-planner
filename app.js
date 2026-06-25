@@ -428,6 +428,8 @@ const accommodations = [
 const storageKey = "hokkaido-trip-planner-plan";
 const carModelKey = "hokkaido-trip-planner-car-model";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
+const syncCodeKey = "hokkaido-trip-planner-sync-code";
+const syncClientIdKey = "hokkaido-trip-planner-sync-client-id";
 
 function buildPlan() {
   return {
@@ -485,6 +487,21 @@ function loadSavedAt() {
   return window.localStorage.getItem(savedAtKey) || "";
 }
 
+function loadSyncCode() {
+  return window.localStorage.getItem(syncCodeKey) || "";
+}
+
+function getOrCreateClientId() {
+  const existing = window.localStorage.getItem(syncClientIdKey);
+  if (existing) {
+    return existing;
+  }
+
+  const newId = `client-${Math.random().toString(36).slice(2, 10)}`;
+  window.localStorage.setItem(syncClientIdKey, newId);
+  return newId;
+}
+
 const state = {
   selectedDay: 1,
   search: "",
@@ -494,7 +511,8 @@ const state = {
   dragging: null,
   carModel: loadCarModel(),
   dirty: false,
-  lastSavedAt: loadSavedAt()
+  lastSavedAt: loadSavedAt(),
+  syncCode: loadSyncCode()
 };
 
 const dom = {
@@ -523,8 +541,210 @@ const dom = {
   exportPlanBtn: document.getElementById("export-plan-btn"),
   importPlanBtn: document.getElementById("import-plan-btn"),
   importPlanFile: document.getElementById("import-plan-file"),
-  saveStatus: document.getElementById("save-status")
+  saveStatus: document.getElementById("save-status"),
+  syncCodeInput: document.getElementById("sync-code-input"),
+  connectSyncBtn: document.getElementById("connect-sync-btn"),
+  syncStatus: document.getElementById("sync-status")
 };
+
+const cloud = {
+  initialized: false,
+  connecting: false,
+  configured: false,
+  db: null,
+  modules: null,
+  unsubscribe: null,
+  activeCode: "",
+  pendingTimer: null,
+  applyingRemote: false,
+  clientId: getOrCreateClientId()
+};
+
+function normalizeSyncCode(rawCode) {
+  return String(rawCode || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-_]/g, "")
+    .slice(0, 40);
+}
+
+function isSyncConfigValid() {
+  const config = window.HOKKAIDO_SYNC_CONFIG || {};
+  const required = ["apiKey", "authDomain", "projectId", "appId"];
+  return required.every((field) => typeof config[field] === "string" && config[field].trim());
+}
+
+function setSyncStatus(message) {
+  if (dom.syncStatus) {
+    dom.syncStatus.textContent = `雲端同步：${message}`;
+  }
+}
+
+function updateSyncUi() {
+  if (dom.syncCodeInput) {
+    dom.syncCodeInput.value = state.syncCode;
+  }
+
+  if (dom.connectSyncBtn) {
+    dom.connectSyncBtn.textContent = state.syncCode ? "重新連線同步" : "啟用自動同步";
+  }
+}
+
+async function ensureCloudInitialized() {
+  if (cloud.initialized) {
+    return true;
+  }
+
+  if (!isSyncConfigValid()) {
+    cloud.configured = false;
+    setSyncStatus("尚未設定（請先填 sync-config.js）");
+    return false;
+  }
+
+  cloud.connecting = true;
+  setSyncStatus("初始化中...");
+  const config = window.HOKKAIDO_SYNC_CONFIG;
+
+  try {
+    const [{ initializeApp }, firestoreModule] = await Promise.all([
+      import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"),
+      import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js")
+    ]);
+
+    const app = initializeApp(config);
+    cloud.modules = firestoreModule;
+    cloud.db = firestoreModule.getFirestore(app);
+    cloud.initialized = true;
+    cloud.configured = true;
+    setSyncStatus("已就緒");
+    return true;
+  } catch {
+    setSyncStatus("初始化失敗（請檢查 sync-config.js）");
+    return false;
+  } finally {
+    cloud.connecting = false;
+  }
+}
+
+function buildSyncPayload() {
+  return {
+    plan: state.plan,
+    carModel: state.carModel,
+    updatedAt: Date.now(),
+    updatedBy: cloud.clientId
+  };
+}
+
+function applyRemotePayload(payload) {
+  const importedPlan = normalizeImportedPlan(payload?.plan || {});
+  state.plan = importedPlan;
+  state.carModel = typeof payload?.carModel === "string" ? payload.carModel : "";
+  state.selectedDay = 1;
+
+  const hasFocus = Object.values(state.plan).some((dayList) => dayList.length > 0);
+  const firstId = hasFocus ? Object.values(state.plan).flat()[0] : spots[0].id;
+  state.focusId = firstId || spots[0].id;
+
+  const savedIso = typeof payload?.updatedAt === "number" ? new Date(payload.updatedAt).toISOString() : new Date().toISOString();
+  state.lastSavedAt = savedIso;
+  state.dirty = false;
+  savePlan();
+  saveCarModel();
+  window.localStorage.setItem(savedAtKey, state.lastSavedAt);
+  render();
+  updateSaveUi();
+}
+
+async function pushCloudState() {
+  if (!cloud.initialized || !cloud.activeCode || cloud.applyingRemote) {
+    return;
+  }
+
+  const { doc, setDoc } = cloud.modules;
+  const ref = doc(cloud.db, "tripPlans", cloud.activeCode);
+
+  try {
+    await setDoc(ref, buildSyncPayload(), { merge: true });
+    state.lastSavedAt = new Date().toISOString();
+    state.dirty = false;
+    savePlan();
+    saveCarModel();
+    window.localStorage.setItem(savedAtKey, state.lastSavedAt);
+    updateSaveUi();
+    setSyncStatus("同步完成");
+  } catch {
+    setSyncStatus("同步失敗，稍後重試");
+  }
+}
+
+function queueCloudPush(delay = 700) {
+  if (!cloud.initialized || !cloud.activeCode || cloud.applyingRemote) {
+    return;
+  }
+
+  if (cloud.pendingTimer) {
+    window.clearTimeout(cloud.pendingTimer);
+  }
+
+  cloud.pendingTimer = window.setTimeout(() => {
+    cloud.pendingTimer = null;
+    pushCloudState();
+  }, delay);
+}
+
+async function connectCloudSync(rawCode) {
+  const code = normalizeSyncCode(rawCode);
+  if (!code) {
+    setSyncStatus("請先輸入同步代碼");
+    return;
+  }
+
+  state.syncCode = code;
+  window.localStorage.setItem(syncCodeKey, code);
+  updateSyncUi();
+
+  const ready = await ensureCloudInitialized();
+  if (!ready) {
+    return;
+  }
+
+  if (cloud.unsubscribe) {
+    cloud.unsubscribe();
+    cloud.unsubscribe = null;
+  }
+
+  const { doc, getDoc, onSnapshot } = cloud.modules;
+  const ref = doc(cloud.db, "tripPlans", code);
+  cloud.activeCode = code;
+  setSyncStatus("連線中...");
+
+  const snapshot = await getDoc(ref);
+  if (snapshot.exists()) {
+    cloud.applyingRemote = true;
+    applyRemotePayload(snapshot.data());
+    cloud.applyingRemote = false;
+    setSyncStatus("已連線，自動同步中");
+  } else {
+    await pushCloudState();
+    setSyncStatus("已連線，已建立雲端資料");
+  }
+
+  cloud.unsubscribe = onSnapshot(ref, (docSnap) => {
+    const data = docSnap.data();
+    if (!docSnap.exists() || !data) {
+      return;
+    }
+
+    if (data.updatedBy === cloud.clientId) {
+      return;
+    }
+
+    cloud.applyingRemote = true;
+    applyRemotePayload(data);
+    cloud.applyingRemote = false;
+    setSyncStatus("已同步到最新版本");
+  });
+}
 
 function formatSavedAt(isoText) {
   if (!isoText) {
@@ -570,12 +790,14 @@ function persistState() {
   state.dirty = false;
   renderSummary();
   updateSaveUi();
+  queueCloudPush(0);
 }
 
 function markDirty() {
   state.dirty = true;
   renderSummary();
   updateSaveUi();
+  queueCloudPush();
 }
 
 function normalizeImportedPlan(rawPlan) {
@@ -1106,6 +1328,13 @@ function bindGlobalEvents() {
   dom.savePlanBtn?.addEventListener("click", persistState);
   dom.exportPlanBtn?.addEventListener("click", exportPlanAsJson);
   dom.importPlanBtn?.addEventListener("click", () => dom.importPlanFile?.click());
+  dom.connectSyncBtn?.addEventListener("click", () => connectCloudSync(dom.syncCodeInput?.value));
+  dom.syncCodeInput?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      connectCloudSync(dom.syncCodeInput?.value);
+    }
+  });
   dom.importPlanFile?.addEventListener("change", async (event) => {
     const [file] = event.target.files || [];
     await importPlanFromFile(file);
@@ -1144,3 +1373,10 @@ function bindGlobalEvents() {
 bindGlobalEvents();
 render();
 updateSaveUi();
+updateSyncUi();
+
+if (state.syncCode) {
+  connectCloudSync(state.syncCode);
+} else {
+  setSyncStatus("未啟用");
+}

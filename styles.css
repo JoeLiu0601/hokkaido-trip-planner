@@ -354,6 +354,11 @@ body {
   font-size: 0.86rem;
 }
 
+.sync-code-input {
+  min-width: 240px;
+  max-width: 340px;
+}
+
 .chip-row {
   display: flex;
   flex-wrap: wrap;
@@ -789,6 +794,12 @@ body {
   }
 
   .toolbar-actions .button {
+    width: 100%;
+  }
+
+  .sync-code-input {
+    min-width: 0;
+    max-width: none;
     width: 100%;
   }
 
