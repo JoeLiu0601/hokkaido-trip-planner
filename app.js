@@ -241,6 +241,17 @@ const spots = [
     desc: "如果你打算南北串遊，函館山非常適合當整趟旅行的收尾。",
     highlight: "壓軸夜景"
   },
+  {
+    id: "hakodate-airport",
+    name: "函館機場",
+    area: "函館",
+    type: "離境點",
+    season: ["winter"],
+    time: "0h",
+    best: "返程前最後補給",
+    desc: "回程前從函館機場離境，建議預留報到與還車時間，讓最後一天節奏更穩。",
+    highlight: "旅程終點"
+  },
 
   // 余市
   {
@@ -391,12 +402,12 @@ const winterTemplate = {
   7: ["furano-field", "biei-blue"],
   8: ["toyako-lake", "noboribetsu-valley"],
   9: ["morning-market", "kanemori-warehouse", "motomachi"],
-  10: ["goryokaku", "hakodate-mt"]
+  10: ["goryokaku", "hakodate-mt", "hakodate-airport"]
 };
 
 const winterProfile = {
   label: "12/23-1/1",
-  blurb: "新千歲 → 旭川 → 札幌 → 洞爺湖 → 函館",
+  blurb: "新千歲入境，旭川 1 天；札幌 6 天；洞爺湖 1 天，函館 2 天",
   weather: "冬季粉雪、夜景、溫泉、海港",
   route: "除函館那天還車，其餘天數都開車",
   style: "冬季限定"
@@ -880,6 +891,14 @@ function applyWinterTemplate() {
 }
 
 function addSpotToDay(spotId, day, mode = "toggle") {
+  const selectedDay = Object.keys(state.plan).find((planDay) => state.plan[Number(planDay)].includes(spotId));
+  if (selectedDay && Number(selectedDay) !== day) {
+    state.selectedDay = Number(selectedDay);
+    state.focusId = spotId;
+    render();
+    return;
+  }
+
   const list = state.plan[day];
   if (mode === "toggle" && list.includes(spotId)) {
     state.plan[day] = list.filter((id) => id !== spotId);
@@ -1169,10 +1188,11 @@ function renderSpotGrid() {
 
   dom.spotGrid.innerHTML = pageList
     .map((spot) => {
-      const isSelected = state.plan[state.selectedDay].includes(spot.id);
-      const buttonLabel = isSelected ? `移除自 Day ${state.selectedDay}` : `＋ 加入 Day ${state.selectedDay}`;
+      const selectedDay = Object.keys(state.plan).find((day) => state.plan[Number(day)].includes(spot.id));
+      const isSelected = Boolean(selectedDay);
+      const buttonLabel = isSelected ? `已加入 Day ${selectedDay}` : `＋ 加入 Day ${state.selectedDay}`;
       return `
-        <article class="spot-card ${isSelected ? "selected" : ""}" data-spot="${spot.id}" draggable="true">
+        <article class="spot-card ${isSelected ? "selected" : ""}" data-spot="${spot.id}" draggable="${isSelected ? "false" : "true"}">
           <div class="spot-top">
             <div>
               <h3>${spot.name}</h3>
@@ -1186,7 +1206,7 @@ function renderSpotGrid() {
             <span class="tag">${spot.highlight}</span>
           </div>
           <div class="stop-actions">
-            <button class="small-button alt" data-add="${spot.id}">${buttonLabel}</button>
+            <button class="small-button alt" data-add="${spot.id}" ${isSelected ? "disabled" : ""}>${buttonLabel}</button>
             <button class="small-button" data-pin="${spot.id}">看概覽</button>
           </div>
         </article>
@@ -1245,6 +1265,10 @@ function renderSpotGrid() {
     });
 
     card.addEventListener("dragstart", (event) => {
+      if (card.getAttribute("draggable") !== "true") {
+        event.preventDefault();
+        return;
+      }
       state.dragging = card.dataset.spot;
       card.classList.add("dragging");
       event.dataTransfer.effectAllowed = "copy";
