@@ -58,6 +58,13 @@
             <input id="search-input" type="search" placeholder="搜尋札幌、小樽、溫泉、雪景、夜景..." />
           </label>
         </div>
+        <div class="toolbar-actions">
+          <button class="button button-primary toolbar-save" id="save-plan-btn" disabled>儲存變更</button>
+          <button class="button button-secondary" id="export-plan-btn">匯出 JSON</button>
+          <button class="button button-secondary" id="import-plan-btn">匯入 JSON</button>
+          <input id="import-plan-file" type="file" accept="application/json" hidden />
+          <p class="toolbar-save-status" id="save-status">尚未儲存變更</p>
+        </div>
       </section>
 
       <section class="workspace">

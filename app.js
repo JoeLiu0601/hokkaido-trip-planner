@@ -427,6 +427,7 @@ const accommodations = [
 
 const storageKey = "hokkaido-trip-planner-plan";
 const carModelKey = "hokkaido-trip-planner-car-model";
+const savedAtKey = "hokkaido-trip-planner-saved-at";
 
 function buildPlan() {
   return {
@@ -480,6 +481,10 @@ function saveCarModel() {
   window.localStorage.setItem(carModelKey, state.carModel);
 }
 
+function loadSavedAt() {
+  return window.localStorage.getItem(savedAtKey) || "";
+}
+
 const state = {
   selectedDay: 1,
   search: "",
@@ -487,7 +492,9 @@ const state = {
   focusId: spots[0].id,
   plan: loadPlan(),
   dragging: null,
-  carModel: loadCarModel()
+  carModel: loadCarModel(),
+  dirty: false,
+  lastSavedAt: loadSavedAt()
 };
 
 const dom = {
@@ -511,8 +518,132 @@ const dom = {
   focusTitle: document.getElementById("focus-title"),
   focusDesc: document.getElementById("focus-desc"),
   focusMeta: document.getElementById("focus-meta"),
-  stayGrid: document.getElementById("stay-grid")
+  stayGrid: document.getElementById("stay-grid"),
+  savePlanBtn: document.getElementById("save-plan-btn"),
+  exportPlanBtn: document.getElementById("export-plan-btn"),
+  importPlanBtn: document.getElementById("import-plan-btn"),
+  importPlanFile: document.getElementById("import-plan-file"),
+  saveStatus: document.getElementById("save-status")
 };
+
+function formatSavedAt(isoText) {
+  if (!isoText) {
+    return "";
+  }
+
+  const date = new Date(isoText);
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return date.toLocaleString("zh-TW", {
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+function updateSaveUi() {
+  if (dom.savePlanBtn) {
+    dom.savePlanBtn.disabled = !state.dirty;
+  }
+
+  if (!dom.saveStatus) {
+    return;
+  }
+
+  if (state.dirty) {
+    dom.saveStatus.textContent = "有未儲存變更";
+    return;
+  }
+
+  const savedText = formatSavedAt(state.lastSavedAt);
+  dom.saveStatus.textContent = savedText ? `已儲存：${savedText}` : "尚未儲存變更";
+}
+
+function persistState() {
+  savePlan();
+  saveCarModel();
+  state.lastSavedAt = new Date().toISOString();
+  window.localStorage.setItem(savedAtKey, state.lastSavedAt);
+  state.dirty = false;
+  renderSummary();
+  updateSaveUi();
+}
+
+function markDirty() {
+  state.dirty = true;
+  renderSummary();
+  updateSaveUi();
+}
+
+function normalizeImportedPlan(rawPlan) {
+  const normalized = buildPlan();
+
+  Object.keys(winterTemplate).forEach((key) => {
+    const day = Number(key);
+    if (!Array.isArray(rawPlan?.[day])) {
+      normalized[day] = [];
+      return;
+    }
+
+    const uniqueIds = new Set();
+    normalized[day] = rawPlan[day].filter((id) => {
+      if (!spotById(id) || uniqueIds.has(id)) {
+        return false;
+      }
+      uniqueIds.add(id);
+      return true;
+    });
+  });
+
+  return normalized;
+}
+
+function exportPlanAsJson() {
+  const payload = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    carModel: state.carModel,
+    plan: state.plan
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = `hokkaido-plan-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
+
+async function importPlanFromFile(file) {
+  if (!file) {
+    return;
+  }
+
+  try {
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    const importedPlan = normalizeImportedPlan(parsed?.plan ?? parsed);
+    state.plan = importedPlan;
+
+    const importedCarModel = typeof parsed?.carModel === "string" ? parsed.carModel.trim() : "";
+    state.carModel = importedCarModel;
+
+    const hasFocus = Object.values(state.plan).some((dayList) => dayList.length > 0);
+    const firstId = hasFocus ? Object.values(state.plan).flat()[0] : spots[0].id;
+    state.focusId = firstId || spots[0].id;
+    state.selectedDay = 1;
+    markDirty();
+    render();
+  } catch {
+    window.alert("匯入失敗：JSON 格式不正確");
+  }
+}
 
 function spotById(id) {
   return spots.find((spot) => spot.id === id);
@@ -522,7 +653,7 @@ function applyWinterTemplate() {
   state.plan = createDefaultPlan();
   state.selectedDay = 1;
   state.focusId = state.plan[1][0] || spots[0].id;
-  savePlan();
+  markDirty();
   render();
 }
 
@@ -535,7 +666,7 @@ function addSpotToDay(spotId, day, mode = "toggle") {
   }
   state.selectedDay = day;
   state.focusId = spotId;
-  savePlan();
+  markDirty();
   render();
 }
 
@@ -544,7 +675,7 @@ function removeSpotFromDay(spotId, day) {
   if (state.focusId === spotId) {
     state.focusId = state.plan[day][0] || spots[0].id;
   }
-  savePlan();
+  markDirty();
   render();
 }
 
@@ -558,7 +689,7 @@ function removeSpotAtIndex(day, index) {
   if (state.focusId === removed) {
     state.focusId = list[0] || spots[0].id;
   }
-  savePlan();
+  markDirty();
   render();
 }
 
@@ -570,7 +701,7 @@ function moveSpotInDay(day, fromIndex, toIndex) {
 
   const [moved] = list.splice(fromIndex, 1);
   list.splice(toIndex, 0, moved);
-  savePlan();
+  markDirty();
   renderItinerary();
 }
 
@@ -926,10 +1057,11 @@ function renderSummary() {
   dom.routeValue.textContent = winterProfile.route;
   dom.carModelInput.value = state.carModel;
   dom.weatherValue.textContent = winterProfile.weather;
-  dom.updatedValue.textContent = new Date().toLocaleTimeString("zh-TW", {
-    hour: "2-digit",
-    minute: "2-digit"
-  });
+  if (state.dirty) {
+    dom.updatedValue.textContent = "尚未儲存";
+  } else {
+    dom.updatedValue.textContent = formatSavedAt(state.lastSavedAt) || "尚未儲存";
+  }
 
   dom.focusTitle.textContent = focus.name;
   dom.focusDesc.textContent = focus.desc;
@@ -967,7 +1099,32 @@ function bindGlobalEvents() {
 
   dom.carModelInput.addEventListener("input", (event) => {
     state.carModel = event.target.value;
-    saveCarModel();
+    markDirty();
+    renderSummary();
+  });
+
+  dom.savePlanBtn?.addEventListener("click", persistState);
+  dom.exportPlanBtn?.addEventListener("click", exportPlanAsJson);
+  dom.importPlanBtn?.addEventListener("click", () => dom.importPlanFile?.click());
+  dom.importPlanFile?.addEventListener("change", async (event) => {
+    const [file] = event.target.files || [];
+    await importPlanFromFile(file);
+    event.target.value = "";
+  });
+
+  window.addEventListener("beforeunload", (event) => {
+    if (!state.dirty) {
+      return;
+    }
+    event.preventDefault();
+    event.returnValue = "";
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
+      event.preventDefault();
+      persistState();
+    }
   });
 
   document.querySelector('[data-action="apply-winter"]').addEventListener("click", applyWinterTemplate);
@@ -986,3 +1143,4 @@ function bindGlobalEvents() {
 
 bindGlobalEvents();
 render();
+updateSaveUi();
