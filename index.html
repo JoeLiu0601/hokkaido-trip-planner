@@ -62,11 +62,12 @@
           <button class="button button-primary toolbar-save" id="save-plan-btn" disabled>儲存變更</button>
           <button class="button button-secondary" id="export-plan-btn">匯出 JSON</button>
           <button class="button button-secondary" id="import-plan-btn">匯入 JSON</button>
-          <input id="sync-code-input" class="summary-input sync-code-input" type="text" placeholder="同步代碼（手機與電腦填同一組）" />
+          <input id="sync-code-input" class="summary-input sync-code-input" type="text" maxlength="40" pattern="[a-zA-Z0-9_-]+" autocapitalize="off" autocorrect="off" spellcheck="false" title="只接受英文字母、數字、-、_，最長 40 字" placeholder="同步代碼（英數、-、_；手機與電腦填同一組）" />
           <button class="button button-secondary" id="connect-sync-btn">啟用自動同步</button>
           <input id="import-plan-file" type="file" accept="application/json" hidden />
           <p class="toolbar-save-status" id="save-status">尚未儲存變更</p>
           <p class="toolbar-save-status" id="sync-status">雲端同步：未啟用</p>
+          <p class="toolbar-save-status" id="ui-message" hidden></p>
         </div>
       </section>
 

@@ -354,6 +354,20 @@ body {
   font-size: 0.86rem;
 }
 
+#ui-message {
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(107, 212, 255, 0.35);
+  background: rgba(107, 212, 255, 0.12);
+  color: #d8f2ff;
+}
+
+#ui-message[data-kind="warn"] {
+  border-color: rgba(255, 179, 71, 0.45);
+  background: rgba(255, 179, 71, 0.12);
+  color: #ffe6be;
+}
+
 .sync-code-input {
   min-width: 240px;
   max-width: 340px;

@@ -139,7 +139,7 @@ const spots = [
     season: ["winter"],
     time: "1.5h",
     best: "森林小屋、燈光、拍照",
-    desc: "冬天的精靈露臺很有童話感，適合和富良野一起排成一段慢節奏路線。",
+    desc: "很適合第一天從新千歲上來後在傍晚停留，再回旭川飯店收尾，童話感很強。",
     highlight: "夜色木屋"
   },
   {
@@ -226,9 +226,9 @@ const spots = [
     type: "歷史景點",
     season: ["winter"],
     time: "2h",
-    best: "星形城郭、散步、展望塔",
-    desc: "如果想讓函館段落不只看海港，五稜郭可以補進城市的另一個重點。",
-    highlight: "城郭代表"
+    best: "星形城郭、百萬夜景、展望塔",
+    desc: "冬季夜間點燈時很適合安排百萬夜景，和跨年夜景行程可以串成同一天。",
+    highlight: "百萬夜景"
   },
   {
     id: "hakodate-mt",
@@ -240,6 +240,17 @@ const spots = [
     best: "夜景、海港、收尾感",
     desc: "如果你打算南北串遊，函館山非常適合當整趟旅行的收尾。",
     highlight: "壓軸夜景"
+  },
+  {
+    id: "hakodate-hachimangu",
+    name: "函館八幡宮",
+    area: "函館",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1.5h",
+    best: "跨年參拜、祈福、年末儀式感",
+    desc: "跨年夜安排函館八幡宮參拜很有氣氛，能和五稜郭夜景或函館山夜景銜接。",
+    highlight: "跨年參拜"
   },
   {
     id: "hakodate-airport",
@@ -393,21 +404,21 @@ const spots = [
 ];
 
 const winterTemplate = {
-  1: ["new-chitose-airport", "asahiyama-zoo"],
-  2: ["hokkaido-shrine", "sapporo-odori"],
-  3: ["shiroi-koibito-park", "sapporo-susukino"],
-  4: ["jozankei-onsen", "moiwa-yama"],
+  1: ["new-chitose-airport", "ningle-terrace"],
+  2: ["asahiyama-zoo", "hokkaido-shrine"],
+  3: ["sapporo-odori", "sapporo-susukino"],
+  4: ["shiroi-koibito-park", "nijo-market"],
   5: ["otaru-canal", "otaru-sakaimachi"],
-  6: ["niseko-mt"],
-  7: ["furano-field", "biei-blue"],
-  8: ["toyako-lake", "noboribetsu-valley"],
-  9: ["morning-market", "kanemori-warehouse", "motomachi"],
-  10: ["goryokaku", "hakodate-mt", "hakodate-airport"]
+  6: ["nikka-distillery", "kakizaki-store"],
+  7: ["jozankei-onsen", "moiwa-yama"],
+  8: ["toyako-lake", "yotei-mountain"],
+  9: ["goryokaku", "hakodate-hachimangu", "hakodate-mt"],
+  10: ["morning-market", "kanemori-warehouse", "motomachi", "hakodate-airport"]
 };
 
 const winterProfile = {
   label: "12/23-1/1",
-  blurb: "新千歲入境，旭川 1 天；札幌 6 天；洞爺湖 1 天，函館 2 天",
+  blurb: "新千歲入境，旭川與富良野 1 天；札幌 6 天（含小樽、余市）；洞爺湖 1 天，函館跨年 2 天",
   weather: "冬季粉雪、夜景、溫泉、海港",
   route: "除函館那天還車，其餘天數都開車",
   style: "冬季限定"
@@ -576,8 +587,11 @@ const dom = {
   saveStatus: document.getElementById("save-status"),
   syncCodeInput: document.getElementById("sync-code-input"),
   connectSyncBtn: document.getElementById("connect-sync-btn"),
-  syncStatus: document.getElementById("sync-status")
+  syncStatus: document.getElementById("sync-status"),
+  uiMessage: document.getElementById("ui-message")
 };
+
+let uiMessageTimer = null;
 
 const cloud = {
   initialized: false,
@@ -610,6 +624,32 @@ function setSyncStatus(message) {
   if (dom.syncStatus) {
     dom.syncStatus.textContent = `雲端同步：${message}`;
   }
+}
+
+function setUiMessage(message = "", kind = "info") {
+  if (!dom.uiMessage) {
+    return;
+  }
+
+  if (uiMessageTimer) {
+    window.clearTimeout(uiMessageTimer);
+    uiMessageTimer = null;
+  }
+
+  if (!message) {
+    dom.uiMessage.textContent = "";
+    dom.uiMessage.hidden = true;
+    dom.uiMessage.removeAttribute("data-kind");
+    return;
+  }
+
+  dom.uiMessage.textContent = message;
+  dom.uiMessage.hidden = false;
+  dom.uiMessage.dataset.kind = kind;
+
+  uiMessageTimer = window.setTimeout(() => {
+    setUiMessage("");
+  }, 3200);
 }
 
 function updateSyncUi() {
@@ -725,10 +765,16 @@ function queueCloudPush(delay = 700) {
 }
 
 async function connectCloudSync(rawCode) {
+  const trimmed = String(rawCode || "").trim();
   const code = normalizeSyncCode(rawCode);
   if (!code) {
     setSyncStatus("請先輸入同步代碼");
+    setUiMessage("同步代碼只接受英數、-、_", "warn");
     return;
+  }
+
+  if (trimmed !== code) {
+    setUiMessage("同步代碼已自動修正為英數小寫格式", "info");
   }
 
   state.syncCode = code;
@@ -895,7 +941,7 @@ async function importPlanFromFile(file) {
     markDirty();
     render();
   } catch {
-    window.alert("匯入失敗：JSON 格式不正確");
+    setUiMessage("匯入失敗：JSON 格式不正確", "warn");
   }
 }
 
@@ -914,6 +960,8 @@ function applyWinterTemplate() {
 function addSpotToDay(spotId, day, mode = "toggle") {
   const selectedDay = Object.keys(state.plan).find((planDay) => state.plan[Number(planDay)].includes(spotId));
   if (selectedDay && Number(selectedDay) !== day) {
+    const spot = spotById(spotId);
+    setUiMessage(`${spot?.name || "此景點"} 已在 Day ${selectedDay}，先移除才能改到其他天`, "warn");
     state.selectedDay = Number(selectedDay);
     state.focusId = spotId;
     render();
