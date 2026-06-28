@@ -424,6 +424,101 @@ const winterProfile = {
   style: "冬季限定"
 };
 
+const spotLogistics = {
+  "new-chitose-airport": {
+    hours: "機場主體約 06:00-23:00（航班時段可能更早/更晚）",
+    access: "JR 快速列車可到札幌；自駕取車後走道央道往旭川約 2.5-3 小時"
+  },
+  "asahiyama-zoo": {
+    hours: "冬季常見 10:30-15:30（最終入園通常提前）",
+    access: "旭川站可轉巴士；自駕約 30 分鐘，冬天建議預留停車與步行時間"
+  },
+  "ningle-terrace": {
+    hours: "冬季常見約 12:00-20:45",
+    access: "從旭川/富良野自駕最方便，夜間注意結冰路段"
+  },
+  "hokkaido-shrine": {
+    hours: "境內全天開放；授與所常見 09:00-16:00",
+    access: "札幌地鐵圓山公園站步行約 15 分鐘"
+  },
+  "sapporo-odori": {
+    hours: "公園全天可進入；活動檔期時間依主辦單位",
+    access: "地鐵大通站出站即達"
+  },
+  "shiroi-koibito-park": {
+    hours: "常見 10:00-18:00",
+    access: "地鐵東西線宮之澤站步行可到"
+  },
+  "nijo-market": {
+    hours: "多數店家約 07:00-17:00（店家差異大）",
+    access: "大通/薄野步行可達"
+  },
+  "otaru-canal": {
+    hours: "全天可走訪；點燈與活動依季節",
+    access: "JR 小樽站步行約 10-15 分鐘"
+  },
+  "otaru-sakaimachi": {
+    hours: "多數商店約 10:00-18:00",
+    access: "可由運河步行串遊，雪天建議防滑鞋"
+  },
+  "nikka-distillery": {
+    hours: "常見約 09:00-16:00（最後入場提前）",
+    access: "JR 余市站步行約 5-10 分鐘"
+  },
+  "kakizaki-store": {
+    hours: "常見約 10:00-19:00（食堂常提早結束）",
+    access: "JR 余市站步行可達，尖峰時段需排隊"
+  },
+  "jozankei-onsen": {
+    hours: "溫泉街全天可逛；日歸湯常見 11:00-20:00",
+    access: "札幌站有巴士，自駕約 50-70 分鐘"
+  },
+  "moiwa-yama": {
+    hours: "纜車常見 10:30-22:00（最終上山提前）",
+    access: "市電轉接駁巴士或計程車最順"
+  },
+  "toyako-lake": {
+    hours: "湖畔散步全天可走；遊船/設施依季節營運",
+    access: "自駕最方便，冬季注意風雪與能見度"
+  },
+  "yotei-mountain": {
+    hours: "觀景點全天可停留",
+    access: "建議自駕沿線觀景，雪況差時不要進山路"
+  },
+  "noboribetsu-valley": {
+    hours: "步道常見白天較安全（夜間不建議）",
+    access: "洞爺湖與札幌間可順路停留，自駕最彈性"
+  },
+  "goryokaku": {
+    hours: "公園全天可走；展望塔常見 09:00-18:00",
+    access: "函館市電五稜郭公園前站轉巴士或步行"
+  },
+  "hakodate-hachimangu": {
+    hours: "境內全天開放；授與所多為白天時段",
+    access: "可由函館市電末廣町/谷地頭轉步行或計程車"
+  },
+  "hakodate-mt": {
+    hours: "纜車常見 10:00-22:00（季節調整）",
+    access: "纜車站可搭巴士/計程車，跨年建議提早卡位"
+  },
+  "morning-market": {
+    hours: "多數店家常見 05:00-14:00",
+    access: "函館站步行約 2-5 分鐘"
+  },
+  "kanemori-warehouse": {
+    hours: "多數店家常見 09:30-19:00",
+    access: "函館站可步行或搭市電至十字街"
+  },
+  motomachi: {
+    hours: "街區全天可散步；教堂/館舍多為白天開放",
+    access: "建議從十字街一路沿坡道慢走"
+  },
+  "hakodate-airport": {
+    hours: "航廈常見約 07:30-20:00（依航班）",
+    access: "函館站巴士約 20 分鐘；自駕還車建議預留 60-90 分鐘"
+  }
+};
+
 const requiredTemplateStops = {
   10: ["hakodate-airport"]
 };
@@ -579,6 +674,7 @@ const dom = {
   focusTitle: document.getElementById("focus-title"),
   focusDesc: document.getElementById("focus-desc"),
   focusMeta: document.getElementById("focus-meta"),
+  focusPractical: document.getElementById("focus-practical"),
   stayGrid: document.getElementById("stay-grid"),
   savePlanBtn: document.getElementById("save-plan-btn"),
   exportPlanBtn: document.getElementById("export-plan-btn"),
@@ -949,6 +1045,10 @@ function spotById(id) {
   return spots.find((spot) => spot.id === id);
 }
 
+function getSpotLogistics(id) {
+  return spotLogistics[id] || null;
+}
+
 function applyWinterTemplate() {
   state.plan = createDefaultPlan();
   state.selectedDay = 1;
@@ -1260,12 +1360,15 @@ function renderSpotGrid() {
       const selectedDay = Object.keys(state.plan).find((day) => state.plan[Number(day)].includes(spot.id));
       const isSelected = Boolean(selectedDay);
       const buttonLabel = isSelected ? `已加入 Day ${selectedDay}` : `＋ 加入 Day ${state.selectedDay}`;
+      const logistics = getSpotLogistics(spot.id);
+      const quickHours = logistics?.hours ? `<p class="spot-extra">常見營業：${logistics.hours}</p>` : "";
       return `
         <article class="spot-card ${isSelected ? "selected" : ""}" data-spot="${spot.id}" draggable="${isSelected ? "false" : "true"}">
           <div class="spot-top">
             <div>
               <h3>${spot.name}</h3>
               <p class="spot-desc">${spot.desc}</p>
+              ${quickHours}
             </div>
             <span class="tag">${spot.time}</span>
           </div>
@@ -1356,6 +1459,7 @@ function renderSpotGrid() {
 
 function renderSummary() {
   const focus = spotById(state.focusId) || spots[0];
+  const logistics = getSpotLogistics(focus.id);
   const uniqueAreas = new Set(
     Object.values(state.plan)
       .flat()
@@ -1386,6 +1490,16 @@ function renderSummary() {
     <span class="tag">${focus.best}</span>
     <span class="tag">建議停留 ${focus.time}</span>
   `;
+
+  if (dom.focusPractical) {
+    dom.focusPractical.innerHTML = logistics
+      ? `
+        <p><strong>常見營業：</strong>${logistics.hours}</p>
+        <p><strong>交通建議：</strong>${logistics.access}</p>
+        <p>提醒：營業時間與交通班次可能因季節調整，請以官方最新公告為準。</p>
+      `
+      : "<p>提醒：此景點尚未補齊營業與交通資訊，可先用地圖快速確認當日資訊。</p>";
+  }
 
   dom.stayGrid.innerHTML = accommodations
     .map((hotel) => `

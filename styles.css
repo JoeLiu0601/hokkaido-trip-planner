@@ -603,6 +603,13 @@ body {
   line-height: 1.7;
 }
 
+.spot-extra {
+  margin: 0;
+  color: #c8d9ef;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
 .stop-actions {
   display: flex;
   flex-wrap: wrap;
@@ -696,6 +703,24 @@ body {
   display: grid;
   gap: 10px;
   background: rgba(3, 10, 19, 0.46);
+}
+
+.focus-practical {
+  display: grid;
+  gap: 6px;
+  padding-top: 4px;
+}
+
+.focus-practical p {
+  margin: 0;
+  color: #d5e5f9;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.focus-practical strong {
+  color: #eef6ff;
+  font-weight: 700;
 }
 
 .focus-tag {
