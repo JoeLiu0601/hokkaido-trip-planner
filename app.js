@@ -546,6 +546,43 @@ const accommodations = [
   }
 ];
 
+const dayBaseAreas = {
+  1: "新千歲",
+  2: "旭川",
+  3: "札幌",
+  4: "札幌",
+  5: "札幌",
+  6: "札幌",
+  7: "札幌",
+  8: "洞爺湖",
+  9: "函館",
+  10: "函館"
+};
+
+const areaDriveMinutes = {
+  "新千歲|旭川": 160,
+  "新千歲|富良野": 140,
+  "新千歲|札幌": 60,
+  "旭川|富良野": 65,
+  "旭川|美瑛": 40,
+  "旭川|札幌": 130,
+  "札幌|小樽": 45,
+  "札幌|余市": 65,
+  "札幌|札幌郊外": 55,
+  "札幌|洞爺湖": 120,
+  "札幌|登別": 95,
+  "札幌|西部山區": 120,
+  "札幌|二世谷": 130,
+  "小樽|余市": 35,
+  "余市|二世谷": 80,
+  "洞爺湖|登別": 45,
+  "洞爺湖|函館": 155,
+  "洞爺湖|二世谷": 75,
+  "洞爺湖|西部山區": 80,
+  "函館|函館": 20,
+  "函館|登別": 170
+};
+
 const storageKey = "hokkaido-trip-planner-plan";
 const carModelKey = "hokkaido-trip-planner-car-model";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
@@ -650,7 +687,10 @@ const state = {
   carModel: loadCarModel(),
   dirty: false,
   lastSavedAt: loadSavedAt(),
-  syncCode: loadSyncCode()
+  syncCode: loadSyncCode(),
+  pendingChangeSummary: "初始化行程",
+  pendingChangeDetail: "套用目前規劃",
+  changeLog: []
 };
 
 const dom = {
@@ -675,6 +715,7 @@ const dom = {
   focusDesc: document.getElementById("focus-desc"),
   focusMeta: document.getElementById("focus-meta"),
   focusPractical: document.getElementById("focus-practical"),
+  changeLogGrid: document.getElementById("change-log-grid"),
   stayGrid: document.getElementById("stay-grid"),
   savePlanBtn: document.getElementById("save-plan-btn"),
   exportPlanBtn: document.getElementById("export-plan-btn"),
@@ -699,8 +740,112 @@ const cloud = {
   activeCode: "",
   pendingTimer: null,
   applyingRemote: false,
-  clientId: getOrCreateClientId()
+  clientId: getOrCreateClientId(),
+  version: 0
 };
+
+function getEditorLabel() {
+  return cloud.clientId.replace("client-", "裝置-");
+}
+
+function recordChange(summary, detail = "") {
+  state.pendingChangeSummary = summary;
+  state.pendingChangeDetail = detail;
+}
+
+function getMapUrl(spot) {
+  const query = `${spot.name} ${spot.area} 北海道`;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+function getAreaDriveEstimate(fromArea, toArea) {
+  if (!fromArea || !toArea) {
+    return null;
+  }
+
+  if (fromArea === toArea) {
+    return 20;
+  }
+
+  const direct = areaDriveMinutes[`${fromArea}|${toArea}`];
+  if (typeof direct === "number") {
+    return direct;
+  }
+
+  const reverse = areaDriveMinutes[`${toArea}|${fromArea}`];
+  if (typeof reverse === "number") {
+    return reverse;
+  }
+
+  if (fromArea.includes("札幌") || toArea.includes("札幌")) {
+    return 80;
+  }
+
+  return 120;
+}
+
+function formatDriveMinutes(minutes) {
+  if (typeof minutes !== "number") {
+    return "預估車程待確認";
+  }
+
+  const hour = Math.floor(minutes / 60);
+  const minute = minutes % 60;
+  if (!hour) {
+    return `預估車程約 ${minute} 分鐘`;
+  }
+  if (!minute) {
+    return `預估車程約 ${hour} 小時`;
+  }
+  return `預估車程約 ${hour} 小時 ${minute} 分鐘`;
+}
+
+function getDriveInfoForStop(day, index, spotId) {
+  const spot = spotById(spotId);
+  if (!spot) {
+    return "預估車程待確認";
+  }
+
+  const dayStops = state.plan[day] || [];
+  if (index <= 0) {
+    const baseArea = dayBaseAreas[day] || spot.area;
+    const minutes = getAreaDriveEstimate(baseArea, spot.area);
+    return `${formatDriveMinutes(minutes)}（由 ${baseArea} 出發）`;
+  }
+
+  const prevSpot = spotById(dayStops[index - 1]);
+  if (!prevSpot) {
+    return "預估車程待確認";
+  }
+
+  const minutes = getAreaDriveEstimate(prevSpot.area, spot.area);
+  return `${formatDriveMinutes(minutes)}（由 ${prevSpot.name} 前往）`;
+}
+
+function getDriveInfoForFocus() {
+  let foundDay = 0;
+  let foundIndex = -1;
+
+  Object.keys(state.plan).forEach((key) => {
+    const day = Number(key);
+    const index = state.plan[day].indexOf(state.focusId);
+    if (index >= 0) {
+      foundDay = day;
+      foundIndex = index;
+    }
+  });
+
+  if (!foundDay) {
+    const focusSpot = spotById(state.focusId);
+    if (!focusSpot) {
+      return "預估車程待確認";
+    }
+    const minutes = getAreaDriveEstimate(dayBaseAreas[state.selectedDay] || focusSpot.area, focusSpot.area);
+    return `${formatDriveMinutes(minutes)}（以 Day ${state.selectedDay} 起點估算）`;
+  }
+
+  return getDriveInfoForStop(foundDay, foundIndex, state.focusId);
+}
 
 function normalizeSyncCode(rawCode) {
   return String(rawCode || "")
@@ -816,6 +961,8 @@ function applyRemotePayload(payload) {
   const savedIso = typeof payload?.updatedAt === "number" ? new Date(payload.updatedAt).toISOString() : new Date().toISOString();
   state.lastSavedAt = savedIso;
   state.dirty = false;
+  cloud.version = typeof payload?.version === "number" ? payload.version : cloud.version;
+  state.changeLog = Array.isArray(payload?.changes) ? payload.changes.slice(0, 12) : [];
   savePlan();
   saveCarModel();
   window.localStorage.setItem(savedAtKey, state.lastSavedAt);
@@ -828,11 +975,37 @@ async function pushCloudState() {
     return;
   }
 
-  const { doc, setDoc } = cloud.modules;
+  const { doc, runTransaction } = cloud.modules;
   const ref = doc(cloud.db, "tripPlans", cloud.activeCode);
 
   try {
-    await setDoc(ref, buildSyncPayload(), { merge: true });
+    const changeItem = {
+      at: Date.now(),
+      by: getEditorLabel(),
+      clientId: cloud.clientId,
+      summary: state.pendingChangeSummary || "更新行程",
+      detail: state.pendingChangeDetail || ""
+    };
+
+    const result = await runTransaction(cloud.db, async (transaction) => {
+      const snapshot = await transaction.get(ref);
+      const data = snapshot.exists() ? snapshot.data() : {};
+      const currentVersion = typeof data?.version === "number" ? data.version : 0;
+      const existingChanges = Array.isArray(data?.changes) ? data.changes : [];
+      const nextVersion = currentVersion + 1;
+      const nextChanges = [changeItem, ...existingChanges].slice(0, 30);
+
+      transaction.set(ref, {
+        ...buildSyncPayload(),
+        version: nextVersion,
+        changes: nextChanges
+      }, { merge: true });
+
+      return { version: nextVersion, changes: nextChanges };
+    });
+
+    cloud.version = result.version;
+    state.changeLog = result.changes.slice(0, 12);
     state.lastSavedAt = new Date().toISOString();
     state.dirty = false;
     savePlan();
@@ -892,15 +1065,22 @@ async function connectCloudSync(rawCode) {
   cloud.activeCode = code;
   setSyncStatus("連線中...");
 
-  const snapshot = await getDoc(ref);
-  if (snapshot.exists()) {
-    cloud.applyingRemote = true;
-    applyRemotePayload(snapshot.data());
-    cloud.applyingRemote = false;
-    setSyncStatus("已連線，自動同步中");
-  } else {
-    await pushCloudState();
-    setSyncStatus("已連線，已建立雲端資料");
+  try {
+    const snapshot = await getDoc(ref);
+    if (snapshot.exists()) {
+      cloud.applyingRemote = true;
+      applyRemotePayload(snapshot.data());
+      cloud.applyingRemote = false;
+      setSyncStatus("已連線，自動同步中");
+    } else {
+      recordChange("建立雲端同步", `同步代碼：${code}`);
+      await pushCloudState();
+      setSyncStatus("已連線，已建立雲端資料");
+    }
+  } catch {
+    setSyncStatus("連線失敗，請稍後重試");
+    setUiMessage("雲端連線失敗，請檢查網路或 Firebase 規則", "warn");
+    return;
   }
 
   cloud.unsubscribe = onSnapshot(ref, (docSnap) => {
@@ -909,14 +1089,15 @@ async function connectCloudSync(rawCode) {
       return;
     }
 
-    if (data.updatedBy === cloud.clientId) {
+    const remoteVersion = typeof data.version === "number" ? data.version : 0;
+    if (remoteVersion <= cloud.version && data.updatedBy === cloud.clientId) {
       return;
     }
 
     cloud.applyingRemote = true;
     applyRemotePayload(data);
     cloud.applyingRemote = false;
-    setSyncStatus("已同步到最新版本");
+    setSyncStatus(`已同步到最新版本 v${remoteVersion}`);
   });
 }
 
@@ -957,6 +1138,7 @@ function updateSaveUi() {
 }
 
 function persistState() {
+  recordChange("手動儲存行程", `Day ${state.selectedDay} 內容已更新`);
   savePlan();
   saveCarModel();
   state.lastSavedAt = new Date().toISOString();
@@ -1034,6 +1216,7 @@ async function importPlanFromFile(file) {
     const firstId = hasFocus ? Object.values(state.plan).flat()[0] : spots[0].id;
     state.focusId = firstId || spots[0].id;
     state.selectedDay = 1;
+    recordChange("匯入行程", "由 JSON 匯入並覆蓋目前內容");
     markDirty();
     render();
   } catch {
@@ -1053,6 +1236,7 @@ function applyWinterTemplate() {
   state.plan = createDefaultPlan();
   state.selectedDay = 1;
   state.focusId = state.plan[1][0] || spots[0].id;
+  recordChange("套用冬季範本", "重置為 10 天預設行程");
   markDirty();
   render();
 }
@@ -1069,10 +1253,13 @@ function addSpotToDay(spotId, day, mode = "toggle") {
   }
 
   const list = state.plan[day];
+  const spot = spotById(spotId);
   if (mode === "toggle" && list.includes(spotId)) {
     state.plan[day] = list.filter((id) => id !== spotId);
+    recordChange("移除景點", `Day ${day}：${spot?.name || spotId}`);
   } else if (!list.includes(spotId)) {
     list.push(spotId);
+    recordChange("加入景點", `Day ${day}：${spot?.name || spotId}`);
   }
   state.selectedDay = day;
   state.focusId = spotId;
@@ -1081,10 +1268,12 @@ function addSpotToDay(spotId, day, mode = "toggle") {
 }
 
 function removeSpotFromDay(spotId, day) {
+  const spot = spotById(spotId);
   state.plan[day] = state.plan[day].filter((id) => id !== spotId);
   if (state.focusId === spotId) {
     state.focusId = state.plan[day][0] || spots[0].id;
   }
+  recordChange("移除景點", `Day ${day}：${spot?.name || spotId}`);
   markDirty();
   render();
 }
@@ -1096,9 +1285,11 @@ function removeSpotAtIndex(day, index) {
   }
 
   const [removed] = list.splice(index, 1);
+  const removedSpot = spotById(removed);
   if (state.focusId === removed) {
     state.focusId = list[0] || spots[0].id;
   }
+  recordChange("拖曳移除景點", `Day ${day}：${removedSpot?.name || removed}`);
   markDirty();
   render();
 }
@@ -1111,6 +1302,8 @@ function moveSpotInDay(day, fromIndex, toIndex) {
 
   const [moved] = list.splice(fromIndex, 1);
   list.splice(toIndex, 0, moved);
+  const movedSpot = spotById(moved);
+  recordChange("調整景點順序", `Day ${day}：${movedSpot?.name || moved} 由第 ${fromIndex + 1} 站移到第 ${toIndex + 1} 站`);
   markDirty();
   renderItinerary();
 }
@@ -1193,6 +1386,8 @@ function renderItinerary() {
                   <h3>${index + 1}. ${spot.name}</h3>
                 </div>
                 <p class="stop-desc">${spot.desc}</p>
+                <p class="spot-extra">${getDriveInfoForStop(state.selectedDay, index, spot.id)}</p>
+                <a class="map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">Google Maps 導航</a>
               </div>
               <span class="tag">${spot.time}</span>
             </div>
@@ -1362,6 +1557,7 @@ function renderSpotGrid() {
       const buttonLabel = isSelected ? `已加入 Day ${selectedDay}` : `＋ 加入 Day ${state.selectedDay}`;
       const logistics = getSpotLogistics(spot.id);
       const quickHours = logistics?.hours ? `<p class="spot-extra">常見營業：${logistics.hours}</p>` : "";
+      const quickDrive = `<p class="spot-extra">${getDriveInfoForStop(state.selectedDay, 0, spot.id)}</p>`;
       return `
         <article class="spot-card ${isSelected ? "selected" : ""}" data-spot="${spot.id}" draggable="${isSelected ? "false" : "true"}">
           <div class="spot-top">
@@ -1369,6 +1565,8 @@ function renderSpotGrid() {
               <h3>${spot.name}</h3>
               <p class="spot-desc">${spot.desc}</p>
               ${quickHours}
+              ${quickDrive}
+              <a class="map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">Google Maps 導航</a>
             </div>
             <span class="tag">${spot.time}</span>
           </div>
@@ -1496,9 +1694,41 @@ function renderSummary() {
       ? `
         <p><strong>常見營業：</strong>${logistics.hours}</p>
         <p><strong>交通建議：</strong>${logistics.access}</p>
+        <p><strong>${getDriveInfoForFocus()}</strong></p>
+        <p><a class="map-link" href="${getMapUrl(focus)}" target="_blank" rel="noopener noreferrer">Google Maps 導航（${focus.name}）</a></p>
         <p>提醒：營業時間與交通班次可能因季節調整，請以官方最新公告為準。</p>
       `
-      : "<p>提醒：此景點尚未補齊營業與交通資訊，可先用地圖快速確認當日資訊。</p>";
+      : `
+        <p><strong>${getDriveInfoForFocus()}</strong></p>
+        <p><a class="map-link" href="${getMapUrl(focus)}" target="_blank" rel="noopener noreferrer">Google Maps 導航（${focus.name}）</a></p>
+        <p>提醒：此景點尚未補齊營業與交通資訊，可先用地圖快速確認當日資訊。</p>
+      `;
+  }
+
+  if (dom.changeLogGrid) {
+    if (!state.changeLog.length) {
+      dom.changeLogGrid.innerHTML = `
+        <article class="change-log-card">
+          <p class="change-log-main">尚無雲端變更紀錄</p>
+          <p class="change-log-sub">啟用同步後，會顯示最近編輯內容與版本。</p>
+        </article>
+      `;
+    } else {
+      dom.changeLogGrid.innerHTML = state.changeLog
+        .slice(0, 8)
+        .map((item, index) => {
+          const timeText = formatSavedAt(new Date(item.at || Date.now()).toISOString());
+          const summary = item.summary || "更新行程";
+          const detail = item.detail || "";
+          return `
+            <article class="change-log-card">
+              <p class="change-log-main">v${Math.max(cloud.version - index, 1)} ${summary}</p>
+              <p class="change-log-sub">${item.by || "未知裝置"} ・ ${timeText}${detail ? ` ・ ${detail}` : ""}</p>
+            </article>
+          `;
+        })
+        .join("");
+    }
   }
 
   dom.stayGrid.innerHTML = accommodations
@@ -1528,6 +1758,7 @@ function bindGlobalEvents() {
 
   dom.carModelInput.addEventListener("input", (event) => {
     state.carModel = event.target.value;
+    recordChange("更新租車車型", state.carModel || "清空車型欄位");
     markDirty();
     renderSummary();
   });
