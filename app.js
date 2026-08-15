@@ -143,17 +143,6 @@ const spots = [
     highlight: "散步感滿分"
   },
   {
-    id: "jozankei-onsen",
-    name: "定山溪溫泉",
-    area: "札幌郊外",
-    type: "溫泉",
-    season: ["winter"],
-    time: "半日",
-    best: "泡湯、山谷、放空",
-    desc: "行程中段塞一個溫泉，讓整趟旅程從觀光切換成休息模式。",
-    highlight: "修復體力"
-  },
-  {
     id: "moiwa-yama",
     name: "藻岩山夜景",
     area: "札幌",
@@ -163,28 +152,6 @@ const spots = [
     best: "夜景、城市輪廓、傍晚",
     desc: "很適合接在溫泉日後面，用夜景把整天的節奏收住。",
     highlight: "城市夜色"
-  },
-  {
-    id: "niseko-mt",
-    name: "新雪谷",
-    area: "西部山區",
-    type: "雪地活動",
-    season: ["winter"],
-    time: "全天",
-    best: "滑雪、粉雪、山景",
-    desc: "冬季核心牌，適合安排成一整天的重點站，節奏會非常純粹。",
-    highlight: "粉雪主場"
-  },
-  {
-    id: "asahiyama-zoo",
-    name: "旭山動物園",
-    area: "旭川",
-    type: "親子景點",
-    season: ["winter"],
-    time: "半日",
-    best: "企鵝散步、動物展示",
-    desc: "冬天最適合把這裡排進來，企鵝散步的畫面很有北海道感。",
-    highlight: "冬季企鵝"
   },
   {
     id: "furano-field",
@@ -227,7 +194,7 @@ const spots = [
     season: ["winter"],
     time: "2h",
     best: "雪山、遠景、攝影",
-    desc: "如果你有安排新雪谷或周邊自駕，羊蹄山很適合放進路上當作經典雪山風景。",
+    desc: "如果你有安排二世谷或洞爺湖周邊自駕，羊蹄山很適合放進路上當作經典雪山風景。",
     highlight: "雪山地標"
   },
   {
@@ -467,29 +434,6 @@ const spots = [
     desc: "北海道最代表性的肉料理，推薦薄野周邊的だるま或さっぽろジンギスカン，配生啤非常對味。",
     highlight: "北海道必吃"
   },
-  {
-    id: "nijo-market",
-    name: "二条市場",
-    area: "札幌",
-    type: "海鮮市場",
-    season: ["winter"],
-    time: "1h",
-    best: "海鮮丼、螃蟹、早餐",
-    desc: "札幌市區最老字號的海鮮市場，早餐時段最熱鬧，海鮮丼種類豐富，是把海味直接拉進城市行程的好選擇。",
-    highlight: "市區海鮮"
-  },
-  {
-    id: "kaiten-sushi-triton",
-    name: "迴轉壽司 根室花丸",
-    area: "札幌",
-    type: "迴轉壽司",
-    season: ["winter"],
-    time: "1h",
-    best: "新鮮程度高、在地人推薦、CP 值",
-    desc: "根室起家的高人氣迴轉壽司，札幌多個據點都很好訂位，北海道鮮魚品質遠超一般迴轉壽司水準。",
-    highlight: "在地人首選"
-  },
-
   // 函館購物
   {
     id: "marui-imai-hakodate",
@@ -720,10 +664,6 @@ const spotLogistics = {
     hours: "街區全天可走；各店家營業時間不同，晚餐店建議現場確認",
     access: "JR 旭川站步行約 5 分鐘，從飯店步行逛街找餐廳很方便"
   },
-  "asahiyama-zoo": {
-    hours: "冬季常見 10:30-15:30（最終入園通常提前）",
-    access: "旭川站可轉巴士；自駕約 30 分鐘，冬天建議預留停車與步行時間"
-  },
   "biei-shrine": {
     hours: "境內通年可參拜；授與所依現場公告",
     access: "美瑛站步行約 30 分鐘；自駕停車較順，請勿進入鄰近私有地"
@@ -776,10 +716,6 @@ const spotLogistics = {
     hours: "御朱印受付常見 09:00-17:00",
     access: "JR 手稻站步行約 2 分鐘，往小樽方向移動時很順"
   },
-  "nijo-market": {
-    hours: "多數店家約 07:00-17:00（店家差異大）",
-    access: "大通/薄野步行可達"
-  },
   "otaru-canal": {
     hours: "全天可走訪；點燈與活動依季節",
     access: "JR 小樽站步行約 10-15 分鐘"
@@ -808,10 +744,6 @@ const spotLogistics = {
     hours: "常見約 10:00-19:00（食堂常提早結束）",
     access: "JR 余市站步行可達，尖峰時段需排隊"
   },
-  "jozankei-onsen": {
-    hours: "溫泉街全天可逛；日歸湯常見 11:00-20:00",
-    access: "札幌站有巴士，自駕約 50-70 分鐘"
-  },
   "moiwa-yama": {
     hours: "纜車常見 10:30-22:00（最終上山提前）",
     access: "市電轉接駁巴士或計程車最順"
@@ -838,7 +770,7 @@ const spotLogistics = {
   },
   "makkari-village": {
     hours: "鄉村景觀點全天可停留；冬季請以除雪道路為主",
-    access: "從新雪谷/洞爺湖方向自駕順路，適合挑安全停車點拍羊蹄山"
+    access: "從二世谷/洞爺湖方向自駕順路，適合挑安全停車點拍羊蹄山"
   },
   "silo-observatory": {
     hours: "常見 08:30-17:00（11-4月），5-10月常見至 18:00",
@@ -960,7 +892,7 @@ const areaDriveMinutes = {
 
 const storageKey = "hokkaido-trip-planner-plan";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
-const currentPlanTemplateVersion = "2026-08-16-screenshot-plan-v5";
+const currentPlanTemplateVersion = "2026-08-16-screenshot-plan-v6";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
