@@ -400,20 +400,165 @@ const spots = [
     best: "新鮮程度高、在地人推薦、CP 值",
     desc: "根室起家的高人氣迴轉壽司，札幌多個據點都很好訂位，北海道鮮魚品質遠超一般迴轉壽司水準。",
     highlight: "在地人首選"
+  },
+
+  // 截圖行程新增景點
+  {
+    id: "biei-shrine",
+    name: "美瑛神社",
+    area: "美瑛",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1h",
+    best: "丘守、雪景、安靜參拜",
+    desc: "美瑛市街附近的鎮守神社，冬天人潮相對少，適合接在美瑛青池或富良野移動途中，讓 Day2 不只是自然景觀，也有一段安靜參拜。",
+    highlight: "美瑛祈福"
+  },
+  {
+    id: "hinode-park",
+    name: "日之出公園",
+    area: "上富良野",
+    type: "丘陵展望",
+    season: ["winter"],
+    time: "1h",
+    best: "十勝岳連峰、雪丘、開闊視野",
+    desc: "位在上富良野的展望公園，夏季以薰衣草聞名，冬天則適合看雪覆蓋的丘陵與十勝岳方向山景，放在富良野往美瑛之間很順。",
+    highlight: "富良野展望"
+  },
+  {
+    id: "sapporo-fushimi-inari",
+    name: "札幌伏見稻荷神社",
+    area: "札幌",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1h",
+    best: "紅色鳥居、雪景、拍照",
+    desc: "札幌市區南側的稻荷神社，雪中的紅色鳥居很有畫面感。若 Day3 從札幌出發去小樽，可先在早上安排短暫停留。",
+    highlight: "雪中鳥居"
+  },
+  {
+    id: "otaru-inari-shrine",
+    name: "小樽稻荷神社",
+    area: "小樽",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1h",
+    best: "在地神社、安靜氛圍、御朱印",
+    desc: "小樽在地歷史很深的稻荷神社，位置比運河與堺町通更安靜，適合在小樽散策中加入一段不那麼觀光化的節奏。",
+    highlight: "小樽在地感"
+  },
+  {
+    id: "teine-shrine",
+    name: "手稻神社",
+    area: "札幌",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1h",
+    best: "車站近、參拜、御朱印",
+    desc: "靠近 JR 手稻站的神社，從札幌往小樽方向移動時可順路安排。冬天若道路狀況普通，這站比繞遠山區更穩。",
+    highlight: "往小樽順路"
+  },
+  {
+    id: "taisho-glass",
+    name: "大正硝子館",
+    area: "小樽",
+    type: "玻璃工藝",
+    season: ["winter"],
+    time: "1h",
+    best: "玻璃器皿、手作體驗、伴手禮",
+    desc: "小樽堺町通一帶代表性的玻璃工藝店群，適合放在小樽運河與童話十字路之間，順著街區一路慢慢逛。",
+    highlight: "小樽玻璃"
+  },
+  {
+    id: "otaru-meruhen-crossing",
+    name: "小樽童話十字路",
+    area: "小樽",
+    type: "街區地標",
+    season: ["winter"],
+    time: "0.5h",
+    best: "蒸汽鐘、常夜燈、甜點店",
+    desc: "堺町通南端的經典路口，周邊有音樂盒堂、甜點與玻璃店。適合作為小樽散步的收尾點，再回札幌。",
+    highlight: "小樽收尾點"
+  },
+  {
+    id: "muroran-hakucho-bridge-view",
+    name: "室蘭白鳥大橋展望台",
+    area: "室蘭",
+    type: "展望台",
+    season: ["winter"],
+    time: "1h",
+    best: "白鳥大橋、港灣、工場夜景",
+    desc: "可眺望白鳥大橋與室蘭港灣的展望點，適合接在登別地獄谷後，當作札幌返回前的海港景觀停留。",
+    highlight: "室蘭港景"
+  },
+  {
+    id: "happiness-bell",
+    name: "幸福之鐘",
+    area: "室蘭",
+    type: "展望拍照",
+    season: ["winter"],
+    time: "0.5h",
+    best: "拍照、海景、短暫停留",
+    desc: "適合放在室蘭展望行程中的小停留點，停留時間不用長，主要作為 Day4 登別與室蘭之間的輕量拍照點。",
+    highlight: "短停拍照"
+  },
+  {
+    id: "makkari-village",
+    name: "真狩村",
+    area: "二世谷",
+    type: "羊蹄山景點",
+    season: ["winter"],
+    time: "1h",
+    best: "羊蹄山、雪原、鄉村景",
+    desc: "真狩村位在羊蹄山南側，是拍攝羊蹄山輪廓很舒服的位置。Day7 從札幌往洞爺湖移動時，可作為羊蹄山景觀停留。",
+    highlight: "羊蹄山視角"
+  },
+  {
+    id: "silo-observatory",
+    name: "SAIRO 展望台",
+    area: "洞爺湖",
+    type: "湖景展望",
+    season: ["winter"],
+    time: "1h",
+    best: "洞爺湖全景、有珠山、伴手禮",
+    desc: "洞爺湖西側高台的代表展望台，可一次看洞爺湖、山線與火山地形，也適合買點小伴手禮後再進湖畔飯店。",
+    highlight: "洞爺湖全景"
+  },
+  {
+    id: "konpira-crater-view",
+    name: "金比羅火山口展望台",
+    area: "洞爺湖",
+    type: "火山地形",
+    season: ["winter"],
+    time: "1h",
+    best: "有珠山火山口、地質景觀、防災遺構",
+    desc: "洞爺湖溫泉街附近可理解有珠山噴火地形的景點。冬季步道可能封閉，若現場狀況不佳，可改成在洞爺湖遊客中心周邊短暫停留。",
+    highlight: "火山地景"
+  },
+  {
+    id: "hakodate-gokoku-shrine",
+    name: "函館護國神社",
+    area: "函館",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1h",
+    best: "參拜、函館山山麓、安靜感",
+    desc: "位在函館山山麓，從元町或函館山纜車站周邊順路可到。適合放在 Day9 金森紅磚倉庫後，往函館山夜景前銜接。",
+    highlight: "山麓參拜"
   }
 ];
 
 const winterTemplate = {
-  1: ["new-chitose-airport", "ningle-terrace"],
-  2: ["asahiyama-zoo", "hokkaido-shrine"],
-  3: ["sapporo-odori", "sapporo-susukino"],
-  4: ["shiroi-koibito-park", "nijo-market"],
-  5: ["otaru-canal", "otaru-sakaimachi"],
-  6: ["nikka-distillery", "kakizaki-store"],
-  7: ["jozankei-onsen", "moiwa-yama"],
-  8: ["toyako-lake", "yotei-mountain"],
-  9: ["goryokaku", "hakodate-hachimangu", "hakodate-mt"],
-  10: ["morning-market", "kanemori-warehouse", "motomachi", "hakodate-airport"]
+  1: ["new-chitose-airport"],
+  2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "sapporo-odori", "sapporo-susukino"],
+  3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
+  4: ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"],
+  5: ["niseko-mt"],
+  6: ["niseko-mt"],
+  7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view"],
+  8: ["goryokaku"],
+  9: ["kanemori-warehouse", "hakodate-hachimangu", "hakodate-gokoku-shrine", "hakodate-mt"],
+  10: ["morning-market", "motomachi", "hakodate-airport"]
 };
 
 const winterProfile = {
@@ -433,6 +578,14 @@ const spotLogistics = {
     hours: "冬季常見 10:30-15:30（最終入園通常提前）",
     access: "旭川站可轉巴士；自駕約 30 分鐘，冬天建議預留停車與步行時間"
   },
+  "biei-shrine": {
+    hours: "境內通年可參拜；授與所依現場公告",
+    access: "美瑛站步行約 30 分鐘；自駕停車較順，請勿進入鄰近私有地"
+  },
+  "hinode-park": {
+    hours: "公園可全天停留；冬季視積雪與道路狀況調整",
+    access: "JR 上富良野站開車約 5 分鐘，冬季建議自駕並確認路況"
+  },
   "ningle-terrace": {
     hours: "冬季常見約 12:00-20:45",
     access: "從旭川/富良野自駕最方便，夜間注意結冰路段"
@@ -449,6 +602,14 @@ const spotLogistics = {
     hours: "常見 10:00-18:00",
     access: "地鐵東西線宮之澤站步行可到"
   },
+  "sapporo-fushimi-inari": {
+    hours: "境內可參拜；授與品與御朱印依社務所公告",
+    access: "圓山公園站轉 JR 北海道巴士至慈啓会前，步行約 3 分鐘；市電西線14條站步行約 15 分鐘"
+  },
+  "teine-shrine": {
+    hours: "御朱印受付常見 09:00-17:00",
+    access: "JR 手稻站步行約 2 分鐘，往小樽方向移動時很順"
+  },
   "nijo-market": {
     hours: "多數店家約 07:00-17:00（店家差異大）",
     access: "大通/薄野步行可達"
@@ -460,6 +621,18 @@ const spotLogistics = {
   "otaru-sakaimachi": {
     hours: "多數商店約 10:00-18:00",
     access: "可由運河步行串遊，雪天建議防滑鞋"
+  },
+  "otaru-inari-shrine": {
+    hours: "御朱印受付常見 09:00-12:00、13:00-17:00",
+    access: "JR 小樽站前搭中央巴士往手宮方向，於手宮公園上周邊步行；自駕較彈性"
+  },
+  "taisho-glass": {
+    hours: "本店常見 09:00-19:00；各分店與體驗時段不同",
+    access: "小樽運河與堺町通可步行串遊，體驗課程建議事先預約"
+  },
+  "otaru-meruhen-crossing": {
+    hours: "街區全天可走；周邊商店多為白天到傍晚",
+    access: "堺町通南端，從南小樽站或小樽運河皆可步行串遊"
   },
   "nikka-distillery": {
     hours: "常見約 09:00-16:00（最後入場提前）",
@@ -489,6 +662,26 @@ const spotLogistics = {
     hours: "步道常見白天較安全（夜間不建議）",
     access: "洞爺湖與札幌間可順路停留，自駕最彈性"
   },
+  "muroran-hakucho-bridge-view": {
+    hours: "展望區通常可自由停留；夜景與冬季路況需注意安全",
+    access: "室蘭 IC 往白鳥大橋方向，自駕較方便；白鳥灣展望台也可由崎守站步行約 16 分鐘"
+  },
+  "happiness-bell": {
+    hours: "戶外拍照點通常可自由停留；冬季以現場路況為準",
+    access: "建議與室蘭白鳥大橋展望行程一起自駕短停"
+  },
+  "makkari-village": {
+    hours: "鄉村景觀點全天可停留；冬季請以除雪道路為主",
+    access: "從新雪谷/洞爺湖方向自駕順路，適合挑安全停車點拍羊蹄山"
+  },
+  "silo-observatory": {
+    hours: "常見 08:30-17:00（11-4月），5-10月常見至 18:00",
+    access: "道央道虻田洞爺湖 IC 開車約 15 分鐘；JR 洞爺站開車約 20 分鐘"
+  },
+  "konpira-crater-view": {
+    hours: "散策路常見 4月中旬-9月底 07:00-18:00、10月-11月10日 07:00-16:00；冬季可能封閉",
+    access: "從洞爺湖溫泉街或洞爺湖遊客中心周邊步行/短程自駕，請先確認是否開放"
+  },
   "goryokaku": {
     hours: "公園全天可走；展望塔常見 09:00-18:00",
     access: "函館市電五稜郭公園前站轉巴士或步行"
@@ -500,6 +693,10 @@ const spotLogistics = {
   "hakodate-mt": {
     hours: "纜車常見 10:00-22:00（季節調整）",
     access: "纜車站可搭巴士/計程車，跨年建議提早卡位"
+  },
+  "hakodate-gokoku-shrine": {
+    hours: "社務所窗口常見 09:00-16:00 前後；境內參拜依現場公告",
+    access: "函館山麓站出口步行約 3 分鐘，適合與元町/函館山夜景串遊"
   },
   "morning-market": {
     hours: "多數店家常見 05:00-14:00",
@@ -584,6 +781,8 @@ const areaDriveMinutes = {
 };
 
 const storageKey = "hokkaido-trip-planner-plan";
+const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
+const currentPlanTemplateVersion = "2026-08-16-screenshot-plan-v3";
 const carModelKey = "hokkaido-trip-planner-car-model";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -632,6 +831,10 @@ function loadPlan() {
   }
 
   try {
+    if (window.localStorage.getItem(planTemplateVersionKey) !== currentPlanTemplateVersion) {
+      return createDefaultPlan();
+    }
+
     const parsed = JSON.parse(stored);
     const plan = Object.keys(winterTemplate).reduce((accumulator, key) => {
       const day = Number(key);
@@ -648,6 +851,7 @@ function loadPlan() {
 
 function savePlan() {
   window.localStorage.setItem(storageKey, JSON.stringify(state.plan));
+  window.localStorage.setItem(planTemplateVersionKey, currentPlanTemplateVersion);
 }
 
 function loadCarModel() {
@@ -1013,7 +1217,8 @@ async function pushCloudState() {
     window.localStorage.setItem(savedAtKey, state.lastSavedAt);
     updateSaveUi();
     setSyncStatus("同步完成");
-  } catch {
+  } catch (error) {
+    console.error("Cloud sync push failed", error);
     setSyncStatus("同步失敗，稍後重試");
   }
 }
@@ -1077,9 +1282,14 @@ async function connectCloudSync(rawCode) {
       await pushCloudState();
       setSyncStatus("已連線，已建立雲端資料");
     }
-  } catch {
+  } catch (error) {
+    console.error("Cloud sync connection failed", error);
     setSyncStatus("連線失敗，請稍後重試");
-    setUiMessage("雲端連線失敗，請檢查網路或 Firebase 規則", "warn");
+    if (error?.code === "permission-denied") {
+      setUiMessage("Firebase 規則拒絕讀寫，請先發布 firestore.rules", "warn");
+    } else {
+      setUiMessage("雲端連線失敗，請檢查網路或 Firebase 規則", "warn");
+    }
     return;
   }
 
