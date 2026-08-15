@@ -51,26 +51,66 @@ window.HOKKAIDO_SYNC_CONFIG = {
 };
 ```
 
-### 3. Firestore 規則（先驗證可用）
+### 3. Firestore 規則
 
 ```txt
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
+    function validSyncCode(syncCode) {
+      return syncCode.matches('^[a-z0-9_-]{1,40}$');
+    }
+
+    function validTripPlan() {
+      return request.resource.data.keys().hasOnly([
+          'plan',
+          'carModel',
+          'updatedAt',
+          'updatedBy',
+          'version',
+          'changes'
+        ])
+        && request.resource.data.keys().hasAll([
+          'plan',
+          'updatedAt',
+          'updatedBy',
+          'version',
+          'changes'
+        ])
+        && request.resource.data.plan is map
+        && request.resource.data.updatedAt is number
+        && request.resource.data.updatedBy is string
+        && request.resource.data.updatedBy.size() <= 64
+        && request.resource.data.version is number
+        && request.resource.data.changes is list
+        && request.resource.data.changes.size() <= 30
+        && (!('carModel' in request.resource.data)
+          || (request.resource.data.carModel is string
+            && request.resource.data.carModel.size() <= 40));
+    }
+
     match /tripPlans/{syncCode} {
-      allow read, write: if true;
+      allow get: if validSyncCode(syncCode);
+      allow list: if false;
+      allow create, update: if validSyncCode(syncCode) && validTripPlan();
+      allow delete: if false;
     }
   }
 }
 ```
 
-注意：上述規則為開放模式，正式上線前建議改成登入驗證或更嚴格規則。
+注意：Firebase Web API key 會出現在前端程式碼與瀏覽器裡，這是 Firebase Web App 的正常設計；不要把它當成後端密鑰。真正要保護的是 Firestore Security Rules、Google Cloud API key restrictions 和 App Check。
+
+建議到 Google Cloud Console -> APIs & Services -> Credentials -> 選擇這把 Firebase Web API key：
+- Application restrictions：限制 HTTP referrers，例如 `https://joeliu0601.github.io/*`
+- API restrictions：只允許 Firebase 需要的 API，不要把 Gemini、Maps 等其他 API 混用同一把 key
+- 如果已經公開過又不放心，可以 rotate key，然後更新 `sync-config.js`
 
 ## Git 推送
 
 ```bash
 git add .
 git commit -m "feat: update planner"
-git push origin master
-git push origin master:main
+git push origin main
 ```

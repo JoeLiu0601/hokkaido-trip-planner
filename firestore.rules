@@ -2,8 +2,43 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    function validSyncCode(syncCode) {
+      return syncCode.matches('^[a-z0-9_-]{1,40}$');
+    }
+
+    function validTripPlan() {
+      return request.resource.data.keys().hasOnly([
+          'plan',
+          'carModel',
+          'updatedAt',
+          'updatedBy',
+          'version',
+          'changes'
+        ])
+        && request.resource.data.keys().hasAll([
+          'plan',
+          'updatedAt',
+          'updatedBy',
+          'version',
+          'changes'
+        ])
+        && request.resource.data.plan is map
+        && request.resource.data.updatedAt is number
+        && request.resource.data.updatedBy is string
+        && request.resource.data.updatedBy.size() <= 64
+        && request.resource.data.version is number
+        && request.resource.data.changes is list
+        && request.resource.data.changes.size() <= 30
+        && (!('carModel' in request.resource.data)
+          || (request.resource.data.carModel is string
+            && request.resource.data.carModel.size() <= 40));
+    }
+
     match /tripPlans/{syncCode} {
-      allow read, write: if true;
+      allow get: if validSyncCode(syncCode);
+      allow list: if false;
+      allow create, update: if validSyncCode(syncCode) && validTripPlan();
+      allow delete: if false;
     }
   }
 }
