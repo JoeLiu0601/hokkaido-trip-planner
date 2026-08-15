@@ -11,6 +11,72 @@ const spots = [
     highlight: "旅程起點"
   },
   {
+    id: "nippon-rentacar-new-chitose",
+    name: "NIPPON 租車新千歲機場店",
+    area: "新千歲",
+    type: "取車",
+    season: ["winter"],
+    time: "1h",
+    best: "機場櫃台、接駁取車、冬季自駕起點",
+    desc: "抵達後先到新千歲機場租車櫃台報到，再搭接駁車到營業所取車。冬季建議把手續、接駁與熟悉雪地車況的時間一起抓進行程。",
+    highlight: "先取車"
+  },
+  {
+    id: "sunagawa-sa",
+    name: "砂川 SA 休息站",
+    area: "道央道",
+    type: "休息補給",
+    season: ["winter"],
+    time: "1h",
+    best: "午餐、上廁所、補給、長途中繼",
+    desc: "新千歲開往旭川途中很適合作為休息點，吃點熱食、買飲料，也能讓第一天剛下飛機的節奏不要太趕。",
+    highlight: "路上找吃的"
+  },
+  {
+    id: "premier-cabin-asahikawa",
+    name: "Premier Hotel-CABIN-旭川",
+    area: "旭川",
+    type: "入住飯店",
+    season: ["winter"],
+    time: "1h",
+    best: "Check-in、溫泉、旭川站前",
+    desc: "第一晚的旭川住宿點，位在旭川站附近，辦理入住後可以先整理行李、休息一下，再步行到市區找晚餐。",
+    highlight: "旭川入住"
+  },
+  {
+    id: "tokiwa-park",
+    name: "常磐公園",
+    area: "旭川",
+    type: "公園散步",
+    season: ["winter"],
+    time: "1h",
+    best: "雪景、池畔、公園散步",
+    desc: "旭川市中心的老牌公園，冬天很適合短暫散步醒醒腦。若第一天抵達後還有體力，可作為飯店入住後的輕量行程。",
+    highlight: "旭川散步"
+  },
+  {
+    id: "kamikawa-shrine",
+    name: "上川神社",
+    area: "旭川",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1h",
+    best: "旭川鎮守、參拜、靜謐感",
+    desc: "旭川代表神社之一，位在神樂岡公園附近。適合和常磐公園擇一或串成旭川市區散步段，讓第一天有一個安靜收尾。",
+    highlight: "旭川參拜"
+  },
+  {
+    id: "asahikawa-heiwa-dori",
+    name: "旭川平和通買物公園",
+    area: "旭川",
+    type: "商店街散步",
+    season: ["winter"],
+    time: "1.5h",
+    best: "晚餐、逛街、旭川站前",
+    desc: "從旭川站前延伸的步行商店街，周邊有餐廳與店家。很適合放在 Day1 晚上，用來逛街、找晚餐，回飯店也方便。",
+    highlight: "逛街找吃的"
+  },
+  {
     id: "hokkaido-shrine",
     name: "北海道神宮",
     area: "札幌",
@@ -549,7 +615,7 @@ const spots = [
 ];
 
 const winterTemplate = {
-  1: ["new-chitose-airport"],
+  1: ["new-chitose-airport", "nippon-rentacar-new-chitose", "sunagawa-sa", "premier-cabin-asahikawa", "tokiwa-park", "kamikawa-shrine", "asahikawa-heiwa-dori"],
   2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "sapporo-odori", "sapporo-susukino"],
   3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
   4: ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"],
@@ -573,6 +639,30 @@ const spotLogistics = {
   "new-chitose-airport": {
     hours: "機場主體約 06:00-23:00（航班時段可能更早/更晚）",
     access: "JR 快速列車可到札幌；自駕取車後走道央道往旭川約 2.5-3 小時"
+  },
+  "nippon-rentacar-new-chitose": {
+    hours: "常見 07:00-22:00；11-3月常見 07:00-21:00，年末年始可能縮短",
+    access: "抵達後到國內線 1F 到着口3附近租車櫃台報到，再搭接駁車到營業所，單程約 10-15 分鐘"
+  },
+  "sunagawa-sa": {
+    hours: "下行餐飲/商店冬季常見 09:00-19:00；上行冬季常見 09:00-19:00",
+    access: "新千歲往旭川走道央道時可順路停靠，適合午餐、補給與上廁所"
+  },
+  "premier-cabin-asahikawa": {
+    hours: "住宿設施依訂房方案；一般入住時間請以預約頁面為準",
+    access: "JR 旭川站步行約 3 分鐘；旭川站前巴士總站步行約 5 分鐘"
+  },
+  "tokiwa-park": {
+    hours: "公園全天可散步；管理事務所常見 08:30-17:15",
+    access: "JR 旭川站開車約 5 分鐘，也可由市區步行或搭巴士前往"
+  },
+  "kamikawa-shrine": {
+    hours: "境內可參拜；授與所與御朱印依現場公告",
+    access: "位於神樂岡公園內，自駕或計程車較順，冬季注意園內步道積雪"
+  },
+  "asahikawa-heiwa-dori": {
+    hours: "街區全天可走；各店家營業時間不同，晚餐店建議現場確認",
+    access: "JR 旭川站步行約 5 分鐘，從飯店步行逛街找餐廳很方便"
   },
   "asahiyama-zoo": {
     hours: "冬季常見 10:30-15:30（最終入園通常提前）",
@@ -782,7 +872,7 @@ const areaDriveMinutes = {
 
 const storageKey = "hokkaido-trip-planner-plan";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
-const currentPlanTemplateVersion = "2026-08-16-screenshot-plan-v3";
+const currentPlanTemplateVersion = "2026-08-16-screenshot-plan-v4";
 const carModelKey = "hokkaido-trip-planner-car-model";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
