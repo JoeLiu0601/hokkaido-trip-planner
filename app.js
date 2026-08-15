@@ -389,6 +389,28 @@ const spots = [
     highlight: "大通周邊"
   },
   {
+    id: "marui-imai-sapporo",
+    name: "丸井今井札幌本店",
+    area: "札幌",
+    type: "百貨公司",
+    season: ["winter"],
+    time: "2h",
+    best: "地下食品街、伴手禮、北海道老舖",
+    desc: "札幌市中心老字號百貨，和札幌三越、大通公園在同一區。適合排在大通周邊，買甜點、海鮮加工品和北海道限定伴手禮。",
+    highlight: "札幌老字號"
+  },
+  {
+    id: "tokyu-sapporo",
+    name: "東急百貨札幌店",
+    area: "札幌",
+    type: "百貨公司",
+    season: ["winter"],
+    time: "1.5h",
+    best: "札幌站周邊、食品街、日用品",
+    desc: "位在札幌站南口附近，和大丸、Stellar Place 可串成車站購物線。下雪天不想移動太遠時，很適合當備案。",
+    highlight: "車站南口"
+  },
+  {
     id: "stellar-place",
     name: "Stellar Place",
     area: "札幌",
@@ -466,6 +488,41 @@ const spots = [
     best: "新鮮程度高、在地人推薦、CP 值",
     desc: "根室起家的高人氣迴轉壽司，札幌多個據點都很好訂位，北海道鮮魚品質遠超一般迴轉壽司水準。",
     highlight: "在地人首選"
+  },
+
+  // 函館購物
+  {
+    id: "marui-imai-hakodate",
+    name: "丸井今井函館店",
+    area: "函館",
+    type: "百貨公司",
+    season: ["winter"],
+    time: "1.5h",
+    best: "五稜郭、本町商圈、食品與伴手禮",
+    desc: "函館本町的代表百貨，離五稜郭公園前市電站很近。若 Day8 在五稜郭一帶，可作為購物、取暖或吃飯備案。",
+    highlight: "函館百貨"
+  },
+  {
+    id: "share-star-hakodate",
+    name: "シエスタハコダテ",
+    area: "函館",
+    type: "商場",
+    season: ["winter"],
+    time: "1.5h",
+    best: "無印良品、LOFT、咖啡、五稜郭商圈",
+    desc: "五稜郭本町商圈的複合商場，有無印良品、LOFT、咖啡與生活選品。下雪或行程空檔時很好用。",
+    highlight: "五稜郭商場"
+  },
+  {
+    id: "kiralis-hakodate",
+    name: "キラリス函館",
+    area: "函館",
+    type: "站前商場",
+    season: ["winter"],
+    time: "1h",
+    best: "函館站前、餐飲、伴手禮",
+    desc: "函館站前的複合商場，適合在搭車、還車或回飯店前短暫逛逛。和函館朝市、車站周邊行程很好串。",
+    highlight: "函館站前"
   },
 
   // 截圖行程新增景點
@@ -619,8 +676,8 @@ const winterTemplate = {
   2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "sapporo-odori", "sapporo-susukino"],
   3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
   4: ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"],
-  5: ["niseko-mt"],
-  6: ["niseko-mt"],
+  5: ["moiwa-yama"],
+  6: [],
   7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view"],
   8: ["goryokaku"],
   9: ["kanemori-warehouse", "hakodate-hachimangu", "hakodate-gokoku-shrine", "hakodate-mt"],
@@ -630,7 +687,6 @@ const winterTemplate = {
 const winterProfile = {
   label: "12/23-1/1",
   blurb: "新千歲入境，旭川與富良野 1 天；札幌 6 天（含小樽、余市）；洞爺湖 1 天，函館跨年 2 天",
-  weather: "冬季粉雪、夜景、溫泉、海港",
   route: "除函館那天還車，其餘天數都開車",
   style: "冬季限定"
 };
@@ -687,6 +743,26 @@ const spotLogistics = {
   "sapporo-odori": {
     hours: "公園全天可進入；活動檔期時間依主辦單位",
     access: "地鐵大通站出站即達"
+  },
+  "daimaru-sapporo": {
+    hours: "常見 10:00-20:00；餐廳樓層依店舖可能更晚",
+    access: "JR 札幌站直結，適合和 Stellar Place、東急百貨串遊"
+  },
+  "mitsukoshi-sapporo": {
+    hours: "常見 10:00-19:30；餐飲與活動依樓層調整",
+    access: "地鐵大通站附近，和丸井今井札幌本店步行可串遊"
+  },
+  "marui-imai-sapporo": {
+    hours: "常見 10:30-19:30；食品與活動樓層依官方公告",
+    access: "札幌市中央區南一条西2丁目，地鐵大通站步行可達"
+  },
+  "tokyu-sapporo": {
+    hours: "常見 10:00-20:00；餐飲樓層依店舖調整",
+    access: "札幌站南口附近，JR/地鐵札幌站步行可達"
+  },
+  "stellar-place": {
+    hours: "購物常見 10:00-21:00；餐廳樓層常見到 23:00",
+    access: "JR 札幌站直結，下雪天移動最省力"
   },
   "shiroi-koibito-park": {
     hours: "常見 10:00-18:00",
@@ -784,6 +860,18 @@ const spotLogistics = {
     hours: "纜車常見 10:00-22:00（季節調整）",
     access: "纜車站可搭巴士/計程車，跨年建議提早卡位"
   },
+  "marui-imai-hakodate": {
+    hours: "常見 10:00-18:30",
+    access: "函館市電五稜郭公園前站步行可達，適合和五稜郭周邊同日安排"
+  },
+  "share-star-hakodate": {
+    hours: "B1F-3F 店舖常見 10:00-20:00；1F Starbucks 常見 07:00-22:00",
+    access: "函館市電五稜郭公園前站下車即達，本町商圈購物備案"
+  },
+  "kiralis-hakodate": {
+    hours: "各店舖與設施不同，出發前看官方樓層/店舖公告",
+    access: "函館站前，適合和函館朝市、還車、搭車前後串在一起"
+  },
   "hakodate-gokoku-shrine": {
     hours: "社務所窗口常見 09:00-16:00 前後；境內參拜依現場公告",
     access: "函館山麓站出口步行約 3 分鐘，適合與元町/函館山夜景串遊"
@@ -872,8 +960,8 @@ const areaDriveMinutes = {
 
 const storageKey = "hokkaido-trip-planner-plan";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
-const currentPlanTemplateVersion = "2026-08-16-screenshot-plan-v4";
-const carModelKey = "hokkaido-trip-planner-car-model";
+const currentPlanTemplateVersion = "2026-08-16-screenshot-plan-v5";
+const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
 const syncClientIdKey = "hokkaido-trip-planner-sync-client-id";
@@ -944,14 +1032,6 @@ function savePlan() {
   window.localStorage.setItem(planTemplateVersionKey, currentPlanTemplateVersion);
 }
 
-function loadCarModel() {
-  return window.localStorage.getItem(carModelKey) || "";
-}
-
-function saveCarModel() {
-  window.localStorage.setItem(carModelKey, state.carModel);
-}
-
 function loadSavedAt() {
   return window.localStorage.getItem(savedAtKey) || "";
 }
@@ -978,7 +1058,7 @@ const state = {
   focusId: spots[0].id,
   plan: loadPlan(),
   dragging: null,
-  carModel: loadCarModel(),
+  carModel: fixedCarModel,
   dirty: false,
   lastSavedAt: loadSavedAt(),
   syncCode: loadSyncCode(),
@@ -1002,8 +1082,7 @@ const dom = {
   focusCopy: document.getElementById("focus-copy"),
   styleValue: document.getElementById("style-value"),
   routeValue: document.getElementById("route-value"),
-  carModelInput: document.getElementById("car-model-input"),
-  weatherValue: document.getElementById("weather-value"),
+  carModelValue: document.getElementById("car-model-value"),
   updatedValue: document.getElementById("updated-value"),
   focusTitle: document.getElementById("focus-title"),
   focusDesc: document.getElementById("focus-desc"),
@@ -1236,7 +1315,7 @@ async function ensureCloudInitialized() {
 function buildSyncPayload() {
   return {
     plan: state.plan,
-    carModel: state.carModel,
+    carModel: fixedCarModel,
     updatedAt: Date.now(),
     updatedBy: cloud.clientId
   };
@@ -1245,7 +1324,7 @@ function buildSyncPayload() {
 function applyRemotePayload(payload) {
   const importedPlan = normalizeImportedPlan(payload?.plan || {});
   state.plan = importedPlan;
-  state.carModel = typeof payload?.carModel === "string" ? payload.carModel : "";
+  state.carModel = fixedCarModel;
   state.selectedDay = 1;
 
   const hasFocus = Object.values(state.plan).some((dayList) => dayList.length > 0);
@@ -1256,9 +1335,8 @@ function applyRemotePayload(payload) {
   state.lastSavedAt = savedIso;
   state.dirty = false;
   cloud.version = typeof payload?.version === "number" ? payload.version : cloud.version;
-  state.changeLog = Array.isArray(payload?.changes) ? payload.changes.slice(0, 12) : [];
+  state.changeLog = Array.isArray(payload?.changes) ? payload.changes.slice(0, 4) : [];
   savePlan();
-  saveCarModel();
   window.localStorage.setItem(savedAtKey, state.lastSavedAt);
   render();
   updateSaveUi();
@@ -1299,11 +1377,10 @@ async function pushCloudState() {
     });
 
     cloud.version = result.version;
-    state.changeLog = result.changes.slice(0, 12);
+    state.changeLog = result.changes.slice(0, 4);
     state.lastSavedAt = new Date().toISOString();
     state.dirty = false;
     savePlan();
-    saveCarModel();
     window.localStorage.setItem(savedAtKey, state.lastSavedAt);
     updateSaveUi();
     setSyncStatus("同步完成");
@@ -1440,7 +1517,6 @@ function updateSaveUi() {
 function persistState() {
   recordChange("手動儲存行程", `Day ${state.selectedDay} 內容已更新`);
   savePlan();
-  saveCarModel();
   state.lastSavedAt = new Date().toISOString();
   window.localStorage.setItem(savedAtKey, state.lastSavedAt);
   state.dirty = false;
@@ -1483,7 +1559,7 @@ function exportPlanAsJson() {
   const payload = {
     version: 1,
     exportedAt: new Date().toISOString(),
-    carModel: state.carModel,
+    carModel: fixedCarModel,
     plan: state.plan
   };
 
@@ -1509,8 +1585,7 @@ async function importPlanFromFile(file) {
     const importedPlan = normalizeImportedPlan(parsed?.plan ?? parsed);
     state.plan = importedPlan;
 
-    const importedCarModel = typeof parsed?.carModel === "string" ? parsed.carModel.trim() : "";
-    state.carModel = importedCarModel;
+    state.carModel = fixedCarModel;
 
     const hasFocus = Object.values(state.plan).some((dayList) => dayList.length > 0);
     const firstId = hasFocus ? Object.values(state.plan).flat()[0] : spots[0].id;
@@ -1972,8 +2047,7 @@ function renderSummary() {
   dom.focusCopy.textContent = `目前是 4 人自駕，行程集中在 ${winterProfile.blurb}，除函館那天會還車，其餘天數都會開車。`;
   dom.styleValue.textContent = winterProfile.style;
   dom.routeValue.textContent = winterProfile.route;
-  dom.carModelInput.value = state.carModel;
-  dom.weatherValue.textContent = winterProfile.weather;
+  dom.carModelValue.textContent = fixedCarModel;
   if (state.dirty) {
     dom.updatedValue.textContent = "尚未儲存";
   } else {
@@ -2015,15 +2089,14 @@ function renderSummary() {
       `;
     } else {
       dom.changeLogGrid.innerHTML = state.changeLog
-        .slice(0, 8)
+        .slice(0, 4)
         .map((item, index) => {
           const timeText = formatSavedAt(new Date(item.at || Date.now()).toISOString());
           const summary = item.summary || "更新行程";
-          const detail = item.detail || "";
           return `
             <article class="change-log-card">
               <p class="change-log-main">v${Math.max(cloud.version - index, 1)} ${summary}</p>
-              <p class="change-log-sub">${item.by || "未知裝置"} ・ ${timeText}${detail ? ` ・ ${detail}` : ""}</p>
+              <p class="change-log-sub">${timeText}</p>
             </article>
           `;
         })
@@ -2054,13 +2127,6 @@ function bindGlobalEvents() {
     state.search = event.target.value;
     state.spotPage = 0;
     renderSpotGrid();
-  });
-
-  dom.carModelInput.addEventListener("input", (event) => {
-    state.carModel = event.target.value;
-    recordChange("更新租車車型", state.carModel || "清空車型欄位");
-    markDirty();
-    renderSummary();
   });
 
   dom.savePlanBtn?.addEventListener("click", persistState);
