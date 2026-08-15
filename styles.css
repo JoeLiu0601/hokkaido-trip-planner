@@ -137,17 +137,17 @@ body {
 
 .change-log-section {
   display: grid;
-  gap: 12px;
+  gap: 8px;
 }
 
 .change-log-grid {
   display: grid;
-  gap: 10px;
+  gap: 6px;
 }
 
 .change-log-card {
-  padding: 12px 14px;
-  border-radius: 16px;
+  padding: 8px 10px;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -155,14 +155,15 @@ body {
 .change-log-main {
   margin: 0;
   color: var(--text);
-  font-size: 0.94rem;
-  line-height: 1.55;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .change-log-sub {
-  margin: 6px 0 0;
+  margin: 2px 0 0;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.72rem;
 }
 
 .map-link {
@@ -342,6 +343,18 @@ body {
   border-radius: var(--radius-md);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.summary-grid > .summary-plain {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.summary-grid > div:has(#car-model-value) {
+  padding: 0;
+  background: transparent;
+  border: 0;
 }
 
 .metric span,

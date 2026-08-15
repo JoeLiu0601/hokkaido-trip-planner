@@ -11,6 +11,72 @@ const spots = [
     highlight: "旅程起點"
   },
   {
+    id: "nippon-rentacar-new-chitose",
+    name: "NIPPON 租車新千歲機場店",
+    area: "新千歲",
+    type: "取車",
+    season: ["winter"],
+    time: "1h",
+    best: "機場櫃台、接駁取車、冬季自駕起點",
+    desc: "抵達後先到新千歲機場租車櫃台報到，再搭接駁車到營業所取車。冬季建議把手續、接駁與熟悉雪地車況的時間一起抓進行程。",
+    highlight: "先取車"
+  },
+  {
+    id: "sunagawa-sa",
+    name: "砂川 SA 休息站",
+    area: "道央道",
+    type: "休息補給",
+    season: ["winter"],
+    time: "1h",
+    best: "午餐、上廁所、補給、長途中繼",
+    desc: "新千歲開往旭川途中很適合作為休息點，吃點熱食、買飲料，也能讓第一天剛下飛機的節奏不要太趕。",
+    highlight: "路上找吃的"
+  },
+  {
+    id: "premier-cabin-asahikawa",
+    name: "Premier Hotel-CABIN-旭川",
+    area: "旭川",
+    type: "入住飯店",
+    season: ["winter"],
+    time: "1h",
+    best: "Check-in、溫泉、旭川站前",
+    desc: "第一晚的旭川住宿點，位在旭川站附近，辦理入住後可以先整理行李、休息一下，再步行到市區找晚餐。",
+    highlight: "旭川入住"
+  },
+  {
+    id: "tokiwa-park",
+    name: "常磐公園",
+    area: "旭川",
+    type: "公園散步",
+    season: ["winter"],
+    time: "1h",
+    best: "雪景、池畔、公園散步",
+    desc: "旭川市中心的老牌公園，冬天很適合短暫散步醒醒腦。若第一天抵達後還有體力，可作為飯店入住後的輕量行程。",
+    highlight: "旭川散步"
+  },
+  {
+    id: "kamikawa-shrine",
+    name: "上川神社",
+    area: "旭川",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1h",
+    best: "旭川鎮守、參拜、靜謐感",
+    desc: "旭川代表神社之一，位在神樂岡公園附近。適合和常磐公園擇一或串成旭川市區散步段，讓第一天有一個安靜收尾。",
+    highlight: "旭川參拜"
+  },
+  {
+    id: "asahikawa-heiwa-dori",
+    name: "旭川平和通買物公園",
+    area: "旭川",
+    type: "商店街散步",
+    season: ["winter"],
+    time: "1.5h",
+    best: "晚餐、逛街、旭川站前",
+    desc: "從旭川站前延伸的步行商店街，周邊有餐廳與店家。很適合放在 Day1 晚上，用來逛街、找晚餐，回飯店也方便。",
+    highlight: "逛街找吃的"
+  },
+  {
     id: "hokkaido-shrine",
     name: "北海道神宮",
     area: "札幌",
@@ -77,17 +143,6 @@ const spots = [
     highlight: "散步感滿分"
   },
   {
-    id: "jozankei-onsen",
-    name: "定山溪溫泉",
-    area: "札幌郊外",
-    type: "溫泉",
-    season: ["winter"],
-    time: "半日",
-    best: "泡湯、山谷、放空",
-    desc: "行程中段塞一個溫泉，讓整趟旅程從觀光切換成休息模式。",
-    highlight: "修復體力"
-  },
-  {
     id: "moiwa-yama",
     name: "藻岩山夜景",
     area: "札幌",
@@ -97,28 +152,6 @@ const spots = [
     best: "夜景、城市輪廓、傍晚",
     desc: "很適合接在溫泉日後面，用夜景把整天的節奏收住。",
     highlight: "城市夜色"
-  },
-  {
-    id: "niseko-mt",
-    name: "新雪谷",
-    area: "西部山區",
-    type: "雪地活動",
-    season: ["winter"],
-    time: "全天",
-    best: "滑雪、粉雪、山景",
-    desc: "冬季核心牌，適合安排成一整天的重點站，節奏會非常純粹。",
-    highlight: "粉雪主場"
-  },
-  {
-    id: "asahiyama-zoo",
-    name: "旭山動物園",
-    area: "旭川",
-    type: "親子景點",
-    season: ["winter"],
-    time: "半日",
-    best: "企鵝散步、動物展示",
-    desc: "冬天最適合把這裡排進來，企鵝散步的畫面很有北海道感。",
-    highlight: "冬季企鵝"
   },
   {
     id: "furano-field",
@@ -161,7 +194,7 @@ const spots = [
     season: ["winter"],
     time: "2h",
     best: "雪山、遠景、攝影",
-    desc: "如果你有安排新雪谷或周邊自駕，羊蹄山很適合放進路上當作經典雪山風景。",
+    desc: "如果你有安排二世谷或洞爺湖周邊自駕，羊蹄山很適合放進路上當作經典雪山風景。",
     highlight: "雪山地標"
   },
   {
@@ -323,6 +356,28 @@ const spots = [
     highlight: "大通周邊"
   },
   {
+    id: "marui-imai-sapporo",
+    name: "丸井今井札幌本店",
+    area: "札幌",
+    type: "百貨公司",
+    season: ["winter"],
+    time: "2h",
+    best: "地下食品街、伴手禮、北海道老舖",
+    desc: "札幌市中心老字號百貨，和札幌三越、大通公園在同一區。適合排在大通周邊，買甜點、海鮮加工品和北海道限定伴手禮。",
+    highlight: "札幌老字號"
+  },
+  {
+    id: "tokyu-sapporo",
+    name: "東急百貨札幌店",
+    area: "札幌",
+    type: "百貨公司",
+    season: ["winter"],
+    time: "1.5h",
+    best: "札幌站周邊、食品街、日用品",
+    desc: "位在札幌站南口附近，和大丸、Stellar Place 可串成車站購物線。下雪天不想移動太遠時，很適合當備案。",
+    highlight: "車站南口"
+  },
+  {
     id: "stellar-place",
     name: "Stellar Place",
     area: "札幌",
@@ -379,47 +434,203 @@ const spots = [
     desc: "北海道最代表性的肉料理，推薦薄野周邊的だるま或さっぽろジンギスカン，配生啤非常對味。",
     highlight: "北海道必吃"
   },
+  // 函館購物
   {
-    id: "nijo-market",
-    name: "二条市場",
-    area: "札幌",
-    type: "海鮮市場",
+    id: "marui-imai-hakodate",
+    name: "丸井今井函館店",
+    area: "函館",
+    type: "百貨公司",
     season: ["winter"],
-    time: "1h",
-    best: "海鮮丼、螃蟹、早餐",
-    desc: "札幌市區最老字號的海鮮市場，早餐時段最熱鬧，海鮮丼種類豐富，是把海味直接拉進城市行程的好選擇。",
-    highlight: "市區海鮮"
+    time: "1.5h",
+    best: "五稜郭、本町商圈、食品與伴手禮",
+    desc: "函館本町的代表百貨，離五稜郭公園前市電站很近。若 Day8 在五稜郭一帶，可作為購物、取暖或吃飯備案。",
+    highlight: "函館百貨"
   },
   {
-    id: "kaiten-sushi-triton",
-    name: "迴轉壽司 根室花丸",
-    area: "札幌",
-    type: "迴轉壽司",
+    id: "share-star-hakodate",
+    name: "シエスタハコダテ",
+    area: "函館",
+    type: "商場",
+    season: ["winter"],
+    time: "1.5h",
+    best: "無印良品、LOFT、咖啡、五稜郭商圈",
+    desc: "五稜郭本町商圈的複合商場，有無印良品、LOFT、咖啡與生活選品。下雪或行程空檔時很好用。",
+    highlight: "五稜郭商場"
+  },
+  {
+    id: "kiralis-hakodate",
+    name: "キラリス函館",
+    area: "函館",
+    type: "站前商場",
     season: ["winter"],
     time: "1h",
-    best: "新鮮程度高、在地人推薦、CP 值",
-    desc: "根室起家的高人氣迴轉壽司，札幌多個據點都很好訂位，北海道鮮魚品質遠超一般迴轉壽司水準。",
-    highlight: "在地人首選"
+    best: "函館站前、餐飲、伴手禮",
+    desc: "函館站前的複合商場，適合在搭車、還車或回飯店前短暫逛逛。和函館朝市、車站周邊行程很好串。",
+    highlight: "函館站前"
+  },
+
+  // 截圖行程新增景點
+  {
+    id: "biei-shrine",
+    name: "美瑛神社",
+    area: "美瑛",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1h",
+    best: "丘守、雪景、安靜參拜",
+    desc: "美瑛市街附近的鎮守神社，冬天人潮相對少，適合接在美瑛青池或富良野移動途中，讓 Day2 不只是自然景觀，也有一段安靜參拜。",
+    highlight: "美瑛祈福"
+  },
+  {
+    id: "hinode-park",
+    name: "日之出公園",
+    area: "上富良野",
+    type: "丘陵展望",
+    season: ["winter"],
+    time: "1h",
+    best: "十勝岳連峰、雪丘、開闊視野",
+    desc: "位在上富良野的展望公園，夏季以薰衣草聞名，冬天則適合看雪覆蓋的丘陵與十勝岳方向山景，放在富良野往美瑛之間很順。",
+    highlight: "富良野展望"
+  },
+  {
+    id: "sapporo-fushimi-inari",
+    name: "札幌伏見稻荷神社",
+    area: "札幌",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1h",
+    best: "紅色鳥居、雪景、拍照",
+    desc: "札幌市區南側的稻荷神社，雪中的紅色鳥居很有畫面感。若 Day3 從札幌出發去小樽，可先在早上安排短暫停留。",
+    highlight: "雪中鳥居"
+  },
+  {
+    id: "otaru-inari-shrine",
+    name: "小樽稻荷神社",
+    area: "小樽",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1h",
+    best: "在地神社、安靜氛圍、御朱印",
+    desc: "小樽在地歷史很深的稻荷神社，位置比運河與堺町通更安靜，適合在小樽散策中加入一段不那麼觀光化的節奏。",
+    highlight: "小樽在地感"
+  },
+  {
+    id: "teine-shrine",
+    name: "手稻神社",
+    area: "札幌",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1h",
+    best: "車站近、參拜、御朱印",
+    desc: "靠近 JR 手稻站的神社，從札幌往小樽方向移動時可順路安排。冬天若道路狀況普通，這站比繞遠山區更穩。",
+    highlight: "往小樽順路"
+  },
+  {
+    id: "taisho-glass",
+    name: "大正硝子館",
+    area: "小樽",
+    type: "玻璃工藝",
+    season: ["winter"],
+    time: "1h",
+    best: "玻璃器皿、手作體驗、伴手禮",
+    desc: "小樽堺町通一帶代表性的玻璃工藝店群，適合放在小樽運河與童話十字路之間，順著街區一路慢慢逛。",
+    highlight: "小樽玻璃"
+  },
+  {
+    id: "otaru-meruhen-crossing",
+    name: "小樽童話十字路",
+    area: "小樽",
+    type: "街區地標",
+    season: ["winter"],
+    time: "0.5h",
+    best: "蒸汽鐘、常夜燈、甜點店",
+    desc: "堺町通南端的經典路口，周邊有音樂盒堂、甜點與玻璃店。適合作為小樽散步的收尾點，再回札幌。",
+    highlight: "小樽收尾點"
+  },
+  {
+    id: "muroran-hakucho-bridge-view",
+    name: "室蘭白鳥大橋展望台",
+    area: "室蘭",
+    type: "展望台",
+    season: ["winter"],
+    time: "1h",
+    best: "白鳥大橋、港灣、工場夜景",
+    desc: "可眺望白鳥大橋與室蘭港灣的展望點，適合接在登別地獄谷後，當作札幌返回前的海港景觀停留。",
+    highlight: "室蘭港景"
+  },
+  {
+    id: "happiness-bell",
+    name: "幸福之鐘",
+    area: "室蘭",
+    type: "展望拍照",
+    season: ["winter"],
+    time: "0.5h",
+    best: "拍照、海景、短暫停留",
+    desc: "適合放在室蘭展望行程中的小停留點，停留時間不用長，主要作為 Day4 登別與室蘭之間的輕量拍照點。",
+    highlight: "短停拍照"
+  },
+  {
+    id: "makkari-village",
+    name: "真狩村",
+    area: "二世谷",
+    type: "羊蹄山景點",
+    season: ["winter"],
+    time: "1h",
+    best: "羊蹄山、雪原、鄉村景",
+    desc: "真狩村位在羊蹄山南側，是拍攝羊蹄山輪廓很舒服的位置。Day7 從札幌往洞爺湖移動時，可作為羊蹄山景觀停留。",
+    highlight: "羊蹄山視角"
+  },
+  {
+    id: "silo-observatory",
+    name: "SAIRO 展望台",
+    area: "洞爺湖",
+    type: "湖景展望",
+    season: ["winter"],
+    time: "1h",
+    best: "洞爺湖全景、有珠山、伴手禮",
+    desc: "洞爺湖西側高台的代表展望台，可一次看洞爺湖、山線與火山地形，也適合買點小伴手禮後再進湖畔飯店。",
+    highlight: "洞爺湖全景"
+  },
+  {
+    id: "konpira-crater-view",
+    name: "金比羅火山口展望台",
+    area: "洞爺湖",
+    type: "火山地形",
+    season: ["winter"],
+    time: "1h",
+    best: "有珠山火山口、地質景觀、防災遺構",
+    desc: "洞爺湖溫泉街附近可理解有珠山噴火地形的景點。冬季步道可能封閉，若現場狀況不佳，可改成在洞爺湖遊客中心周邊短暫停留。",
+    highlight: "火山地景"
+  },
+  {
+    id: "hakodate-gokoku-shrine",
+    name: "函館護國神社",
+    area: "函館",
+    type: "神社參拜",
+    season: ["winter"],
+    time: "1h",
+    best: "參拜、函館山山麓、安靜感",
+    desc: "位在函館山山麓，從元町或函館山纜車站周邊順路可到。適合放在 Day9 金森紅磚倉庫後，往函館山夜景前銜接。",
+    highlight: "山麓參拜"
   }
 ];
 
 const winterTemplate = {
-  1: ["new-chitose-airport", "ningle-terrace"],
-  2: ["asahiyama-zoo", "hokkaido-shrine"],
-  3: ["sapporo-odori", "sapporo-susukino"],
-  4: ["shiroi-koibito-park", "nijo-market"],
-  5: ["otaru-canal", "otaru-sakaimachi"],
-  6: ["nikka-distillery", "kakizaki-store"],
-  7: ["jozankei-onsen", "moiwa-yama"],
-  8: ["toyako-lake", "yotei-mountain"],
-  9: ["goryokaku", "hakodate-hachimangu", "hakodate-mt"],
-  10: ["morning-market", "kanemori-warehouse", "motomachi", "hakodate-airport"]
+  1: ["new-chitose-airport", "nippon-rentacar-new-chitose", "sunagawa-sa", "premier-cabin-asahikawa", "tokiwa-park", "kamikawa-shrine", "asahikawa-heiwa-dori"],
+  2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "sapporo-odori", "sapporo-susukino"],
+  3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
+  4: ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"],
+  5: ["moiwa-yama"],
+  6: [],
+  7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view"],
+  8: ["goryokaku"],
+  9: ["kanemori-warehouse", "hakodate-hachimangu", "hakodate-gokoku-shrine", "hakodate-mt"],
+  10: ["morning-market", "motomachi", "hakodate-airport"]
 };
 
 const winterProfile = {
   label: "12/23-1/1",
   blurb: "新千歲入境，旭川與富良野 1 天；札幌 6 天（含小樽、余市）；洞爺湖 1 天，函館跨年 2 天",
-  weather: "冬季粉雪、夜景、溫泉、海港",
   route: "除函館那天還車，其餘天數都開車",
   style: "冬季限定"
 };
@@ -429,9 +640,37 @@ const spotLogistics = {
     hours: "機場主體約 06:00-23:00（航班時段可能更早/更晚）",
     access: "JR 快速列車可到札幌；自駕取車後走道央道往旭川約 2.5-3 小時"
   },
-  "asahiyama-zoo": {
-    hours: "冬季常見 10:30-15:30（最終入園通常提前）",
-    access: "旭川站可轉巴士；自駕約 30 分鐘，冬天建議預留停車與步行時間"
+  "nippon-rentacar-new-chitose": {
+    hours: "常見 07:00-22:00；11-3月常見 07:00-21:00，年末年始可能縮短",
+    access: "抵達後到國內線 1F 到着口3附近租車櫃台報到，再搭接駁車到營業所，單程約 10-15 分鐘"
+  },
+  "sunagawa-sa": {
+    hours: "下行餐飲/商店冬季常見 09:00-19:00；上行冬季常見 09:00-19:00",
+    access: "新千歲往旭川走道央道時可順路停靠，適合午餐、補給與上廁所"
+  },
+  "premier-cabin-asahikawa": {
+    hours: "住宿設施依訂房方案；一般入住時間請以預約頁面為準",
+    access: "JR 旭川站步行約 3 分鐘；旭川站前巴士總站步行約 5 分鐘"
+  },
+  "tokiwa-park": {
+    hours: "公園全天可散步；管理事務所常見 08:30-17:15",
+    access: "JR 旭川站開車約 5 分鐘，也可由市區步行或搭巴士前往"
+  },
+  "kamikawa-shrine": {
+    hours: "境內可參拜；授與所與御朱印依現場公告",
+    access: "位於神樂岡公園內，自駕或計程車較順，冬季注意園內步道積雪"
+  },
+  "asahikawa-heiwa-dori": {
+    hours: "街區全天可走；各店家營業時間不同，晚餐店建議現場確認",
+    access: "JR 旭川站步行約 5 分鐘，從飯店步行逛街找餐廳很方便"
+  },
+  "biei-shrine": {
+    hours: "境內通年可參拜；授與所依現場公告",
+    access: "美瑛站步行約 30 分鐘；自駕停車較順，請勿進入鄰近私有地"
+  },
+  "hinode-park": {
+    hours: "公園可全天停留；冬季視積雪與道路狀況調整",
+    access: "JR 上富良野站開車約 5 分鐘，冬季建議自駕並確認路況"
   },
   "ningle-terrace": {
     hours: "冬季常見約 12:00-20:45",
@@ -445,13 +684,37 @@ const spotLogistics = {
     hours: "公園全天可進入；活動檔期時間依主辦單位",
     access: "地鐵大通站出站即達"
   },
+  "daimaru-sapporo": {
+    hours: "常見 10:00-20:00；餐廳樓層依店舖可能更晚",
+    access: "JR 札幌站直結，適合和 Stellar Place、東急百貨串遊"
+  },
+  "mitsukoshi-sapporo": {
+    hours: "常見 10:00-19:30；餐飲與活動依樓層調整",
+    access: "地鐵大通站附近，和丸井今井札幌本店步行可串遊"
+  },
+  "marui-imai-sapporo": {
+    hours: "常見 10:30-19:30；食品與活動樓層依官方公告",
+    access: "札幌市中央區南一条西2丁目，地鐵大通站步行可達"
+  },
+  "tokyu-sapporo": {
+    hours: "常見 10:00-20:00；餐飲樓層依店舖調整",
+    access: "札幌站南口附近，JR/地鐵札幌站步行可達"
+  },
+  "stellar-place": {
+    hours: "購物常見 10:00-21:00；餐廳樓層常見到 23:00",
+    access: "JR 札幌站直結，下雪天移動最省力"
+  },
   "shiroi-koibito-park": {
     hours: "常見 10:00-18:00",
     access: "地鐵東西線宮之澤站步行可到"
   },
-  "nijo-market": {
-    hours: "多數店家約 07:00-17:00（店家差異大）",
-    access: "大通/薄野步行可達"
+  "sapporo-fushimi-inari": {
+    hours: "境內可參拜；授與品與御朱印依社務所公告",
+    access: "圓山公園站轉 JR 北海道巴士至慈啓会前，步行約 3 分鐘；市電西線14條站步行約 15 分鐘"
+  },
+  "teine-shrine": {
+    hours: "御朱印受付常見 09:00-17:00",
+    access: "JR 手稻站步行約 2 分鐘，往小樽方向移動時很順"
   },
   "otaru-canal": {
     hours: "全天可走訪；點燈與活動依季節",
@@ -461,6 +724,18 @@ const spotLogistics = {
     hours: "多數商店約 10:00-18:00",
     access: "可由運河步行串遊，雪天建議防滑鞋"
   },
+  "otaru-inari-shrine": {
+    hours: "御朱印受付常見 09:00-12:00、13:00-17:00",
+    access: "JR 小樽站前搭中央巴士往手宮方向，於手宮公園上周邊步行；自駕較彈性"
+  },
+  "taisho-glass": {
+    hours: "本店常見 09:00-19:00；各分店與體驗時段不同",
+    access: "小樽運河與堺町通可步行串遊，體驗課程建議事先預約"
+  },
+  "otaru-meruhen-crossing": {
+    hours: "街區全天可走；周邊商店多為白天到傍晚",
+    access: "堺町通南端，從南小樽站或小樽運河皆可步行串遊"
+  },
   "nikka-distillery": {
     hours: "常見約 09:00-16:00（最後入場提前）",
     access: "JR 余市站步行約 5-10 分鐘"
@@ -468,10 +743,6 @@ const spotLogistics = {
   "kakizaki-store": {
     hours: "常見約 10:00-19:00（食堂常提早結束）",
     access: "JR 余市站步行可達，尖峰時段需排隊"
-  },
-  "jozankei-onsen": {
-    hours: "溫泉街全天可逛；日歸湯常見 11:00-20:00",
-    access: "札幌站有巴士，自駕約 50-70 分鐘"
   },
   "moiwa-yama": {
     hours: "纜車常見 10:30-22:00（最終上山提前）",
@@ -489,6 +760,26 @@ const spotLogistics = {
     hours: "步道常見白天較安全（夜間不建議）",
     access: "洞爺湖與札幌間可順路停留，自駕最彈性"
   },
+  "muroran-hakucho-bridge-view": {
+    hours: "展望區通常可自由停留；夜景與冬季路況需注意安全",
+    access: "室蘭 IC 往白鳥大橋方向，自駕較方便；白鳥灣展望台也可由崎守站步行約 16 分鐘"
+  },
+  "happiness-bell": {
+    hours: "戶外拍照點通常可自由停留；冬季以現場路況為準",
+    access: "建議與室蘭白鳥大橋展望行程一起自駕短停"
+  },
+  "makkari-village": {
+    hours: "鄉村景觀點全天可停留；冬季請以除雪道路為主",
+    access: "從二世谷/洞爺湖方向自駕順路，適合挑安全停車點拍羊蹄山"
+  },
+  "silo-observatory": {
+    hours: "常見 08:30-17:00（11-4月），5-10月常見至 18:00",
+    access: "道央道虻田洞爺湖 IC 開車約 15 分鐘；JR 洞爺站開車約 20 分鐘"
+  },
+  "konpira-crater-view": {
+    hours: "散策路常見 4月中旬-9月底 07:00-18:00、10月-11月10日 07:00-16:00；冬季可能封閉",
+    access: "從洞爺湖溫泉街或洞爺湖遊客中心周邊步行/短程自駕，請先確認是否開放"
+  },
   "goryokaku": {
     hours: "公園全天可走；展望塔常見 09:00-18:00",
     access: "函館市電五稜郭公園前站轉巴士或步行"
@@ -500,6 +791,22 @@ const spotLogistics = {
   "hakodate-mt": {
     hours: "纜車常見 10:00-22:00（季節調整）",
     access: "纜車站可搭巴士/計程車，跨年建議提早卡位"
+  },
+  "marui-imai-hakodate": {
+    hours: "常見 10:00-18:30",
+    access: "函館市電五稜郭公園前站步行可達，適合和五稜郭周邊同日安排"
+  },
+  "share-star-hakodate": {
+    hours: "B1F-3F 店舖常見 10:00-20:00；1F Starbucks 常見 07:00-22:00",
+    access: "函館市電五稜郭公園前站下車即達，本町商圈購物備案"
+  },
+  "kiralis-hakodate": {
+    hours: "各店舖與設施不同，出發前看官方樓層/店舖公告",
+    access: "函館站前，適合和函館朝市、還車、搭車前後串在一起"
+  },
+  "hakodate-gokoku-shrine": {
+    hours: "社務所窗口常見 09:00-16:00 前後；境內參拜依現場公告",
+    access: "函館山麓站出口步行約 3 分鐘，適合與元町/函館山夜景串遊"
   },
   "morning-market": {
     hours: "多數店家常見 05:00-14:00",
@@ -584,7 +891,9 @@ const areaDriveMinutes = {
 };
 
 const storageKey = "hokkaido-trip-planner-plan";
-const carModelKey = "hokkaido-trip-planner-car-model";
+const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
+const currentPlanTemplateVersion = "2026-08-16-screenshot-plan-v6";
+const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
 const syncClientIdKey = "hokkaido-trip-planner-sync-client-id";
@@ -632,6 +941,10 @@ function loadPlan() {
   }
 
   try {
+    if (window.localStorage.getItem(planTemplateVersionKey) !== currentPlanTemplateVersion) {
+      return createDefaultPlan();
+    }
+
     const parsed = JSON.parse(stored);
     const plan = Object.keys(winterTemplate).reduce((accumulator, key) => {
       const day = Number(key);
@@ -648,14 +961,7 @@ function loadPlan() {
 
 function savePlan() {
   window.localStorage.setItem(storageKey, JSON.stringify(state.plan));
-}
-
-function loadCarModel() {
-  return window.localStorage.getItem(carModelKey) || "";
-}
-
-function saveCarModel() {
-  window.localStorage.setItem(carModelKey, state.carModel);
+  window.localStorage.setItem(planTemplateVersionKey, currentPlanTemplateVersion);
 }
 
 function loadSavedAt() {
@@ -684,7 +990,7 @@ const state = {
   focusId: spots[0].id,
   plan: loadPlan(),
   dragging: null,
-  carModel: loadCarModel(),
+  carModel: fixedCarModel,
   dirty: false,
   lastSavedAt: loadSavedAt(),
   syncCode: loadSyncCode(),
@@ -708,8 +1014,7 @@ const dom = {
   focusCopy: document.getElementById("focus-copy"),
   styleValue: document.getElementById("style-value"),
   routeValue: document.getElementById("route-value"),
-  carModelInput: document.getElementById("car-model-input"),
-  weatherValue: document.getElementById("weather-value"),
+  carModelValue: document.getElementById("car-model-value"),
   updatedValue: document.getElementById("updated-value"),
   focusTitle: document.getElementById("focus-title"),
   focusDesc: document.getElementById("focus-desc"),
@@ -942,7 +1247,7 @@ async function ensureCloudInitialized() {
 function buildSyncPayload() {
   return {
     plan: state.plan,
-    carModel: state.carModel,
+    carModel: fixedCarModel,
     updatedAt: Date.now(),
     updatedBy: cloud.clientId
   };
@@ -951,7 +1256,7 @@ function buildSyncPayload() {
 function applyRemotePayload(payload) {
   const importedPlan = normalizeImportedPlan(payload?.plan || {});
   state.plan = importedPlan;
-  state.carModel = typeof payload?.carModel === "string" ? payload.carModel : "";
+  state.carModel = fixedCarModel;
   state.selectedDay = 1;
 
   const hasFocus = Object.values(state.plan).some((dayList) => dayList.length > 0);
@@ -962,9 +1267,8 @@ function applyRemotePayload(payload) {
   state.lastSavedAt = savedIso;
   state.dirty = false;
   cloud.version = typeof payload?.version === "number" ? payload.version : cloud.version;
-  state.changeLog = Array.isArray(payload?.changes) ? payload.changes.slice(0, 12) : [];
+  state.changeLog = Array.isArray(payload?.changes) ? payload.changes.slice(0, 4) : [];
   savePlan();
-  saveCarModel();
   window.localStorage.setItem(savedAtKey, state.lastSavedAt);
   render();
   updateSaveUi();
@@ -1005,15 +1309,15 @@ async function pushCloudState() {
     });
 
     cloud.version = result.version;
-    state.changeLog = result.changes.slice(0, 12);
+    state.changeLog = result.changes.slice(0, 4);
     state.lastSavedAt = new Date().toISOString();
     state.dirty = false;
     savePlan();
-    saveCarModel();
     window.localStorage.setItem(savedAtKey, state.lastSavedAt);
     updateSaveUi();
     setSyncStatus("同步完成");
-  } catch {
+  } catch (error) {
+    console.error("Cloud sync push failed", error);
     setSyncStatus("同步失敗，稍後重試");
   }
 }
@@ -1077,9 +1381,14 @@ async function connectCloudSync(rawCode) {
       await pushCloudState();
       setSyncStatus("已連線，已建立雲端資料");
     }
-  } catch {
+  } catch (error) {
+    console.error("Cloud sync connection failed", error);
     setSyncStatus("連線失敗，請稍後重試");
-    setUiMessage("雲端連線失敗，請檢查網路或 Firebase 規則", "warn");
+    if (error?.code === "permission-denied") {
+      setUiMessage("Firebase 規則拒絕讀寫，請先發布 firestore.rules", "warn");
+    } else {
+      setUiMessage("雲端連線失敗，請檢查網路或 Firebase 規則", "warn");
+    }
     return;
   }
 
@@ -1140,7 +1449,6 @@ function updateSaveUi() {
 function persistState() {
   recordChange("手動儲存行程", `Day ${state.selectedDay} 內容已更新`);
   savePlan();
-  saveCarModel();
   state.lastSavedAt = new Date().toISOString();
   window.localStorage.setItem(savedAtKey, state.lastSavedAt);
   state.dirty = false;
@@ -1183,7 +1491,7 @@ function exportPlanAsJson() {
   const payload = {
     version: 1,
     exportedAt: new Date().toISOString(),
-    carModel: state.carModel,
+    carModel: fixedCarModel,
     plan: state.plan
   };
 
@@ -1209,8 +1517,7 @@ async function importPlanFromFile(file) {
     const importedPlan = normalizeImportedPlan(parsed?.plan ?? parsed);
     state.plan = importedPlan;
 
-    const importedCarModel = typeof parsed?.carModel === "string" ? parsed.carModel.trim() : "";
-    state.carModel = importedCarModel;
+    state.carModel = fixedCarModel;
 
     const hasFocus = Object.values(state.plan).some((dayList) => dayList.length > 0);
     const firstId = hasFocus ? Object.values(state.plan).flat()[0] : spots[0].id;
@@ -1672,8 +1979,7 @@ function renderSummary() {
   dom.focusCopy.textContent = `目前是 4 人自駕，行程集中在 ${winterProfile.blurb}，除函館那天會還車，其餘天數都會開車。`;
   dom.styleValue.textContent = winterProfile.style;
   dom.routeValue.textContent = winterProfile.route;
-  dom.carModelInput.value = state.carModel;
-  dom.weatherValue.textContent = winterProfile.weather;
+  dom.carModelValue.textContent = fixedCarModel;
   if (state.dirty) {
     dom.updatedValue.textContent = "尚未儲存";
   } else {
@@ -1715,15 +2021,14 @@ function renderSummary() {
       `;
     } else {
       dom.changeLogGrid.innerHTML = state.changeLog
-        .slice(0, 8)
+        .slice(0, 4)
         .map((item, index) => {
           const timeText = formatSavedAt(new Date(item.at || Date.now()).toISOString());
           const summary = item.summary || "更新行程";
-          const detail = item.detail || "";
           return `
             <article class="change-log-card">
               <p class="change-log-main">v${Math.max(cloud.version - index, 1)} ${summary}</p>
-              <p class="change-log-sub">${item.by || "未知裝置"} ・ ${timeText}${detail ? ` ・ ${detail}` : ""}</p>
+              <p class="change-log-sub">${timeText}</p>
             </article>
           `;
         })
@@ -1754,13 +2059,6 @@ function bindGlobalEvents() {
     state.search = event.target.value;
     state.spotPage = 0;
     renderSpotGrid();
-  });
-
-  dom.carModelInput.addEventListener("input", (event) => {
-    state.carModel = event.target.value;
-    recordChange("更新租車車型", state.carModel || "清空車型欄位");
-    markDirty();
-    renderSummary();
   });
 
   dom.savePlanBtn?.addEventListener("click", persistState);
