@@ -351,6 +351,12 @@ body {
   border: 0;
 }
 
+.summary-grid > div:has(#car-model-value) {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
 .metric span,
 .summary-grid span,
 .focus-meta span,
