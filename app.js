@@ -986,6 +986,7 @@ function getOrCreateClientId() {
 const state = {
   selectedDay: 1,
   search: "",
+  spotCategory: "all",
   spotPage: 0,
   focusId: spots[0].id,
   plan: loadPlan(),
@@ -1005,6 +1006,7 @@ const dom = {
   itineraryList: document.getElementById("itinerary-list"),
   itineraryDropzone: document.getElementById("itinerary-dropzone"),
   spotGrid: document.getElementById("spot-grid"),
+  spotCategoryTabs: document.getElementById("spot-category-tabs"),
   spotPagination: document.getElementById("spot-pagination"),
   dayNote: document.getElementById("day-note"),
   metricDays: document.getElementById("metric-days"),
@@ -1841,10 +1843,79 @@ function renderItinerary() {
 
 function matchesFilters(spot) {
   const term = state.search.trim().toLowerCase();
-  return !term || [spot.name, spot.area, spot.type, spot.desc, spot.best, spot.highlight]
+  return matchesSpotCategory(spot) && (!term || [spot.name, spot.area, spot.type, spot.desc, spot.best, spot.highlight]
     .join(" ")
     .toLowerCase()
-    .includes(term);
+    .includes(term));
+}
+
+const spotCategories = [
+  { id: "all", label: "全部" },
+  { id: "sightseeing", label: "景點類" },
+  { id: "shopping", label: "逛街購物" },
+  { id: "food", label: "美食" }
+];
+
+const shoppingTypes = ["商店街", "百貨", "商場", "購物", "買物", "玻璃", "硝子", "街區地標", "堺町", "金森", "童話", "Stellar"];
+const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐"];
+const utilityTypes = ["抵達點", "離境點", "取車", "入住飯店", "休息補給"];
+
+function typeIncludes(spot, keywords) {
+  return keywords.some((keyword) => spot.type.includes(keyword) || spot.name.includes(keyword));
+}
+
+function matchesSpotCategory(spot) {
+  if (state.spotCategory === "all") {
+    return true;
+  }
+
+  if (state.spotCategory === "shopping") {
+    return typeIncludes(spot, shoppingTypes);
+  }
+
+  if (state.spotCategory === "food") {
+    return typeIncludes(spot, foodTypes);
+  }
+
+  if (state.spotCategory === "sightseeing") {
+    return !typeIncludes(spot, shoppingTypes)
+      && !typeIncludes(spot, foodTypes)
+      && !typeIncludes(spot, utilityTypes);
+  }
+
+  return true;
+}
+
+function getCategoryCount(categoryId) {
+  const previousCategory = state.spotCategory;
+  state.spotCategory = categoryId;
+  const count = spots.filter(matchesSpotCategory).length;
+  state.spotCategory = previousCategory;
+  return count;
+}
+
+function renderSpotCategoryTabs() {
+  if (!dom.spotCategoryTabs) {
+    return;
+  }
+
+  dom.spotCategoryTabs.innerHTML = spotCategories
+    .map((category) => `
+      <button class="spot-category-tab ${state.spotCategory === category.id ? "active" : ""}" data-category="${category.id}">
+        <span>${category.label}</span>
+        <strong>${getCategoryCount(category.id)}</strong>
+      </button>
+    `)
+    .join("");
+
+  dom.spotCategoryTabs.querySelectorAll("[data-category]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.spotCategory = button.dataset.category;
+      state.spotPage = 0;
+      renderSpotGrid();
+      renderSpotCategoryTabs();
+    });
+  });
 }
 
 const SPOTS_PER_PAGE = 10;
@@ -2050,6 +2121,7 @@ function renderSummary() {
 function render() {
   renderDayTabs();
   renderItinerary();
+  renderSpotCategoryTabs();
   renderSpotGrid();
   renderSummary();
 }

@@ -566,6 +566,54 @@ body {
   gap: 14px;
 }
 
+.spot-category-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.spot-category-tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.spot-category-tab:hover {
+  border-color: rgba(107, 212, 255, 0.32);
+  background: rgba(107, 212, 255, 0.08);
+}
+
+.spot-category-tab.active {
+  border-color: rgba(255, 179, 71, 0.48);
+  background: rgba(255, 179, 71, 0.14);
+  transform: translateY(-1px);
+}
+
+.spot-category-tab span {
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.spot-category-tab strong {
+  min-width: 24px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #dcecff;
+  font-size: 0.76rem;
+  text-align: center;
+}
+
 .itinerary-list.drop-target {
   outline: 1px dashed rgba(107, 212, 255, 0.42);
   outline-offset: 10px;
@@ -813,6 +861,10 @@ body {
   }
 
   .day-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .spot-category-tabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
