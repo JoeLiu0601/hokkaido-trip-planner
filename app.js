@@ -749,7 +749,7 @@ const spots = [
     id: "wakadori-naruto-honten",
     name: "若鶏時代 なると 本店",
     area: "小樽",
-    type: "炸雞名店",
+    type: "小樽美食",
     season: ["winter"],
     time: "1h",
     best: "若鶏半身揚げ、炸雞、午餐",
@@ -2142,7 +2142,7 @@ const spotCategories = [
 ];
 
 const shoppingTypes = ["商店街", "百貨", "商場", "購物", "買物", "玻璃", "硝子", "街區地標", "堺町", "金森", "童話", "Stellar"];
-const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐"];
+const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐", "壽司", "拉麵", "甜點", "炸雞"];
 const utilityTypes = ["抵達點", "離境點", "取車", "入住飯店", "休息補給"];
 
 function typeIncludes(spot, keywords) {
