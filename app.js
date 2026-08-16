@@ -468,6 +468,72 @@ const spots = [
     highlight: "排隊名店"
   },
   {
+    id: "hanamaru-stellar-place",
+    name: "根室花まる JR Tower Stellar Place 店",
+    area: "札幌",
+    type: "迴轉壽司",
+    season: ["winter"],
+    time: "1.5h",
+    best: "札幌站直結、北海道旬魚、排隊名店",
+    desc: "札幌站上方 Stellar Place 6F 的根室花まる，交通最方便，適合逛大丸、Stellar Place 或搭車前後排。人氣很高，尖峰常要等。",
+    highlight: "札幌站首選"
+  },
+  {
+    id: "hanamaru-miredo",
+    name: "根室花まる miredo 店",
+    area: "札幌",
+    type: "迴轉壽司",
+    season: ["winter"],
+    time: "1.5h",
+    best: "チ・カ・ホ直結、赤れんが周邊、午晚餐",
+    desc: "位在大同生命札幌ビル miredo B1F，從札幌站到大通之間的地下步行空間可直結。比車站樓上動線更分散，適合市中心逛街中插入。",
+    highlight: "地下步行空間"
+  },
+  {
+    id: "hanamaru-cocono-susukino",
+    name: "根室花まる COCONO SUSUKINO 店",
+    area: "札幌",
+    type: "迴轉壽司",
+    season: ["winter"],
+    time: "1.5h",
+    best: "薄野中心、發券候位、晚餐備案",
+    desc: "位在 COCONO SUSUKINO B1F，薄野住宿或晚上活動時很順。店頭發券後可用手機看等待狀況，適合先取號再去附近逛。",
+    highlight: "薄野方便"
+  },
+  {
+    id: "shiki-hanamaru-tokeidai",
+    name: "町のすし家 四季花まる 時計台店",
+    area: "札幌",
+    type: "壽司店",
+    season: ["winter"],
+    time: "1.5h",
+    best: "時計台、大通、可預約、午餐",
+    desc: "靠近札幌時計台與大通公園，氣氛比迴轉壽司更像坐下來慢慢吃。部分時段可電話預約，很適合想避開長時間排隊時當備案。",
+    highlight: "大通可預約"
+  },
+  {
+    id: "shiki-hanamaru-susukino",
+    name: "町のすし家 四季花まる すすきの店",
+    area: "札幌",
+    type: "壽司店",
+    season: ["winter"],
+    time: "1.5h",
+    best: "薄野、可預約、壽司晚餐",
+    desc: "位在薄野 Recolte Sapporo 2F，適合晚上想吃花まる系但不一定想排迴轉壽司時使用。可預約，對多人或晚餐比較友善。",
+    highlight: "薄野可預約"
+  },
+  {
+    id: "shiki-hanamaru-kitaguchi",
+    name: "寿司と炉端焼 四季花まる 北口店",
+    area: "札幌",
+    type: "壽司居酒屋",
+    season: ["winter"],
+    time: "1.5h",
+    best: "札幌站北口、壽司、爐端燒、可預約",
+    desc: "札幌站北口附近的花まる系店，除了壽司也有爐端燒與居酒屋感料理。適合想吃海鮮但不要純迴轉壽司的晚上。",
+    highlight: "札幌站北口"
+  },
+  {
     id: "ramen-haruka",
     name: "札幌拉麵悠 -はるか-",
     area: "札幌",
@@ -851,6 +917,30 @@ const spotLogistics = {
   "toriton-kita8": {
     hours: "常見 11:00-22:00（L.O. 21:30）；混雜時可能提前停止受付",
     access: "地址：札幌市東区北8条東5丁目19-1。札幌啤酒博物館開車約 10 分鐘；不接受座位預約，排隊時間要抓寬"
+  },
+  "hanamaru-stellar-place": {
+    hours: "常見 11:00-22:00（L.O. 21:30）；不定休依 Stellar Place",
+    access: "地址：札幌市中央区北5条西2丁目 札幌ステラプレイス CENTER 6F。JR 札幌站直結；迴轉壽司席位通常不可預約，建議離峰或先取號"
+  },
+  "hanamaru-miredo": {
+    hours: "常見 11:00-22:00",
+    access: "地址：札幌市中央区北3条西3丁目1 大同生命札幌ビル miredo B1F。チ・カ・ホ地下步行空間直結，札幌站到大通之間最順"
+  },
+  "hanamaru-cocono-susukino": {
+    hours: "常見 11:00-21:00（L.O. 20:30）；發券機常見 10:00 開始",
+    access: "地址：札幌市中央区南4条西4丁目1-1 COCONO SUSUKINO B1F。薄野站旁；店頭發券後可用手機確認等待狀況"
+  },
+  "shiki-hanamaru-tokeidai": {
+    hours: "日-四/祝 11:00-22:00（L.O. 21:30）；五六/祝前 11:00-23:00（L.O. 22:30）；平日午餐 11:00-15:00",
+    access: "地址：札幌市中央区北1条西2丁目1 札幌時計台ビル1F。大通站步行約 3 分鐘；部分時段可電話預約"
+  },
+  "shiki-hanamaru-susukino": {
+    hours: "月-四 11:00-15:00、17:00-22:00；五/祝前至 23:00；六 11:00-23:00；日祝 11:00-22:00",
+    access: "地址：札幌市中央区南4条西2丁目2-4 レコルトサッポロ 2F。薄野周邊步行可達；可預約，適合晚餐備案"
+  },
+  "shiki-hanamaru-kitaguchi": {
+    hours: "營業時間與定休日依官方店鋪公告；建議出發前確認",
+    access: "地址：札幌市北区北7条西1丁目2-6 NCO札幌 B1F。札幌站北口周邊；花まる系中偏壽司居酒屋，可預約"
   },
   "ramen-haruka": {
     hours: "常見 11:00-14:30、17:00-23:00；賣完可能提前結束，週二晚/週三午常見休息",
