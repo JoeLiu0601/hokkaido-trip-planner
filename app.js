@@ -434,6 +434,138 @@ const spots = [
     desc: "北海道最代表性的肉料理，推薦薄野周邊的だるま或さっぽろジンギスカン，配生啤非常對味。",
     highlight: "北海道必吃"
   },
+  {
+    id: "sapporo-beer-museum",
+    name: "札幌啤酒博物館",
+    area: "札幌",
+    type: "博物館",
+    season: ["winter"],
+    time: "1.5h",
+    best: "啤酒歷史、限定試飲、紅磚建築",
+    desc: "北海道代表性的啤酒主題博物館，可自由參觀後到付費試飲區喝限定啤酒。旁邊就是 Ario 札幌，逛完可直接接商場取暖或吃飯。",
+    highlight: "啤酒名所"
+  },
+  {
+    id: "ario-sapporo",
+    name: "Ario 札幌",
+    area: "札幌",
+    type: "購物中心",
+    season: ["winter"],
+    time: "2h",
+    best: "商場、餐廳、超市、親子設施",
+    desc: "位在札幌啤酒博物館旁的大型商場，冬天很適合當作室內逛街、補給和用餐備案。JR 苗穗站北口步行約 3 分鐘。",
+    highlight: "博物館旁商場"
+  },
+  {
+    id: "toriton-kita8",
+    name: "Toriton 北8条光星店",
+    area: "札幌",
+    type: "迴轉壽司",
+    season: ["winter"],
+    time: "1.5h",
+    best: "北海道海鮮、迴轉壽司、人氣排隊店",
+    desc: "離札幌啤酒博物館開車約 10 分鐘的人氣迴轉壽司店，食材水準高但常排很久，建議避開尖峰或先把等待時間抓進行程。",
+    highlight: "排隊名店"
+  },
+  {
+    id: "ramen-haruka",
+    name: "札幌拉麵悠 -はるか-",
+    area: "札幌",
+    type: "拉麵",
+    season: ["winter"],
+    time: "1h",
+    best: "味噌拉麵、辛味噌、拉麵橫丁",
+    desc: "元祖札幌拉麵橫丁內的人氣店，主打帶創意感的札幌味噌拉麵，辛味噌和味噌起司都很適合冬天晚上吃。",
+    highlight: "橫丁名店"
+  },
+  {
+    id: "kinotoya-bake-pole-town",
+    name: "KINOTOYA BAKE Pole Town Store",
+    area: "札幌",
+    type: "甜點",
+    season: ["winter"],
+    time: "0.5h",
+    best: "極上牛乳霜淇淋、半熟起司、現烤塔",
+    desc: "位在札幌地下街 Pole Town 的甜點店，適合逛狸小路、薄野或地下街時順路吃冰淇淋、現烤起司塔與半熟起司。",
+    highlight: "地下街甜點"
+  },
+  {
+    id: "3coins-pole-town",
+    name: "3COINS 札幌 Pole Town 店",
+    area: "札幌",
+    type: "生活雜貨",
+    season: ["winter"],
+    time: "0.5h",
+    best: "平價雜貨、旅行小物、地下街順逛",
+    desc: "札幌地下街 Pole Town 的 3COINS，位置在大通到薄野之間，適合和 KINOTOYA BAKE、狸小路、薄野美食一起排。",
+    highlight: "Pole Town 分店"
+  },
+  {
+    id: "3coins-aurora-town",
+    name: "3COINS OOOPS! 札幌 Aurora Town 店",
+    area: "札幌",
+    type: "生活雜貨",
+    season: ["winter"],
+    time: "0.5h",
+    best: "小物、配件、地下街避雪",
+    desc: "位在札幌地下街 Aurora Town 地下 1 樓，靠近大通站與大通公園，適合放在市區散步或雪天室內逛街備案。",
+    highlight: "Aurora Town 分店"
+  },
+  {
+    id: "3coins-apia",
+    name: "3COINS 札幌 APIA 店",
+    area: "札幌",
+    type: "生活雜貨",
+    season: ["winter"],
+    time: "0.5h",
+    best: "札幌站直結、旅行補貨、雜貨",
+    desc: "位在 JR 札幌站 APIA 地下街，適合搭車前後或回飯店路上順手補旅行小物，不用特地繞路。",
+    highlight: "札幌站直結"
+  },
+  {
+    id: "3coins-naebo",
+    name: "3COINS +plus Aeon Mall 札幌苗穗店",
+    area: "札幌",
+    type: "生活雜貨",
+    season: ["winter"],
+    time: "0.5h",
+    best: "大型商場、雜貨、啤酒博物館周邊",
+    desc: "位在 Aeon Mall 札幌苗穗 1 樓，和札幌啤酒博物館、Ario 札幌同區域，適合作為東區商場備案。",
+    highlight: "苗穗商場分店"
+  },
+  {
+    id: "3coins-hassamu",
+    name: "3COINS +plus Aeon Mall 札幌發寒店",
+    area: "札幌",
+    type: "生活雜貨",
+    season: ["winter"],
+    time: "0.5h",
+    best: "大型商場、停車方便、雜貨",
+    desc: "位在 Aeon Mall 札幌發寒 2 樓，適合自駕或西側行程順路補貨，停車與室內逛街都比較安心。",
+    highlight: "發寒商場分店"
+  },
+  {
+    id: "3coins-shin-sapporo",
+    name: "3COINS +plus 新札幌 Sunpiazza 店",
+    area: "札幌",
+    type: "生活雜貨",
+    season: ["winter"],
+    time: "0.5h",
+    best: "新札幌站周邊、室內商場、雜貨",
+    desc: "位在新札幌 Sunpiazza B1F，適合東側移動或搭 JR/地鐵經過新札幌時順路逛。",
+    highlight: "新札幌分店"
+  },
+  {
+    id: "3coins-hiraoka",
+    name: "3COINS +plus Aeon Mall 札幌平岡店",
+    area: "札幌",
+    type: "生活雜貨",
+    season: ["winter"],
+    time: "0.5h",
+    best: "大型商場、自駕補貨、生活用品",
+    desc: "位在 Aeon Mall 札幌平岡 1 樓，離市中心較遠，適合自駕路線剛好經過清田/平岡方向時再安排。",
+    highlight: "平岡商場分店"
+  },
   // 函館購物
   {
     id: "marui-imai-hakodate",
@@ -621,7 +753,7 @@ const winterTemplate = {
   3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
   4: ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"],
   5: ["moiwa-yama"],
-  6: [],
+  6: ["sapporo-beer-museum", "ario-sapporo", "3coins-naebo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "3coins-aurora-town", "3coins-apia", "ramen-haruka"],
   7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view"],
   8: ["goryokaku"],
   9: ["kanemori-warehouse", "hakodate-hachimangu", "hakodate-gokoku-shrine", "hakodate-mt"],
@@ -707,6 +839,54 @@ const spotLogistics = {
   "shiroi-koibito-park": {
     hours: "常見 10:00-18:00",
     access: "地鐵東西線宮之澤站步行可到"
+  },
+  "sapporo-beer-museum": {
+    hours: "自由見學常見 11:00-18:00（最終入館 17:30）；週一、年末年始等可能休館",
+    access: "地址：札幌市東区北7条東9丁目1-1。地鐵東区役所前站步行約 10 分鐘；旁邊可接 Ario 札幌"
+  },
+  "ario-sapporo": {
+    hours: "專門店/2F 美食街常見 10:00-21:00；1F 餐廳街常見 11:00-21:00",
+    access: "地址：札幌市東区北7条東9丁目2-20。JR 苗穗站北口步行約 3 分鐘，札幌啤酒博物館旁"
+  },
+  "toriton-kita8": {
+    hours: "常見 11:00-22:00（L.O. 21:30）；混雜時可能提前停止受付",
+    access: "地址：札幌市東区北8条東5丁目19-1。札幌啤酒博物館開車約 10 分鐘；不接受座位預約，排隊時間要抓寬"
+  },
+  "ramen-haruka": {
+    hours: "常見 11:00-14:30、17:00-23:00；賣完可能提前結束，週二晚/週三午常見休息",
+    access: "地址：札幌市中央区南5条西3丁目 N・グランデビル1F 元祖ラーメン横丁内，薄野站周邊步行可達"
+  },
+  "kinotoya-bake-pole-town": {
+    hours: "常見 10:00-21:00（L.O. 20:45）；休業日同 Pole Town",
+    access: "地址：札幌市中央区南2条西3丁目 さっぽろ地下街ポールタウン内。大通、狸小路、薄野都可步行串遊"
+  },
+  "3coins-pole-town": {
+    hours: "常見 10:00-20:00；以札幌地下街公告為準",
+    access: "地址：札幌市中央区南2条西3丁目 札幌地下街ポールタウン B1F。大通到薄野地下街順路"
+  },
+  "3coins-aurora-town": {
+    hours: "常見 10:00-20:00；以札幌地下街公告為準",
+    access: "地址：札幌市中央区大通西2丁目 札幌地下街オーロラタウン B1F。大通站、大通公園旁"
+  },
+  "3coins-apia": {
+    hours: "常見 10:00-21:00；以 APIA 公告為準",
+    access: "地址：札幌市中央区北5条西3丁目 JRタワースクエア札幌アピア B1F。JR/地鐵札幌站直結"
+  },
+  "3coins-naebo": {
+    hours: "商場常見 10:00-21:00；以 Aeon Mall 札幌苗穗公告為準",
+    access: "地址：札幌市東区東苗穂2条3丁目1-1 イオンモール札幌苗穂 1F。札幌啤酒博物館/Ario 一帶自駕可順路"
+  },
+  "3coins-hassamu": {
+    hours: "商場常見 10:00-21:00；以 Aeon Mall 札幌發寒公告為準",
+    access: "地址：札幌市西区発寒8条12丁目1 イオンモール札幌発寒 2F。適合自駕或西側路線順路"
+  },
+  "3coins-shin-sapporo": {
+    hours: "商場常見 10:00-21:00；以 Sunpiazza 公告為準",
+    access: "地址：札幌市厚別区厚別中央2条5丁目7番 サンピアザ B1F。JR/地鐵新札幌站周邊"
+  },
+  "3coins-hiraoka": {
+    hours: "商場常見 10:00-21:00；以 Aeon Mall 札幌平岡公告為準",
+    access: "地址：札幌市清田区平岡3条5-3-1 イオンモール札幌平岡 1F。偏郊區，自駕順路再排"
   },
   "sapporo-fushimi-inari": {
     hours: "境內可參拜；授與品與御朱印依社務所公告",
@@ -892,7 +1072,7 @@ const areaDriveMinutes = {
 
 const storageKey = "hokkaido-trip-planner-plan";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
-const currentPlanTemplateVersion = "2026-08-16-screenshot-plan-v6";
+const currentPlanTemplateVersion = "2026-08-17-sapporo-shopping-food";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
