@@ -746,6 +746,17 @@ const spots = [
     highlight: "小樽收尾點"
   },
   {
+    id: "wakadori-naruto-honten",
+    name: "若鶏時代 なると 本店",
+    area: "小樽",
+    type: "炸雞名店",
+    season: ["winter"],
+    time: "1h",
+    best: "若鶏半身揚げ、炸雞、午餐",
+    desc: "小樽老字號炸雞名店，招牌是外皮酥脆、份量很有存在感的若鶏半身揚げ。離小樽站不遠，適合排在小樽神社與運河散步之間當午餐。",
+    highlight: "小樽必吃炸雞"
+  },
+  {
     id: "muroran-hakucho-bridge-view",
     name: "室蘭白鳥大橋展望台",
     area: "室蘭",
@@ -816,7 +827,7 @@ const spots = [
 const winterTemplate = {
   1: ["new-chitose-airport", "nippon-rentacar-new-chitose", "sunagawa-sa", "premier-cabin-asahikawa", "tokiwa-park", "kamikawa-shrine", "asahikawa-heiwa-dori"],
   2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "sapporo-odori", "sapporo-susukino"],
-  3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
+  3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "wakadori-naruto-honten", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
   4: ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"],
   5: ["moiwa-yama"],
   6: ["sapporo-beer-museum", "ario-sapporo", "3coins-naebo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "3coins-aurora-town", "3coins-apia", "ramen-haruka"],
@@ -1006,6 +1017,10 @@ const spotLogistics = {
     hours: "街區全天可走；周邊商店多為白天到傍晚",
     access: "堺町通南端，從南小樽站或小樽運河皆可步行串遊"
   },
+  "wakadori-naruto-honten": {
+    hours: "常見 11:00-21:00（L.O. 20:30）；定休日不定休，元旦常見休息",
+    access: "地址：小樽市稲穂3丁目16番13号。JR 小樽站步行約 7-8 分鐘；有免費停車位，熱門時段可能需候位"
+  },
   "nikka-distillery": {
     hours: "常見約 09:00-16:00（最後入場提前）",
     access: "JR 余市站步行約 5-10 分鐘"
@@ -1162,7 +1177,7 @@ const areaDriveMinutes = {
 
 const storageKey = "hokkaido-trip-planner-plan";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
-const currentPlanTemplateVersion = "2026-08-17-sapporo-shopping-food";
+const currentPlanTemplateVersion = "2026-08-17-otaru-naruto";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
