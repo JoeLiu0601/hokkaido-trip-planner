@@ -1364,6 +1364,10 @@ function getMapUrl(spot) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
+function getAccommodationMapUrl(hotel) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hotel.name)}`;
+}
+
 function getAreaDriveEstimate(fromArea, toArea) {
   if (!fromArea || !toArea) {
     return null;
@@ -2436,6 +2440,7 @@ function renderSummary() {
         <span class="stay-label">${hotel.label}</span>
         <h3>${hotel.name}</h3>
         <p>${hotel.note}</p>
+        <a class="map-link" href="${getAccommodationMapUrl(hotel)}" target="_blank" rel="noopener noreferrer">Google Maps 導航</a>
       </article>
     `)
     .join("");
