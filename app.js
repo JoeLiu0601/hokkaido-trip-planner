@@ -22,17 +22,6 @@ const spots = [
     highlight: "先取車"
   },
   {
-    id: "sunagawa-sa",
-    name: "砂川 SA 休息站",
-    area: "道央道",
-    type: "休息補給",
-    season: ["winter"],
-    time: "1h",
-    best: "午餐、上廁所、補給、長途中繼",
-    desc: "新千歲開往旭川途中很適合作為休息點，吃點熱食、買飲料，也能讓第一天剛下飛機的節奏不要太趕。",
-    highlight: "路上找吃的"
-  },
-  {
     id: "premier-cabin-asahikawa",
     name: "Premier Hotel-CABIN-旭川",
     area: "旭川",
@@ -75,6 +64,28 @@ const spots = [
     best: "晚餐、逛街、旭川站前",
     desc: "從旭川站前延伸的步行商店街，周邊有餐廳與店家。很適合放在 Day1 晚上，用來逛街、找晚餐，回飯店也方便。",
     highlight: "逛街找吃的"
+  },
+  {
+    id: "aeon-mall-asahikawa-ekimae",
+    name: "AEON MALL 旭川站前",
+    area: "旭川",
+    type: "購物中心",
+    season: ["winter"],
+    time: "1.5h",
+    best: "旭川站直結、藥妝、超市、餐飲",
+    desc: "JR 旭川站直結的購物中心，有藥妝、服飾、超市與餐飲。旭川沒有傳統大型百貨公司時，這裡是最方便的室內購物與補給選擇。",
+    highlight: "旭川站直結"
+  },
+  {
+    id: "feeeal-asahikawa",
+    name: "Feeeal 旭川",
+    area: "旭川",
+    type: "購物中心",
+    season: ["winter"],
+    time: "1h",
+    best: "平和通、生活雜貨、室內逛街",
+    desc: "位在平和通買物公園旁的市中心商場，從旭川站可步行抵達。適合與站前散步、找晚餐一起安排，作為下雪天的室內購物備案。",
+    highlight: "平和通旁"
   },
   {
     id: "hokkaido-shrine",
@@ -297,41 +308,6 @@ const spots = [
     highlight: "旅程終點"
   },
 
-  // 余市
-  {
-    id: "nikka-distillery",
-    name: "NIKKA 威士忌余市蒸餾所",
-    area: "余市",
-    type: "釀造所見學",
-    season: ["winter"],
-    time: "2h",
-    best: "威士忌試飲、廠區散步、建築",
-    desc: "日本最具代表性的威士忌蒸餾所，免費入場、可試飲，廠區非常漂亮，搭配小樽一起排最順。",
-    highlight: "威士忌名所"
-  },
-  {
-    id: "yoichi-fishing-port",
-    name: "余市漁港海鮮市場",
-    area: "余市",
-    type: "海鮮市場",
-    season: ["winter"],
-    time: "1.5h",
-    best: "螃蟹、牡蠣、在地海味",
-    desc: "余市港邊有幾間海鮮直賣店，冬天的牡蠣和螃蟹品質很高，價格比小樽觀光區親民許多。",
-    highlight: "在地海味"
-  },
-  {
-    id: "kakizaki-store",
-    name: "柿崎商店",
-    area: "余市",
-    type: "海鮮食堂",
-    season: ["winter"],
-    time: "1h",
-    best: "海鮮丼、性價比、在地人也去",
-    desc: "余市在地人也愛去的海鮮食堂，二樓可以吃到現撈海鮮丼，份量大、CP 值極高。",
-    highlight: "CP 值爆表"
-  },
-
   // 札幌百貨
   {
     id: "daimaru-sapporo",
@@ -399,6 +375,17 @@ const spots = [
     desc: "SOGO 與 LOFT 同棟，LOFT 樓層的北海道限定雜貨很適合挑伴手禮，順遊大通非常方便。",
     highlight: "雜貨控必逛"
   },
+  {
+    id: "donki-tanukikoji",
+    name: "唐吉訶德 狸小路店",
+    area: "札幌",
+    type: "購物中心",
+    season: ["winter"],
+    time: "1h",
+    best: "藥妝、零食、伴手禮、狸小路",
+    desc: "位在狸小路商店街中心，從大通、Pole Town 與薄野都能步行串接。適合晚上採買藥妝、零食與伴手禮，不需要特地開車前往。",
+    highlight: "狸小路採買"
+  },
 
   // 札幌美食
   {
@@ -433,6 +420,39 @@ const spots = [
     best: "羊肉、北海道啤酒、居酒屋氣氛",
     desc: "北海道最代表性的肉料理，推薦薄野周邊的だるま或さっぽろジンギスカン，配生啤非常對味。",
     highlight: "北海道必吃"
+  },
+  {
+    id: "tokuju-susukino",
+    name: "炭火燒肉 徳寿 すすきの店",
+    area: "札幌",
+    type: "燒肉",
+    season: ["winter"],
+    time: "1.5h",
+    best: "北海道產牛肉、包廂、薄野晚餐",
+    desc: "薄野中心的在地燒肉連鎖店，肉品選擇完整，也有適合多人分食的套餐與包廂座位。適合安排在狸小路、COCONO SUSUKINO 或拉麵橫丁之後。",
+    highlight: "多人燒肉首選"
+  },
+  {
+    id: "yakiniku-sekai-champion",
+    name: "燒肉 世界チャンピオン 南4条店",
+    area: "札幌",
+    type: "燒肉",
+    season: ["winter"],
+    time: "1.5h",
+    best: "和牛、薄野、晚餐、可預約",
+    desc: "位在薄野一帶的和牛燒肉店，適合想把一餐留給品質較好的牛肉時安排。聖誕與跨年期間座位容易滿，建議預約並先確認年末年始營業日。",
+    highlight: "和牛晚餐"
+  },
+  {
+    id: "daruma-honten",
+    name: "成吉思汗 だるま 本店",
+    area: "札幌",
+    type: "成吉思汗",
+    season: ["winter"],
+    time: "1.5h",
+    best: "烤羊肉、薄野、深夜晚餐",
+    desc: "薄野最具代表性的成吉思汗烤羊肉老店之一，適合想吃更聚焦羊肉風味的一餐。店內座位較緊湊且熱門時段常候位，四人同行建議避開晚餐尖峰。",
+    highlight: "人氣羊肉老店"
   },
   {
     id: "sapporo-beer-museum",
@@ -588,50 +608,6 @@ const spots = [
     desc: "位在 JR 札幌站 APIA 地下街，適合搭車前後或回飯店路上順手補旅行小物，不用特地繞路。",
     highlight: "札幌站直結"
   },
-  {
-    id: "3coins-naebo",
-    name: "3COINS +plus Aeon Mall 札幌苗穗店",
-    area: "札幌",
-    type: "生活雜貨",
-    season: ["winter"],
-    time: "0.5h",
-    best: "大型商場、雜貨、啤酒博物館周邊",
-    desc: "位在 Aeon Mall 札幌苗穗 1 樓，和札幌啤酒博物館、Ario 札幌同區域，適合作為東區商場備案。",
-    highlight: "苗穗商場分店"
-  },
-  {
-    id: "3coins-hassamu",
-    name: "3COINS +plus Aeon Mall 札幌發寒店",
-    area: "札幌",
-    type: "生活雜貨",
-    season: ["winter"],
-    time: "0.5h",
-    best: "大型商場、停車方便、雜貨",
-    desc: "位在 Aeon Mall 札幌發寒 2 樓，適合自駕或西側行程順路補貨，停車與室內逛街都比較安心。",
-    highlight: "發寒商場分店"
-  },
-  {
-    id: "3coins-shin-sapporo",
-    name: "3COINS +plus 新札幌 Sunpiazza 店",
-    area: "札幌",
-    type: "生活雜貨",
-    season: ["winter"],
-    time: "0.5h",
-    best: "新札幌站周邊、室內商場、雜貨",
-    desc: "位在新札幌 Sunpiazza B1F，適合東側移動或搭 JR/地鐵經過新札幌時順路逛。",
-    highlight: "新札幌分店"
-  },
-  {
-    id: "3coins-hiraoka",
-    name: "3COINS +plus Aeon Mall 札幌平岡店",
-    area: "札幌",
-    type: "生活雜貨",
-    season: ["winter"],
-    time: "0.5h",
-    best: "大型商場、自駕補貨、生活用品",
-    desc: "位在 Aeon Mall 札幌平岡 1 樓，離市中心較遠，適合自駕路線剛好經過清田/平岡方向時再安排。",
-    highlight: "平岡商場分店"
-  },
   // 函館購物
   {
     id: "marui-imai-hakodate",
@@ -665,6 +641,39 @@ const spots = [
     best: "函館站前、餐飲、伴手禮",
     desc: "函館站前的複合商場，適合在搭車、還車或回飯店前短暫逛逛。和函館朝市、車站周邊行程很好串。",
     highlight: "函館站前"
+  },
+  {
+    id: "hokkaido-shikisai-hakodate",
+    name: "北海道四季彩館 JR 函館店",
+    area: "函館",
+    type: "伴手禮購物",
+    season: ["winter"],
+    time: "0.5h",
+    best: "函館站內、甜點、最後採買",
+    desc: "位在 JR 函館站內的伴手禮店，集合北海道與函館的甜點、零食及加工食品。適合在朝市後、搭車前或前往機場前補齊禮物，冬天不必離開室內。",
+    highlight: "站內最後採買"
+  },
+  {
+    id: "hakodate-meijikan",
+    name: "函館明治館",
+    area: "函館",
+    type: "玻璃工藝購物",
+    season: ["winter"],
+    time: "1h",
+    best: "玻璃、音樂盒、工藝伴手禮、港邊",
+    desc: "港灣區的歷史建築購物點，以玻璃、音樂盒與手作工藝品為主。可和金森紅磚倉庫、元町散步排在同一段，不需要移車。",
+    highlight: "港邊工藝選物"
+  },
+  {
+    id: "mega-donki-hakodate",
+    name: "MEGA 唐吉訶德 函館店",
+    area: "函館",
+    type: "購物中心",
+    season: ["winter"],
+    time: "1h",
+    best: "藥妝、零食、保暖用品、自駕補貨",
+    desc: "美原一帶的大型折扣店，適合自駕時補藥妝、零食、日用品與臨時保暖用品。位置不在函館站、元町或五稜郭步行圈內，建議只在開車行程順路時安排。",
+    highlight: "自駕補給"
   },
 
   // 截圖行程新增景點
@@ -825,12 +834,12 @@ const spots = [
 ];
 
 const winterTemplate = {
-  1: ["new-chitose-airport", "nippon-rentacar-new-chitose", "sunagawa-sa", "premier-cabin-asahikawa", "tokiwa-park", "kamikawa-shrine", "asahikawa-heiwa-dori"],
+  1: ["new-chitose-airport", "nippon-rentacar-new-chitose", "premier-cabin-asahikawa", "tokiwa-park", "kamikawa-shrine", "asahikawa-heiwa-dori"],
   2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "sapporo-odori", "sapporo-susukino"],
   3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "wakadori-naruto-honten", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
   4: ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"],
   5: ["moiwa-yama"],
-  6: ["sapporo-beer-museum", "ario-sapporo", "3coins-naebo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "3coins-aurora-town", "3coins-apia", "ramen-haruka"],
+  6: ["sapporo-beer-museum", "ario-sapporo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "3coins-aurora-town", "3coins-apia", "ramen-haruka"],
   7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view"],
   8: ["goryokaku"],
   9: ["kanemori-warehouse", "hakodate-hachimangu", "hakodate-gokoku-shrine", "hakodate-mt"],
@@ -839,7 +848,7 @@ const winterTemplate = {
 
 const winterProfile = {
   label: "12/23-1/1",
-  blurb: "新千歲入境，旭川與富良野 1 天；札幌 6 天（含小樽、余市）；洞爺湖 1 天，函館跨年 2 天",
+  blurb: "新千歲入境，旭川與富良野 1 天；札幌 6 天（含小樽）；洞爺湖 1 天，函館跨年 2 天",
   route: "除函館那天還車，其餘天數都開車",
   style: "冬季限定"
 };
@@ -852,10 +861,6 @@ const spotLogistics = {
   "nippon-rentacar-new-chitose": {
     hours: "常見 07:00-22:00；11-3月常見 07:00-21:00，年末年始可能縮短",
     access: "抵達後到國內線 1F 到着口3附近租車櫃台報到，再搭接駁車到營業所，單程約 10-15 分鐘"
-  },
-  "sunagawa-sa": {
-    hours: "下行餐飲/商店冬季常見 09:00-19:00；上行冬季常見 09:00-19:00",
-    access: "新千歲往旭川走道央道時可順路停靠，適合午餐、補給與上廁所"
   },
   "premier-cabin-asahikawa": {
     hours: "住宿設施依訂房方案；一般入住時間請以預約頁面為準",
@@ -872,6 +877,14 @@ const spotLogistics = {
   "asahikawa-heiwa-dori": {
     hours: "街區全天可走；各店家營業時間不同，晚餐店建議現場確認",
     access: "JR 旭川站步行約 5 分鐘，從飯店步行逛街找餐廳很方便"
+  },
+  "aeon-mall-asahikawa-ekimae": {
+    hours: "專門店常見 09:00-21:00；餐飲與超市營業時間可能不同",
+    access: "地址：旭川市宮下通7丁目2番5号。JR 旭川站直結，冬天從車站室內動線前往最方便"
+  },
+  "feeeal-asahikawa": {
+    hours: "各店舖營業時間不同，出發前請以商場公告為準",
+    access: "地址：旭川市1条通8丁目108番地。JR 旭川站步行約 5 分鐘，平和通買物公園旁"
   },
   "biei-shrine": {
     hours: "境內通年可參拜；授與所依現場公告",
@@ -912,6 +925,10 @@ const spotLogistics = {
   "stellar-place": {
     hours: "購物常見 10:00-21:00；餐廳樓層常見到 23:00",
     access: "JR 札幌站直結，下雪天移動最省力"
+  },
+  "donki-tanukikoji": {
+    hours: "營業時間與年末年始安排請以店鋪公告為準",
+    access: "地址：札幌市中央区南3条西4丁目12-1。狸小路商店街內，從大通、Pole Town、薄野皆可步行串接"
   },
   "shiroi-koibito-park": {
     hours: "常見 10:00-18:00",
@@ -957,6 +974,18 @@ const spotLogistics = {
     hours: "常見 11:00-14:30、17:00-23:00；賣完可能提前結束，週二晚/週三午常見休息",
     access: "地址：札幌市中央区南5条西3丁目 N・グランデビル1F 元祖ラーメン横丁内，薄野站周邊步行可達"
   },
+  "tokuju-susukino": {
+    hours: "晚餐時段為主；營業時間與年末年始安排請以官方公告為準",
+    access: "地址：札幌市中央区南3条西3丁目。地鐵薄野站步行約 3 分鐘，適合串接狸小路與 COCONO SUSUKINO"
+  },
+  "yakiniku-sekai-champion": {
+    hours: "晚餐時段為主；年末年始營業與預約規則請於出發前確認",
+    access: "地址：札幌市中央区南4条西2丁目。地鐵薄野站步行約 3 分鐘，靠近薄野晚間活動區"
+  },
+  "daruma-honten": {
+    hours: "傍晚至深夜營業；熱門時段常候位，年末年始營業請以官方公告為準",
+    access: "地址：札幌市中央区南5条西4丁目。地鐵薄野站步行約 5 分鐘，建議將候位時間納入晚餐安排"
+  },
   "kinotoya-bake-pole-town": {
     hours: "常見 10:00-21:00（L.O. 20:45）；休業日同 Pole Town",
     access: "地址：札幌市中央区南2条西3丁目 さっぽろ地下街ポールタウン内。大通、狸小路、薄野都可步行串遊"
@@ -972,22 +1001,6 @@ const spotLogistics = {
   "3coins-apia": {
     hours: "常見 10:00-21:00；以 APIA 公告為準",
     access: "地址：札幌市中央区北5条西3丁目 JRタワースクエア札幌アピア B1F。JR/地鐵札幌站直結"
-  },
-  "3coins-naebo": {
-    hours: "商場常見 10:00-21:00；以 Aeon Mall 札幌苗穗公告為準",
-    access: "地址：札幌市東区東苗穂2条3丁目1-1 イオンモール札幌苗穂 1F。札幌啤酒博物館/Ario 一帶自駕可順路"
-  },
-  "3coins-hassamu": {
-    hours: "商場常見 10:00-21:00；以 Aeon Mall 札幌發寒公告為準",
-    access: "地址：札幌市西区発寒8条12丁目1 イオンモール札幌発寒 2F。適合自駕或西側路線順路"
-  },
-  "3coins-shin-sapporo": {
-    hours: "商場常見 10:00-21:00；以 Sunpiazza 公告為準",
-    access: "地址：札幌市厚別区厚別中央2条5丁目7番 サンピアザ B1F。JR/地鐵新札幌站周邊"
-  },
-  "3coins-hiraoka": {
-    hours: "商場常見 10:00-21:00；以 Aeon Mall 札幌平岡公告為準",
-    access: "地址：札幌市清田区平岡3条5-3-1 イオンモール札幌平岡 1F。偏郊區，自駕順路再排"
   },
   "sapporo-fushimi-inari": {
     hours: "境內可參拜；授與品與御朱印依社務所公告",
@@ -1020,14 +1033,6 @@ const spotLogistics = {
   "wakadori-naruto-honten": {
     hours: "常見 11:00-21:00（L.O. 20:30）；定休日不定休，元旦常見休息",
     access: "地址：小樽市稲穂3丁目16番13号。JR 小樽站步行約 7-8 分鐘；有免費停車位，熱門時段可能需候位"
-  },
-  "nikka-distillery": {
-    hours: "常見約 09:00-16:00（最後入場提前）",
-    access: "JR 余市站步行約 5-10 分鐘"
-  },
-  "kakizaki-store": {
-    hours: "常見約 10:00-19:00（食堂常提早結束）",
-    access: "JR 余市站步行可達，尖峰時段需排隊"
   },
   "moiwa-yama": {
     hours: "纜車常見 10:30-22:00（最終上山提前）",
@@ -1078,28 +1083,40 @@ const spotLogistics = {
     access: "纜車站可搭巴士/計程車，跨年建議提早卡位"
   },
   "marui-imai-hakodate": {
-    hours: "常見 10:00-18:30",
-    access: "函館市電五稜郭公園前站步行可達，適合和五稜郭周邊同日安排"
+    hours: "常見 10:00-18:30；跨年與元旦通常縮短或休館，請以年末年始公告為準",
+    access: "地址：函館市本町32-15。函館市電五稜郭公園前站步行約 1 分鐘，適合和五稜郭周邊同日安排"
   },
   "share-star-hakodate": {
-    hours: "B1F-3F 店舖常見 10:00-20:00；1F Starbucks 常見 07:00-22:00",
+    hours: "B1F-3F 店舖常見 10:00-20:00；1F Starbucks 常見 07:00-22:00；元旦全館通常休館",
     access: "函館市電五稜郭公園前站下車即達，本町商圈購物備案"
   },
   "kiralis-hakodate": {
     hours: "各店舖與設施不同，出發前看官方樓層/店舖公告",
     access: "函館站前，適合和函館朝市、還車、搭車前後串在一起"
   },
+  "hokkaido-shikisai-hakodate": {
+    hours: "常見 07:00-20:00；站內個別專櫃可能較早結束，年末年始請確認公告",
+    access: "地址：函館市若松町12-13 JR 函館站內。函館站出站即達，可和朝市、キラリス函館串接"
+  },
+  "hakodate-meijikan": {
+    hours: "常見 09:30-18:00；季節性調整與年末年始營業請以官方公告為準",
+    access: "地址：函館市豊川町11-17。十字街站步行約 5 分鐘，金森紅磚倉庫與元町周邊皆可步行串遊"
+  },
+  "mega-donki-hakodate": {
+    hours: "常見 09:00-00:00，無固定公休日；年末年始請以店鋪公告為準",
+    access: "地址：函館市美原1丁目7-1。非市中心步行圈，建議自駕從五稜郭或函館機場方向順路停靠"
+  },
   "hakodate-gokoku-shrine": {
     hours: "社務所窗口常見 09:00-16:00 前後；境內參拜依現場公告",
     access: "函館山麓站出口步行約 3 分鐘，適合與元町/函館山夜景串遊"
   },
   "morning-market": {
-    hours: "多數店家常見 05:00-14:00",
-    access: "函館站步行約 2-5 分鐘"
+    hours: "冬季（1-4月）多數店家常見 06:00 至 14:00 後；跨年店家營業差異很大，12/31 多數可能提早結束",
+    access: "地址：函館市若松町9-19。函館站步行約 1-2 分鐘，適合和站內伴手禮店一起安排"
   },
   "kanemori-warehouse": {
-    hours: "多數店家常見 09:30-19:00",
-    access: "函館站可步行或搭市電至十字街"
+    hours: "多數店家常見 09:30-19:00；跨年與元旦通常縮短營業，請以當年度公告為準",
+    access: "地址：函館市末広町14-12。函館站可步行或搭市電至十字街，步行約 5 分鐘"
   },
   motomachi: {
     hours: "街區全天可散步；教堂/館舍多為白天開放",
@@ -1159,14 +1176,11 @@ const areaDriveMinutes = {
   "旭川|美瑛": 40,
   "旭川|札幌": 130,
   "札幌|小樽": 45,
-  "札幌|余市": 65,
   "札幌|札幌郊外": 55,
   "札幌|洞爺湖": 120,
   "札幌|登別": 95,
   "札幌|西部山區": 120,
   "札幌|二世谷": 130,
-  "小樽|余市": 35,
-  "余市|二世谷": 80,
   "洞爺湖|登別": 45,
   "洞爺湖|函館": 155,
   "洞爺湖|二世谷": 75,
@@ -2141,8 +2155,32 @@ const spotCategories = [
   { id: "food", label: "美食" }
 ];
 
-const shoppingTypes = ["商店街", "百貨", "商場", "購物", "買物", "玻璃", "硝子", "街區地標", "堺町", "金森", "童話", "Stellar"];
-const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐", "壽司", "拉麵", "甜點", "炸雞"];
+const shoppingSpotIds = new Set([
+  "asahikawa-heiwa-dori",
+  "aeon-mall-asahikawa-ekimae",
+  "feeeal-asahikawa",
+  "otaru-sakaimachi",
+  "taisho-glass",
+  "kanemori-warehouse",
+  "daimaru-sapporo",
+  "mitsukoshi-sapporo",
+  "marui-imai-sapporo",
+  "tokyu-sapporo",
+  "stellar-place",
+  "apa-sogo",
+  "donki-tanukikoji",
+  "ario-sapporo",
+  "3coins-pole-town",
+  "3coins-aurora-town",
+  "3coins-apia",
+  "marui-imai-hakodate",
+  "share-star-hakodate",
+  "kiralis-hakodate",
+  "hokkaido-shikisai-hakodate",
+  "hakodate-meijikan",
+  "mega-donki-hakodate"
+]);
+const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐", "壽司", "拉麵", "甜點", "炸雞", "燒肉", "成吉思汗"];
 const utilityTypes = ["抵達點", "離境點", "取車", "入住飯店", "休息補給"];
 
 function typeIncludes(spot, keywords) {
@@ -2155,7 +2193,7 @@ function matchesSpotCategory(spot) {
   }
 
   if (state.spotCategory === "shopping") {
-    return typeIncludes(spot, shoppingTypes);
+    return shoppingSpotIds.has(spot.id);
   }
 
   if (state.spotCategory === "food") {
@@ -2163,7 +2201,7 @@ function matchesSpotCategory(spot) {
   }
 
   if (state.spotCategory === "sightseeing") {
-    return !typeIncludes(spot, shoppingTypes)
+    return !shoppingSpotIds.has(spot.id)
       && !typeIncludes(spot, foodTypes)
       && !typeIncludes(spot, utilityTypes);
   }
@@ -2450,17 +2488,6 @@ function bindGlobalEvents() {
   });
 
   document.querySelector('[data-action="apply-winter"]').addEventListener("click", applyWinterTemplate);
-  document.querySelector('[data-action="focus-sapporo"]').addEventListener("click", () => {
-    state.focusId = "moiwa-yama";
-    state.selectedDay = 4;
-    render();
-  });
-
-  document.querySelector('[data-action="focus-hakodate"]').addEventListener("click", () => {
-    state.focusId = "hakodate-mt";
-    state.selectedDay = 10;
-    render();
-  });
 }
 
 bindGlobalEvents();
