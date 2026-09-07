@@ -1369,11 +1369,13 @@ let uiMessageTimer = null;
 const cloud = {
   initialized: false,
   connecting: false,
+  initializationPromise: null,
   configured: false,
   db: null,
   modules: null,
   unsubscribe: null,
   activeCode: "",
+  connectionAttempt: 0,
   pendingTimer: null,
   applyingRemote: false,
   clientId: getOrCreateClientId(),
@@ -1548,6 +1550,10 @@ async function ensureCloudInitialized() {
     return true;
   }
 
+  if (cloud.initializationPromise) {
+    return cloud.initializationPromise;
+  }
+
   if (!isSyncConfigValid()) {
     cloud.configured = false;
     setSyncStatus("尚未設定（請先填 sync-config.js）");
@@ -1558,25 +1564,32 @@ async function ensureCloudInitialized() {
   setSyncStatus("初始化中...");
   const config = window.HOKKAIDO_SYNC_CONFIG;
 
-  try {
-    const [{ initializeApp }, firestoreModule] = await Promise.all([
-      import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"),
-      import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js")
-    ]);
+  cloud.initializationPromise = (async () => {
+    try {
+      const [{ initializeApp, getApp, getApps }, firestoreModule] = await Promise.all([
+        import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"),
+        import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js")
+      ]);
 
-    const app = initializeApp(config);
-    cloud.modules = firestoreModule;
-    cloud.db = firestoreModule.getFirestore(app);
-    cloud.initialized = true;
-    cloud.configured = true;
-    setSyncStatus("已就緒");
-    return true;
-  } catch {
-    setSyncStatus("初始化失敗（請檢查 sync-config.js）");
-    return false;
-  } finally {
-    cloud.connecting = false;
-  }
+      const app = getApps().length ? getApp() : initializeApp(config);
+      cloud.modules = firestoreModule;
+      cloud.db = firestoreModule.getFirestore(app);
+      cloud.initialized = true;
+      cloud.configured = true;
+      setSyncStatus("已就緒");
+      return true;
+    } catch (error) {
+      console.error("Cloud sync initialization failed", error);
+      setSyncStatus("初始化失敗，請重新連線");
+      setUiMessage("Firebase 初始化失敗，請檢查網路後重試", "warn");
+      return false;
+    } finally {
+      cloud.connecting = false;
+      cloud.initializationPromise = null;
+    }
+  })();
+
+  return cloud.initializationPromise;
 }
 
 function buildSyncPayload() {
@@ -1689,9 +1702,15 @@ async function connectCloudSync(rawCode) {
   window.localStorage.setItem(syncCodeKey, code);
   updateSyncUi();
 
+  const attemptId = ++cloud.connectionAttempt;
   const ready = await ensureCloudInitialized();
-  if (!ready) {
+  if (!ready || attemptId !== cloud.connectionAttempt) {
     return;
+  }
+
+  if (cloud.pendingTimer) {
+    window.clearTimeout(cloud.pendingTimer);
+    cloud.pendingTimer = null;
   }
 
   if (cloud.unsubscribe) {
@@ -1701,15 +1720,23 @@ async function connectCloudSync(rawCode) {
 
   const { doc, getDoc, onSnapshot } = cloud.modules;
   const ref = doc(cloud.db, "tripPlans", code);
-  cloud.activeCode = code;
+  cloud.activeCode = "";
   setSyncStatus("連線中...");
 
   try {
     const snapshot = await getDoc(ref);
+    if (attemptId !== cloud.connectionAttempt) {
+      return;
+    }
+
+    cloud.activeCode = code;
     if (snapshot.exists()) {
-      cloud.applyingRemote = true;
-      applyRemotePayload(snapshot.data());
-      cloud.applyingRemote = false;
+      try {
+        cloud.applyingRemote = true;
+        applyRemotePayload(snapshot.data());
+      } finally {
+        cloud.applyingRemote = false;
+      }
       setSyncStatus("已連線，自動同步中");
     } else {
       recordChange("建立雲端同步", `同步代碼：${code}`);
@@ -1718,6 +1745,11 @@ async function connectCloudSync(rawCode) {
     }
   } catch (error) {
     console.error("Cloud sync connection failed", error);
+    if (attemptId !== cloud.connectionAttempt) {
+      return;
+    }
+
+    cloud.activeCode = "";
     setSyncStatus("連線失敗，請稍後重試");
     if (error?.code === "permission-denied") {
       setUiMessage("Firebase 規則拒絕讀寫，請先發布 firestore.rules", "warn");
@@ -1727,22 +1759,47 @@ async function connectCloudSync(rawCode) {
     return;
   }
 
-  cloud.unsubscribe = onSnapshot(ref, (docSnap) => {
-    const data = docSnap.data();
-    if (!docSnap.exists() || !data) {
-      return;
-    }
+  cloud.unsubscribe = onSnapshot(
+    ref,
+    (docSnap) => {
+      if (attemptId !== cloud.connectionAttempt || !docSnap.exists()) {
+        return;
+      }
 
-    const remoteVersion = typeof data.version === "number" ? data.version : 0;
-    if (remoteVersion <= cloud.version && data.updatedBy === cloud.clientId) {
-      return;
-    }
+      const data = docSnap.data();
+      if (!data) {
+        return;
+      }
 
-    cloud.applyingRemote = true;
-    applyRemotePayload(data);
-    cloud.applyingRemote = false;
-    setSyncStatus(`已同步到最新版本 v${remoteVersion}`);
-  });
+      const remoteVersion = typeof data.version === "number" ? data.version : 0;
+      if (remoteVersion <= cloud.version && data.updatedBy === cloud.clientId) {
+        return;
+      }
+
+      try {
+        cloud.applyingRemote = true;
+        applyRemotePayload(data);
+      } finally {
+        cloud.applyingRemote = false;
+      }
+      setSyncStatus(`已同步到最新版本 v${remoteVersion}`);
+    },
+    (error) => {
+      console.error("Cloud sync listener failed", error);
+      if (attemptId !== cloud.connectionAttempt || cloud.activeCode !== code) {
+        return;
+      }
+
+      cloud.unsubscribe = null;
+      cloud.activeCode = "";
+      setSyncStatus("即時同步中斷，請重新連線");
+      if (error?.code === "permission-denied") {
+        setUiMessage("Firebase 規則拒絕即時同步，請檢查 Firestore 規則", "warn");
+      } else {
+        setUiMessage("即時同步已中斷，請按「重新連線同步」重試", "warn");
+      }
+    }
+  );
 }
 
 function formatSavedAt(isoText) {
