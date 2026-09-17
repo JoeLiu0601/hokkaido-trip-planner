@@ -1189,7 +1189,7 @@ const syncClientIdKey = "hokkaido-trip-planner-sync-client-id";
 const cloudPendingKey = "hokkaido-trip-planner-cloud-pending";
 const syncCodeMinLength = 2;
 const syncCodeMaxLength = 40;
-const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐", "壽司", "拉麵", "甜點", "炸雞", "燒肉", "成吉思汗", "洋食", "漢堡", "天丼", "天婦羅"];
+const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐", "壽司", "拉麵", "甜點", "炸雞", "燒肉", "洋食", "漢堡", "天丼", "天婦羅"];
 const mealSlotDefinitions = [
   { id: "lunch", label: "午餐", defaultTime: "12:00" },
   { id: "dinner", label: "晚餐", defaultTime: "18:30" }
@@ -1274,6 +1274,7 @@ function normalizeMealPlan(rawMealPlan) {
       normalized[day][slot.id] = normalizeMealEntry(rawMealPlan?.[day]?.[slot.id], slot.id);
     });
   });
+  normalized[1].lunch = createMealEntry("lunch");
   return normalized;
 }
 
@@ -2219,7 +2220,7 @@ function escapeHtml(value) {
 function getMealCandidates(day) {
   const dayAreas = new Set((state.plan[day] || []).map((id) => spotById(id)?.area).filter(Boolean));
   return spots
-    .filter((spot) => typeIncludes(spot, foodTypes))
+    .filter((spot) => typeIncludes(spot, foodTypes) && spot.id !== "daruma-honten")
     .sort((first, second) => {
       const firstPreferred = dayAreas.has(first.area) ? 0 : 1;
       const secondPreferred = dayAreas.has(second.area) ? 0 : 1;
@@ -2228,6 +2229,10 @@ function getMealCandidates(day) {
       }
       return `${first.area}${first.name}`.localeCompare(`${second.area}${second.name}`, "zh-Hant");
     });
+}
+
+function getMealSlotsForDay(day) {
+  return day === 1 ? mealSlotDefinitions.filter((slot) => slot.id !== "lunch") : mealSlotDefinitions;
 }
 
 function renderMealOptions(day, selectedId, excludedId, placeholder) {
@@ -2289,12 +2294,13 @@ function renderMealPlanner() {
 
   const day = state.selectedDay;
   const meals = state.mealPlan[day] || buildMealPlan()[day];
-  const arrangedCount = mealSlotDefinitions.filter((slot) => meals[slot.id]?.primaryId).length;
+  const slots = getMealSlotsForDay(day);
+  const arrangedCount = slots.filter((slot) => meals[slot.id]?.primaryId).length;
   if (dom.mealProgress) {
-    dom.mealProgress.textContent = `${arrangedCount} / ${mealSlotDefinitions.length} 已安排`;
+    dom.mealProgress.textContent = `${arrangedCount} / ${slots.length} 已安排`;
   }
 
-  dom.mealSlots.innerHTML = mealSlotDefinitions.map((slot) => {
+  dom.mealSlots.innerHTML = slots.map((slot) => {
     const entry = meals[slot.id] || createMealEntry(slot.id);
     const primary = spotById(entry.primaryId);
     const logistics = primary ? getSpotLogistics(primary.id) : null;
@@ -2393,11 +2399,12 @@ function renderDayTabs() {
   dom.dayTabs.innerHTML = Array.from({ length: 10 }, (_, index) => {
     const day = index + 1;
     const places = state.plan[day].length;
-    const mealCount = mealSlotDefinitions.filter((slot) => state.mealPlan[day]?.[slot.id]?.primaryId).length;
+    const mealSlots = getMealSlotsForDay(day);
+    const mealCount = mealSlots.filter((slot) => state.mealPlan[day]?.[slot.id]?.primaryId).length;
     return `
       <button class="day-tab ${state.selectedDay === day ? "active" : ""}" data-day="${day}" data-drop-day="${day}">
         <strong>Day ${day} (${dates[index]})</strong>
-        <span>${places} 個點位 · 餐 ${mealCount}/2</span>
+        <span>${places} 個點位 · 餐 ${mealCount}/${mealSlots.length}</span>
       </button>
     `;
   }).join("");
