@@ -12,6 +12,7 @@
 ## 主要功能
 - 冬季模板 10 天游程
 - 景點搜尋、加入/移除、上下移動排序
+- 每日午餐與晚餐安排（首選、備選、時間、優先度、訂位狀態與備註）
 - 已選景點不可重複加入（避免重複選取）
 - 手動儲存與未儲存提醒
 - 匯出 / 匯入 JSON
@@ -22,13 +23,15 @@
 2. 或用 VS Code Live Server 開啟
 
 ## 同步代碼怎麼用
-1. 在工具列輸入一組同步代碼（例如：`trip-2026-hokkaido-lee`）
+1. 輸入同步代碼（例如 `py`），或按「產生安全代碼」建立較難猜測的代碼
 2. 點 `啟用自動同步`
 3. 手機與電腦輸入完全相同的代碼
 4. 之後任一裝置修改，另一端會自動更新
 
 注意事項：
-- 同步代碼可自訂，但要完全一致（大小寫 / 符號都要一致）
+- 同步代碼等同這份行程的存取密鑰；`py` 等短代碼方便使用，但可能被其他人猜到
+- 若行程包含不希望外流的資料，建議改用頁面產生的隨機代碼
+- 同步代碼要完全一致；頁面會統一轉成小寫
 - 不同代碼代表不同雲端資料空間
 
 ## Firebase 雲端設定（一次性）
@@ -53,51 +56,10 @@ window.HOKKAIDO_SYNC_CONFIG = {
 
 ### 3. Firestore 規則
 
-```txt
-rules_version = '2';
+專案以根目錄的 `firestore.rules` 為唯一規則來源，避免 README 範例與實際規則不同步。登入 Firebase CLI 後執行：
 
-service cloud.firestore {
-  match /databases/{database}/documents {
-    function validSyncCode(syncCode) {
-      return syncCode.matches('^[a-z0-9_-]{1,40}$');
-    }
-
-    function validTripPlan() {
-      return request.resource.data.keys().hasOnly([
-          'plan',
-          'carModel',
-          'updatedAt',
-          'updatedBy',
-          'version',
-          'changes'
-        ])
-        && request.resource.data.keys().hasAll([
-          'plan',
-          'updatedAt',
-          'updatedBy',
-          'version',
-          'changes'
-        ])
-        && request.resource.data.plan is map
-        && request.resource.data.updatedAt is number
-        && request.resource.data.updatedBy is string
-        && request.resource.data.updatedBy.size() <= 64
-        && request.resource.data.version is number
-        && request.resource.data.changes is list
-        && request.resource.data.changes.size() <= 30
-        && (!('carModel' in request.resource.data)
-          || (request.resource.data.carModel is string
-            && request.resource.data.carModel.size() <= 40));
-    }
-
-    match /tripPlans/{syncCode} {
-      allow get: if validSyncCode(syncCode);
-      allow list: if false;
-      allow create, update: if validSyncCode(syncCode) && validTripPlan();
-      allow delete: if false;
-    }
-  }
-}
+```bash
+firebase deploy --only firestore:rules
 ```
 
 注意：Firebase Web API key 會出現在前端程式碼與瀏覽器裡，這是 Firebase Web App 的正常設計；不要把它當成後端密鑰。真正要保護的是 Firestore Security Rules、Google Cloud API key restrictions 和 App Check。

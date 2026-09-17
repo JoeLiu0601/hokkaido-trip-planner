@@ -422,17 +422,6 @@ const spots = [
     highlight: "札幌起源"
   },
   {
-    id: "jingisukan",
-    name: "成吉思汗烤羊肉",
-    area: "札幌",
-    type: "在地美食",
-    season: ["winter"],
-    time: "1.5h",
-    best: "羊肉、北海道啤酒、居酒屋氣氛",
-    desc: "北海道最代表性的肉料理，推薦薄野周邊的だるま或さっぽろジンギスカン，配生啤非常對味。",
-    highlight: "北海道必吃"
-  },
-  {
     id: "totori-honten",
     name: "トトリ 本店",
     area: "札幌",
@@ -442,28 +431,6 @@ const spots = [
     best: "和牛、サガリ、牛舌、冷麵、薄野晚餐",
     desc: "札幌具代表性的燒肉老店，也是食べログ燒肉 EAST 百名店 2025 入選店。除了和牛與サガリ，招牌冷麵也很受歡迎；離薄野住宿區近，適合抵達札幌後安排晚餐。",
     highlight: "札幌燒肉必吃"
-  },
-  {
-    id: "tokuju-susukino",
-    name: "炭火燒肉 徳寿 すすきの店",
-    area: "札幌",
-    type: "燒肉",
-    season: ["winter"],
-    time: "1.5h",
-    best: "北海道產牛肉、包廂、薄野晚餐",
-    desc: "薄野中心的在地燒肉連鎖店，肉品選擇完整，也有適合多人分食的套餐與包廂座位。適合安排在狸小路、COCONO SUSUKINO 或拉麵橫丁之後。",
-    highlight: "多人燒肉首選"
-  },
-  {
-    id: "yakiniku-sekai-champion",
-    name: "燒肉 世界チャンピオン 南4条店",
-    area: "札幌",
-    type: "燒肉",
-    season: ["winter"],
-    time: "1.5h",
-    best: "和牛、薄野、晚餐、可預約",
-    desc: "位在薄野一帶的和牛燒肉店，適合想把一餐留給品質較好的牛肉時安排。聖誕與跨年期間座位容易滿，建議預約並先確認年末年始營業日。",
-    highlight: "和牛晚餐"
   },
   {
     id: "daruma-honten",
@@ -521,28 +488,6 @@ const spots = [
     highlight: "札幌站首選"
   },
   {
-    id: "hanamaru-miredo",
-    name: "根室花まる miredo 店",
-    area: "札幌",
-    type: "迴轉壽司",
-    season: ["winter"],
-    time: "1.5h",
-    best: "チ・カ・ホ直結、赤れんが周邊、午晚餐",
-    desc: "位在大同生命札幌ビル miredo B1F，從札幌站到大通之間的地下步行空間可直結。比車站樓上動線更分散，適合市中心逛街中插入。",
-    highlight: "地下步行空間"
-  },
-  {
-    id: "hanamaru-cocono-susukino",
-    name: "根室花まる COCONO SUSUKINO 店",
-    area: "札幌",
-    type: "迴轉壽司",
-    season: ["winter"],
-    time: "1.5h",
-    best: "薄野中心、發券候位、晚餐備案",
-    desc: "位在 COCONO SUSUKINO B1F，薄野住宿或晚上活動時很順。店頭發券後可用手機看等待狀況，適合先取號再去附近逛。",
-    highlight: "薄野方便"
-  },
-  {
     id: "shiki-hanamaru-tokeidai",
     name: "町のすし家 四季花まる 時計台店",
     area: "札幌",
@@ -552,28 +497,6 @@ const spots = [
     best: "時計台、大通、可預約、午餐",
     desc: "靠近札幌時計台與大通公園，氣氛比迴轉壽司更像坐下來慢慢吃。部分時段可電話預約，很適合想避開長時間排隊時當備案。",
     highlight: "大通可預約"
-  },
-  {
-    id: "shiki-hanamaru-susukino",
-    name: "町のすし家 四季花まる すすきの店",
-    area: "札幌",
-    type: "壽司店",
-    season: ["winter"],
-    time: "1.5h",
-    best: "薄野、可預約、壽司晚餐",
-    desc: "位在薄野 Recolte Sapporo 2F，適合晚上想吃花まる系但不一定想排迴轉壽司時使用。可預約，對多人或晚餐比較友善。",
-    highlight: "薄野可預約"
-  },
-  {
-    id: "shiki-hanamaru-kitaguchi",
-    name: "寿司と炉端焼 四季花まる 北口店",
-    area: "札幌",
-    type: "壽司居酒屋",
-    season: ["winter"],
-    time: "1.5h",
-    best: "札幌站北口、壽司、爐端燒、可預約",
-    desc: "札幌站北口附近的花まる系店，除了壽司也有爐端燒與居酒屋感料理。適合想吃海鮮但不要純迴轉壽司的晚上。",
-    highlight: "札幌站北口"
   },
   {
     id: "ramen-haruka",
@@ -788,6 +711,17 @@ const spots = [
     highlight: "小樽必吃炸雞"
   },
   {
+    id: "popura-farm-otaru",
+    name: "ポプラファーム 小樽店",
+    area: "小樽",
+    type: "甜點",
+    season: ["winter"],
+    time: "0.5h",
+    best: "サンタのヒゲ、哈密瓜、霜淇淋、小樽運河",
+    desc: "位在小樽運河前的出拔小路，招牌是半顆哈密瓜搭配霜淇淋的「サンタのヒゲ」。適合和運河、堺町通一起安排；冬季可能縮短營業，出發前再確認。",
+    highlight: "哈密瓜霜淇淋"
+  },
+  {
     id: "muroran-hakucho-bridge-view",
     name: "室蘭白鳥大橋展望台",
     area: "室蘭",
@@ -808,6 +742,17 @@ const spots = [
     best: "拍照、海景、短暫停留",
     desc: "適合放在室蘭展望行程中的小停留點，停留時間不用長，主要作為 Day4 登別與室蘭之間的輕量拍照點。",
     highlight: "短停拍照"
+  },
+  {
+    id: "tenkatsu-honten-muroran",
+    name: "天勝本店",
+    area: "室蘭",
+    type: "天丼",
+    season: ["winter"],
+    time: "1h",
+    best: "老字號天丼、蝦天婦羅、室蘭午餐",
+    desc: "室蘭站附近的大正時代老字號，以醬汁浸潤的蝦天丼聞名。熱門時段可能提早售完，且常見只收現金，適合放在室蘭展望行程的午餐時段。",
+    highlight: "室蘭老字號"
   },
   {
     id: "makkari-village",
@@ -852,6 +797,28 @@ const spots = [
     best: "參拜、函館山山麓、安靜感",
     desc: "位在函館山山麓，從元町或函館山纜車站周邊順路可到。適合放在 Day9 金森紅磚倉庫後，往函館山夜景前銜接。",
     highlight: "山麓參拜"
+  },
+  {
+    id: "ajisai-honten-hakodate",
+    name: "函館麺厨房 あじさい 本店",
+    area: "函館",
+    type: "鹽拉麵",
+    season: ["winter"],
+    time: "1h",
+    best: "味彩鹽拉麵、五稜郭、函館老店",
+    desc: "五稜郭旁的函館鹽拉麵代表店，清澈湯頭帶有昆布與海鮮鮮味。適合排在五稜郭散策前後，熱門用餐時段可能需要候位。",
+    highlight: "函館鹽拉麵代表"
+  },
+  {
+    id: "lucky-pierrot-bay-area",
+    name: "ラッキーピエロ ベイエリア本店（小丑漢堡）",
+    area: "函館",
+    type: "漢堡",
+    season: ["winter"],
+    time: "1h",
+    best: "中華雞腿漢堡、函館限定、金森紅磚倉庫",
+    desc: "函館限定連鎖的第一號店，就在金森紅磚倉庫旁。招牌中華雞腿漢堡份量足，適合當午餐、晚餐或港區散步後的彈性備選。",
+    highlight: "函館限定漢堡"
   }
 ];
 
@@ -972,25 +939,9 @@ const spotLogistics = {
     hours: "常見 11:00-22:00（L.O. 21:30）；不定休依 Stellar Place",
     access: "地址：札幌市中央区北5条西2丁目 札幌ステラプレイス CENTER 6F。JR 札幌站直結；迴轉壽司席位通常不可預約，建議離峰或先取號"
   },
-  "hanamaru-miredo": {
-    hours: "常見 11:00-22:00",
-    access: "地址：札幌市中央区北3条西3丁目1 大同生命札幌ビル miredo B1F。チ・カ・ホ地下步行空間直結，札幌站到大通之間最順"
-  },
-  "hanamaru-cocono-susukino": {
-    hours: "常見 11:00-21:00（L.O. 20:30）；發券機常見 10:00 開始",
-    access: "地址：札幌市中央区南4条西4丁目1-1 COCONO SUSUKINO B1F。薄野站旁；店頭發券後可用手機確認等待狀況"
-  },
   "shiki-hanamaru-tokeidai": {
     hours: "日-四/祝 11:00-22:00（L.O. 21:30）；五六/祝前 11:00-23:00（L.O. 22:30）；平日午餐 11:00-15:00",
     access: "地址：札幌市中央区北1条西2丁目1 札幌時計台ビル1F。大通站步行約 3 分鐘；部分時段可電話預約"
-  },
-  "shiki-hanamaru-susukino": {
-    hours: "月-四 11:00-15:00、17:00-22:00；五/祝前至 23:00；六 11:00-23:00；日祝 11:00-22:00",
-    access: "地址：札幌市中央区南4条西2丁目2-4 レコルトサッポロ 2F。薄野周邊步行可達；可預約，適合晚餐備案"
-  },
-  "shiki-hanamaru-kitaguchi": {
-    hours: "營業時間與定休日依官方店鋪公告；建議出發前確認",
-    access: "地址：札幌市北区北7条西1丁目2-6 NCO札幌 B1F。札幌站北口周邊；花まる系中偏壽司居酒屋，可預約"
   },
   "ramen-haruka": {
     hours: "常見 11:00-14:30、17:00-23:00；賣完可能提前結束，週二晚/週三午常見休息",
@@ -999,14 +950,6 @@ const spotLogistics = {
   "totori-honten": {
     hours: "常見 12:00-24:00，午餐常見 12:00-14:00；年末年始可能休息，建議預約並於出發前確認",
     access: "地址：札幌市中央区南5条西7丁目。從 APA Hotel Sapporo Susukino Ekinishi 步行約 2-4 分鐘，薄野站步行約 8-10 分鐘"
-  },
-  "tokuju-susukino": {
-    hours: "晚餐時段為主；營業時間與年末年始安排請以官方公告為準",
-    access: "地址：札幌市中央区南3条西3丁目。地鐵薄野站步行約 3 分鐘，適合串接狸小路與 COCONO SUSUKINO"
-  },
-  "yakiniku-sekai-champion": {
-    hours: "晚餐時段為主；年末年始營業與預約規則請於出發前確認",
-    access: "地址：札幌市中央区南4条西2丁目。地鐵薄野站步行約 3 分鐘，靠近薄野晚間活動區"
   },
   "daruma-honten": {
     hours: "傍晚至深夜營業；熱門時段常候位，年末年始營業請以官方公告為準",
@@ -1060,6 +1003,10 @@ const spotLogistics = {
     hours: "常見 11:00-21:00（L.O. 20:30）；定休日不定休，元旦常見休息",
     access: "地址：小樽市稲穂3丁目16番13号。JR 小樽站步行約 7-8 分鐘；有免費停車位，熱門時段可能需候位"
   },
+  "popura-farm-otaru": {
+    hours: "官方常見 11:00-17:30（L.O. 17:00）；可能縮短營業，不定休",
+    access: "地址：小樽市色内1-1 小樽出抜小路內。JR 小樽站步行約 10 分鐘，位在小樽運河前"
+  },
   "moiwa-yama": {
     hours: "纜車常見 10:30-22:00（最終上山提前）",
     access: "市電轉接駁巴士或計程車最順"
@@ -1088,6 +1035,10 @@ const spotLogistics = {
     hours: "戶外拍照點通常可自由停留；冬季以現場路況為準",
     access: "建議與室蘭白鳥大橋展望行程一起自駕短停"
   },
+  "tenkatsu-honten-muroran": {
+    hours: "常見平日 11:00-18:00、週末及假日 11:00-18:30；週四休息，售完可能提早結束",
+    access: "地址：室蘭市中央町2丁目3-16。JR 室蘭站步行約 2-3 分鐘；店前無停車位，可使用附近指定停車場，常見僅收現金"
+  },
   "makkari-village": {
     hours: "鄉村景觀點全天可停留；冬季請以除雪道路為主",
     access: "從二世谷/洞爺湖方向自駕順路，適合挑安全停車點拍羊蹄山"
@@ -1103,6 +1054,10 @@ const spotLogistics = {
   "goryokaku": {
     hours: "公園全天可走；展望塔常見 09:00-18:00",
     access: "函館市電五稜郭公園前站轉巴士或步行"
+  },
+  "ajisai-honten-hakodate": {
+    hours: "官方營業 11:00-20:25（L.O.）；第 4 個週三休息，遇假日改翌平日",
+    access: "地址：函館市五稜郭町29-22。市電五稜郭公園前站步行約 10 分鐘；設有 7 個免費停車位"
   },
   "hakodate-hachimangu": {
     hours: "境內全天開放；授與所多為白天時段",
@@ -1139,6 +1094,10 @@ const spotLogistics = {
   "hakodate-gokoku-shrine": {
     hours: "社務所窗口常見 09:00-16:00 前後；境內參拜依現場公告",
     access: "函館山麓站出口步行約 3 分鐘，適合與元町/函館山夜景串遊"
+  },
+  "lucky-pierrot-bay-area": {
+    hours: "官方營業 10:00-21:00（餐點 L.O. 20:30）",
+    access: "地址：函館市末広町23-18。金森紅磚倉庫旁，市電末廣町站步行約 3 分鐘；店舖無停車場"
   },
   "morning-market": {
     hours: "冬季（1-4月）多數店家常見 06:00 至 14:00 後；跨年店家營業差異很大，12/31 多數可能提早結束",
@@ -1220,12 +1179,32 @@ const areaDriveMinutes = {
 };
 
 const storageKey = "hokkaido-trip-planner-plan";
+const mealPlanKey = "hokkaido-trip-planner-meals";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
 const currentPlanTemplateVersion = "2026-08-17-otaru-naruto";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
 const syncClientIdKey = "hokkaido-trip-planner-sync-client-id";
+const cloudPendingKey = "hokkaido-trip-planner-cloud-pending";
+const syncCodeMinLength = 2;
+const syncCodeMaxLength = 40;
+const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐", "壽司", "拉麵", "甜點", "炸雞", "燒肉", "成吉思汗", "洋食", "漢堡", "天丼", "天婦羅"];
+const mealSlotDefinitions = [
+  { id: "lunch", label: "午餐", defaultTime: "12:00" },
+  { id: "dinner", label: "晚餐", defaultTime: "18:30" }
+];
+const mealPriorityOptions = [
+  { value: "flexible", label: "彈性安排" },
+  { value: "want", label: "想吃" },
+  { value: "must", label: "必吃" }
+];
+const mealBookingOptions = [
+  { value: "check", label: "待確認" },
+  { value: "required", label: "需要預約" },
+  { value: "booked", label: "已預約" },
+  { value: "queue", label: "現場排隊" }
+];
 
 function buildPlan() {
   return {
@@ -1244,6 +1223,71 @@ function buildPlan() {
 
 function createDefaultPlan() {
   return buildPlan();
+}
+
+function createMealEntry(slotId) {
+  const definition = mealSlotDefinitions.find((slot) => slot.id === slotId);
+  return {
+    primaryId: "",
+    backupId: "",
+    time: definition?.defaultTime || "",
+    priority: "flexible",
+    booking: "check",
+    note: ""
+  };
+}
+
+function buildMealPlan() {
+  return Object.keys(winterTemplate).reduce((mealPlan, key) => {
+    const day = Number(key);
+    mealPlan[day] = {
+      lunch: createMealEntry("lunch"),
+      dinner: createMealEntry("dinner")
+    };
+    return mealPlan;
+  }, {});
+}
+
+function normalizeMealEntry(rawEntry, slotId) {
+  const fallback = createMealEntry(slotId);
+  const primary = spotById(rawEntry?.primaryId);
+  const backup = spotById(rawEntry?.backupId);
+  const validPriorities = new Set(mealPriorityOptions.map((option) => option.value));
+  const validBookings = new Set(mealBookingOptions.map((option) => option.value));
+  const rawTime = String(rawEntry?.time || "");
+
+  return {
+    primaryId: primary && typeIncludes(primary, foodTypes) ? primary.id : "",
+    backupId: backup && typeIncludes(backup, foodTypes) && backup.id !== primary?.id ? backup.id : "",
+    time: /^([01]\d|2[0-3]):[0-5]\d$/.test(rawTime) ? rawTime : fallback.time,
+    priority: validPriorities.has(rawEntry?.priority) ? rawEntry.priority : fallback.priority,
+    booking: validBookings.has(rawEntry?.booking) ? rawEntry.booking : fallback.booking,
+    note: typeof rawEntry?.note === "string" ? rawEntry.note.trim().slice(0, 120) : ""
+  };
+}
+
+function normalizeMealPlan(rawMealPlan) {
+  const normalized = buildMealPlan();
+  Object.keys(normalized).forEach((key) => {
+    const day = Number(key);
+    mealSlotDefinitions.forEach((slot) => {
+      normalized[day][slot.id] = normalizeMealEntry(rawMealPlan?.[day]?.[slot.id], slot.id);
+    });
+  });
+  return normalized;
+}
+
+function loadMealPlan() {
+  const stored = window.localStorage.getItem(mealPlanKey);
+  if (!stored) {
+    return buildMealPlan();
+  }
+
+  try {
+    return normalizeMealPlan(JSON.parse(stored));
+  } catch {
+    return buildMealPlan();
+  }
 }
 
 function ensureRequiredStops(plan) {
@@ -1290,6 +1334,7 @@ function loadPlan() {
 
 function savePlan() {
   window.localStorage.setItem(storageKey, JSON.stringify(state.plan));
+  window.localStorage.setItem(mealPlanKey, JSON.stringify(state.mealPlan));
   window.localStorage.setItem(planTemplateVersionKey, currentPlanTemplateVersion);
 }
 
@@ -1299,6 +1344,10 @@ function loadSavedAt() {
 
 function loadSyncCode() {
   return window.localStorage.getItem(syncCodeKey) || "";
+}
+
+function loadCloudPending() {
+  return window.localStorage.getItem(cloudPendingKey) === "1";
 }
 
 function getOrCreateClientId() {
@@ -1319,9 +1368,12 @@ const state = {
   spotPage: 0,
   focusId: spots[0].id,
   plan: loadPlan(),
+  mealPlan: loadMealPlan(),
   dragging: null,
   carModel: fixedCarModel,
   dirty: false,
+  editRevision: 0,
+  cloudPending: loadCloudPending(),
   lastSavedAt: loadSavedAt(),
   syncCode: loadSyncCode(),
   pendingChangeSummary: "初始化行程",
@@ -1359,9 +1411,12 @@ const dom = {
   importPlanFile: document.getElementById("import-plan-file"),
   saveStatus: document.getElementById("save-status"),
   syncCodeInput: document.getElementById("sync-code-input"),
+  generateSyncBtn: document.getElementById("generate-sync-btn"),
   connectSyncBtn: document.getElementById("connect-sync-btn"),
   syncStatus: document.getElementById("sync-status"),
-  uiMessage: document.getElementById("ui-message")
+  uiMessage: document.getElementById("ui-message"),
+  mealSlots: document.getElementById("meal-slots"),
+  mealProgress: document.getElementById("meal-progress")
 };
 
 let uiMessageTimer = null;
@@ -1377,9 +1432,12 @@ const cloud = {
   activeCode: "",
   connectionAttempt: 0,
   pendingTimer: null,
+  pushInFlight: false,
   applyingRemote: false,
   clientId: getOrCreateClientId(),
-  version: 0
+  version: 0,
+  syncedRevision: 0,
+  basePlan: null
 };
 
 function getEditorLabel() {
@@ -1494,7 +1552,40 @@ function normalizeSyncCode(rawCode) {
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9-_]/g, "")
-    .slice(0, 40);
+    .slice(0, syncCodeMaxLength);
+}
+
+function isValidSyncCode(code) {
+  return new RegExp(`^[a-z0-9_-]{${syncCodeMinLength},${syncCodeMaxLength}}$`).test(code);
+}
+
+function generateSecureSyncCode() {
+  if (!window.crypto?.getRandomValues) {
+    throw new Error("Secure random number generation is unavailable");
+  }
+
+  const bytes = new Uint8Array(16);
+  window.crypto.getRandomValues(bytes);
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+function prepareNewSyncCode() {
+  try {
+    const code = generateSecureSyncCode();
+    if (dom.syncCodeInput) {
+      dom.syncCodeInput.value = code;
+      dom.syncCodeInput.focus();
+      dom.syncCodeInput.select();
+    }
+    setUiMessage("已產生安全同步代碼；請在其他裝置輸入完全相同的代碼", "info");
+  } catch (error) {
+    console.error("Secure sync code generation failed", error);
+    setUiMessage("瀏覽器無法產生安全代碼，請改用最新版瀏覽器", "warn");
+  }
+}
+
+function hasPendingCloudChanges() {
+  return cloud.pushInFlight || state.cloudPending || state.editRevision > cloud.syncedRevision;
 }
 
 function isSyncConfigValid() {
@@ -1592,9 +1683,69 @@ async function ensureCloudInitialized() {
   return cloud.initializationPromise;
 }
 
-function buildSyncPayload() {
+function cloneJson(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function getLocalCloudPlan() {
   return {
-    plan: state.plan,
+    ...cloneJson(state.plan),
+    _meals: cloneJson(state.mealPlan)
+  };
+}
+
+function getRemoteCloudPlan(payload) {
+  const plan = normalizeImportedPlan(payload?.plan || {});
+  const rawMeals = payload?.plan?._meals ?? payload?.mealPlan;
+  return {
+    ...plan,
+    _meals: rawMeals === undefined ? buildMealPlan() : normalizeMealPlan(rawMeals)
+  };
+}
+
+function valuesEqual(first, second) {
+  return JSON.stringify(first) === JSON.stringify(second);
+}
+
+function chooseMergedValue(baseValue, localValue, remoteValue) {
+  if (valuesEqual(localValue, baseValue)) {
+    return cloneJson(remoteValue);
+  }
+  if (valuesEqual(remoteValue, baseValue)) {
+    return cloneJson(localValue);
+  }
+  return cloneJson(localValue);
+}
+
+function mergeCloudPlans(basePlan, localPlan, remotePlan) {
+  const merged = {};
+  Object.keys(winterTemplate).forEach((key) => {
+    const day = Number(key);
+    merged[day] = chooseMergedValue(basePlan?.[day] || [], localPlan?.[day] || [], remotePlan?.[day] || []);
+  });
+
+  merged._meals = buildMealPlan();
+  Object.keys(merged._meals).forEach((key) => {
+    const day = Number(key);
+    mealSlotDefinitions.forEach((slot) => {
+      const fields = Object.keys(createMealEntry(slot.id));
+      fields.forEach((field) => {
+        merged._meals[day][slot.id][field] = chooseMergedValue(
+          basePlan?._meals?.[day]?.[slot.id]?.[field],
+          localPlan?._meals?.[day]?.[slot.id]?.[field],
+          remotePlan?._meals?.[day]?.[slot.id]?.[field]
+        );
+      });
+      merged._meals[day][slot.id] = normalizeMealEntry(merged._meals[day][slot.id], slot.id);
+    });
+  });
+
+  return merged;
+}
+
+function buildSyncPayload(plan = getLocalCloudPlan()) {
+  return {
+    plan,
     carModel: fixedCarModel,
     updatedAt: Date.now(),
     updatedBy: cloud.clientId
@@ -1602,8 +1753,12 @@ function buildSyncPayload() {
 }
 
 function applyRemotePayload(payload) {
-  const importedPlan = normalizeImportedPlan(payload?.plan || {});
-  state.plan = importedPlan;
+  const hasRemoteMeals = payload?.plan?._meals !== undefined || payload?.mealPlan !== undefined;
+  const remotePlan = getRemoteCloudPlan(payload);
+  state.plan = normalizeImportedPlan(remotePlan);
+  if (hasRemoteMeals) {
+    state.mealPlan = normalizeMealPlan(remotePlan._meals);
+  }
   state.carModel = fixedCarModel;
   state.selectedDay = 1;
 
@@ -1614,60 +1769,95 @@ function applyRemotePayload(payload) {
   const savedIso = typeof payload?.updatedAt === "number" ? new Date(payload.updatedAt).toISOString() : new Date().toISOString();
   state.lastSavedAt = savedIso;
   state.dirty = false;
+  state.cloudPending = !hasRemoteMeals;
+  if (state.cloudPending) {
+    window.localStorage.setItem(cloudPendingKey, "1");
+  } else {
+    window.localStorage.removeItem(cloudPendingKey);
+  }
+  cloud.syncedRevision = state.editRevision;
   cloud.version = typeof payload?.version === "number" ? payload.version : cloud.version;
+  cloud.basePlan = remotePlan;
   state.changeLog = Array.isArray(payload?.changes) ? payload.changes.slice(0, 4) : [];
   savePlan();
   window.localStorage.setItem(savedAtKey, state.lastSavedAt);
   render();
   updateSaveUi();
+  return { needsMealMigration: !hasRemoteMeals };
 }
 
 async function pushCloudState() {
-  if (!cloud.initialized || !cloud.activeCode || cloud.applyingRemote) {
-    return;
+  if (!cloud.initialized || !cloud.activeCode || cloud.applyingRemote || cloud.pushInFlight) {
+    return false;
   }
 
   const { doc, runTransaction } = cloud.modules;
   const ref = doc(cloud.db, "tripPlans", cloud.activeCode);
+  const pushedRevision = state.editRevision;
+  const localPlan = getLocalCloudPlan();
+  const syncPayload = cloneJson(buildSyncPayload(localPlan));
+  let pushSucceeded = false;
+  cloud.pushInFlight = true;
 
   try {
     const changeItem = {
       at: Date.now(),
       by: getEditorLabel(),
       clientId: cloud.clientId,
-      summary: state.pendingChangeSummary || "更新行程",
-      detail: state.pendingChangeDetail || ""
+      summary: String(state.pendingChangeSummary || "更新行程").slice(0, 80),
+      detail: String(state.pendingChangeDetail || "").slice(0, 160)
     };
 
     const result = await runTransaction(cloud.db, async (transaction) => {
       const snapshot = await transaction.get(ref);
       const data = snapshot.exists() ? snapshot.data() : {};
+      const remotePlan = getRemoteCloudPlan(data);
+      const basePlan = cloud.basePlan || remotePlan;
+      const mergedPlan = mergeCloudPlans(basePlan, localPlan, remotePlan);
       const currentVersion = typeof data?.version === "number" ? data.version : 0;
       const existingChanges = Array.isArray(data?.changes) ? data.changes : [];
       const nextVersion = currentVersion + 1;
       const nextChanges = [changeItem, ...existingChanges].slice(0, 30);
 
       transaction.set(ref, {
-        ...buildSyncPayload(),
+        ...syncPayload,
+        plan: mergedPlan,
         version: nextVersion,
         changes: nextChanges
       }, { merge: true });
 
-      return { version: nextVersion, changes: nextChanges };
+      return { version: nextVersion, changes: nextChanges, plan: mergedPlan };
     });
 
     cloud.version = result.version;
+    cloud.basePlan = cloneJson(result.plan);
+    pushSucceeded = true;
     state.changeLog = result.changes.slice(0, 4);
     state.lastSavedAt = new Date().toISOString();
-    state.dirty = false;
+    cloud.syncedRevision = Math.max(cloud.syncedRevision, pushedRevision);
+    if (state.editRevision === pushedRevision) {
+      state.plan = normalizeImportedPlan(result.plan);
+      state.mealPlan = normalizeMealPlan(result.plan._meals);
+      state.dirty = false;
+      state.cloudPending = false;
+      window.localStorage.removeItem(cloudPendingKey);
+    }
     savePlan();
     window.localStorage.setItem(savedAtKey, state.lastSavedAt);
+    render();
     updateSaveUi();
     setSyncStatus("同步完成");
   } catch (error) {
     console.error("Cloud sync push failed", error);
-    setSyncStatus("同步失敗，稍後重試");
+    setSyncStatus("同步失敗，本機變更仍保留");
+  } finally {
+    cloud.pushInFlight = false;
+    if (hasPendingCloudChanges()) {
+      queueCloudPush(pushSucceeded ? 0 : 5000);
+    }
   }
+
+  return pushSucceeded;
 }
 
 function queueCloudPush(delay = 700) {
@@ -1690,7 +1880,13 @@ async function connectCloudSync(rawCode) {
   const code = normalizeSyncCode(rawCode);
   if (!code) {
     setSyncStatus("請先輸入同步代碼");
-    setUiMessage("同步代碼只接受英數、-、_", "warn");
+    setUiMessage("請輸入 2–40 字同步代碼，或使用系統產生的安全代碼", "warn");
+    return;
+  }
+
+  if (!isValidSyncCode(code)) {
+    setSyncStatus("同步代碼格式不符");
+    setUiMessage("同步代碼須為 2–40 字，只能使用英數、-、_", "warn");
     return;
   }
 
@@ -1731,17 +1927,32 @@ async function connectCloudSync(rawCode) {
 
     cloud.activeCode = code;
     if (snapshot.exists()) {
-      try {
-        cloud.applyingRemote = true;
-        applyRemotePayload(snapshot.data());
-      } finally {
-        cloud.applyingRemote = false;
+      const data = snapshot.data();
+      const remoteVersion = Number.isSafeInteger(data?.version) ? data.version : 0;
+      if (hasPendingCloudChanges()) {
+        cloud.basePlan = getRemoteCloudPlan(data);
+        cloud.version = Math.max(cloud.version, remoteVersion);
+        setSyncStatus("已連線，正在保留並送出本機變更");
+        queueCloudPush(0);
+      } else {
+        let remoteResult;
+        try {
+          cloud.applyingRemote = true;
+          remoteResult = applyRemotePayload(data);
+        } finally {
+          cloud.applyingRemote = false;
+        }
+        setSyncStatus("已連線，自動同步中");
+        if (remoteResult?.needsMealMigration) {
+          queueCloudPush(0);
+        }
       }
-      setSyncStatus("已連線，自動同步中");
     } else {
       recordChange("建立雲端同步", `同步代碼：${code}`);
-      await pushCloudState();
-      setSyncStatus("已連線，已建立雲端資料");
+      state.cloudPending = true;
+      window.localStorage.setItem(cloudPendingKey, "1");
+      const created = await pushCloudState();
+      setSyncStatus(created ? "已連線，已建立雲端資料" : "雲端建立失敗，本機資料仍保留");
     }
   } catch (error) {
     console.error("Cloud sync connection failed", error);
@@ -1771,18 +1982,27 @@ async function connectCloudSync(rawCode) {
         return;
       }
 
-      const remoteVersion = typeof data.version === "number" ? data.version : 0;
-      if (remoteVersion <= cloud.version && data.updatedBy === cloud.clientId) {
+      const remoteVersion = Number.isSafeInteger(data.version) ? data.version : 0;
+      if (remoteVersion <= cloud.version) {
         return;
       }
 
+      if (hasPendingCloudChanges()) {
+        setSyncStatus(`收到遠端 v${remoteVersion}；先保留本機變更`);
+        return;
+      }
+
+      let remoteResult;
       try {
         cloud.applyingRemote = true;
-        applyRemotePayload(data);
+        remoteResult = applyRemotePayload(data);
       } finally {
         cloud.applyingRemote = false;
       }
       setSyncStatus(`已同步到最新版本 v${remoteVersion}`);
+      if (remoteResult?.needsMealMigration) {
+        queueCloudPush(0);
+      }
     },
     (error) => {
       console.error("Cloud sync listener failed", error);
@@ -1840,6 +2060,8 @@ function updateSaveUi() {
 
 function persistState() {
   recordChange("手動儲存行程", `Day ${state.selectedDay} 內容已更新`);
+  state.cloudPending = true;
+  window.localStorage.setItem(cloudPendingKey, "1");
   savePlan();
   state.lastSavedAt = new Date().toISOString();
   window.localStorage.setItem(savedAtKey, state.lastSavedAt);
@@ -1851,6 +2073,7 @@ function persistState() {
 
 function markDirty() {
   state.dirty = true;
+  state.editRevision += 1;
   renderSummary();
   updateSaveUi();
   queueCloudPush();
@@ -1881,10 +2104,11 @@ function normalizeImportedPlan(rawPlan) {
 
 function exportPlanAsJson() {
   const payload = {
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
     carModel: fixedCarModel,
-    plan: state.plan
+    plan: state.plan,
+    mealPlan: state.mealPlan
   };
 
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
@@ -1908,6 +2132,7 @@ async function importPlanFromFile(file) {
     const parsed = JSON.parse(text);
     const importedPlan = normalizeImportedPlan(parsed?.plan ?? parsed);
     state.plan = importedPlan;
+    state.mealPlan = normalizeMealPlan(parsed?.mealPlan ?? parsed?.plan?._meals ?? parsed?._meals ?? {});
 
     state.carModel = fixedCarModel;
 
@@ -1933,6 +2158,7 @@ function getSpotLogistics(id) {
 
 function applyWinterTemplate() {
   state.plan = createDefaultPlan();
+  state.mealPlan = buildMealPlan();
   state.selectedDay = 1;
   state.focusId = state.plan[1][0] || spots[0].id;
   recordChange("套用冬季範本", "重置為 10 天預設行程");
@@ -2007,15 +2233,197 @@ function moveSpotInDay(day, fromIndex, toIndex) {
   renderItinerary();
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function getMealCandidates(day) {
+  const dayAreas = new Set((state.plan[day] || []).map((id) => spotById(id)?.area).filter(Boolean));
+  return spots
+    .filter((spot) => typeIncludes(spot, foodTypes))
+    .sort((first, second) => {
+      const firstPreferred = dayAreas.has(first.area) ? 0 : 1;
+      const secondPreferred = dayAreas.has(second.area) ? 0 : 1;
+      if (firstPreferred !== secondPreferred) {
+        return firstPreferred - secondPreferred;
+      }
+      return `${first.area}${first.name}`.localeCompare(`${second.area}${second.name}`, "zh-Hant");
+    });
+}
+
+function renderMealOptions(day, selectedId, excludedId, placeholder) {
+  const options = getMealCandidates(day)
+    .filter((spot) => spot.id !== excludedId)
+    .map((spot) => `
+      <option value="${spot.id}" ${spot.id === selectedId ? "selected" : ""}>${escapeHtml(spot.area)}｜${escapeHtml(spot.name)}</option>
+    `)
+    .join("");
+  return `<option value="">${placeholder}</option>${options}`;
+}
+
+function updateMealEntry(slotId, field, rawValue) {
+  const day = state.selectedDay;
+  const current = state.mealPlan[day]?.[slotId] || createMealEntry(slotId);
+  const allowedFields = new Set(["primaryId", "backupId", "time", "priority", "booking", "note"]);
+  if (!allowedFields.has(field)) {
+    return;
+  }
+
+  const value = field === "note" ? String(rawValue || "").slice(0, 120) : String(rawValue || "");
+  if (field === "backupId" && value && value === current.primaryId) {
+    setUiMessage("備選餐廳不能和首選相同", "warn");
+    renderMealPlanner();
+    return;
+  }
+
+  const next = normalizeMealEntry({ ...current, [field]: value }, slotId);
+  if (field === "primaryId" && next.primaryId && next.primaryId === current.backupId) {
+    next.backupId = "";
+  }
+
+  state.mealPlan[day][slotId] = next;
+  const definition = mealSlotDefinitions.find((slot) => slot.id === slotId);
+  const primaryName = spotById(next.primaryId)?.name || "尚未安排";
+  recordChange(`更新${definition?.label || "餐食"}`, `Day ${day}：${primaryName}`);
+  markDirty();
+  renderMealPlanner();
+  renderDayTabs();
+}
+
+function clearMealEntry(slotId) {
+  const definition = mealSlotDefinitions.find((slot) => slot.id === slotId);
+  state.mealPlan[state.selectedDay][slotId] = createMealEntry(slotId);
+  recordChange(`清除${definition?.label || "餐食"}`, `Day ${state.selectedDay}`);
+  markDirty();
+  renderMealPlanner();
+  renderDayTabs();
+}
+
+function isMealEntryDefault(entry, slotId) {
+  return valuesEqual(normalizeMealEntry(entry, slotId), createMealEntry(slotId));
+}
+
+function renderMealPlanner() {
+  if (!dom.mealSlots) {
+    return;
+  }
+
+  const day = state.selectedDay;
+  const meals = state.mealPlan[day] || buildMealPlan()[day];
+  const arrangedCount = mealSlotDefinitions.filter((slot) => meals[slot.id]?.primaryId).length;
+  if (dom.mealProgress) {
+    dom.mealProgress.textContent = `${arrangedCount} / ${mealSlotDefinitions.length} 已安排`;
+  }
+
+  dom.mealSlots.innerHTML = mealSlotDefinitions.map((slot) => {
+    const entry = meals[slot.id] || createMealEntry(slot.id);
+    const primary = spotById(entry.primaryId);
+    const logistics = primary ? getSpotLogistics(primary.id) : null;
+    const priorityLabel = mealPriorityOptions.find((option) => option.value === entry.priority)?.label || "彈性安排";
+    const bookingLabel = mealBookingOptions.find((option) => option.value === entry.booking)?.label || "待確認";
+    const priorityOptions = mealPriorityOptions.map((option) => `
+      <option value="${option.value}" ${option.value === entry.priority ? "selected" : ""}>${option.label}</option>
+    `).join("");
+    const bookingOptions = mealBookingOptions.map((option) => `
+      <option value="${option.value}" ${option.value === entry.booking ? "selected" : ""}>${option.label}</option>
+    `).join("");
+
+    return `
+      <section class="meal-slot" aria-labelledby="meal-${day}-${slot.id}-title">
+        <div class="meal-slot-head">
+          <div>
+            <p class="meal-time-label">${escapeHtml(entry.time || slot.defaultTime)}</p>
+            <h4 id="meal-${day}-${slot.id}-title">${slot.label}</h4>
+          </div>
+          <div class="meal-status-tags">
+            <span class="tag ${entry.priority === "must" ? "meal-tag-important" : ""}">${priorityLabel}</span>
+            <span class="tag ${entry.booking === "booked" ? "meal-tag-booked" : ""}">${bookingLabel}</span>
+          </div>
+        </div>
+
+        <div class="meal-fields">
+          <label class="meal-field meal-field-primary">
+            <span>首選餐廳</span>
+            <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="primaryId">
+              ${renderMealOptions(day, entry.primaryId, "", "尚未安排")}
+            </select>
+          </label>
+          <label class="meal-field meal-field-backup">
+            <span>備選餐廳</span>
+            <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="backupId">
+              ${renderMealOptions(day, entry.backupId, entry.primaryId, "沒有備選")}
+            </select>
+          </label>
+          <label class="meal-field">
+            <span>時間</span>
+            <input class="meal-control" type="time" value="${escapeHtml(entry.time)}" data-meal-slot="${slot.id}" data-meal-field="time" />
+          </label>
+          <label class="meal-field">
+            <span>優先度</span>
+            <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="priority">${priorityOptions}</select>
+          </label>
+          <label class="meal-field">
+            <span>訂位狀態</span>
+            <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="booking">${bookingOptions}</select>
+          </label>
+          <label class="meal-field meal-field-note">
+            <span>備註</span>
+            <input class="meal-control" type="text" maxlength="120" value="${escapeHtml(entry.note)}" placeholder="取號、預約時間、想吃的餐點" data-meal-slot="${slot.id}" data-meal-field="note" />
+          </label>
+        </div>
+
+        ${primary ? `
+          <div class="meal-selection">
+            <div>
+              <strong>${escapeHtml(primary.name)}</strong>
+              <span>${escapeHtml(primary.area)} · ${escapeHtml(primary.highlight)}</span>
+              ${logistics?.hours ? `<small>常見營業：${escapeHtml(logistics.hours)}</small>` : ""}
+            </div>
+            <div class="meal-selection-actions">
+              <a class="map-link" href="${getMapUrl(primary)}" target="_blank" rel="noopener noreferrer">Google Maps</a>
+              <button class="small-button alt" type="button" data-meal-focus="${primary.id}">看概覽</button>
+            </div>
+          </div>
+        ` : ""}
+
+        <button class="small-button alt meal-clear" type="button" data-clear-meal="${slot.id}" ${isMealEntryDefault(entry, slot.id) ? "disabled" : ""}>清除此餐</button>
+      </section>
+    `;
+  }).join("");
+
+  dom.mealSlots.querySelectorAll("[data-meal-field]").forEach((control) => {
+    control.addEventListener("change", () => {
+      updateMealEntry(control.dataset.mealSlot, control.dataset.mealField, control.value);
+    });
+  });
+
+  dom.mealSlots.querySelectorAll("[data-clear-meal]").forEach((button) => {
+    button.addEventListener("click", () => clearMealEntry(button.dataset.clearMeal));
+  });
+
+  dom.mealSlots.querySelectorAll("[data-meal-focus]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.focusId = button.dataset.mealFocus;
+      renderSummary();
+    });
+  });
+}
+
 function renderDayTabs() {
   const dates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29", "12/30", "12/31", "1/1"];
   dom.dayTabs.innerHTML = Array.from({ length: 10 }, (_, index) => {
     const day = index + 1;
     const places = state.plan[day].length;
+    const mealCount = mealSlotDefinitions.filter((slot) => state.mealPlan[day]?.[slot.id]?.primaryId).length;
     return `
       <button class="day-tab ${state.selectedDay === day ? "active" : ""}" data-day="${day}" data-drop-day="${day}">
         <strong>Day ${day} (${dates[index]})</strong>
-        <span>${places} 個點位</span>
+        <span>${places} 個點位 · 餐 ${mealCount}/2</span>
       </button>
     `;
   }).join("");
@@ -2271,7 +2679,6 @@ const shoppingSpotIds = new Set([
   "hakodate-meijikan",
   "mega-donki-hakodate"
 ]);
-const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐", "壽司", "拉麵", "甜點", "炸雞", "燒肉", "成吉思汗"];
 const utilityTypes = ["抵達點", "離境點", "取車", "入住飯店", "休息補給"];
 
 function typeIncludes(spot, keywords) {
@@ -2508,11 +2915,13 @@ function renderSummary() {
       dom.changeLogGrid.innerHTML = state.changeLog
         .slice(0, 4)
         .map((item, index) => {
-          const timeText = formatSavedAt(new Date(item.at || Date.now()).toISOString());
-          const summary = item.summary || "更新行程";
+          const candidateTime = typeof item?.at === "number" && Number.isFinite(item.at) ? new Date(item.at) : new Date();
+          const itemTime = Number.isNaN(candidateTime.getTime()) ? new Date() : candidateTime;
+          const timeText = formatSavedAt(itemTime.toISOString());
+          const summary = typeof item?.summary === "string" ? item.summary.slice(0, 80) : "更新行程";
           return `
             <article class="change-log-card">
-              <p class="change-log-main">v${Math.max(cloud.version - index, 1)} ${summary}</p>
+              <p class="change-log-main">v${Math.max(cloud.version - index, 1)} ${escapeHtml(summary)}</p>
               <p class="change-log-sub">${timeText}</p>
             </article>
           `;
@@ -2535,6 +2944,7 @@ function renderSummary() {
 
 function render() {
   renderDayTabs();
+  renderMealPlanner();
   renderItinerary();
   renderSpotCategoryTabs();
   renderSpotGrid();
@@ -2551,6 +2961,7 @@ function bindGlobalEvents() {
   dom.savePlanBtn?.addEventListener("click", persistState);
   dom.exportPlanBtn?.addEventListener("click", exportPlanAsJson);
   dom.importPlanBtn?.addEventListener("click", () => dom.importPlanFile?.click());
+  dom.generateSyncBtn?.addEventListener("click", prepareNewSyncCode);
   dom.connectSyncBtn?.addEventListener("click", () => connectCloudSync(dom.syncCodeInput?.value));
   dom.syncCodeInput?.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {

@@ -3,7 +3,81 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function validSyncCode(syncCode) {
-      return syncCode.matches('^[a-z0-9_-]{1,40}$');
+      return syncCode.matches('^[a-z0-9_-]{2,40}$');
+    }
+
+    function validLatestChange(change) {
+      return change is map
+        && change.keys().hasOnly(['at', 'by', 'clientId', 'summary', 'detail'])
+        && change.keys().hasAll(['at', 'by', 'clientId', 'summary', 'detail'])
+        && change.at is int
+        && change.by is string
+        && change.by.size() <= 64
+        && change.clientId is string
+        && change.clientId.size() <= 64
+        && change.summary is string
+        && change.summary.size() <= 80
+        && change.detail is string
+        && change.detail.size() <= 160;
+    }
+
+    function validMealEntry(entry) {
+      return entry is map
+        && entry.keys().hasOnly(['primaryId', 'backupId', 'time', 'priority', 'booking', 'note'])
+        && entry.keys().hasAll(['primaryId', 'backupId', 'time', 'priority', 'booking', 'note'])
+        && entry.primaryId is string
+        && entry.primaryId.size() <= 80
+        && entry.backupId is string
+        && entry.backupId.size() <= 80
+        && entry.time is string
+        && entry.time.matches('^([01][0-9]|2[0-3]):[0-5][0-9]$')
+        && entry.priority is string
+        && entry.priority.matches('^(flexible|want|must)$')
+        && entry.booking is string
+        && entry.booking.matches('^(check|required|booked|queue)$')
+        && entry.note is string
+        && entry.note.size() <= 120;
+    }
+
+    function validMealDay(day) {
+      return day is map
+        && day.keys().hasOnly(['lunch', 'dinner'])
+        && day.keys().hasAll(['lunch', 'dinner'])
+        && validMealEntry(day.lunch)
+        && validMealEntry(day.dinner);
+    }
+
+    function validMeals(meals) {
+      return meals is map
+        && meals.keys().hasOnly(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
+        && meals.keys().hasAll(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
+        && validMealDay(meals['1'])
+        && validMealDay(meals['2'])
+        && validMealDay(meals['3'])
+        && validMealDay(meals['4'])
+        && validMealDay(meals['5'])
+        && validMealDay(meals['6'])
+        && validMealDay(meals['7'])
+        && validMealDay(meals['8'])
+        && validMealDay(meals['9'])
+        && validMealDay(meals['10']);
+    }
+
+    function validPlan(plan) {
+      return plan is map
+        && plan.keys().hasOnly(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '_meals'])
+        && plan.keys().hasAll(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '_meals'])
+        && plan['1'] is list && plan['1'].size() <= 100
+        && plan['2'] is list && plan['2'].size() <= 100
+        && plan['3'] is list && plan['3'].size() <= 100
+        && plan['4'] is list && plan['4'].size() <= 100
+        && plan['5'] is list && plan['5'].size() <= 100
+        && plan['6'] is list && plan['6'].size() <= 100
+        && plan['7'] is list && plan['7'].size() <= 100
+        && plan['8'] is list && plan['8'].size() <= 100
+        && plan['9'] is list && plan['9'].size() <= 100
+        && plan['10'] is list && plan['10'].size() <= 100
+        && validMeals(plan._meals);
     }
 
     function validTripPlan() {
@@ -22,13 +96,16 @@ service cloud.firestore {
           'version',
           'changes'
         ])
-        && request.resource.data.plan is map
-        && request.resource.data.updatedAt is number
+        && validPlan(request.resource.data.plan)
+        && request.resource.data.updatedAt is int
         && request.resource.data.updatedBy is string
         && request.resource.data.updatedBy.size() <= 64
-        && request.resource.data.version is number
+        && request.resource.data.version is int
+        && request.resource.data.version >= 1
         && request.resource.data.changes is list
+        && request.resource.data.changes.size() >= 1
         && request.resource.data.changes.size() <= 30
+        && validLatestChange(request.resource.data.changes[0])
         && (!('carModel' in request.resource.data)
           || (request.resource.data.carModel is string
             && request.resource.data.carModel.size() <= 40));
@@ -37,7 +114,12 @@ service cloud.firestore {
     match /tripPlans/{syncCode} {
       allow get: if validSyncCode(syncCode);
       allow list: if false;
-      allow create, update: if validSyncCode(syncCode) && validTripPlan();
+      allow create: if validSyncCode(syncCode)
+        && validTripPlan()
+        && request.resource.data.version == 1;
+      allow update: if validSyncCode(syncCode)
+        && validTripPlan()
+        && request.resource.data.version == resource.data.version + 1;
       allow delete: if false;
     }
   }

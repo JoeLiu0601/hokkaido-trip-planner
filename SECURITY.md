@@ -1,21 +1,15 @@
 # Security Policy
 
-## Supported Versions
+## Supported version
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Only the latest version on the `main` branch receives security fixes.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+## Reporting a vulnerability
 
-## Reporting a Vulnerability
+Please use GitHub's private vulnerability reporting for this repository. Do not include active sync codes, exported itineraries, Firebase credentials, or personal travel information in a public issue.
 
-Use this section to tell people how to report a vulnerability.
+## Sync-code security model
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+The sync code acts as a shared access key: anyone who knows it can read and update that itinerary. Short codes such as `py` are convenient but guessable. Do not store sensitive personal information in the planner, and use the generated random code when confidentiality matters.
+
+Firebase Web API keys are public client configuration, not server secrets. Access control depends on the deployed Firestore rules in `firestore.rules`.

@@ -42,6 +42,166 @@ body {
   background: rgba(107, 212, 255, 0.08);
 }
 
+.meal-planner {
+  margin: 22px 0 0;
+  padding: 18px 0 4px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.meal-planner-head,
+.meal-slot-head,
+.meal-selection,
+.meal-selection-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.meal-planner-head {
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.meal-planner-head h3,
+.meal-slot h4 {
+  margin: 0;
+}
+
+.meal-planner-head h3 {
+  font-size: 1.05rem;
+}
+
+.meal-planner-head > strong {
+  color: var(--accent-2);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.meal-slot {
+  padding: 16px 0;
+  border-top: 1px solid rgba(165, 191, 220, 0.12);
+}
+
+.meal-slot-head {
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.meal-slot h4 {
+  font-size: 1rem;
+}
+
+.meal-time-label {
+  margin: 0 0 2px;
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.meal-status-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.meal-tag-important {
+  color: #fff1d4;
+  background: rgba(255, 179, 71, 0.18);
+}
+
+.meal-tag-booked {
+  color: #d9ffed;
+  background: rgba(143, 240, 192, 0.16);
+}
+
+.meal-fields {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.meal-field {
+  display: grid;
+  grid-column: span 2;
+  gap: 6px;
+  min-width: 0;
+}
+
+.meal-field-primary,
+.meal-field-backup {
+  grid-column: span 3;
+}
+
+.meal-field-note {
+  grid-column: 1 / -1;
+}
+
+.meal-field > span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.meal-control {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 9px 10px;
+  background: #0a1627;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.82rem;
+  outline: none;
+}
+
+.meal-control:focus {
+  border-color: rgba(107, 212, 255, 0.62);
+  box-shadow: 0 0 0 3px rgba(107, 212, 255, 0.1);
+}
+
+.meal-selection {
+  align-items: flex-start;
+  margin-top: 12px;
+  padding-left: 10px;
+  border-left: 3px solid rgba(107, 212, 255, 0.48);
+}
+
+.meal-selection > div:first-child {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.meal-selection strong {
+  font-size: 0.9rem;
+}
+
+.meal-selection span,
+.meal-selection small {
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.meal-selection-actions {
+  flex: 0 0 auto;
+  justify-content: flex-end;
+}
+
+.meal-clear {
+  margin-top: 10px;
+}
+
+.meal-clear:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
 .itinerary-list.drop-target {
   outline: 1px dashed rgba(107, 212, 255, 0.42);
   outline-offset: 10px;
@@ -743,6 +903,12 @@ body {
   border-color: rgba(255, 179, 71, 0.28);
 }
 
+.small-button.alt.meal-clear {
+  background: rgba(255, 115, 140, 0.1);
+  border-color: rgba(255, 179, 193, 0.34);
+  color: #ffd1da;
+}
+
 .spot-card {
   display: grid;
   gap: 12px;
@@ -954,6 +1120,36 @@ body {
 
   .day-tabs {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .meal-planner-head,
+  .meal-slot-head,
+  .meal-selection {
+    align-items: flex-start;
+  }
+
+  .meal-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .meal-field,
+  .meal-field-primary,
+  .meal-field-backup,
+  .meal-field-note {
+    grid-column: auto;
+  }
+
+  .meal-selection {
+    flex-direction: column;
+  }
+
+  .meal-selection-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .meal-selection-actions .small-button {
+    width: auto;
   }
 
   .stop-actions {
