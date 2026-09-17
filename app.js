@@ -1411,7 +1411,6 @@ const dom = {
   importPlanFile: document.getElementById("import-plan-file"),
   saveStatus: document.getElementById("save-status"),
   syncCodeInput: document.getElementById("sync-code-input"),
-  generateSyncBtn: document.getElementById("generate-sync-btn"),
   connectSyncBtn: document.getElementById("connect-sync-btn"),
   syncStatus: document.getElementById("sync-status"),
   uiMessage: document.getElementById("ui-message"),
@@ -1557,31 +1556,6 @@ function normalizeSyncCode(rawCode) {
 
 function isValidSyncCode(code) {
   return new RegExp(`^[a-z0-9_-]{${syncCodeMinLength},${syncCodeMaxLength}}$`).test(code);
-}
-
-function generateSecureSyncCode() {
-  if (!window.crypto?.getRandomValues) {
-    throw new Error("Secure random number generation is unavailable");
-  }
-
-  const bytes = new Uint8Array(16);
-  window.crypto.getRandomValues(bytes);
-  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
-}
-
-function prepareNewSyncCode() {
-  try {
-    const code = generateSecureSyncCode();
-    if (dom.syncCodeInput) {
-      dom.syncCodeInput.value = code;
-      dom.syncCodeInput.focus();
-      dom.syncCodeInput.select();
-    }
-    setUiMessage("已產生安全同步代碼；請在其他裝置輸入完全相同的代碼", "info");
-  } catch (error) {
-    console.error("Secure sync code generation failed", error);
-    setUiMessage("瀏覽器無法產生安全代碼，請改用最新版瀏覽器", "warn");
-  }
 }
 
 function hasPendingCloudChanges() {
@@ -1880,7 +1854,7 @@ async function connectCloudSync(rawCode) {
   const code = normalizeSyncCode(rawCode);
   if (!code) {
     setSyncStatus("請先輸入同步代碼");
-    setUiMessage("請輸入 2–40 字同步代碼，或使用系統產生的安全代碼", "warn");
+    setUiMessage("請輸入 2–40 字同步代碼，例如 py", "warn");
     return;
   }
 
@@ -2961,7 +2935,6 @@ function bindGlobalEvents() {
   dom.savePlanBtn?.addEventListener("click", persistState);
   dom.exportPlanBtn?.addEventListener("click", exportPlanAsJson);
   dom.importPlanBtn?.addEventListener("click", () => dom.importPlanFile?.click());
-  dom.generateSyncBtn?.addEventListener("click", prepareNewSyncCode);
   dom.connectSyncBtn?.addEventListener("click", () => connectCloudSync(dom.syncCodeInput?.value));
   dom.syncCodeInput?.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
