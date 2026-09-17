@@ -22,6 +22,7 @@
 
 html {
   min-height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -35,6 +36,13 @@ body {
     radial-gradient(circle at 50% 105%, rgba(143, 240, 192, 0.08), transparent 40%),
     linear-gradient(180deg, #060d19 0%, #0a1728 100%);
   overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+
+button,
+input,
+select {
+  touch-action: manipulation;
 }
 
 .day-tab.drop-target {
@@ -424,11 +432,27 @@ body {
   backdrop-filter: blur(18px);
 }
 
+.hero,
+.toolbar,
+.panel,
+.metric,
+.toolbar-actions {
+  min-width: 0;
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.9fr);
   gap: 24px;
   padding: 32px;
+}
+
+.hero-copy,
+.hero-metrics,
+.toolbar-actions,
+.search-wrap,
+.search-wrap input {
+  min-width: 0;
 }
 
 .eyebrow,
@@ -1040,28 +1064,80 @@ body {
 }
 
 @media (max-width: 640px) {
+  :root {
+    --radius-xl: 20px;
+    --radius-lg: 18px;
+    --radius-md: 14px;
+    --shadow: 0 14px 44px rgba(0, 0, 0, 0.34);
+  }
+
   .shell {
-    width: min(100vw - 18px, 1320px);
-    padding-top: 12px;
+    width: min(calc(100vw - 16px), 1320px);
+    padding: max(8px, env(safe-area-inset-top)) 0 max(28px, env(safe-area-inset-bottom));
   }
 
   .hero,
   .panel,
   .toolbar {
-    padding: 18px;
-    border-radius: 22px;
+    padding: 14px;
+    border-radius: 20px;
+  }
+
+  .hero {
+    gap: 16px;
+  }
+
+  .eyebrow,
+  .panel-kicker,
+  .toolbar-label,
+  .focus-tag {
+    margin-bottom: 6px;
+    font-size: 0.72rem;
+    letter-spacing: 0.13em;
   }
 
   .hero h1 {
-    font-size: 2.05rem;
+    font-size: clamp(1.8rem, 9vw, 2.15rem);
     line-height: 1.02;
     letter-spacing: -0.03em;
   }
 
   .lede {
-    font-size: 0.96rem;
-    line-height: 1.72;
+    font-size: 0.9rem;
+    line-height: 1.62;
+    margin-top: 10px;
+  }
+
+  .hero-actions {
     margin-top: 14px;
+  }
+
+  .hero-actions .button {
+    width: auto;
+    min-height: 42px;
+    padding: 10px 14px;
+    box-shadow: none;
+  }
+
+  .hero-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .metric {
+    gap: 3px;
+    min-width: 0;
+    padding: 11px 12px;
+    border-radius: 14px;
+  }
+
+  .metric span {
+    font-size: 0.74rem;
+  }
+
+  .metric strong {
+    font-size: 1.02rem;
+    white-space: nowrap;
   }
 
   .panel h2 {
@@ -1105,21 +1181,110 @@ body {
 
   .toolbar-actions {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 
   .toolbar-actions .button {
     width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    padding: 10px 9px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+  }
+
+  #save-plan-btn {
+    grid-column: 1 / -1;
+  }
+
+  #sync-code-input {
+    grid-column: 1;
+  }
+
+  #connect-sync-btn {
+    grid-column: 2;
+  }
+
+  .toolbar-save-status,
+  #ui-message {
+    grid-column: 1 / -1;
+  }
+
+  .toolbar-save-status {
+    padding: 2px 2px 0;
+    font-size: 0.8rem;
   }
 
   .sync-code-input {
     min-width: 0;
     max-width: none;
     width: 100%;
+    min-height: 46px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    font-size: 1rem;
   }
 
   .day-tabs {
-    grid-template-columns: 1fr 1fr;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    gap: 8px;
+    margin: 0 -14px 14px;
+    padding: 9px 14px 10px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    background: rgba(8, 17, 30, 0.95);
+    border-block: 1px solid rgba(165, 191, 220, 0.12);
+    backdrop-filter: blur(16px);
+  }
+
+  .day-tabs::-webkit-scrollbar,
+  .spot-category-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .day-tab {
+    flex: 0 0 118px;
+    scroll-snap-align: start;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .day-tab.active {
+    transform: none;
+  }
+
+  .day-tab strong {
+    font-size: 0.88rem;
+  }
+
+  .day-tab span {
+    font-size: 0.74rem;
+  }
+
+  .spot-category-tabs {
+    display: flex;
+    gap: 8px;
+    margin-right: -14px;
+    padding-right: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .spot-category-tab {
+    flex: 0 0 auto;
+    min-width: 112px;
+    scroll-snap-align: start;
+  }
+
+  .itinerary-dropzone {
+    display: none;
   }
 
   .meal-planner-head,
@@ -1129,14 +1294,27 @@ body {
   }
 
   .meal-fields {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .meal-field,
   .meal-field-primary,
   .meal-field-backup,
+  .meal-field-booking,
   .meal-field-note {
-    grid-column: auto;
+    grid-column: 1 / -1;
+  }
+
+  .meal-slot {
+    margin-top: 10px;
+    padding: 14px;
+    border: 1px solid rgba(165, 191, 220, 0.14);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  .meal-control {
+    min-height: 48px;
+    font-size: 1rem;
   }
 
   .meal-selection {
@@ -1164,6 +1342,18 @@ body {
     font-size: 0.93rem;
   }
 
+  .stop-card,
+  .spot-card,
+  .focus-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .itinerary-list,
+  .spot-grid {
+    gap: 10px;
+  }
+
   .stop-actions [data-remove] {
     background: rgba(255, 93, 122, 0.14);
     border-color: rgba(255, 93, 122, 0.32);
@@ -1179,5 +1369,46 @@ body {
 
   .panel-note {
     text-align: left;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .toolbar-actions .button {
+    font-size: 0.82rem;
+  }
+
+  .meal-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .meal-field,
+  .meal-field-primary,
+  .meal-field-backup,
+  .meal-field-booking,
+  .meal-field-note {
+    grid-column: auto;
+  }
+}
+
+@media (hover: none) {
+  .button:hover,
+  .spot-card:hover,
+  .spot-category-tab:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

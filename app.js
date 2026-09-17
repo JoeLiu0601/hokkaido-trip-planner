@@ -2333,15 +2333,15 @@ function renderMealPlanner() {
               ${renderMealOptions(day, entry.backupId, entry.primaryId, "沒有備選")}
             </select>
           </label>
-          <label class="meal-field">
+          <label class="meal-field meal-field-time">
             <span>時間</span>
             <input class="meal-control" type="time" value="${escapeHtml(entry.time)}" data-meal-slot="${slot.id}" data-meal-field="time" />
           </label>
-          <label class="meal-field">
+          <label class="meal-field meal-field-priority">
             <span>優先度</span>
             <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="priority">${priorityOptions}</select>
           </label>
-          <label class="meal-field">
+          <label class="meal-field meal-field-booking">
             <span>訂位狀態</span>
             <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="booking">${bookingOptions}</select>
           </label>
