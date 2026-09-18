@@ -831,6 +831,21 @@ const winterProfile = {
   style: "冬季限定"
 };
 
+const tripDates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29", "12/30", "12/31", "1/1"];
+
+const daySummaries = {
+  1: "從新千歲機場入境、取車後前往旭川。入住後安排常磐公園、上川神社和平和通散步。",
+  2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌，晚上逛大通與薄野。",
+  3: "上午安排札幌神社巡禮，接著前往小樽吃午餐、走運河、逛玻璃店與童話十字路。",
+  4: "從札幌前往登別與室蘭，安排地獄谷、白鳥大橋展望台和幸福之鐘。",
+  5: "札幌自由活動日，傍晚上藻岩山看夜景。",
+  6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
+  7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡。",
+  8: "從洞爺湖移動到函館，當天以五稜郭為主，晚上入住函館站附近。",
+  9: "函館市區一日，走金森倉庫與神社，傍晚上函館山看夜景。",
+  10: "函館朝市早餐、元町散步，最後前往函館機場返程。"
+};
+
 const spotLogistics = {
   "new-chitose-airport": {
     hours: "機場主體約 06:00-23:00（航班時段可能更早/更晚）",
@@ -1354,6 +1369,8 @@ const state = {
   spotArea: "all",
   spotCategory: "all",
   spotPage: 0,
+  summaryMode: "day",
+  alternativePreview: "B",
   focusId: spots[0].id,
   plan: loadPlan(),
   mealPlan: loadMealPlan(),
@@ -1388,6 +1405,7 @@ const dom = {
   routeValue: document.getElementById("route-value"),
   carModelValue: document.getElementById("car-model-value"),
   updatedValue: document.getElementById("updated-value"),
+  focusTag: document.getElementById("focus-tag"),
   focusTitle: document.getElementById("focus-title"),
   focusDesc: document.getElementById("focus-desc"),
   focusMeta: document.getElementById("focus-meta"),
@@ -1395,9 +1413,8 @@ const dom = {
   changeLogGrid: document.getElementById("change-log-grid"),
   stayGrid: document.getElementById("stay-grid"),
   savePlanBtn: document.getElementById("save-plan-btn"),
-  exportPlanBtn: document.getElementById("export-plan-btn"),
-  importPlanBtn: document.getElementById("import-plan-btn"),
-  importPlanFile: document.getElementById("import-plan-file"),
+  printPlanBtn: document.getElementById("print-plan-btn"),
+  printReport: document.getElementById("print-report"),
   saveStatus: document.getElementById("save-status"),
   syncCodeInput: document.getElementById("sync-code-input"),
   connectSyncBtn: document.getElementById("connect-sync-btn"),
@@ -2125,9 +2142,17 @@ function resetToDefaultPlan() {
     return;
   }
 
+  try {
+    window.localStorage.removeItem(dayTwoOriginalKey());
+  } catch {
+    setUiMessage("無法清除原行程備份，請確認瀏覽器允許儲存後再試。", "warn");
+    return;
+  }
+
   state.plan = createDefaultPlan();
   state.mealPlan = buildMealPlan();
   state.selectedDay = 1;
+  state.summaryMode = "day";
   state.focusId = state.plan[1][0] || spots[0].id;
   recordChange("恢復預設行程", "清除目前行程與用餐安排，重置為 10 天預設行程");
   markDirty();
@@ -2390,13 +2415,85 @@ function renderMealPlanner() {
   dom.mealSlots.querySelectorAll("[data-meal-focus]").forEach((button) => {
     button.addEventListener("click", () => {
       state.focusId = button.dataset.mealFocus;
+      state.summaryMode = "spot";
       renderSummary();
+      revealSpotDetails();
     });
   });
 }
 
+const dayTwoBackup = ["daimaru-sapporo", "stellar-place", "sapporo-susukino"];
+function dayTwoOriginalKey() {
+  return `hokkaido-day2-original:${state.syncCode || "local"}`;
+}
+
+function isDayTwoBackup() {
+  return JSON.stringify(state.plan[2]) === JSON.stringify(dayTwoBackup);
+}
+
+function getDayTwoSnapshot() {
+  try {
+    const saved = JSON.parse(window.localStorage.getItem(dayTwoOriginalKey()));
+    if (Array.isArray(saved?.original) && saved.original.every((id) => spotById(id))) return saved;
+  } catch { /* Use the default original route when no valid snapshot exists. */ }
+  return null;
+}
+
+function getDayTwoOriginal() {
+  const snapshot = getDayTwoSnapshot();
+  if (snapshot?.backupActive || isDayTwoBackup()) return snapshot?.original || [...winterTemplate[2]];
+  return [...state.plan[2]];
+}
+
+function renderDayAlternative() {
+  const panel = document.getElementById("day-alternative");
+  document.getElementById("day-alternative-shell").hidden = state.selectedDay !== 2;
+  panel.hidden = state.selectedDay !== 2;
+  if (panel.hidden) return;
+  const backup = state.alternativePreview === "B";
+  const ids = backup ? dayTwoBackup : getDayTwoOriginal();
+  const applied = JSON.stringify(state.plan[2]) === JSON.stringify(ids);
+  panel.innerHTML = `
+    <h3>Day 2 · 富良野行程備案</h3>
+    <div class="alternative-tabs">
+      <button type="button" class="small-button" data-alternative="A" aria-pressed="${!backup}">原行程</button>
+      <button type="button" class="small-button" data-alternative="B" aria-pressed="${backup}">Plan B · 直接往札幌</button>
+    </div>
+    <p>${backup ? "取消美瑛、富良野支線，路況允許時從旭川直接前往札幌。抵達後看時間逛大丸、Stellar Place，晚上在薄野吃飯。" : "保留美瑛、富良野的安排，再前往札幌；若曾套用備案，這裡會還原切換前的景點順序。"}</p>
+    <p class="alternative-route">${ids.map((id) => escapeHtml(spotById(id).name)).join(" → ") || "尚未安排景點"}</p>
+    <p>遇封路或不適合開車時，先留在安全地點確認交通狀況。餐食安排會保留，切換後請檢查餐廳地點。</p>
+    <p>原行程備份保留在這台裝置，套用後的行程照常同步。</p>
+    <button type="button" class="small-button" id="apply-day-alternative" ${applied ? "disabled" : ""}>${applied ? "目前已套用此方案" : backup ? "套用 Plan B" : "還原原行程"}</button>`;
+  panel.querySelectorAll("[data-alternative]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.alternativePreview = button.dataset.alternative;
+      renderDayAlternative();
+    });
+  });
+  panel.querySelector("#apply-day-alternative").addEventListener("click", () => {
+    const conflict = ids.find((id) => Object.entries(state.plan).some(([day, stops]) => Number(day) !== 2 && stops.includes(id)));
+    if (conflict) {
+      setUiMessage(`${spotById(conflict).name} 已安排在其他天，請先移除再套用方案。`, "warn");
+      return;
+    }
+    try {
+      const snapshot = getDayTwoSnapshot();
+      const original = backup ? (snapshot?.backupActive ? snapshot.original : [...state.plan[2]]) : ids;
+      window.localStorage.setItem(dayTwoOriginalKey(), JSON.stringify({ original, backupActive: backup }));
+    } catch {
+      setUiMessage("無法備份原行程，請確認瀏覽器允許儲存後再試。", "warn");
+      return;
+    }
+    state.plan[2] = [...ids];
+    state.summaryMode = "day";
+    recordChange(backup ? "套用 Day 2 備案" : "還原 Day 2 原行程", ids.map((id) => spotById(id).name).join(" → "));
+    markDirty();
+    render();
+  });
+}
+
 function renderDayTabs() {
-  const dates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29", "12/30", "12/31", "1/1"];
+  const previousScroll = dom.dayTabs.scrollLeft;
   dom.dayTabs.innerHTML = Array.from({ length: 10 }, (_, index) => {
     const day = index + 1;
     const places = state.plan[day].length;
@@ -2404,19 +2501,17 @@ function renderDayTabs() {
     const mealCount = mealSlots.filter((slot) => state.mealPlan[day]?.[slot.id]?.primaryId).length;
     return `
       <button class="day-tab ${state.selectedDay === day ? "active" : ""}" data-day="${day}" data-drop-day="${day}">
-        <strong>Day ${day} (${dates[index]})</strong>
+        <strong>Day ${day} (${tripDates[index]})</strong>
         <span>${places} 個點位 · 餐 ${mealCount}/${mealSlots.length}</span>
       </button>
     `;
   }).join("");
 
+  dom.dayTabs.scrollLeft = previousScroll;
   dom.dayTabs.querySelectorAll("[data-day]").forEach((button) => {
     button.addEventListener("click", () => {
       state.selectedDay = Number(button.dataset.day);
-      const firstSpot = state.plan[state.selectedDay][0];
-      if (firstSpot) {
-        state.focusId = firstSpot;
-      }
+      state.summaryMode = "day";
       render();
     });
   });
@@ -2526,7 +2621,9 @@ function renderItinerary() {
   dom.itineraryList.querySelectorAll("[data-focus]").forEach((button) => {
     button.addEventListener("click", () => {
       state.focusId = button.dataset.focus;
+      state.summaryMode = "spot";
       render();
+      revealSpotDetails();
     });
   });
 
@@ -2847,15 +2944,19 @@ function renderSpotGrid() {
     button.addEventListener("click", (event) => {
       event.stopPropagation();
       state.focusId = button.dataset.pin;
+      state.summaryMode = "spot";
       render();
+      revealSpotDetails();
     });
   });
 
   dom.spotGrid.querySelectorAll(".spot-card").forEach((card) => {
     card.addEventListener("click", (event) => {
-      if ((event.target).closest("button")) return;
+      if ((event.target).closest("button, a")) return;
       state.focusId = card.dataset.spot;
+      state.summaryMode = "spot";
       renderSummary();
+      revealSpotDetails();
     });
 
     card.addEventListener("dragstart", (event) => {
@@ -2880,6 +2981,7 @@ function renderSpotGrid() {
 }
 
 function renderSummary() {
+  document.getElementById("back-to-day").hidden = state.summaryMode === "day";
   const focus = spotById(state.focusId) || spots[0];
   const logistics = getSpotLogistics(focus.id);
   const uniqueAreas = new Set(
@@ -2893,7 +2995,7 @@ function renderSummary() {
   dom.metricSpots.textContent = String(spots.length);
   dom.metricSeason.textContent = winterProfile.label;
   dom.focusArea.textContent = [...uniqueAreas].slice(0, 3).join(" / ") || "尚未開始排程";
-  dom.focusCopy.textContent = `目前是 4 人自駕，行程集中在 ${winterProfile.blurb}，除函館那天會還車，其餘天數都會開車。`;
+  dom.focusCopy.textContent = "12/23～1/1。從新千歲機場入境，旭川 1 天；札幌 6 天；洞爺湖 1 天，函館 2 天。";
   dom.styleValue.textContent = winterProfile.style;
   dom.routeValue.textContent = winterProfile.route;
   dom.carModelValue.textContent = fixedCarModel;
@@ -2903,29 +3005,64 @@ function renderSummary() {
     dom.updatedValue.textContent = formatSavedAt(state.lastSavedAt) || "尚未儲存";
   }
 
-  dom.focusTitle.textContent = focus.name;
-  dom.focusDesc.textContent = focus.desc;
-  dom.focusMeta.innerHTML = `
-    <span class="tag">${focus.area}</span>
-    <span class="tag">${focus.type}</span>
-    <span class="tag">${focus.best}</span>
-    <span class="tag">建議停留 ${focus.time}</span>
-  `;
+  if (state.summaryMode === "day") {
+    const day = state.selectedDay;
+    const daySpots = (state.plan[day] || []).map((id) => spotById(id)).filter(Boolean);
+    const dayAreas = [...new Set(daySpots.map((spot) => spot.area))];
+    const meals = state.mealPlan[day] || {};
+    const mealSlots = getMealSlotsForDay(day);
+    const arrangedMeals = mealSlots.filter((slot) => meals[slot.id]?.primaryId).length;
 
-  if (dom.focusPractical) {
-    dom.focusPractical.innerHTML = logistics
-      ? `
-        <p><strong>常見營業：</strong>${logistics.hours}</p>
-        <p><strong>交通建議：</strong>${logistics.access}</p>
-        <p><strong>${getDriveInfoForFocus()}</strong></p>
-        <p><a class="map-link" href="${getMapUrl(focus)}" target="_blank" rel="noopener noreferrer">Google Maps 導航（${focus.name}）</a></p>
-        <p>提醒：營業時間與交通班次可能因季節調整，請以官方最新公告為準。</p>
-      `
-      : `
-        <p><strong>${getDriveInfoForFocus()}</strong></p>
-        <p><a class="map-link" href="${getMapUrl(focus)}" target="_blank" rel="noopener noreferrer">Google Maps 導航（${focus.name}）</a></p>
-        <p>提醒：此景點尚未補齊營業與交通資訊，可先用地圖快速確認當日資訊。</p>
+    if (dom.focusTag) {
+      dom.focusTag.textContent = "當日行程";
+    }
+    dom.focusTitle.textContent = `Day ${day} · ${tripDates[day - 1]}`;
+    dom.focusDesc.textContent = daySpots.length
+      ? (day === 2 && isDayTwoBackup()
+          ? "Plan B：從旭川直接前往札幌，抵達後彈性安排車站商場採買，晚上到薄野吃飯。"
+          : JSON.stringify(state.plan[day]) === JSON.stringify(winterTemplate[day])
+            ? daySummaries[day]
+            : `從${dayBaseAreas[day]}出發，安排${dayAreas.join("、")}共 ${daySpots.length} 個點位，包含${[...new Set(daySpots.map((spot) => spot.type))].slice(0, 3).join("、")}。`)
+      : "這天還沒有安排景點，可以從左側清單加入。";
+    dom.focusMeta.innerHTML = `
+      <span class="tag">${dayBaseAreas[day] || "未設定起點"} 出發</span>
+      <span class="tag">${daySpots.length} 個點位</span>
+      <span class="tag">餐食 ${arrangedMeals}/${mealSlots.length}</span>
+    `;
+
+    if (dom.focusPractical) {
+      dom.focusPractical.innerHTML = `
+        <details class="day-route-details"><summary>查看 ${daySpots.length} 個點位的順序</summary><p>${daySpots.map((spot) => escapeHtml(spot.name)).join(" → ") || "尚未安排景點"}</p></details>
       `;
+    }
+  } else {
+    if (dom.focusTag) {
+      dom.focusTag.textContent = "景點詳情";
+    }
+    dom.focusTitle.textContent = focus.name;
+    dom.focusDesc.textContent = focus.desc;
+    dom.focusMeta.innerHTML = `
+      <span class="tag">${focus.area}</span>
+      <span class="tag">${focus.type}</span>
+      <span class="tag">${focus.best}</span>
+      <span class="tag">建議停留 ${focus.time}</span>
+    `;
+
+    if (dom.focusPractical) {
+      dom.focusPractical.innerHTML = logistics
+        ? `
+          <p><strong>常見營業：</strong>${logistics.hours}</p>
+          <p><strong>交通建議：</strong>${logistics.access}</p>
+          <p><strong>${getDriveInfoForFocus()}</strong></p>
+          <p><a class="map-link" href="${getMapUrl(focus)}" target="_blank" rel="noopener noreferrer">Google Maps 導航（${focus.name}）</a></p>
+          <p>提醒：營業時間與交通班次可能因季節調整，請以官方最新公告為準。</p>
+        `
+        : `
+          <p><strong>${getDriveInfoForFocus()}</strong></p>
+          <p><a class="map-link" href="${getMapUrl(focus)}" target="_blank" rel="noopener noreferrer">Google Maps 導航（${focus.name}）</a></p>
+          <p>提醒：此景點尚未補齊營業與交通資訊，可先用地圖快速確認當日資訊。</p>
+        `;
+    }
   }
 
   if (dom.changeLogGrid) {
@@ -2967,7 +3104,155 @@ function renderSummary() {
     .join("");
 }
 
+function getAccommodationForDay(day) {
+  if (day === 1) return accommodations[0];
+  if (day >= 2 && day <= 6) return accommodations[1];
+  if (day === 7) return accommodations[2];
+  if (day === 8 || day === 9) return accommodations[3];
+  return null;
+}
+
+function renderPrintReport() {
+  if (!dom.printReport) {
+    return;
+  }
+
+  const generatedAt = new Intl.DateTimeFormat("zh-TW", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(new Date());
+
+  const accommodationCards = accommodations
+    .map((hotel) => `
+      <article class="print-hotel">
+        <span>${escapeHtml(hotel.label)}</span>
+        <strong>${escapeHtml(hotel.name)}</strong>
+        <small>${escapeHtml(hotel.note)}</small>
+      </article>
+    `)
+    .join("");
+
+  const dayPages = tripDates
+    .map((date, index) => {
+      const day = index + 1;
+      const daySpots = (state.plan[day] || []).map((id) => spotById(id)).filter(Boolean);
+      const dayAreas = [...new Set(daySpots.map((spot) => spot.area))];
+      const hotel = getAccommodationForDay(day);
+      const meals = state.mealPlan[day] || {};
+
+      const stopsHtml = daySpots.length
+        ? daySpots
+            .map((spot, spotIndex) => `
+              <li class="print-stop">
+                <span class="print-stop-number">${spotIndex + 1}</span>
+                <div class="print-stop-copy">
+                  <h3>${escapeHtml(spot.name)}</h3>
+                  <p>${escapeHtml(spot.area)} · ${escapeHtml(spot.type)} · ${escapeHtml(spot.time)}</p>
+                  <small>${escapeHtml(getDriveInfoForStop(day, spotIndex, spot.id))}</small>
+                </div>
+                <a href="${getMapUrl(spot)}">地圖</a>
+              </li>
+            `)
+            .join("")
+        : `<li class="print-empty">尚未安排景點</li>`;
+
+      const mealsHtml = getMealSlotsForDay(day)
+        .map((slot) => {
+          const entry = meals[slot.id] || createMealEntry(slot.id);
+          const primary = spotById(entry.primaryId);
+          const backup = spotById(entry.backupId);
+          const details = [
+            primary?.name || "尚未安排",
+            backup ? `備選：${backup.name}` : "",
+            entry.note || ""
+          ].filter(Boolean);
+          return `
+            <div class="print-meal">
+              <strong>${escapeHtml(slot.label)} ${escapeHtml(entry.time || slot.defaultTime)}</strong>
+              <span>${escapeHtml(details.join(" · "))}</span>
+            </div>
+          `;
+        })
+        .join("");
+
+      return `
+        <article class="print-day">
+          <header class="print-day-head">
+            <div>
+              <span>DAY ${day}</span>
+              <h2>${escapeHtml(date)} · ${escapeHtml(dayAreas.join(" / ") || dayBaseAreas[day] || "待安排")}</h2>
+            </div>
+            <p>${daySpots.length} 個點位</p>
+          </header>
+
+          <ol class="print-stop-list">${stopsHtml}</ol>
+
+          <section class="print-day-footer">
+            <div class="print-meals">
+              <h3>餐食安排</h3>
+              ${mealsHtml || `<p>當日無餐食欄位</p>`}
+            </div>
+            <div class="print-night">
+              <h3>${hotel ? "今晚住宿" : "當日安排"}</h3>
+              <strong>${hotel ? escapeHtml(hotel.name) : "函館機場返程"}</strong>
+              <span>${hotel ? escapeHtml(hotel.note) : "請預留報到與安檢時間"}</span>
+            </div>
+          </section>
+        </article>
+      `;
+    })
+    .join("");
+
+  dom.printReport.innerHTML = `
+    <header class="print-cover">
+      <div class="print-cover-top">
+        <span class="print-kicker">HOKKAIDO WINTER TRIP</span>
+        <span>12/23 - 1/1</span>
+      </div>
+      <h1>北海道冬季行程</h1>
+      <p>從新千歲機場入境，旭川 1 天；札幌 6 天；洞爺湖 1 天，函館 2 天。</p>
+
+      <div class="print-stats">
+        <div><span>行程</span><strong>10 天</strong></div>
+        <div><span>人數</span><strong>4 人</strong></div>
+        <div><span>交通</span><strong>自駕</strong></div>
+        <div><span>車型</span><strong>${escapeHtml(fixedCarModel)}</strong></div>
+      </div>
+
+      <div class="print-route">
+        <span>新千歲</span><b>→</b><span>旭川／富良野</span><b>→</b><span>札幌／小樽</span><b>→</b><span>洞爺湖</span><b>→</b><span>函館</span>
+      </div>
+
+      <section class="print-hotels">
+        <h2>住宿安排</h2>
+        <div>${accommodationCards}</div>
+      </section>
+
+      <footer>行程快照產生於 ${escapeHtml(generatedAt)}</footer>
+    </header>
+    ${dayPages}
+  `;
+}
+
+function printPlanAsPdf() {
+  renderPrintReport();
+  const previousTitle = document.title;
+  document.title = "北海道冬季行程_12-23至01-01";
+  dom.printReport?.setAttribute("aria-hidden", "false");
+
+  window.addEventListener("afterprint", () => {
+    document.title = previousTitle;
+    dom.printReport?.setAttribute("aria-hidden", "true");
+  }, { once: true });
+
+  window.requestAnimationFrame(() => window.print());
+}
+
 function render() {
+  renderDayAlternative();
   renderDayTabs();
   renderMealPlanner();
   renderItinerary();
@@ -2977,7 +3262,33 @@ function render() {
   renderSummary();
 }
 
+function revealSpotDetails() {
+  if (window.matchMedia("(max-width: 640px)").matches) {
+    document.getElementById("focus-card").scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start"
+    });
+  }
+}
+
+function positionDaySummary() {
+  const card = document.getElementById("focus-card");
+  const mobileHost = document.getElementById("mobile-day-summary");
+  const desktopHost = document.querySelector(".detail-panel");
+  if (window.matchMedia("(max-width: 640px)").matches) {
+    mobileHost.appendChild(card);
+  } else {
+    desktopHost.insertBefore(card, desktopHost.querySelector(".change-log-section"));
+  }
+}
+
 function bindGlobalEvents() {
+  positionDaySummary();
+  window.matchMedia("(max-width: 640px)").addEventListener("change", positionDaySummary);
+  document.getElementById("back-to-day").addEventListener("click", () => {
+    state.summaryMode = "day";
+    renderSummary();
+  });
   dom.searchInput.addEventListener("input", (event) => {
     state.search = event.target.value;
     state.spotPage = 0;
@@ -2985,19 +3296,14 @@ function bindGlobalEvents() {
   });
 
   dom.savePlanBtn?.addEventListener("click", persistState);
-  dom.exportPlanBtn?.addEventListener("click", exportPlanAsJson);
-  dom.importPlanBtn?.addEventListener("click", () => dom.importPlanFile?.click());
+  dom.printPlanBtn?.addEventListener("click", printPlanAsPdf);
+  window.addEventListener("beforeprint", renderPrintReport);
   dom.connectSyncBtn?.addEventListener("click", () => connectCloudSync(dom.syncCodeInput?.value));
   dom.syncCodeInput?.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
       connectCloudSync(dom.syncCodeInput?.value);
     }
-  });
-  dom.importPlanFile?.addEventListener("change", async (event) => {
-    const [file] = event.target.files || [];
-    await importPlanFromFile(file);
-    event.target.value = "";
   });
 
   window.addEventListener("beforeunload", (event) => {

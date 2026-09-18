@@ -8,7 +8,7 @@
       name="description"
       content="新千歲 → 旭川 → 札幌 → 洞爺湖 → 函館。10天北海道冬季行程規劃。"
     />
-    <link rel="stylesheet" href="styles.css?v=20260918-3" />
+    <link rel="stylesheet" href="styles.css?v=20260919-2" />
   </head>
   <body>
     <div class="orb orb-one"></div>
@@ -46,25 +46,21 @@
       </header>
 
       <section class="toolbar card">
-        <div class="toolbar-block grow">
-          <span class="toolbar-label">景點搜尋</span>
-          <label class="search-wrap">
-            <span class="search-icon">⌕</span>
-            <input id="search-input" type="search" placeholder="搜尋札幌、小樽、溫泉、雪景、夜景..." />
-          </label>
-        </div>
         <div class="toolbar-actions">
           <button class="button button-primary toolbar-save" id="save-plan-btn" disabled>儲存變更</button>
-          <button class="button button-secondary" id="export-plan-btn">匯出 JSON</button>
-          <button class="button button-secondary" id="import-plan-btn">匯入 JSON</button>
-          <button class="button button-secondary" id="reset-plan-btn">恢復預設行程</button>
-          <input id="sync-code-input" class="summary-input sync-code-input" type="text" minlength="2" maxlength="40" pattern="[a-zA-Z0-9_-]{2,40}" autocapitalize="off" autocorrect="off" spellcheck="false" title="只接受英文字母、數字、-、_，長度 2–40 字" placeholder="同步代碼（例如 py）" />
-          <button class="button button-secondary" id="connect-sync-btn">啟用自動同步</button>
-          <input id="import-plan-file" type="file" accept="application/json" hidden />
+          <button class="button button-secondary" id="print-plan-btn">儲存 PDF</button>
           <p class="toolbar-save-status" id="save-status">尚未儲存變更</p>
-          <p class="toolbar-save-status" id="sync-status">雲端同步：未啟用</p>
           <p class="toolbar-save-status" id="ui-message" hidden></p>
         </div>
+        <details class="planner-settings">
+          <summary>同步與設定</summary>
+          <div class="toolbar-actions">
+          <input id="sync-code-input" class="summary-input sync-code-input" type="text" minlength="2" maxlength="40" pattern="[a-zA-Z0-9_-]{2,40}" autocapitalize="off" autocorrect="off" spellcheck="false" title="只接受英文字母、數字、-、_，長度 2–40 字" placeholder="同步代碼（例如 py）" />
+          <button class="button button-secondary" id="connect-sync-btn">啟用自動同步</button>
+          <p class="toolbar-save-status" id="sync-status">雲端同步：未啟用</p>
+          <button class="button button-secondary" id="reset-plan-btn">恢復預設行程</button>
+          </div>
+        </details>
       </section>
 
       <section class="workspace">
@@ -78,6 +74,11 @@
           </div>
 
           <div class="day-tabs" id="day-tabs"></div>
+          <div id="mobile-day-summary"></div>
+          <details id="day-alternative-shell" class="day-alternative" hidden>
+            <summary>Day 2 備案 · 天候有變時查看</summary>
+            <div id="day-alternative"></div>
+          </details>
           <div class="itinerary-list" id="itinerary-list"></div>
           <div class="itinerary-dropzone" id="itinerary-dropzone">拖曳行程到這裡移除</div>
           <section class="meal-planner" aria-labelledby="meal-planner-title">
@@ -101,6 +102,10 @@
             <p class="panel-note">拖曳或點按即可加入目前天數</p>
           </div>
 
+          <label class="search-wrap explore-search">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input id="search-input" type="search" aria-label="搜尋景點" placeholder="搜尋景點、餐廳或地區" />
+          </label>
           <div class="spot-filters">
             <div class="spot-filter-row">
               <span class="spot-filter-label">地區</span>
@@ -119,14 +124,14 @@
           <div class="panel-head">
             <div>
               <p class="panel-kicker">行程概覽</p>
-              <h2>旅程全貌</h2>
+              <h2>北海道冬季行程</h2>
             </div>
           </div>
 
           <div class="summary-figure">
             <span>焦點地區</span>
             <strong id="focus-area">札幌 / 小樽 / 洞爺湖</strong>
-            <p id="focus-copy">先用城市、海港、雪山與溫泉建立骨架，整趟都維持冬季節奏。</p>
+            <p id="focus-copy">12/23～1/1。從新千歲機場入境，旭川 1 天；札幌 6 天；洞爺湖 1 天，函館 2 天。</p>
           </div>
 
           <div class="summary-grid">
@@ -138,7 +143,7 @@
               <span>自駕安排</span>
               <strong id="route-value">札幌核心，向小樽、洞爺與函館延伸</strong>
             </div>
-            <div class="summary-plain">
+            <div>
               <span>租車車型</span>
               <strong id="car-model-value">VOXY</strong>
             </div>
@@ -149,10 +154,11 @@
           </div>
 
           <div class="focus-card" id="focus-card">
-            <span class="focus-tag">今日推薦</span>
-            <h3 id="focus-title">函館山夜景</h3>
+            <button class="small-button" id="back-to-day" type="button" hidden>返回當日行程</button>
+            <span class="focus-tag" id="focus-tag">當日行程</span>
+            <h3 id="focus-title">Day 1 · 12/23</h3>
             <p id="focus-desc">
-              夜景與海港景色都很適合放在傍晚，讓整趟北海道行程在最後一晚收得很漂亮。
+              從新千歲機場出發，前往旭川。
             </p>
             <div class="focus-meta" id="focus-meta"></div>
             <div class="focus-practical" id="focus-practical"></div>
@@ -181,8 +187,10 @@
       </section>
     </main>
 
+    <section class="print-report" id="print-report" aria-hidden="true"></section>
+
     <!-- deploy-stamp: 2026-09-14T12:00:00+08:00 -->
     <script src="sync-config.js"></script>
-    <script src="app.js?v=20260918-3"></script>
+    <script src="app.js?v=20260919-2"></script>
   </body>
 </html>
