@@ -23,9 +23,6 @@
           <p class="lede">
             12/23~1/1。從新千歲機場入境，旭川 1 天；札幌 6 天；洞爺湖 1 天，函館 2 天。
           </p>
-          <div class="hero-actions">
-            <button class="button button-primary" data-action="apply-winter">載入旅遊範本</button>
-          </div>
         </div>
 
         <div class="hero-metrics">
@@ -60,6 +57,7 @@
           <button class="button button-primary toolbar-save" id="save-plan-btn" disabled>儲存變更</button>
           <button class="button button-secondary" id="export-plan-btn">匯出 JSON</button>
           <button class="button button-secondary" id="import-plan-btn">匯入 JSON</button>
+          <button class="button button-secondary" id="reset-plan-btn">恢復預設行程</button>
           <input id="sync-code-input" class="summary-input sync-code-input" type="text" minlength="2" maxlength="40" pattern="[a-zA-Z0-9_-]{2,40}" autocapitalize="off" autocorrect="off" spellcheck="false" title="只接受英文字母、數字、-、_，長度 2–40 字" placeholder="同步代碼（例如 py）" />
           <button class="button button-secondary" id="connect-sync-btn">啟用自動同步</button>
           <input id="import-plan-file" type="file" accept="application/json" hidden />
@@ -103,7 +101,16 @@
             <p class="panel-note">拖曳或點按即可加入目前天數</p>
           </div>
 
-          <div class="spot-category-tabs" id="spot-category-tabs"></div>
+          <div class="spot-filters">
+            <div class="spot-filter-row">
+              <span class="spot-filter-label">地區</span>
+              <div class="spot-area-tabs" id="spot-area-tabs" aria-label="地區篩選"></div>
+            </div>
+            <div class="spot-filter-row">
+              <span class="spot-filter-label">類型</span>
+              <div class="spot-category-tabs" id="spot-category-tabs" aria-label="類型篩選"></div>
+            </div>
+          </div>
           <div class="spot-grid" id="spot-grid"></div>
           <div class="spot-pagination" id="spot-pagination"></div>
         </section>

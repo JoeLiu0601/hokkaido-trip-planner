@@ -433,17 +433,6 @@ const spots = [
     highlight: "札幌燒肉必吃"
   },
   {
-    id: "daruma-honten",
-    name: "成吉思汗 だるま 本店",
-    area: "札幌",
-    type: "成吉思汗",
-    season: ["winter"],
-    time: "1.5h",
-    best: "烤羊肉、薄野、深夜晚餐",
-    desc: "薄野最具代表性的成吉思汗烤羊肉老店之一，適合想吃更聚焦羊肉風味的一餐。店內座位較緊湊且熱門時段常候位，四人同行建議避開晚餐尖峰。",
-    highlight: "人氣羊肉老店"
-  },
-  {
     id: "sapporo-beer-museum",
     name: "札幌啤酒博物館",
     area: "札幌",
@@ -951,10 +940,6 @@ const spotLogistics = {
     hours: "常見 12:00-24:00，午餐常見 12:00-14:00；年末年始可能休息，建議預約並於出發前確認",
     access: "地址：札幌市中央区南5条西7丁目。從 APA Hotel Sapporo Susukino Ekinishi 步行約 2-4 分鐘，薄野站步行約 8-10 分鐘"
   },
-  "daruma-honten": {
-    hours: "傍晚至深夜營業；熱門時段常候位，年末年始營業請以官方公告為準",
-    access: "地址：札幌市中央区南5条西4丁目。地鐵薄野站步行約 5 分鐘，建議將候位時間納入晚餐安排"
-  },
   "kinotoya-bake-pole-town": {
     hours: "常見 10:00-21:00（L.O. 20:45）；休業日同 Pole Town",
     access: "地址：札幌市中央区南2条西3丁目 さっぽろ地下街ポールタウン内。大通、狸小路、薄野都可步行串遊"
@@ -1275,6 +1260,7 @@ function normalizeMealPlan(rawMealPlan) {
     });
   });
   normalized[1].lunch = createMealEntry("lunch");
+  normalized[10].dinner = createMealEntry("dinner");
   return normalized;
 }
 
@@ -1365,6 +1351,7 @@ function getOrCreateClientId() {
 const state = {
   selectedDay: 1,
   search: "",
+  spotArea: "all",
   spotCategory: "all",
   spotPage: 0,
   focusId: spots[0].id,
@@ -1388,6 +1375,7 @@ const dom = {
   itineraryList: document.getElementById("itinerary-list"),
   itineraryDropzone: document.getElementById("itinerary-dropzone"),
   spotGrid: document.getElementById("spot-grid"),
+  spotAreaTabs: document.getElementById("spot-area-tabs"),
   spotCategoryTabs: document.getElementById("spot-category-tabs"),
   spotPagination: document.getElementById("spot-pagination"),
   dayNote: document.getElementById("day-note"),
@@ -2131,12 +2119,17 @@ function getSpotLogistics(id) {
   return spotLogistics[id] || null;
 }
 
-function applyWinterTemplate() {
+function resetToDefaultPlan() {
+  const confirmed = window.confirm("這會清除目前的行程與用餐安排，是否繼續？");
+  if (!confirmed) {
+    return;
+  }
+
   state.plan = createDefaultPlan();
   state.mealPlan = buildMealPlan();
   state.selectedDay = 1;
   state.focusId = state.plan[1][0] || spots[0].id;
-  recordChange("套用冬季範本", "重置為 10 天預設行程");
+  recordChange("恢復預設行程", "清除目前行程與用餐安排，重置為 10 天預設行程");
   markDirty();
   render();
 }
@@ -2220,7 +2213,7 @@ function escapeHtml(value) {
 function getMealCandidates(day) {
   const dayAreas = new Set((state.plan[day] || []).map((id) => spotById(id)?.area).filter(Boolean));
   return spots
-    .filter((spot) => typeIncludes(spot, foodTypes) && spot.id !== "daruma-honten")
+    .filter((spot) => typeIncludes(spot, foodTypes))
     .sort((first, second) => {
       const firstPreferred = dayAreas.has(first.area) ? 0 : 1;
       const secondPreferred = dayAreas.has(second.area) ? 0 : 1;
@@ -2232,7 +2225,15 @@ function getMealCandidates(day) {
 }
 
 function getMealSlotsForDay(day) {
-  return day === 1 ? mealSlotDefinitions.filter((slot) => slot.id !== "lunch") : mealSlotDefinitions;
+  return mealSlotDefinitions.filter((slot) => {
+    if (day === 1 && slot.id === "lunch") {
+      return false;
+    }
+    if (day === 10 && slot.id === "dinner") {
+      return false;
+    }
+    return true;
+  });
 }
 
 function renderMealOptions(day, selectedId, excludedId, placeholder) {
@@ -2622,10 +2623,14 @@ function renderItinerary() {
 
 function matchesFilters(spot) {
   const term = state.search.trim().toLowerCase();
-  return matchesSpotCategory(spot) && (!term || [spot.name, spot.area, spot.type, spot.desc, spot.best, spot.highlight]
+  return matchesSpotArea(spot) && matchesSpotCategory(spot) && (!term || [spot.name, spot.area, spot.type, spot.desc, spot.best, spot.highlight]
     .join(" ")
     .toLowerCase()
     .includes(term));
+}
+
+function matchesSpotArea(spot) {
+  return state.spotArea === "all" || spot.area === state.spotArea;
 }
 
 const spotCategories = [
@@ -2633,6 +2638,11 @@ const spotCategories = [
   { id: "sightseeing", label: "景點類" },
   { id: "shopping", label: "逛街購物" },
   { id: "food", label: "美食" }
+];
+
+const spotAreas = [
+  { id: "all", label: "全部" },
+  ...Array.from(new Set(spots.map((spot) => spot.area))).map((area) => ({ id: area, label: area }))
 ];
 
 const shoppingSpotIds = new Set([
@@ -2691,9 +2701,42 @@ function matchesSpotCategory(spot) {
 function getCategoryCount(categoryId) {
   const previousCategory = state.spotCategory;
   state.spotCategory = categoryId;
-  const count = spots.filter(matchesSpotCategory).length;
+  const count = spots.filter((spot) => matchesSpotArea(spot) && matchesSpotCategory(spot)).length;
   state.spotCategory = previousCategory;
   return count;
+}
+
+function getAreaCount(areaId) {
+  const previousArea = state.spotArea;
+  state.spotArea = areaId;
+  const count = spots.filter((spot) => matchesSpotArea(spot) && matchesSpotCategory(spot)).length;
+  state.spotArea = previousArea;
+  return count;
+}
+
+function renderSpotAreaTabs() {
+  if (!dom.spotAreaTabs) {
+    return;
+  }
+
+  dom.spotAreaTabs.innerHTML = spotAreas
+    .map((area) => `
+      <button class="spot-category-tab ${state.spotArea === area.id ? "active" : ""}" data-area="${escapeHtml(area.id)}" type="button">
+        <span>${escapeHtml(area.label)}</span>
+        <strong>${getAreaCount(area.id)}</strong>
+      </button>
+    `)
+    .join("");
+
+  dom.spotAreaTabs.querySelectorAll("[data-area]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.spotArea = button.dataset.area;
+      state.spotPage = 0;
+      renderSpotGrid();
+      renderSpotAreaTabs();
+      renderSpotCategoryTabs();
+    });
+  });
 }
 
 function renderSpotCategoryTabs() {
@@ -2703,7 +2746,7 @@ function renderSpotCategoryTabs() {
 
   dom.spotCategoryTabs.innerHTML = spotCategories
     .map((category) => `
-      <button class="spot-category-tab ${state.spotCategory === category.id ? "active" : ""}" data-category="${category.id}">
+      <button class="spot-category-tab ${state.spotCategory === category.id ? "active" : ""}" data-category="${category.id}" type="button">
         <span>${category.label}</span>
         <strong>${getCategoryCount(category.id)}</strong>
       </button>
@@ -2715,6 +2758,7 @@ function renderSpotCategoryTabs() {
       state.spotCategory = button.dataset.category;
       state.spotPage = 0;
       renderSpotGrid();
+      renderSpotAreaTabs();
       renderSpotCategoryTabs();
     });
   });
@@ -2770,7 +2814,7 @@ function renderSpotGrid() {
         <div class="stop-top">
           <div>
             <h3>沒有找到符合條件的景點</h3>
-            <p class="stop-desc">可以換個關鍵字再找一次。</p>
+            <p class="stop-desc">可以換個地區、類型或關鍵字再找一次。</p>
           </div>
         </div>
       </div>
@@ -2927,6 +2971,7 @@ function render() {
   renderDayTabs();
   renderMealPlanner();
   renderItinerary();
+  renderSpotAreaTabs();
   renderSpotCategoryTabs();
   renderSpotGrid();
   renderSummary();
@@ -2970,7 +3015,7 @@ function bindGlobalEvents() {
     }
   });
 
-  document.querySelector('[data-action="apply-winter"]').addEventListener("click", applyWinterTemplate);
+  document.getElementById("reset-plan-btn")?.addEventListener("click", resetToDefaultPlan);
 }
 
 bindGlobalEvents();

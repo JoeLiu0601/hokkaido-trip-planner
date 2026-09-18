@@ -750,11 +750,37 @@ select {
   gap: 14px;
 }
 
+.spot-filters {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.spot-filter-row {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.spot-filter-label {
+  padding-top: 11px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.spot-area-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .spot-category-tabs {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
-  margin-bottom: 14px;
 }
 
 .spot-category-tab {
