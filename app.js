@@ -2422,7 +2422,7 @@ function renderMealPlanner() {
   });
 }
 
-const dayTwoBackup = ["daimaru-sapporo", "stellar-place", "sapporo-susukino"];
+const dayTwoBackup = ["sapporo-odori", "shiroi-koibito-park", "sapporo-susukino"];
 function dayTwoOriginalKey() {
   return `hokkaido-day2-original:${state.syncCode || "local"}`;
 }
@@ -2457,9 +2457,9 @@ function renderDayAlternative() {
     <h3>Day 2 · 富良野行程備案</h3>
     <div class="alternative-tabs">
       <button type="button" class="small-button" data-alternative="A" aria-pressed="${!backup}">原行程</button>
-      <button type="button" class="small-button" data-alternative="B" aria-pressed="${backup}">Plan B · 直接往札幌</button>
+      <button type="button" class="small-button" data-alternative="B" aria-pressed="${backup}">Plan B · 札幌景點版</button>
     </div>
-    <p>${backup ? "取消美瑛、富良野支線，路況允許時從旭川直接前往札幌。抵達後看時間逛大丸、Stellar Place，晚上在薄野吃飯。" : "保留美瑛、富良野的安排，再前往札幌；若曾套用備案，這裡會還原切換前的景點順序。"}</p>
+    <p>${backup ? "假設不幸遇到火山活動或道路管制，導致美瑛、富良野支線無法通行，就切換 Plan B：從旭川直接前往札幌，抵達後安排大通公園、白色戀人公園等景點，晚上在薄野吃飯。" : "保留美瑛、富良野的安排，再前往札幌；若曾套用備案，這裡會還原切換前的景點順序。"}</p>
     <p class="alternative-route">${ids.map((id) => escapeHtml(spotById(id).name)).join(" → ") || "尚未安排景點"}</p>
     <p>遇封路或不適合開車時，先留在安全地點確認交通狀況。餐食安排會保留，切換後請檢查餐廳地點。</p>
     <p>原行程備份保留在這台裝置，套用後的行程照常同步。</p>
@@ -3019,7 +3019,7 @@ function renderSummary() {
     dom.focusTitle.textContent = `Day ${day} · ${tripDates[day - 1]}`;
     dom.focusDesc.textContent = daySpots.length
       ? (day === 2 && isDayTwoBackup()
-          ? "Plan B：從旭川直接前往札幌，抵達後彈性安排車站商場採買，晚上到薄野吃飯。"
+          ? "Plan B：假設美瑛、富良野方向因火山活動或道路管制無法通行，從旭川直接前往札幌，抵達後安排大通公園與白色戀人公園，晚上到薄野吃飯。"
           : JSON.stringify(state.plan[day]) === JSON.stringify(winterTemplate[day])
             ? daySummaries[day]
             : `從${dayBaseAreas[day]}出發，安排${dayAreas.join("、")}共 ${daySpots.length} 個點位，包含${[...new Set(daySpots.map((spot) => spot.type))].slice(0, 3).join("、")}。`)
