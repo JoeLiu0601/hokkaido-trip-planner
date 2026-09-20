@@ -335,6 +335,54 @@ select {
   gap: 6px;
 }
 
+.change-log-details {
+  margin-top: 2px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.change-log-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 2px 3px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.change-log-summary::-webkit-details-marker {
+  display: none;
+}
+
+.change-log-summary::before {
+  content: "⌄";
+  order: 2;
+  margin-left: auto;
+  color: var(--accent);
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform 180ms ease;
+}
+
+.change-log-details[open] .change-log-summary::before {
+  transform: rotate(180deg);
+}
+
+.change-log-count {
+  color: var(--accent);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.change-log-more-list {
+  display: grid;
+  gap: 6px;
+  padding-top: 3px;
+}
+
 .change-log-card {
   padding: 8px 10px;
   border-radius: 10px;

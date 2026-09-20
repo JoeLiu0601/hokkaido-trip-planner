@@ -71,10 +71,10 @@ const spots = [
     area: "旭川",
     type: "購物中心",
     season: ["winter"],
-    time: "1.5h",
-    best: "旭川站直結、藥妝、超市、餐飲",
-    desc: "JR 旭川站直結的購物中心，有藥妝、服飾、超市與餐飲。旭川沒有傳統大型百貨公司時，這裡是最方便的室內購物與補給選擇。",
-    highlight: "旭川站直結"
+    time: "1h",
+    best: "雪靴、防滑鞋、保暖配件、旭川站直結",
+    desc: "JR 旭川站直結的室內購物中心，2F 有 ABC-MART SPORTS，可在第一天先補雪靴、防滑鞋或保暖鞋款，再順便買襪子、藥妝與晚餐。冬季尺寸與庫存以現場為準。",
+    highlight: "Day1 裝備補給"
   },
   {
     id: "feeeal-asahikawa",
@@ -86,6 +86,17 @@ const spots = [
     best: "平和通、生活雜貨、室內逛街",
     desc: "位在平和通買物公園旁的市中心商場，從旭川站可步行抵達。適合與站前散步、找晚餐一起安排，作為下雪天的室內購物備案。",
     highlight: "平和通旁"
+  },
+  {
+    id: "sunagawa-highway-oasis",
+    name: "砂川 Highway Oasis",
+    area: "砂川",
+    type: "休息補給",
+    season: ["winter"],
+    time: "0.75h",
+    best: "道央道中途休息、北菓樓、伴手禮、洗手間",
+    desc: "位在旭川與札幌之間、可由道央道砂川服務區直接進入，適合在 Day 2 Plan B 中途休息 30-45 分鐘，補充飲食、上洗手間或買空知伴手禮後再前往札幌。",
+    highlight: "旭川札幌中繼"
   },
   {
     id: "hokkaido-shrine",
@@ -516,31 +527,9 @@ const spots = [
     type: "生活雜貨",
     season: ["winter"],
     time: "0.5h",
-    best: "平價雜貨、旅行小物、地下街順逛",
-    desc: "札幌地下街 Pole Town 的 3COINS，位置在大通到薄野之間，適合和 KINOTOYA BAKE、狸小路、薄野美食一起排。",
-    highlight: "Pole Town 分店"
-  },
-  {
-    id: "3coins-aurora-town",
-    name: "3COINS OOOPS! 札幌 Aurora Town 店",
-    area: "札幌",
-    type: "生活雜貨",
-    season: ["winter"],
-    time: "0.5h",
-    best: "小物、配件、地下街避雪",
-    desc: "位在札幌地下街 Aurora Town 地下 1 樓，靠近大通站與大通公園，適合放在市區散步或雪天室內逛街備案。",
-    highlight: "Aurora Town 分店"
-  },
-  {
-    id: "3coins-apia",
-    name: "3COINS 札幌 APIA 店",
-    area: "札幌",
-    type: "生活雜貨",
-    season: ["winter"],
-    time: "0.5h",
-    best: "札幌站直結、旅行補貨、雜貨",
-    desc: "位在 JR 札幌站 APIA 地下街，適合搭車前後或回飯店路上順手補旅行小物，不用特地繞路。",
-    highlight: "札幌站直結"
+    best: "平價雜貨、旅行小物、Day6 地下街順逛",
+    desc: "保留 Pole Town 店，因為同一天已有 KINOTOYA BAKE Pole Town 與薄野拉麵安排；店就在同一條地下街動線上，不必為了 3COINS 額外繞去其他分店。",
+    highlight: "Day6 順路首選"
   },
   // 函館購物
   {
@@ -812,17 +801,20 @@ const spots = [
 ];
 
 const winterTemplate = {
-  1: ["new-chitose-airport", "nippon-rentacar-new-chitose", "premier-cabin-asahikawa", "tokiwa-park", "kamikawa-shrine", "asahikawa-heiwa-dori"],
+  1: ["new-chitose-airport", "nippon-rentacar-new-chitose", "premier-cabin-asahikawa", "aeon-mall-asahikawa-ekimae", "tokiwa-park", "kamikawa-shrine", "asahikawa-heiwa-dori"],
   2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "sapporo-odori", "sapporo-susukino"],
   3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "wakadori-naruto-honten", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
   4: ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"],
   5: ["moiwa-yama"],
-  6: ["sapporo-beer-museum", "ario-sapporo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "3coins-aurora-town", "3coins-apia", "ramen-haruka"],
+  6: ["sapporo-beer-museum", "ario-sapporo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"],
   7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view"],
   8: ["goryokaku"],
   9: ["kanemori-warehouse", "hakodate-hachimangu", "hakodate-gokoku-shrine", "hakodate-mt"],
   10: ["morning-market", "motomachi", "hakodate-airport"]
 };
+
+const legacyDayTwoBackup = ["sapporo-odori", "shiroi-koibito-park", "sapporo-susukino"];
+const dayTwoBackup = ["sunagawa-highway-oasis", "shiroi-koibito-park", "sapporo-susukino"];
 
 const winterProfile = {
   label: "12/23-1/1",
@@ -834,7 +826,7 @@ const winterProfile = {
 const tripDates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29", "12/30", "12/31", "1/1"];
 
 const daySummaries = {
-  1: "從新千歲機場入境、取車後前往旭川。入住後安排常磐公園、上川神社和平和通散步。",
+  1: "從新千歲機場入境、取車後前往旭川。入住後先到旭川站前補雪靴或防滑鞋，再視體力安排常磐公園、上川神社和平和通散步。",
   2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌，晚上逛大通與薄野。",
   3: "上午安排札幌神社巡禮，接著前往小樽吃午餐、走運河、逛玻璃店與童話十字路。",
   4: "從札幌前往登別與室蘭，安排地獄谷、白鳥大橋展望台和幸福之鐘。",
@@ -872,12 +864,16 @@ const spotLogistics = {
     access: "JR 旭川站步行約 5 分鐘，從飯店步行逛街找餐廳很方便"
   },
   "aeon-mall-asahikawa-ekimae": {
-    hours: "專門店常見 09:00-21:00；餐飲與超市營業時間可能不同",
-    access: "地址：旭川市宮下通7丁目2番5号。JR 旭川站直結，冬天從車站室內動線前往最方便"
+    hours: "AEON MALL 專門店常見 10:00-21:00；ABC-MART SPORTS 也是 10:00-21:00，年末年始可能調整",
+    access: "地址：旭川市宮下通7丁目2番5号。JR 旭川站直結，從 Premier Hotel-CABIN 旭川步行約 3-5 分鐘；2F ABC-MART SPORTS 可先找雪靴、防滑鞋與保暖鞋款"
   },
   "feeeal-asahikawa": {
     hours: "各店舖營業時間不同，出發前請以商場公告為準",
     access: "地址：旭川市1条通8丁目108番地。JR 旭川站步行約 5 分鐘，平和通買物公園旁"
+  },
+  "sunagawa-highway-oasis": {
+    hours: "冬季（10/1-4/30）09:00-17:00；餐廳 10:30-17:00（L.O. 16:30），元旦休館",
+    access: "地址：砂川市北光336番地7。從旭川往札幌可由道央道砂川 SA 上行線進入專用道路，停車與入館免費"
   },
   "biei-shrine": {
     hours: "境內通年可參拜；授與所依現場公告",
@@ -961,15 +957,7 @@ const spotLogistics = {
   },
   "3coins-pole-town": {
     hours: "常見 10:00-20:00；以札幌地下街公告為準",
-    access: "地址：札幌市中央区南2条西3丁目 札幌地下街ポールタウン B1F。大通到薄野地下街順路"
-  },
-  "3coins-aurora-town": {
-    hours: "常見 10:00-20:00；以札幌地下街公告為準",
-    access: "地址：札幌市中央区大通西2丁目 札幌地下街オーロラタウン B1F。大通站、大通公園旁"
-  },
-  "3coins-apia": {
-    hours: "常見 10:00-21:00；以 APIA 公告為準",
-    access: "地址：札幌市中央区北5条西3丁目 JRタワースクエア札幌アピア B1F。JR/地鐵札幌站直結"
+    access: "地址：札幌市中央区南2条西3丁目 札幌地下街ポールタウン B1F。與 KINOTOYA BAKE 同在 Pole Town，往薄野拉麵橫丁也順路"
   },
   "sapporo-fushimi-inari": {
     hours: "境內可參拜；授與品與御朱印依社務所公告",
@@ -1163,7 +1151,9 @@ const areaDriveMinutes = {
   "新千歲|札幌": 60,
   "旭川|富良野": 65,
   "旭川|美瑛": 40,
+  "旭川|砂川": 55,
   "旭川|札幌": 130,
+  "砂川|札幌": 70,
   "札幌|小樽": 45,
   "札幌|札幌郊外": 55,
   "札幌|洞爺湖": 120,
@@ -1181,7 +1171,8 @@ const areaDriveMinutes = {
 const storageKey = "hokkaido-trip-planner-plan";
 const mealPlanKey = "hokkaido-trip-planner-meals";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
-const currentPlanTemplateVersion = "2026-08-17-otaru-naruto";
+const previousPlanTemplateVersion = "2026-08-17-otaru-naruto";
+const currentPlanTemplateVersion = "2026-09-21-winter-shopping";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -1309,6 +1300,31 @@ function ensureRequiredStops(plan) {
   return plan;
 }
 
+function planStopsEqual(first, second) {
+  return Array.isArray(first)
+    && Array.isArray(second)
+    && first.length === second.length
+    && first.every((spotId, index) => spotId === second[index]);
+}
+
+function migratePreviousTemplate(plan) {
+  let changed = false;
+  const dayOne = plan[1] || [];
+  const hotelIndex = dayOne.indexOf("premier-cabin-asahikawa");
+
+  if (hotelIndex >= 0 && !dayOne.includes("aeon-mall-asahikawa-ekimae")) {
+    dayOne.splice(hotelIndex + 1, 0, "aeon-mall-asahikawa-ekimae");
+    changed = true;
+  }
+
+  if (planStopsEqual(plan[2], legacyDayTwoBackup)) {
+    plan[2] = [...dayTwoBackup];
+    changed = true;
+  }
+
+  return changed;
+}
+
 function loadPlan() {
   const stored = window.localStorage.getItem(storageKey);
   if (!stored) {
@@ -1316,7 +1332,8 @@ function loadPlan() {
   }
 
   try {
-    if (window.localStorage.getItem(planTemplateVersionKey) !== currentPlanTemplateVersion) {
+    const storedTemplateVersion = window.localStorage.getItem(planTemplateVersionKey);
+    if (![previousPlanTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
       return createDefaultPlan();
     }
 
@@ -1326,6 +1343,19 @@ function loadPlan() {
       accumulator[day] = Array.isArray(parsed[day]) ? parsed[day].filter((id) => spotById(id)) : [];
       return accumulator;
     }, {});
+
+    if (storedTemplateVersion === previousPlanTemplateVersion) {
+      const normalizedChanged = Object.keys(winterTemplate).some((key) => {
+        const day = Number(key);
+        return !planStopsEqual(Array.isArray(parsed[day]) ? parsed[day] : [], plan[day]);
+      });
+      const migrationChanged = migratePreviousTemplate(plan);
+      window.localStorage.setItem(storageKey, JSON.stringify(plan));
+      window.localStorage.setItem(planTemplateVersionKey, currentPlanTemplateVersion);
+      if (normalizedChanged || migrationChanged) {
+        window.localStorage.setItem(cloudPendingKey, "1");
+      }
+    }
 
     const hasAnyStops = Object.values(plan).some((dayStops) => dayStops.length > 0);
     return hasAnyStops ? ensureRequiredStops(plan) : createDefaultPlan();
@@ -1758,7 +1788,7 @@ function applyRemotePayload(payload) {
   cloud.syncedRevision = state.editRevision;
   cloud.version = typeof payload?.version === "number" ? payload.version : cloud.version;
   cloud.basePlan = remotePlan;
-  state.changeLog = Array.isArray(payload?.changes) ? payload.changes.slice(0, 4) : [];
+  state.changeLog = Array.isArray(payload?.changes) ? payload.changes.slice(0, 30) : [];
   savePlan();
   window.localStorage.setItem(savedAtKey, state.lastSavedAt);
   render();
@@ -1812,7 +1842,7 @@ async function pushCloudState() {
     cloud.version = result.version;
     cloud.basePlan = cloneJson(result.plan);
     pushSucceeded = true;
-    state.changeLog = result.changes.slice(0, 4);
+    state.changeLog = result.changes.slice(0, 30);
     state.lastSavedAt = new Date().toISOString();
     cloud.syncedRevision = Math.max(cloud.syncedRevision, pushedRevision);
     if (state.editRevision === pushedRevision) {
@@ -2422,7 +2452,6 @@ function renderMealPlanner() {
   });
 }
 
-const dayTwoBackup = ["sapporo-odori", "shiroi-koibito-park", "sapporo-susukino"];
 function dayTwoOriginalKey() {
   return `hokkaido-day2-original:${state.syncCode || "local"}`;
 }
@@ -2459,7 +2488,7 @@ function renderDayAlternative() {
       <button type="button" class="small-button" data-alternative="A" aria-pressed="${!backup}">原行程</button>
       <button type="button" class="small-button" data-alternative="B" aria-pressed="${backup}">Plan B · 札幌景點版</button>
     </div>
-    <p>${backup ? "假設不幸遇到火山活動或道路管制，導致美瑛、富良野支線無法通行，就切換 Plan B：從旭川直接前往札幌，抵達後安排大通公園、白色戀人公園等景點，晚上在薄野吃飯。" : "保留美瑛、富良野的安排，再前往札幌；若曾套用備案，這裡會還原切換前的景點順序。"}</p>
+    <p>${backup ? "假設不幸遇到火山活動或道路管制，導致美瑛、富良野支線無法通行，就切換 Plan B：從旭川出發，途中在砂川 Highway Oasis 休息補給，再前往白色戀人公園，晚上在薄野吃飯。" : "保留美瑛、富良野的安排，再前往札幌；若曾套用備案，這裡會還原切換前的景點順序。"}</p>
     <p class="alternative-route">${ids.map((id) => escapeHtml(spotById(id).name)).join(" → ") || "尚未安排景點"}</p>
     <p>遇封路或不適合開車時，先留在安全地點確認交通狀況。餐食安排會保留，切換後請檢查餐廳地點。</p>
     <p>原行程備份保留在這台裝置，套用後的行程照常同步。</p>
@@ -2758,8 +2787,6 @@ const shoppingSpotIds = new Set([
   "donki-tanukikoji",
   "ario-sapporo",
   "3coins-pole-town",
-  "3coins-aurora-town",
-  "3coins-apia",
   "marui-imai-hakodate",
   "share-star-hakodate",
   "kiralis-hakodate",
@@ -3019,7 +3046,7 @@ function renderSummary() {
     dom.focusTitle.textContent = `Day ${day} · ${tripDates[day - 1]}`;
     dom.focusDesc.textContent = daySpots.length
       ? (day === 2 && isDayTwoBackup()
-          ? "Plan B：假設美瑛、富良野方向因火山活動或道路管制無法通行，從旭川直接前往札幌，抵達後安排大通公園與白色戀人公園，晚上到薄野吃飯。"
+          ? "Plan B：假設美瑛、富良野方向因火山活動或道路管制無法通行，從旭川出發，途中在砂川 Highway Oasis 休息補給，再前往白色戀人公園，晚上到薄野吃飯。"
           : JSON.stringify(state.plan[day]) === JSON.stringify(winterTemplate[day])
             ? daySummaries[day]
             : `從${dayBaseAreas[day]}出發，安排${dayAreas.join("、")}共 ${daySpots.length} 個點位，包含${[...new Set(daySpots.map((spot) => spot.type))].slice(0, 3).join("、")}。`)
@@ -3074,21 +3101,39 @@ function renderSummary() {
         </article>
       `;
     } else {
-      dom.changeLogGrid.innerHTML = state.changeLog
-        .slice(0, 4)
-        .map((item, index) => {
-          const candidateTime = typeof item?.at === "number" && Number.isFinite(item.at) ? new Date(item.at) : new Date();
-          const itemTime = Number.isNaN(candidateTime.getTime()) ? new Date() : candidateTime;
-          const timeText = formatSavedAt(itemTime.toISOString());
-          const summary = typeof item?.summary === "string" ? item.summary.slice(0, 80) : "更新行程";
-          return `
-            <article class="change-log-card">
-              <p class="change-log-main">v${Math.max(cloud.version - index, 1)} ${escapeHtml(summary)}</p>
-              <p class="change-log-sub">${timeText}</p>
-            </article>
-          `;
-        })
-        .join("");
+      const previousDetails = dom.changeLogGrid.querySelector(".change-log-details");
+      const wasOpen = Boolean(previousDetails?.open);
+      const visibleChanges = state.changeLog.slice(0, 4);
+      const olderChanges = state.changeLog.slice(4);
+      const renderChangeLogCard = (item, index) => {
+        const candidateTime = typeof item?.at === "number" && Number.isFinite(item.at) ? new Date(item.at) : null;
+        const timeText = candidateTime && !Number.isNaN(candidateTime.getTime())
+          ? formatSavedAt(candidateTime.toISOString())
+          : "時間未知";
+        const summary = typeof item?.summary === "string" ? item.summary.slice(0, 80) : "更新行程";
+        return `
+          <article class="change-log-card">
+            <p class="change-log-main">v${Math.max(cloud.version - index, 1)} ${escapeHtml(summary)}</p>
+            <p class="change-log-sub">${timeText}</p>
+          </article>
+        `;
+      };
+
+      const olderChangesHtml = olderChanges.length
+        ? `
+          <details class="change-log-details"${wasOpen ? " open" : ""}>
+            <summary class="change-log-summary">
+              <span>查看較早紀錄</span>
+              <span class="change-log-count">${olderChanges.length} 筆</span>
+            </summary>
+            <div class="change-log-more-list">
+              ${olderChanges.map((item, index) => renderChangeLogCard(item, index + 4)).join("")}
+            </div>
+          </details>
+        `
+        : "";
+
+      dom.changeLogGrid.innerHTML = `${visibleChanges.map(renderChangeLogCard).join("")}${olderChangesHtml}`;
     }
   }
 

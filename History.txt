@@ -15,3 +15,14 @@
 
 - 更新 Day 2 Plan B 的觸發情境，改為火山活動或道路管制導致富良野、美瑛支線無法通行時使用。
 - 將備案景點由札幌百貨改為大通公園、白色戀人公園，保留薄野晚餐。
+- 將共編紀錄改為保留最多 30 筆，前 4 筆直接顯示，較早紀錄可展開查看。
+- Day 1 加入旭川站前 AEON MALL 裝備補給；Day 6 的 3COINS 取捨為 Pole Town 店，移除 Aurora Town 與 APIA 分店。
+- 以 `node --check app.js` 與 `git diff --check` 完成驗證。
+- 將首頁標題改為「10日行程」，住宿區標題改為「沿途住宿」。
+- 從 Day 2 Plan B 移除大通公園，保留白色戀人公園與薄野晚餐。
+- Day 2 Plan B 加入砂川 Highway Oasis，作為旭川前往札幌途中的休息補給站。
+- 完成整體 code review，修正匯入或雲端同步時會把使用者已刪除的 Day 1 AEON 購物點自動加回的問題。
+- 補上舊版 Day 2 Plan B 遷移：已套用舊備案的本機行程會改為砂川 Highway Oasis、白色戀人公園與薄野，並標記待同步。
+- 共編紀錄遇到無效時間時改顯示「時間未知」，避免誤顯示為目前時間。
+- 更新 JavaScript 與 CSS cache key，確保部署後載入新版互動與共編下拉樣式。
+- 通過 `node --check`、資料 ID／HTML ID 完整性、模板遷移單元測試與 Chrome smoke test；共編下拉及 Day 2 Plan B 互動正常，瀏覽器 console 無錯誤。
