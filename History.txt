@@ -1,0 +1,12 @@
+# Project Change History
+
+## 2026-09-19
+
+- Commit `679ba47`: 優化手機版行程介面，加入 Day 2 富良野備案、方案切換與還原，以及 PDF 列印匯出。
+- 更新 README，補充 PDF、備案與同步設定說明。
+
+## 2026-09-21
+
+- 檢查 `app.js` 與 `sync-config.js` 語法，並以 Chrome smoke test 驗證頁面初始化；未發現可重現的阻擋性錯誤。
+- 將 commit `679ba47` push 到 `origin/main`。
+- 建立本檔案；之後每次修改程式碼、樣式、設定或文件時，同步記錄日期、內容與驗證結果。
