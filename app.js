@@ -176,6 +176,17 @@ const spots = [
     highlight: "城市夜色"
   },
   {
+    id: "unagi-nakajima",
+    name: "うなぎ仲じま",
+    area: "札幌",
+    type: "鰻魚飯",
+    season: ["winter"],
+    time: "1.5h",
+    best: "鰻重、ひつまぶし、Day 5 午餐",
+    desc: "位在中島公園站旁的鰻魚料理店，適合 Day 5 中午先吃鰻魚飯，休息後再前往藻岩山看傍晚夜景。午餐最後點餐為 14:00，建議先預約，12 月底營業時間仍要在出發前向店家確認。",
+    highlight: "Day5 鰻魚飯"
+  },
+  {
     id: "furano-field",
     name: "富良野雪原",
     area: "富良野",
@@ -805,7 +816,7 @@ const winterTemplate = {
   2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "sapporo-odori", "sapporo-susukino"],
   3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "wakadori-naruto-honten", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
   4: ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"],
-  5: ["moiwa-yama"],
+  5: ["unagi-nakajima", "moiwa-yama"],
   6: ["sapporo-beer-museum", "ario-sapporo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"],
   7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view"],
   8: ["goryokaku"],
@@ -830,7 +841,7 @@ const daySummaries = {
   2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌，晚上逛大通與薄野。",
   3: "上午安排札幌神社巡禮，接著前往小樽吃午餐、走運河、逛玻璃店與童話十字路。",
   4: "從札幌前往登別與室蘭，安排地獄谷、白鳥大橋展望台和幸福之鐘。",
-  5: "札幌自由活動日，傍晚上藻岩山看夜景。",
+  5: "札幌自由活動日，中午先吃鰻魚飯，傍晚再上藻岩山看夜景。",
   6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
   7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡。",
   8: "從洞爺湖移動到函館，當天以五稜郭為主，晚上入住函館站附近。",
@@ -998,6 +1009,10 @@ const spotLogistics = {
   "moiwa-yama": {
     hours: "纜車常見 10:30-22:00（最終上山提前）",
     access: "市電轉接駁巴士或計程車最順"
+  },
+  "unagi-nakajima": {
+    hours: "午餐 11:30-15:00（L.O. 14:00）；晚餐 17:00-22:00（L.O. 21:00）；年末營業請另行確認",
+    access: "地址：札幌市中央區南9條西2丁目2-10 Hotel Mystays Premier Sapporo Park 2F；地下鐵中島公園站步行約 2 分鐘"
   },
   "toyako-lake": {
     hours: "湖畔散步全天可走；遊船/設施依季節營運",
@@ -1171,8 +1186,8 @@ const areaDriveMinutes = {
 const storageKey = "hokkaido-trip-planner-plan";
 const mealPlanKey = "hokkaido-trip-planner-meals";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
-const previousPlanTemplateVersion = "2026-08-17-otaru-naruto";
-const currentPlanTemplateVersion = "2026-09-21-winter-shopping";
+const previousPlanTemplateVersions = ["2026-08-17-otaru-naruto", "2026-09-21-winter-shopping", "2026-09-22-day5-unagi"];
+const currentPlanTemplateVersion = "2026-09-22-day5-unagi-lunch";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -1180,7 +1195,7 @@ const syncClientIdKey = "hokkaido-trip-planner-sync-client-id";
 const cloudPendingKey = "hokkaido-trip-planner-cloud-pending";
 const syncCodeMinLength = 2;
 const syncCodeMaxLength = 40;
-const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐", "壽司", "拉麵", "甜點", "炸雞", "燒肉", "洋食", "漢堡", "天丼", "天婦羅"];
+const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐", "壽司", "拉麵", "甜點", "炸雞", "燒肉", "洋食", "漢堡", "天丼", "天婦羅", "鰻魚飯"];
 const mealSlotDefinitions = [
   { id: "lunch", label: "午餐", defaultTime: "12:00" },
   { id: "dinner", label: "晚餐", defaultTime: "18:30" }
@@ -1322,6 +1337,12 @@ function migratePreviousTemplate(plan) {
     changed = true;
   }
 
+  if (planStopsEqual(plan[5], ["moiwa-yama"])
+    || planStopsEqual(plan[5], ["moiwa-yama", "unagi-nakajima"])) {
+    plan[5] = [...winterTemplate[5]];
+    changed = true;
+  }
+
   return changed;
 }
 
@@ -1333,7 +1354,7 @@ function loadPlan() {
 
   try {
     const storedTemplateVersion = window.localStorage.getItem(planTemplateVersionKey);
-    if (![previousPlanTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
+    if (![...previousPlanTemplateVersions, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
       return createDefaultPlan();
     }
 
@@ -1344,7 +1365,7 @@ function loadPlan() {
       return accumulator;
     }, {});
 
-    if (storedTemplateVersion === previousPlanTemplateVersion) {
+    if (previousPlanTemplateVersions.includes(storedTemplateVersion)) {
       const normalizedChanged = Object.keys(winterTemplate).some((key) => {
         const day = Number(key);
         return !planStopsEqual(Array.isArray(parsed[day]) ? parsed[day] : [], plan[day]);
