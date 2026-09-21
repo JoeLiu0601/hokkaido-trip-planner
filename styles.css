@@ -1515,6 +1515,7 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
   .hero .metric { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; padding: 8px 0; border: 0; border-radius: 0; background: transparent; }
   .metric strong { font-size: 0.95rem; }
   .toolbar { margin-top: 12px; gap: 8px; }
+  .workspace > .toolbar { margin-top: 0; }
   #save-plan-btn { grid-column: auto; }
   .planner-settings #reset-plan-btn { grid-column: 1 / -1; }
   .workspace { gap: 14px; margin-top: 14px; }

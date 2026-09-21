@@ -281,9 +281,9 @@ const spots = [
     type: "海鮮早餐",
     season: ["winter"],
     time: "1.5h",
-    best: "海鮮丼、早餐、在地味",
-    desc: "早上排這裡很順，適合把北海道的海味從第一餐就拉滿。",
-    highlight: "早餐首選"
+    best: "海鮮丼、早餐、在地味、元旦需確認",
+    desc: "一般早上排這裡很順，但 Day 10 是元旦：2027/1/1 正式營業資訊尚未公告，前一年度函館官方年末年始表曾將 1/1 列為休業。不要把早餐完全押在這裡；若一定想逛，優先考慮移到 Day 9 早上，或準備飯店早餐備案。",
+    highlight: "元旦高風險"
   },
   {
     id: "kanemori-warehouse",
@@ -325,9 +325,9 @@ const spots = [
     type: "夜景",
     season: ["winter"],
     time: "2h",
-    best: "夜景、海港、收尾感",
-    desc: "如果你打算南北串遊，函館山非常適合當整趟旅行的收尾。",
-    highlight: "壓軸夜景"
+    best: "夜景、海港、12/31 提早上山",
+    desc: "Day 9 建議在傍晚提早上山看夜景，再回市區吃飯與休息。12/31 年末營業通常會縮短；2026/12/31 正式時間尚未公告，前一年度曾提前至 17:30 上行末班、19:00 下行末班，出發前務必再查官方公告。",
+    highlight: "跨年前夜景"
   },
   {
     id: "hakodate-hachimangu",
@@ -336,9 +336,9 @@ const spots = [
     type: "神社參拜",
     season: ["winter"],
     time: "1.5h",
-    best: "跨年參拜、祈福、年末儀式感",
-    desc: "跨年夜安排函館八幡宮參拜很有氣氛，能和五稜郭夜景或函館山夜景銜接。",
-    highlight: "跨年參拜"
+    best: "元旦初詣、祈福、跨年儀式感",
+    desc: "排在 Day 9 最後，函館山夜景後先回市區吃飯休息，約 23:30 再前往函館八幡宮，跨過午夜後進行元旦初詣。2027 年正式授與所時間預計要到 12 月公告；往年午夜後有延長服務。",
+    highlight: "午夜初詣"
   },
   {
     id: "hakodate-airport",
@@ -819,6 +819,17 @@ const spots = [
     best: "中華雞腿漢堡、函館限定、金森紅磚倉庫",
     desc: "函館限定連鎖的第一號店，就在金森紅磚倉庫旁。招牌中華雞腿漢堡份量足，適合當午餐、晚餐或港區散步後的彈性備選。",
     highlight: "函館限定漢堡"
+  },
+  {
+    id: "lucky-pierrot-tokura",
+    name: "小丑漢堡 Lucky Pierrot 戶倉店（中華雞腿漢堡）",
+    area: "函館",
+    type: "漢堡",
+    season: ["winter"],
+    time: "1h",
+    best: "中華雞腿漢堡、函館機場前午餐、停車方便",
+    desc: "距函館機場開車約 5 分鐘，設有 26 個停車位，最適合排在 Day 10 元町散步後、還車與搭機前吃午餐。餐點接單後製作，建議至少預留 60 分鐘；若航班較早或候餐時間過長，直接改到函館機場用餐。",
+    highlight: "Day10 機場前午餐"
   }
 ];
 
@@ -831,8 +842,8 @@ const winterTemplate = {
   6: ["sapporo-beer-museum", "ario-sapporo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"],
   7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view"],
   8: ["goryokaku"],
-  9: ["kanemori-warehouse", "hakodate-hachimangu", "hakodate-gokoku-shrine", "hakodate-mt"],
-  10: ["morning-market", "motomachi", "hakodate-airport"]
+  9: ["kanemori-warehouse", "hakodate-gokoku-shrine", "hakodate-mt", "hakodate-hachimangu"],
+  10: ["morning-market", "motomachi", "lucky-pierrot-tokura", "hakodate-airport"]
 };
 
 const legacyDayTwoBackup = ["sapporo-odori", "shiroi-koibito-park", "sapporo-susukino"];
@@ -856,8 +867,8 @@ const daySummaries = {
   6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
   7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡。",
   8: "從洞爺湖移動到函館，當天以五稜郭為主，晚上入住函館站附近。",
-  9: "函館市區一日，走金森倉庫與神社，傍晚上函館山看夜景。",
-  10: "函館朝市早餐、元町散步，最後前往函館機場返程。"
+  9: "白天走金森倉庫與護國神社，提早上函館山看夜景；回市區休息後，午夜前往函館八幡宮初詣。",
+  10: "元旦早上先確認函館朝市是否營業，再走元町；午餐到機場附近吃 Lucky Pierrot，最後還車前往函館機場。"
 };
 
 const spotLogistics = {
@@ -1078,12 +1089,12 @@ const spotLogistics = {
     access: "地址：函館市五稜郭町29-22。市電五稜郭公園前站步行約 10 分鐘；設有 7 個免費停車位"
   },
   "hakodate-hachimangu": {
-    hours: "境內全天開放；授與所多為白天時段",
-    access: "可由函館市電末廣町/谷地頭轉步行或計程車"
+    hours: "2026/12/31-2027/1/1 正式時間尚未公告；往年授與所 12/31 至 24:00、1/1 於 00:00 後延長開放",
+    access: "函館市電谷地頭站步行約 5-10 分鐘；午夜初詣人潮多，建議搭市電或計程車，不要把自駕停車當唯一方案"
   },
   "hakodate-mt": {
-    hours: "纜車常見 10:00-22:00（季節調整）",
-    access: "纜車站可搭巴士/計程車，跨年建議提早卡位"
+    hours: "冬季通常 10:00-21:00；12/31 可能大幅縮短。2026/12/31 尚未公告，前一年度上行末班 17:30、下行末班 19:00",
+    access: "纜車站可搭巴士/計程車；Day 9 建議 16:00 前抵達山麓站，並在出發前查官方最新運行公告"
   },
   "marui-imai-hakodate": {
     hours: "常見 10:00-18:30；跨年與元旦通常縮短或休館，請以年末年始公告為準",
@@ -1117,8 +1128,12 @@ const spotLogistics = {
     hours: "官方營業 10:00-21:00（餐點 L.O. 20:30）",
     access: "地址：函館市末広町23-18。金森紅磚倉庫旁，市電末廣町站步行約 3 分鐘；店舖無停車場"
   },
+  "lucky-pierrot-tokura": {
+    hours: "官方營業 10:00-21:00（餐點 L.O. 20:30）；2027 元旦是否調整仍需看年末公告",
+    access: "地址：函館市戶倉町30-1。函館機場開車約 5 分鐘，設有 26 個停車位；接單後現做，需預留候餐時間"
+  },
   "morning-market": {
-    hours: "冬季（1-4月）多數店家常見 06:00 至 14:00 後；跨年店家營業差異很大，12/31 多數可能提早結束",
+    hours: "冬季一般約 06:00 至 14:00 後（各店不同）；2027/1/1 尚未公告，前一年度函館官方年末年始表將元旦列為休業",
     access: "地址：函館市若松町9-19。函館站步行約 1-2 分鐘，適合和站內伴手禮店一起安排"
   },
   "kanemori-warehouse": {
@@ -1201,8 +1216,8 @@ const areaDriveMinutes = {
 const storageKey = "hokkaido-trip-planner-plan";
 const mealPlanKey = "hokkaido-trip-planner-meals";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
-const previousPlanTemplateVersions = ["2026-08-17-otaru-naruto", "2026-09-21-winter-shopping", "2026-09-22-day5-unagi", "2026-09-22-day5-unagi-lunch", "2026-09-22-day4-noboribetsu-onsen-street"];
-const currentPlanTemplateVersion = "2026-09-22-day4-tenkatsu-lunch";
+const previousPlanTemplateVersions = ["2026-08-17-otaru-naruto", "2026-09-21-winter-shopping", "2026-09-22-day5-unagi", "2026-09-22-day5-unagi-lunch", "2026-09-22-day4-noboribetsu-onsen-street", "2026-09-22-day4-tenkatsu-lunch"];
+const currentPlanTemplateVersion = "2026-09-22-hakodate-new-year";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -1361,6 +1376,16 @@ function migratePreviousTemplate(plan) {
   if (planStopsEqual(plan[4], ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"])
     || planStopsEqual(plan[4], ["noboribetsu-valley", "noboribetsu-onsen-street", "muroran-hakucho-bridge-view", "happiness-bell"])) {
     plan[4] = [...winterTemplate[4]];
+    changed = true;
+  }
+
+  if (planStopsEqual(plan[9], ["kanemori-warehouse", "hakodate-hachimangu", "hakodate-gokoku-shrine", "hakodate-mt"])) {
+    plan[9] = [...winterTemplate[9]];
+    changed = true;
+  }
+
+  if (planStopsEqual(plan[10], ["morning-market", "motomachi", "hakodate-airport"])) {
+    plan[10] = [...winterTemplate[10]];
     changed = true;
   }
 
@@ -3362,10 +3387,15 @@ function positionDaySummary() {
   const card = document.getElementById("focus-card");
   const mobileHost = document.getElementById("mobile-day-summary");
   const desktopHost = document.querySelector(".detail-panel");
+  const toolbar = document.querySelector(".toolbar");
+  const workspace = document.querySelector(".workspace");
+  const itineraryPanel = document.querySelector(".itinerary-panel");
   if (window.matchMedia("(max-width: 640px)").matches) {
     mobileHost.appendChild(card);
+    itineraryPanel.insertAdjacentElement("afterend", toolbar);
   } else {
     desktopHost.insertBefore(card, desktopHost.querySelector(".change-log-section"));
+    workspace.insertAdjacentElement("beforebegin", toolbar);
   }
 }
 
