@@ -264,6 +264,17 @@ const spots = [
     highlight: "地熱名所"
   },
   {
+    id: "noboribetsu-onsen-street",
+    name: "登別溫泉街",
+    area: "登別",
+    type: "溫泉街散步",
+    season: ["winter"],
+    time: "1h",
+    best: "閻魔堂、鬼像、伴手禮、小吃、溫泉街散步",
+    desc: "地獄谷入口旁的溫泉商店街，餐廳、甜點與伴手禮店集中。走完地獄谷後可順路看閻魔堂與街上的鬼像，停留約 45-60 分鐘；想吃温泉市場海鮮或登別閻魔炒麵可少量品嘗，把正餐留給室蘭天勝本店。",
+    highlight: "Day4 散步小吃"
+  },
+  {
     id: "morning-market",
     name: "函館朝市",
     area: "函館",
@@ -815,7 +826,7 @@ const winterTemplate = {
   1: ["new-chitose-airport", "nippon-rentacar-new-chitose", "premier-cabin-asahikawa", "aeon-mall-asahikawa-ekimae", "tokiwa-park", "kamikawa-shrine", "asahikawa-heiwa-dori"],
   2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "sapporo-odori", "sapporo-susukino"],
   3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "wakadori-naruto-honten", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
-  4: ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"],
+  4: ["noboribetsu-valley", "noboribetsu-onsen-street", "tenkatsu-honten-muroran", "muroran-hakucho-bridge-view", "happiness-bell"],
   5: ["unagi-nakajima", "moiwa-yama"],
   6: ["sapporo-beer-museum", "ario-sapporo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"],
   7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view"],
@@ -840,7 +851,7 @@ const daySummaries = {
   1: "從新千歲機場入境、取車後前往旭川。入住後先到旭川站前補雪靴或防滑鞋，再視體力安排常磐公園、上川神社和平和通散步。",
   2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌，晚上逛大通與薄野。",
   3: "上午安排札幌神社巡禮，接著前往小樽吃午餐、走運河、逛玻璃店與童話十字路。",
-  4: "從札幌前往登別與室蘭，安排地獄谷、白鳥大橋展望台和幸福之鐘。",
+  4: "從札幌前往登別，走完地獄谷後逛溫泉街，再到室蘭天勝本店吃天丼，下午安排白鳥大橋展望台和幸福之鐘。",
   5: "札幌自由活動日，中午先吃鰻魚飯，傍晚再上藻岩山看夜景。",
   6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
   7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡。",
@@ -1030,6 +1041,10 @@ const spotLogistics = {
     hours: "步道常見白天較安全（夜間不建議）",
     access: "洞爺湖與札幌間可順路停留，自駕最彈性"
   },
+  "noboribetsu-onsen-street": {
+    hours: "街區全天可通行；餐廳與商店多約 10:00 起營業，各店時間與休息日不同",
+    access: "位在地獄谷入口與登別溫泉巴士總站之間；可續停地獄谷停車場，再步行逛溫泉街與用餐"
+  },
   "muroran-hakucho-bridge-view": {
     hours: "展望區通常可自由停留；夜景與冬季路況需注意安全",
     access: "室蘭 IC 往白鳥大橋方向，自駕較方便；白鳥灣展望台也可由崎守站步行約 16 分鐘"
@@ -1186,8 +1201,8 @@ const areaDriveMinutes = {
 const storageKey = "hokkaido-trip-planner-plan";
 const mealPlanKey = "hokkaido-trip-planner-meals";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
-const previousPlanTemplateVersions = ["2026-08-17-otaru-naruto", "2026-09-21-winter-shopping", "2026-09-22-day5-unagi"];
-const currentPlanTemplateVersion = "2026-09-22-day5-unagi-lunch";
+const previousPlanTemplateVersions = ["2026-08-17-otaru-naruto", "2026-09-21-winter-shopping", "2026-09-22-day5-unagi", "2026-09-22-day5-unagi-lunch", "2026-09-22-day4-noboribetsu-onsen-street"];
+const currentPlanTemplateVersion = "2026-09-22-day4-tenkatsu-lunch";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -1340,6 +1355,12 @@ function migratePreviousTemplate(plan) {
   if (planStopsEqual(plan[5], ["moiwa-yama"])
     || planStopsEqual(plan[5], ["moiwa-yama", "unagi-nakajima"])) {
     plan[5] = [...winterTemplate[5]];
+    changed = true;
+  }
+
+  if (planStopsEqual(plan[4], ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"])
+    || planStopsEqual(plan[4], ["noboribetsu-valley", "noboribetsu-onsen-street", "muroran-hakucho-bridge-view", "happiness-bell"])) {
+    plan[4] = [...winterTemplate[4]];
     changed = true;
   }
 
