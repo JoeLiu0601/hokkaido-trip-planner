@@ -133,7 +133,7 @@ const spots = [
   },
   {
     id: "sapporo-susukino",
-    name: "薄野美食街",
+    name: "薄野美食街（拉麵／海鮮／居酒屋）",
     area: "札幌",
     type: "美食",
     season: ["winter"],
@@ -177,7 +177,7 @@ const spots = [
   },
   {
     id: "unagi-nakajima",
-    name: "うなぎ仲じま",
+    name: "うなぎ仲じま（鰻魚飯）",
     area: "札幌",
     type: "鰻魚飯",
     season: ["winter"],
@@ -243,7 +243,7 @@ const spots = [
   },
   {
     id: "restaurant-boyotei",
-    name: "レストラン望羊蹄",
+    name: "レストラン望羊蹄（漢堡排／蛋包飯）",
     area: "洞爺湖",
     type: "洋食",
     season: ["winter"],
@@ -276,7 +276,7 @@ const spots = [
   },
   {
     id: "morning-market",
-    name: "函館朝市",
+    name: "函館朝市（海鮮丼）",
     area: "函館",
     type: "海鮮早餐",
     season: ["winter"],
@@ -434,7 +434,7 @@ const spots = [
   // 札幌美食
   {
     id: "sapporo-ramen-yokocho",
-    name: "札幌拉麵橫丁",
+    name: "札幌拉麵橫丁（味噌拉麵）",
     area: "札幌",
     type: "美食街",
     season: ["winter"],
@@ -445,7 +445,7 @@ const spots = [
   },
   {
     id: "soup-curry",
-    name: "スープカレー（湯咖哩）",
+    name: "スープカレー（湯咖哩／雞腿蔬菜）",
     area: "札幌",
     type: "在地美食",
     season: ["winter"],
@@ -456,7 +456,7 @@ const spots = [
   },
   {
     id: "totori-honten",
-    name: "トトリ 本店",
+    name: "トトリ 本店（燒肉／冷麵）",
     area: "札幌",
     type: "燒肉",
     season: ["winter"],
@@ -489,7 +489,7 @@ const spots = [
   },
   {
     id: "toriton-kita8",
-    name: "Toriton 北8条光星店",
+    name: "Toriton 北8条光星店（迴轉壽司）",
     area: "札幌",
     type: "迴轉壽司",
     season: ["winter"],
@@ -500,7 +500,7 @@ const spots = [
   },
   {
     id: "hanamaru-stellar-place",
-    name: "根室花まる JR Tower Stellar Place 店",
+    name: "根室花まる JR Tower Stellar Place 店（迴轉壽司）",
     area: "札幌",
     type: "迴轉壽司",
     season: ["winter"],
@@ -511,7 +511,7 @@ const spots = [
   },
   {
     id: "shiki-hanamaru-tokeidai",
-    name: "町のすし家 四季花まる 時計台店",
+    name: "町のすし家 四季花まる 時計台店（壽司）",
     area: "札幌",
     type: "壽司店",
     season: ["winter"],
@@ -522,7 +522,7 @@ const spots = [
   },
   {
     id: "ramen-haruka",
-    name: "札幌拉麵悠 -はるか-",
+    name: "札幌拉麵悠 -はるか-（味噌拉麵）",
     area: "札幌",
     type: "拉麵",
     season: ["winter"],
@@ -533,7 +533,7 @@ const spots = [
   },
   {
     id: "kinotoya-bake-pole-town",
-    name: "KINOTOYA BAKE Pole Town Store",
+    name: "KINOTOYA BAKE Pole Town Store（起司塔／霜淇淋）",
     area: "札幌",
     type: "甜點",
     season: ["winter"],
@@ -701,7 +701,7 @@ const spots = [
   },
   {
     id: "wakadori-naruto-honten",
-    name: "若鶏時代 なると 本店",
+    name: "若鶏時代 なると 本店（炸半雞）",
     area: "小樽",
     type: "小樽美食",
     season: ["winter"],
@@ -712,7 +712,7 @@ const spots = [
   },
   {
     id: "popura-farm-otaru",
-    name: "ポプラファーム 小樽店",
+    name: "ポプラファーム 小樽店（哈密瓜霜淇淋）",
     area: "小樽",
     type: "甜點",
     season: ["winter"],
@@ -745,7 +745,7 @@ const spots = [
   },
   {
     id: "tenkatsu-honten-muroran",
-    name: "天勝本店",
+    name: "天勝本店（天丼）",
     area: "室蘭",
     type: "天丼",
     season: ["winter"],
@@ -800,7 +800,7 @@ const spots = [
   },
   {
     id: "ajisai-honten-hakodate",
-    name: "函館麺厨房 あじさい 本店",
+    name: "函館麺厨房 あじさい 本店（鹽味拉麵）",
     area: "函館",
     type: "鹽拉麵",
     season: ["winter"],
@@ -811,7 +811,7 @@ const spots = [
   },
   {
     id: "lucky-pierrot-bay-area",
-    name: "ラッキーピエロ ベイエリア本店（小丑漢堡）",
+    name: "小丑漢堡 Lucky Pierrot 海灣本店（中華雞腿漢堡）",
     area: "函館",
     type: "漢堡",
     season: ["winter"],
