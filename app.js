@@ -852,7 +852,7 @@ const dayTwoBackup = ["sunagawa-highway-oasis", "shiroi-koibito-park", "sapporo-
 const winterProfile = {
   label: "12/23-1/1",
   blurb: "新千歲入境，旭川與富良野 1 天；札幌 6 天（含小樽）；洞爺湖 1 天，函館跨年 2 天",
-  route: "D1–D7 自駕；D8 抵達函館後還車，D9–D10 無車",
+  route: "D1–D7 自駕；D8 開到函館還車，之後以步行、搭車為主。",
   style: "冬季限定"
 };
 
