@@ -1082,7 +1082,7 @@ const spotLogistics = {
   },
   "goryokaku": {
     hours: "公園全天可走；展望塔常見 09:00-18:00",
-    access: "函館市電五稜郭公園前站轉巴士或步行"
+    access: "函館市電五稜郭公園前站下車後，步行至五稜郭公園約 18 分鐘；也可另查五稜郭塔前接駁巴士"
   },
   "ajisai-honten-hakodate": {
     hours: "官方營業 11:00-20:25（L.O.）；第 4 個週三休息，遇假日改翌平日",
@@ -1130,7 +1130,7 @@ const spotLogistics = {
   },
   "lucky-pierrot-tokura": {
     hours: "官方營業 10:00-21:00（餐點 L.O. 20:30）；2027 元旦是否調整仍需看年末公告",
-    access: "地址：函館市戶倉町30-1。Day 10 已無車，從元町到店、再到函館機場都需另查交通或安排計程車；接單後現做，需預留候餐時間"
+    access: "地址：函館市戶倉町30-1。市電到湯の川後離店仍有一段路；Day 10 從元町過來與餐後去機場，計程車較直接。接單後現做，需預留候餐時間"
   },
   "morning-market": {
     hours: "冬季一般約 06:00 至 14:00 後（各店不同）；2027/1/1 尚未公告，前一年度函館官方年末年始表將元旦列為休業",
@@ -1146,7 +1146,7 @@ const spotLogistics = {
   },
   "hakodate-airport": {
     hours: "航廈常見約 07:30-20:00（依航班）",
-    access: "從函館站可搭機場巴士，約 20 分鐘；元旦班次、候車與航班報到時間請事先確認"
+    access: "市電不直達機場。從函館站可搭機場巴士，約 20 分鐘；若從戶倉店出發，計程車較直接。元旦班次、候車與航班報到時間請事先確認"
   }
 };
 
@@ -1602,6 +1602,41 @@ function formatDriveMinutes(minutes) {
   return `預估車程約 ${hour} 小時 ${minute} 分鐘`;
 }
 
+const hakodateTransitLegs = {
+  "9|kanemori-warehouse|hakodate-gokoku-shrine": "從金森倉庫步行經元町坡道到函館護國神社；積雪時注意防滑，也可搭計程車",
+  "9|hakodate-gokoku-shrine|hakodate-mt": "從函館護國神社步行到函館山纜車山麓站，再搭纜車上山；跨年當天先確認末班",
+  "9|hakodate-mt|hakodate-hachimangu": "先搭纜車下山；跨年深夜前往函館八幡宮建議搭計程車，返飯店也請預留交通。市電 2 系統到谷地頭只適用於仍有班次時",
+  "10|morning-market|motomachi": "朝市步行到函館駅前，搭往谷地頭／函館どつく前方向的市電至十字街，再步行上坡逛元町",
+  "10|motomachi|lucky-pierrot-tokura": "元町到戶倉店以計程車較實際；若搭市電，可從十字街往湯の川方向搭到終點，但下車後仍需走較長一段",
+  "10|lucky-pierrot-tokura|hakodate-airport": "從戶倉店到函館機場建議搭計程車；市電不直達機場，若改搭巴士須先查元旦班次"
+};
+
+function getHakodateTransitInfo(day, index, spotId, dayStops) {
+  if (day === 8 && index === 0) {
+    return spotId === "goryokaku"
+      ? "從洞爺湖自駕抵達函館並還車；若從函館駅前出發，搭往湯の川方向的市電到五稜郭公園前，再步行約 18 分鐘。回飯店可搭反方向市電返回函館駅前"
+      : "從洞爺湖自駕抵達函館並還車；後續交通請依還車地點查市電／巴士／步行路線";
+  }
+
+  if (index === 0 && day === 9 && spotId === "kanemori-warehouse") {
+    return "函館已還車｜從函館駅前搭往谷地頭／函館どつく前方向的市電到十字街，再步行至金森倉庫；也可從飯店步行";
+  }
+
+  if (index === 0 && day === 10 && spotId === "morning-market") {
+    return "函館已還車｜函館朝市在函館站旁，從車站附近飯店步行即可";
+  }
+
+  const prevId = index > 0 ? dayStops[index - 1] : null;
+  const transitLeg = prevId && hakodateTransitLegs[`${day}|${prevId}|${spotId}`];
+  if (transitLeg) {
+    return `函館已還車｜${transitLeg}`;
+  }
+
+  const prevSpot = prevId ? spotById(prevId) : null;
+  const origin = prevSpot ? prevSpot.name : "函館市區";
+  return `函館已還車｜由 ${origin} 前往，請依實際位置查步行／市電／巴士／計程車路線`;
+}
+
 function getDriveInfoForStop(day, index, spotId) {
   const spot = spotById(spotId);
   if (!spot) {
@@ -1610,12 +1645,7 @@ function getDriveInfoForStop(day, index, spotId) {
 
   const dayStops = state.plan[day] || [];
   if (day >= 8) {
-    if (day === 8 && index <= 0) {
-      return "從洞爺湖自駕抵達函館並還車；此後請查步行／市電／巴士／計程車路線與時間";
-    }
-    const prevSpot = index > 0 ? spotById(dayStops[index - 1]) : null;
-    const origin = prevSpot ? prevSpot.name : "函館市區";
-    return `函館已還車｜由 ${origin} 前往，請查步行／市電／巴士／計程車路線與時間`;
+    return getHakodateTransitInfo(day, index, spotId, dayStops);
   }
 
   if (index <= 0) {
