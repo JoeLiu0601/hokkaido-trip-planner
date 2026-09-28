@@ -348,7 +348,7 @@ const spots = [
     season: ["winter"],
     time: "0h",
     best: "返程前最後補給",
-    desc: "回程前從函館機場離境，建議預留報到與還車時間，讓最後一天節奏更穩。",
+    desc: "回程前從函館機場離境。車已在抵達函館時歸還，最後一天請預留從市區前往機場、報到與安檢的時間。",
     highlight: "旅程終點"
   },
 
@@ -584,7 +584,7 @@ const spots = [
     season: ["winter"],
     time: "1h",
     best: "函館站前、餐飲、伴手禮",
-    desc: "函館站前的複合商場，適合在搭車、還車或回飯店前短暫逛逛。和函館朝市、車站周邊行程很好串。",
+    desc: "函館站前的複合商場，適合在搭車或回飯店前短暫逛逛。和函館朝市、車站周邊行程很好串。",
     highlight: "函館站前"
   },
   {
@@ -827,8 +827,8 @@ const spots = [
     type: "漢堡",
     season: ["winter"],
     time: "1h",
-    best: "中華雞腿漢堡、函館機場前午餐、停車方便",
-    desc: "距函館機場開車約 5 分鐘，設有 26 個停車位，最適合排在 Day 10 元町散步後、還車與搭機前吃午餐。餐點接單後製作，建議至少預留 60 分鐘；若航班較早或候餐時間過長，直接改到函館機場用餐。",
+    best: "中華雞腿漢堡、函館機場前午餐、需另安排交通",
+    desc: "Day 10 仍排在元町散步後、前往機場前，但抵達函館時已還車。戶倉店不在元町或函館站步行圈，需另查市電／巴士轉乘或安排計程車，吃完也要再前往機場。餐點現做，請連候餐與候車時間一起預留；元旦營業以當年公告為準。",
     highlight: "Day10 機場前午餐"
   }
 ];
@@ -852,7 +852,7 @@ const dayTwoBackup = ["sunagawa-highway-oasis", "shiroi-koibito-park", "sapporo-
 const winterProfile = {
   label: "12/23-1/1",
   blurb: "新千歲入境，旭川與富良野 1 天；札幌 6 天（含小樽）；洞爺湖 1 天，函館跨年 2 天",
-  route: "除函館那天還車，其餘天數都開車",
+  route: "D1–D7 自駕；D8 抵達函館後還車，D9–D10 無車",
   style: "冬季限定"
 };
 
@@ -866,9 +866,9 @@ const daySummaries = {
   5: "札幌自由活動日，中午先吃鰻魚飯，傍晚再上藻岩山看夜景。",
   6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
   7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡。",
-  8: "從洞爺湖移動到函館，當天以五稜郭為主，晚上入住函館站附近。",
+  8: "從洞爺湖開車到函館並還車，之後以市區交通前往五稜郭，晚上入住函館站附近。",
   9: "白天走金森倉庫與護國神社，提早上函館山看夜景；回市區休息後，午夜前往函館八幡宮初詣。",
-  10: "元旦早上先確認函館朝市是否營業，再走元町；午餐到機場附近吃 Lucky Pierrot，最後還車前往函館機場。"
+  10: "元旦早上先確認函館朝市是否營業，再走元町；午餐到機場附近吃 Lucky Pierrot，之後搭車前往函館機場。當天已無車，需另查各段交通與元旦班次。"
 };
 
 const spotLogistics = {
@@ -1090,7 +1090,7 @@ const spotLogistics = {
   },
   "hakodate-hachimangu": {
     hours: "2026/12/31-2027/1/1 正式時間尚未公告；往年授與所 12/31 至 24:00、1/1 於 00:00 後延長開放",
-    access: "函館市電谷地頭站步行約 5-10 分鐘；午夜初詣人潮多，建議搭市電或計程車，不要把自駕停車當唯一方案"
+    access: "函館市電谷地頭站步行約 5-10 分鐘；跨年午夜市電可能已收班，初詣往返先確認末班或安排計程車"
   },
   "hakodate-mt": {
     hours: "冬季通常 10:00-21:00；12/31 可能大幅縮短。2026/12/31 尚未公告，前一年度上行末班 17:30、下行末班 19:00",
@@ -1106,7 +1106,7 @@ const spotLogistics = {
   },
   "kiralis-hakodate": {
     hours: "各店舖與設施不同，出發前看官方樓層/店舖公告",
-    access: "函館站前，適合和函館朝市、還車、搭車前後串在一起"
+    access: "函館站前，適合和函館朝市、搭車或回飯店前後串在一起"
   },
   "hokkaido-shikisai-hakodate": {
     hours: "常見 07:00-20:00；站內個別專櫃可能較早結束，年末年始請確認公告",
@@ -1130,7 +1130,7 @@ const spotLogistics = {
   },
   "lucky-pierrot-tokura": {
     hours: "官方營業 10:00-21:00（餐點 L.O. 20:30）；2027 元旦是否調整仍需看年末公告",
-    access: "地址：函館市戶倉町30-1。函館機場開車約 5 分鐘，設有 26 個停車位；接單後現做，需預留候餐時間"
+    access: "地址：函館市戶倉町30-1。Day 10 已無車，從元町到店、再到函館機場都需另查交通或安排計程車；接單後現做，需預留候餐時間"
   },
   "morning-market": {
     hours: "冬季一般約 06:00 至 14:00 後（各店不同）；2027/1/1 尚未公告，前一年度函館官方年末年始表將元旦列為休業",
@@ -1146,7 +1146,7 @@ const spotLogistics = {
   },
   "hakodate-airport": {
     hours: "航廈常見約 07:30-20:00（依航班）",
-    access: "函館站巴士約 20 分鐘；自駕還車建議預留 60-90 分鐘"
+    access: "從函館站可搭機場巴士，約 20 分鐘；元旦班次、候車與航班報到時間請事先確認"
   }
 };
 
@@ -1609,6 +1609,15 @@ function getDriveInfoForStop(day, index, spotId) {
   }
 
   const dayStops = state.plan[day] || [];
+  if (day >= 8) {
+    if (day === 8 && index <= 0) {
+      return "從洞爺湖自駕抵達函館並還車；此後請查步行／市電／巴士／計程車路線與時間";
+    }
+    const prevSpot = index > 0 ? spotById(dayStops[index - 1]) : null;
+    const origin = prevSpot ? prevSpot.name : "函館市區";
+    return `函館已還車｜由 ${origin} 前往，請查步行／市電／巴士／計程車路線與時間`;
+  }
+
   if (index <= 0) {
     const baseArea = dayBaseAreas[day] || spot.area;
     const minutes = getAreaDriveEstimate(baseArea, spot.area);
@@ -1641,6 +1650,9 @@ function getDriveInfoForFocus() {
     const focusSpot = spotById(state.focusId);
     if (!focusSpot) {
       return "預估車程待確認";
+    }
+    if (state.selectedDay >= 8) {
+      return "函館已還車｜請查步行／市電／巴士／計程車路線與時間";
     }
     const minutes = getAreaDriveEstimate(dayBaseAreas[state.selectedDay] || focusSpot.area, focusSpot.area);
     return `${formatDriveMinutes(minutes)}（以 Day ${state.selectedDay} 起點估算）`;
