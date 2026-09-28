@@ -1605,7 +1605,7 @@ function formatDriveMinutes(minutes) {
 function getDriveInfoForStop(day, index, spotId) {
   const spot = spotById(spotId);
   if (!spot) {
-    return "預估車程待確認";
+    return day >= 8 ? "函館已還車｜請查步行／市電／巴士／計程車路線與時間" : "預估車程待確認";
   }
 
   const dayStops = state.plan[day] || [];
@@ -1634,6 +1634,13 @@ function getDriveInfoForStop(day, index, spotId) {
 }
 
 function getDriveInfoForFocus() {
+  if (state.selectedDay >= 8) {
+    const selectedIndex = (state.plan[state.selectedDay] || []).indexOf(state.focusId);
+    return selectedIndex >= 0
+      ? getDriveInfoForStop(state.selectedDay, selectedIndex, state.focusId)
+      : "函館已還車｜請查步行／市電／巴士／計程車路線與時間";
+  }
+
   let foundDay = 0;
   let foundIndex = -1;
 
@@ -1650,9 +1657,6 @@ function getDriveInfoForFocus() {
     const focusSpot = spotById(state.focusId);
     if (!focusSpot) {
       return "預估車程待確認";
-    }
-    if (state.selectedDay >= 8) {
-      return "函館已還車｜請查步行／市電／巴士／計程車路線與時間";
     }
     const minutes = getAreaDriveEstimate(dayBaseAreas[state.selectedDay] || focusSpot.area, focusSpot.area);
     return `${formatDriveMinutes(minutes)}（以 Day ${state.selectedDay} 起點估算）`;
