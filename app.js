@@ -1190,27 +1190,35 @@ const dayBaseAreas = {
   10: "函館"
 };
 
-const areaDriveMinutes = {
-  "新千歲|旭川": 160,
-  "新千歲|富良野": 140,
-  "新千歲|札幌": 60,
-  "旭川|富良野": 65,
-  "旭川|美瑛": 40,
-  "旭川|砂川": 55,
-  "旭川|札幌": 130,
-  "砂川|札幌": 70,
-  "札幌|小樽": 45,
-  "札幌|札幌郊外": 55,
-  "札幌|洞爺湖": 120,
-  "札幌|登別": 95,
-  "札幌|西部山區": 120,
-  "札幌|二世谷": 130,
-  "洞爺湖|登別": 45,
-  "洞爺湖|函館": 155,
-  "洞爺湖|二世谷": 75,
-  "洞爺湖|西部山區": 80,
-  "函館|函館": 20,
-  "函館|登別": 170
+const drivingStartHotels = {
+  2: accommodations[0],
+  3: accommodations[1],
+  4: accommodations[1],
+  5: accommodations[1],
+  6: accommodations[1],
+  7: accommodations[1]
+};
+
+const drivingPlaceOverrides = {
+  "nippon-rentacar-new-chitose": "北海道千歳市美々758-136 ニッポンレンタカー新千歳空港営業所",
+  "moiwa-yama": "もいわ山ロープウェイ山麓駅 札幌 北海道"
+};
+
+const unspecifiedDrivingStops = new Set([
+  "asahikawa-heiwa-dori", "sapporo-odori", "sapporo-susukino", "otaru-canal",
+  "otaru-sakaimachi", "otaru-meruhen-crossing", "furano-field", "yotei-mountain",
+  "toyako-lake", "noboribetsu-onsen-street", "soup-curry", "sapporo-ramen-yokocho",
+  "kinotoya-bake-pole-town", "3coins-pole-town", "muroran-hakucho-bridge-view",
+  "happiness-bell", "makkari-village", "konpira-crater-view", "motomachi"
+]);
+
+const knownWalkingLegs = {
+  "premier-cabin-asahikawa|aeon-mall-asahikawa-ekimae": "旭川站前飯店到 AEON MALL 步行即可，不必開車",
+  "sapporo-beer-museum|ario-sapporo": "啤酒博物館與 Ario 相鄰，步行即可，不必開車",
+  "noboribetsu-valley|noboribetsu-onsen-street": "地獄谷到登別溫泉街可步行串遊；雪地路滑請放慢腳步",
+  "otaru-canal|taisho-glass": "小樽運河到大正硝子館建議步行，車輛停放處另確認",
+  "taisho-glass|otaru-meruhen-crossing": "大正硝子館到童話十字路建議步行，車輛停放處另確認",
+  "kinotoya-bake-pole-town|3coins-pole-town": "兩間店都在 Pole Town 地下街，步行即可"
 };
 
 const storageKey = "hokkaido-trip-planner-plan";
@@ -1560,46 +1568,45 @@ function getAccommodationMapUrl(hotel) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hotel.name)}`;
 }
 
-function getAreaDriveEstimate(fromArea, toArea) {
-  if (!fromArea || !toArea) {
+function getDrivingPlaceQuery(place) {
+  if (!place || (place.id && unspecifiedDrivingStops.has(place.id))) {
     return null;
   }
-
-  if (fromArea === toArea) {
-    return 20;
+  if (place.id && drivingPlaceOverrides[place.id]) {
+    return drivingPlaceOverrides[place.id];
   }
-
-  const direct = areaDriveMinutes[`${fromArea}|${toArea}`];
-  if (typeof direct === "number") {
-    return direct;
-  }
-
-  const reverse = areaDriveMinutes[`${toArea}|${fromArea}`];
-  if (typeof reverse === "number") {
-    return reverse;
-  }
-
-  if (fromArea.includes("札幌") || toArea.includes("札幌")) {
-    return 80;
-  }
-
-  return 120;
+  const placeName = place.name.replace(/（[^）]*）/g, "").trim();
+  return `${placeName} ${place.area || ""} 北海道`.trim();
 }
 
-function formatDriveMinutes(minutes) {
-  if (typeof minutes !== "number") {
-    return "預估車程待確認";
+function getDrivingOriginForStop(day, index) {
+  if (index > 0) {
+    return spotById((state.plan[day] || [])[index - 1]);
   }
+  return drivingStartHotels[day] || null;
+}
 
-  const hour = Math.floor(minutes / 60);
-  const minute = minutes % 60;
-  if (!hour) {
-    return `預估車程約 ${minute} 分鐘`;
+function getKnownWalkingLeg(day, index, spotId) {
+  const previousId = index > 0 ? (state.plan[day] || [])[index - 1] : null;
+  return previousId ? knownWalkingLegs[`${previousId}|${spotId}`] : null;
+}
+
+function getDrivingRouteUrlForStop(day, index, spotId) {
+  if (day < 1 || day > 7 || getKnownWalkingLeg(day, index, spotId)
+    || (day === 1 && (spotId === "new-chitose-airport" || spotId === "nippon-rentacar-new-chitose"))) {
+    return "";
   }
-  if (!minute) {
-    return `預估車程約 ${hour} 小時`;
+  const dayStops = state.plan[day] || [];
+  const pickupIndex = dayStops.indexOf("nippon-rentacar-new-chitose");
+  if (day === 1 && (pickupIndex < 0 || index <= pickupIndex)) {
+    return "";
   }
-  return `預估車程約 ${hour} 小時 ${minute} 分鐘`;
+  const origin = getDrivingPlaceQuery(getDrivingOriginForStop(day, index));
+  const destination = getDrivingPlaceQuery(spotById(spotId));
+  if (!origin || !destination) {
+    return "";
+  }
+  return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&travelmode=driving`;
 }
 
 const hakodateTransitLegs = {
@@ -1640,7 +1647,7 @@ function getHakodateTransitInfo(day, index, spotId, dayStops) {
 function getDriveInfoForStop(day, index, spotId) {
   const spot = spotById(spotId);
   if (!spot) {
-    return day >= 8 ? "函館已還車｜請查步行／市電／巴士／計程車路線與時間" : "預估車程待確認";
+    return day >= 8 ? "函館已還車｜請查步行／市電／巴士／計程車路線與時間" : "開車路線待確認";
   }
 
   const dayStops = state.plan[day] || [];
@@ -1648,51 +1655,46 @@ function getDriveInfoForStop(day, index, spotId) {
     return getHakodateTransitInfo(day, index, spotId, dayStops);
   }
 
-  if (index <= 0) {
-    const baseArea = dayBaseAreas[day] || spot.area;
-    const minutes = getAreaDriveEstimate(baseArea, spot.area);
-    return `${formatDriveMinutes(minutes)}（由 ${baseArea} 出發）`;
+  if (day === 1) {
+    if (spotId === "new-chitose-airport") {
+      return "抵達新千歲機場｜尚未取車，先到租車櫃台報到";
+    }
+    if (spotId === "nippon-rentacar-new-chitose") {
+      return "從機場搭租車公司接駁車到營業所取車；這段不是自駕";
+    }
+    const pickupIndex = dayStops.indexOf("nippon-rentacar-new-chitose");
+    if (pickupIndex < 0 || index <= pickupIndex) {
+      return "尚未取車｜請先確認這段的接駁或步行方式";
+    }
   }
 
-  const prevSpot = spotById(dayStops[index - 1]);
-  if (!prevSpot) {
-    return "預估車程待確認";
+  const walkingLeg = getKnownWalkingLeg(day, index, spotId);
+  if (walkingLeg) {
+    return walkingLeg;
   }
 
-  const minutes = getAreaDriveEstimate(prevSpot.area, spot.area);
-  return `${formatDriveMinutes(minutes)}（由 ${prevSpot.name} 前往）`;
+  const origin = getDrivingOriginForStop(day, index);
+  if (!origin) {
+    return "自駕起點待確認｜請先確認出發地點";
+  }
+
+  if (!getDrivingPlaceQuery(origin)) {
+    return `由 ${origin.name} 前往｜上一站未指定明確停靠點，請先確認實際位置`;
+  }
+  if (!getDrivingPlaceQuery(spot)) {
+    return `由 ${origin.name} 前往｜此站尚無明確自駕停靠點，請先確認目的地與停車處`;
+  }
+  return `由 ${origin.name} 前往｜開啟地圖查當時路線與車程；冬季路況及停車處另確認`;
 }
 
 function getDriveInfoForFocus() {
-  if (state.selectedDay >= 8) {
-    const selectedIndex = (state.plan[state.selectedDay] || []).indexOf(state.focusId);
-    return selectedIndex >= 0
-      ? getDriveInfoForStop(state.selectedDay, selectedIndex, state.focusId)
-      : "函館已還車｜請查步行／市電／巴士／計程車路線與時間";
+  const selectedIndex = (state.plan[state.selectedDay] || []).indexOf(state.focusId);
+  if (selectedIndex >= 0) {
+    return getDriveInfoForStop(state.selectedDay, selectedIndex, state.focusId);
   }
-
-  let foundDay = 0;
-  let foundIndex = -1;
-
-  Object.keys(state.plan).forEach((key) => {
-    const day = Number(key);
-    const index = state.plan[day].indexOf(state.focusId);
-    if (index >= 0) {
-      foundDay = day;
-      foundIndex = index;
-    }
-  });
-
-  if (!foundDay) {
-    const focusSpot = spotById(state.focusId);
-    if (!focusSpot) {
-      return "預估車程待確認";
-    }
-    const minutes = getAreaDriveEstimate(dayBaseAreas[state.selectedDay] || focusSpot.area, focusSpot.area);
-    return `${formatDriveMinutes(minutes)}（以 Day ${state.selectedDay} 起點估算）`;
-  }
-
-  return getDriveInfoForStop(foundDay, foundIndex, state.focusId);
+  return state.selectedDay >= 8
+    ? "函館已還車｜加入當日行程後顯示接續交通"
+    : "加入當日行程後顯示接續開車路線";
 }
 
 function normalizeSyncCode(rawCode) {
@@ -2703,6 +2705,7 @@ function renderItinerary() {
     dom.itineraryList.innerHTML = ids
       .map((id, index) => {
         const spot = spotById(id);
+        const drivingRouteUrl = getDrivingRouteUrlForStop(state.selectedDay, index, spot.id);
         return `
           <article class="stop-card" draggable="true" data-index="${index}" data-spot-id="${spot.id}">
             <div class="stop-top">
@@ -2713,7 +2716,7 @@ function renderItinerary() {
                 </div>
                 <p class="stop-desc">${spot.desc}</p>
                 <p class="spot-extra">${getDriveInfoForStop(state.selectedDay, index, spot.id)}</p>
-                <a class="map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">Google Maps 搜尋地點</a>
+                <a class="map-link" href="${drivingRouteUrl || getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">${drivingRouteUrl ? "Google Maps 開車路線" : "Google Maps 搜尋地點"}</a>
               </div>
               <span class="tag">${spot.time}</span>
             </div>
@@ -3018,7 +3021,10 @@ function renderSpotGrid() {
       const buttonLabel = isSelected ? `已加入 Day ${selectedDay}` : `＋ 加入 Day ${state.selectedDay}`;
       const logistics = getSpotLogistics(spot.id);
       const quickHours = logistics?.hours ? `<p class="spot-extra">常見營業：${logistics.hours}</p>` : "";
-      const quickDrive = `<p class="spot-extra">${getDriveInfoForStop(state.selectedDay, 0, spot.id)}</p>`;
+      const selectedIndex = (state.plan[state.selectedDay] || []).indexOf(spot.id);
+      const quickDrive = `<p class="spot-extra">${selectedIndex >= 0
+        ? getDriveInfoForStop(state.selectedDay, selectedIndex, spot.id)
+        : "加入當日行程後顯示接續交通"}</p>`;
       return `
         <article class="spot-card ${isSelected ? "selected" : ""}" data-spot="${spot.id}" draggable="${isSelected ? "false" : "true"}">
           <div class="spot-top">
@@ -3176,6 +3182,12 @@ function renderSummary() {
       `;
     }
   } else {
+    const focusIndex = (state.plan[state.selectedDay] || []).indexOf(focus.id);
+    const drivingRouteUrl = focusIndex >= 0
+      ? getDrivingRouteUrlForStop(state.selectedDay, focusIndex, focus.id)
+      : "";
+    const focusMapUrl = drivingRouteUrl || getMapUrl(focus);
+    const focusMapLabel = drivingRouteUrl ? "Google Maps 開車路線" : "Google Maps 搜尋地點";
     if (dom.focusTag) {
       dom.focusTag.textContent = "景點詳情";
     }
@@ -3194,12 +3206,12 @@ function renderSummary() {
           <p><strong>常見營業：</strong>${logistics.hours}</p>
           <p><strong>交通建議：</strong>${logistics.access}</p>
           <p><strong>${getDriveInfoForFocus()}</strong></p>
-          <p><a class="map-link" href="${getMapUrl(focus)}" target="_blank" rel="noopener noreferrer">Google Maps 搜尋地點（${focus.name}）</a></p>
+          <p><a class="map-link" href="${focusMapUrl}" target="_blank" rel="noopener noreferrer">${focusMapLabel}（${focus.name}）</a></p>
           <p>提醒：營業時間與交通班次可能因季節調整，請以官方最新公告為準。</p>
         `
         : `
           <p><strong>${getDriveInfoForFocus()}</strong></p>
-          <p><a class="map-link" href="${getMapUrl(focus)}" target="_blank" rel="noopener noreferrer">Google Maps 搜尋地點（${focus.name}）</a></p>
+          <p><a class="map-link" href="${focusMapUrl}" target="_blank" rel="noopener noreferrer">${focusMapLabel}（${focus.name}）</a></p>
           <p>提醒：此景點尚未補齊營業與交通資訊，可先用地圖快速確認當日資訊。</p>
         `;
     }
@@ -3303,17 +3315,20 @@ function renderPrintReport() {
 
       const stopsHtml = daySpots.length
         ? daySpots
-            .map((spot, spotIndex) => `
-              <li class="print-stop">
-                <span class="print-stop-number">${spotIndex + 1}</span>
-                <div class="print-stop-copy">
-                  <h3>${escapeHtml(spot.name)}</h3>
-                  <p>${escapeHtml(spot.area)} · ${escapeHtml(spot.type)} · ${escapeHtml(spot.time)}</p>
-                  <small>${escapeHtml(getDriveInfoForStop(day, spotIndex, spot.id))}</small>
-                </div>
-                <a href="${getMapUrl(spot)}">地圖</a>
-              </li>
-            `)
+            .map((spot, spotIndex) => {
+              const drivingRouteUrl = getDrivingRouteUrlForStop(day, spotIndex, spot.id);
+              return `
+                <li class="print-stop">
+                  <span class="print-stop-number">${spotIndex + 1}</span>
+                  <div class="print-stop-copy">
+                    <h3>${escapeHtml(spot.name)}</h3>
+                    <p>${escapeHtml(spot.area)} · ${escapeHtml(spot.type)} · ${escapeHtml(spot.time)}</p>
+                    <small>${escapeHtml(getDriveInfoForStop(day, spotIndex, spot.id))}</small>
+                  </div>
+                  <a href="${drivingRouteUrl || getMapUrl(spot)}">${drivingRouteUrl ? "開車路線" : "地圖"}</a>
+                </li>
+              `;
+            })
             .join("")
         : `<li class="print-empty">尚未安排景點</li>`;
 
