@@ -205,7 +205,7 @@ const spots = [
     season: ["winter"],
     time: "1.5h",
     best: "森林小屋、燈光、拍照",
-    desc: "很適合第一天從新千歲上來後在傍晚停留，再回旭川飯店收尾，童話感很強。",
+    desc: "適合排在 Day 2 富良野周邊行程的尾聲，傍晚到小木屋區散步拍照，之後再前往札幌；冬季請留意雪地路況與當日營業時間。",
     highlight: "夜色木屋"
   },
   {
@@ -2713,7 +2713,7 @@ function renderItinerary() {
                 </div>
                 <p class="stop-desc">${spot.desc}</p>
                 <p class="spot-extra">${getDriveInfoForStop(state.selectedDay, index, spot.id)}</p>
-                <a class="map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">Google Maps 導航</a>
+                <a class="map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">Google Maps 搜尋地點</a>
               </div>
               <span class="tag">${spot.time}</span>
             </div>
@@ -3027,7 +3027,7 @@ function renderSpotGrid() {
               <p class="spot-desc">${spot.desc}</p>
               ${quickHours}
               ${quickDrive}
-              <a class="map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">Google Maps 導航</a>
+              <a class="map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">Google Maps 搜尋地點</a>
             </div>
             <span class="tag">${spot.time}</span>
           </div>
@@ -3194,12 +3194,12 @@ function renderSummary() {
           <p><strong>常見營業：</strong>${logistics.hours}</p>
           <p><strong>交通建議：</strong>${logistics.access}</p>
           <p><strong>${getDriveInfoForFocus()}</strong></p>
-          <p><a class="map-link" href="${getMapUrl(focus)}" target="_blank" rel="noopener noreferrer">Google Maps 導航（${focus.name}）</a></p>
+          <p><a class="map-link" href="${getMapUrl(focus)}" target="_blank" rel="noopener noreferrer">Google Maps 搜尋地點（${focus.name}）</a></p>
           <p>提醒：營業時間與交通班次可能因季節調整，請以官方最新公告為準。</p>
         `
         : `
           <p><strong>${getDriveInfoForFocus()}</strong></p>
-          <p><a class="map-link" href="${getMapUrl(focus)}" target="_blank" rel="noopener noreferrer">Google Maps 導航（${focus.name}）</a></p>
+          <p><a class="map-link" href="${getMapUrl(focus)}" target="_blank" rel="noopener noreferrer">Google Maps 搜尋地點（${focus.name}）</a></p>
           <p>提醒：此景點尚未補齊營業與交通資訊，可先用地圖快速確認當日資訊。</p>
         `;
     }
@@ -3256,7 +3256,7 @@ function renderSummary() {
         <span class="stay-label">${hotel.label}</span>
         <h3>${hotel.name}</h3>
         <p>${hotel.note}</p>
-        <a class="map-link" href="${getAccommodationMapUrl(hotel)}" target="_blank" rel="noopener noreferrer">Google Maps 導航</a>
+        <a class="map-link" href="${getAccommodationMapUrl(hotel)}" target="_blank" rel="noopener noreferrer">Google Maps 搜尋地點</a>
       </article>
     `)
     .join("");
@@ -3376,7 +3376,7 @@ function renderPrintReport() {
       <div class="print-stats">
         <div><span>行程</span><strong>10 天</strong></div>
         <div><span>人數</span><strong>4 人</strong></div>
-        <div><span>交通</span><strong>自駕</strong></div>
+        <div><span>交通</span><strong>自駕→函館還車→搭車</strong></div>
         <div><span>車型</span><strong>${escapeHtml(fixedCarModel)}</strong></div>
       </div>
 
