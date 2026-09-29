@@ -584,6 +584,121 @@ select {
   letter-spacing: -0.03em;
 }
 
+.flight-panel {
+  margin-top: 18px;
+  padding: 22px;
+}
+
+.flight-panel-heading,
+.flight-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.flight-panel-heading {
+  margin-bottom: 16px;
+}
+
+.flight-panel-heading h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.flight-panel-heading > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.flight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.flight-card {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid rgba(107, 212, 255, 0.22);
+  border-radius: var(--radius-lg);
+  background: rgba(107, 212, 255, 0.045);
+}
+
+.flight-card-head strong {
+  font-size: 1.05rem;
+  text-align: right;
+}
+
+.flight-direction {
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.flight-date {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.flight-route {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.flight-point {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.flight-point:last-child {
+  text-align: right;
+}
+
+.flight-point time {
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.flight-point strong {
+  color: var(--accent-2);
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+}
+
+.flight-point span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.flight-arrow {
+  color: var(--accent-2);
+  font-size: 1.35rem;
+}
+
+.flight-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.flight-meta span {
+  padding: 5px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 0.78rem;
+}
+
 .toolbar {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -1094,6 +1209,10 @@ select {
     grid-template-columns: 1fr;
   }
 
+  .flight-grid {
+    grid-template-columns: 1fr;
+  }
+
   .day-tabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1122,9 +1241,41 @@ select {
 
   .hero,
   .panel,
-  .toolbar {
+  .toolbar,
+  .flight-panel {
     padding: 14px;
     border-radius: 20px;
+  }
+
+  .flight-panel {
+    margin-top: 12px;
+  }
+
+  .flight-panel-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .flight-card {
+    padding: 14px;
+  }
+
+  .flight-card-head {
+    display: grid;
+    gap: 4px;
+  }
+
+  .flight-card-head strong {
+    text-align: left;
+  }
+
+  .flight-route {
+    gap: 8px;
+  }
+
+  .flight-point time {
+    font-size: 1.35rem;
   }
 
   .hero {
@@ -1580,7 +1731,7 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
 
   .print-cover h1 {
     max-width: 150mm;
-    margin: 30mm 0 5mm;
+    margin: 22mm 0 5mm;
     color: #102238;
     font-size: 34pt;
     line-height: 1.12;
@@ -1598,7 +1749,7 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 4mm;
-    margin-top: 18mm;
+    margin-top: 11mm;
   }
 
   .print-stats > div,
@@ -1633,8 +1784,8 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
     align-items: center;
     justify-content: space-between;
     gap: 3mm;
-    margin-top: 11mm;
-    padding: 6mm;
+    margin-top: 8mm;
+    padding: 5mm;
     border-radius: 4mm;
     background: #17314e;
     color: #ffffff;
@@ -1646,8 +1797,80 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
     color: #80d4ea;
   }
 
+  .print-flights {
+    margin-top: 8mm;
+  }
+
+  .print-flights h2 {
+    margin: 0;
+    color: #17314e;
+    font-size: 15pt;
+  }
+
+  .print-flights > p {
+    margin: 1mm 0 3mm;
+    color: #6c7f92;
+    font-size: 7.5pt;
+  }
+
+  .print-flights .flight-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3mm;
+  }
+
+  .print-flights .flight-card {
+    padding: 3mm;
+    border-color: #d9e5ef;
+    border-radius: 3mm;
+    background: rgba(255, 255, 255, 0.82);
+  }
+
+  .print-flights .flight-direction,
+  .print-flights .flight-card-head strong {
+    color: #17314e;
+    font-size: 8pt;
+  }
+
+  .print-flights .flight-date {
+    margin-top: 1mm;
+    color: #6c7f92;
+    font-size: 7.5pt;
+  }
+
+  .print-flights .flight-route {
+    gap: 2mm;
+    margin: 2mm 0;
+  }
+
+  .print-flights .flight-point time {
+    color: #122b44;
+    font-size: 13pt;
+  }
+
+  .print-flights .flight-point strong,
+  .print-flights .flight-arrow {
+    color: #176a8a;
+    font-size: 8pt;
+  }
+
+  .print-flights .flight-point span {
+    color: #65788b;
+    font-size: 7pt;
+  }
+
+  .print-flights .flight-meta {
+    gap: 1mm;
+  }
+
+  .print-flights .flight-meta span {
+    padding: 1mm 2mm;
+    border-color: #d9e5ef;
+    color: #3c556c;
+    font-size: 6.5pt;
+  }
+
   .print-hotels {
-    margin-top: 13mm;
+    margin-top: 8mm;
   }
 
   .print-hotels h2 {

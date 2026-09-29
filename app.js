@@ -833,6 +833,35 @@ const spots = [
   }
 ];
 
+const flights = [
+  {
+    direction: "去程 · 台北 → 札幌",
+    date: "2026 年 12 月 23 日（週三）",
+    airline: "長榮航空",
+    number: "BR166",
+    departureTime: "06:15",
+    departureCode: "TPE",
+    departureAirport: "臺灣桃園國際機場",
+    arrivalTime: "11:00",
+    arrivalCode: "CTS",
+    arrivalAirport: "新千歲機場",
+    details: ["飛行 3 小時 45 分"]
+  },
+  {
+    direction: "回程 · 函館 → 台北",
+    date: "2027 年 1 月 1 日（週五）",
+    airline: "星宇航空",
+    number: "JX861",
+    departureTime: "18:00",
+    departureCode: "HKD",
+    departureAirport: "函館機場",
+    arrivalTime: "21:40",
+    arrivalCode: "TPE",
+    arrivalAirport: "臺灣桃園國際機場",
+    details: ["直飛 · 4 小時 40 分", "經濟艙", "Airbus A321neo", "抵達第 1 航廈"]
+  }
+];
+
 const winterTemplate = {
   1: ["new-chitose-airport", "nippon-rentacar-new-chitose", "premier-cabin-asahikawa", "aeon-mall-asahikawa-ekimae", "tokiwa-park", "kamikawa-shrine", "asahikawa-heiwa-dori"],
   2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "sapporo-odori", "sapporo-susukino"],
@@ -1492,6 +1521,7 @@ const state = {
 };
 
 const dom = {
+  flightGrid: document.getElementById("flight-grid"),
   searchInput: document.getElementById("search-input"),
   dayTabs: document.getElementById("day-tabs"),
   itineraryList: document.getElementById("itinerary-list"),
@@ -3282,6 +3312,38 @@ function getAccommodationForDay(day) {
   return null;
 }
 
+function flightCardsHtml() {
+  return flights.map((flight) => `
+    <article class="flight-card">
+      <div class="flight-card-head">
+        <span class="flight-direction">${escapeHtml(flight.direction)}</span>
+        <strong>${escapeHtml(flight.airline)} ${escapeHtml(flight.number)}</strong>
+      </div>
+      <p class="flight-date">${escapeHtml(flight.date)}</p>
+      <div class="flight-route">
+        <div class="flight-point">
+          <time>${escapeHtml(flight.departureTime)}</time>
+          <strong>${escapeHtml(flight.departureCode)}</strong>
+          <span>${escapeHtml(flight.departureAirport)}</span>
+        </div>
+        <span class="flight-arrow" aria-hidden="true">→</span>
+        <div class="flight-point">
+          <time>${escapeHtml(flight.arrivalTime)}</time>
+          <strong>${escapeHtml(flight.arrivalCode)}</strong>
+          <span>${escapeHtml(flight.arrivalAirport)}</span>
+        </div>
+      </div>
+      <div class="flight-meta">${flight.details.map((detail) => `<span>${escapeHtml(detail)}</span>`).join("")}</div>
+    </article>
+  `).join("");
+}
+
+function renderFlightCards() {
+  if (dom.flightGrid) {
+    dom.flightGrid.innerHTML = flightCardsHtml();
+  }
+}
+
 function renderPrintReport() {
   if (!dom.printReport) {
     return;
@@ -3399,6 +3461,12 @@ function renderPrintReport() {
         <span>新千歲</span><b>→</b><span>旭川／富良野</span><b>→</b><span>札幌／小樽</span><b>→</b><span>洞爺湖</span><b>→</b><span>函館</span>
       </div>
 
+      <section class="print-flights">
+        <h2>航班資訊</h2>
+        <p>起飛與抵達時間均為當地時間</p>
+        <div class="flight-grid">${flightCardsHtml()}</div>
+      </section>
+
       <section class="print-hotels">
         <h2>住宿安排</h2>
         <div>${accommodationCards}</div>
@@ -3425,6 +3493,7 @@ function printPlanAsPdf() {
 }
 
 function render() {
+  renderFlightCards();
   renderDayAlternative();
   renderDayTabs();
   renderMealPlanner();

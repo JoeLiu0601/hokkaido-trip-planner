@@ -8,7 +8,7 @@
       name="description"
       content="新千歲 → 旭川 → 札幌 → 洞爺湖 → 函館。10天北海道冬季行程規劃。"
     />
-    <link rel="stylesheet" href="styles.css?v=20260929-4" />
+    <link rel="stylesheet" href="styles.css?v=20260930-flights" />
   </head>
   <body>
     <main class="shell">
@@ -40,6 +40,17 @@
           </div>
         </div>
       </header>
+
+      <section class="flight-panel card" aria-labelledby="flight-panel-title">
+        <div class="flight-panel-heading">
+          <div>
+            <p class="panel-kicker">往返航班</p>
+            <h2 id="flight-panel-title">航班資訊</h2>
+          </div>
+          <p>起飛與抵達時間均為當地時間</p>
+        </div>
+        <div class="flight-grid" id="flight-grid"></div>
+      </section>
 
       <section class="toolbar card">
         <div class="toolbar-actions">
@@ -187,6 +198,6 @@
 
     <!-- deploy-stamp: 2026-09-21T18:00:00+08:00 -->
     <script src="sync-config.js"></script>
-    <script src="app.js?v=20260929-4"></script>
+    <script src="app.js?v=20260930-flights"></script>
   </body>
 </html>
