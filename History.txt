@@ -1,5 +1,12 @@
 # Project Change History
 
+## 2026-09-30
+
+- Day 2 在大通公園前加入 APA Hotel Sapporo Susukino Ekinishi 入住，備案也在第一個札幌景點前加入入住。
+- Day 7 洞爺湖景點後加入 Toya Kohan Tei 入住，Day 8 五稜郭後加入 La'gent Stay Hakodate Ekimae 入住。
+- 舊本機與雲端行程會保留其他景點順序，補入三間飯店入住；更新 JavaScript cache key。
+- 已檢查變更內容與 `git diff --check`；未執行測試。
+
 ## 2026-09-22
 
 - 手機版順序調整為先看當日景點與餐食，再顯示儲存工具、景點庫與全旅程資料。

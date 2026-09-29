@@ -33,6 +33,39 @@ const spots = [
     highlight: "旭川入住"
   },
   {
+    id: "apa-sapporo-susukino-ekinishi",
+    name: "APA Hotel Sapporo Susukino Ekinishi（入住）",
+    area: "札幌",
+    type: "入住飯店",
+    season: ["winter"],
+    time: "0.5h",
+    best: "Check-in、放行李、稍作休息",
+    desc: "12/24 從富良野、美瑛返回札幌後，先到 APA 飯店辦理入住、放好行李，再前往大通公園與薄野。",
+    highlight: "札幌入住"
+  },
+  {
+    id: "toya-kohan-tei",
+    name: "Toya Kohan Tei（入住）",
+    area: "洞爺湖",
+    type: "入住飯店",
+    season: ["winter"],
+    time: "0.5h",
+    best: "Check-in、放行李、溫泉休息",
+    desc: "12/29 Day 7 洞爺湖周邊行程結束後，前往 Toya Kohan Tei 辦理入住，晚上在湖畔休息。",
+    highlight: "洞爺湖入住"
+  },
+  {
+    id: "lagent-hakodate-ekimae",
+    name: "La'gent Stay Hakodate Ekimae（入住）",
+    area: "函館",
+    type: "入住飯店",
+    season: ["winter"],
+    time: "0.5h",
+    best: "Check-in、放行李、函館站前",
+    desc: "12/30 Day 8 逛完五稜郭後，回函館站前飯店辦理入住，整理行李並休息。",
+    highlight: "函館入住"
+  },
+  {
     id: "tokiwa-park",
     name: "常磐公園",
     area: "旭川",
@@ -886,19 +919,19 @@ const flights = [
 
 const winterTemplate = {
   1: ["new-chitose-airport", "nippon-rentacar-new-chitose", "premier-cabin-asahikawa", "aeon-mall-asahikawa-ekimae", "tokiwa-park", "kamikawa-shrine", "asahikawa-heiwa-dori"],
-  2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "sapporo-odori", "sapporo-susukino"],
+  2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "apa-sapporo-susukino-ekinishi", "sapporo-odori", "sapporo-susukino"],
   3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "wakadori-naruto-honten", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
   4: ["noboribetsu-valley", "noboribetsu-onsen-street", "tenkatsu-honten-muroran", "muroran-hakucho-bridge-view", "happiness-bell"],
   5: ["unagi-nakajima", "moiwa-yama"],
   6: ["sapporo-beer-museum", "ario-sapporo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"],
-  7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view"],
-  8: ["goryokaku"],
+  7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view", "toya-kohan-tei"],
+  8: ["goryokaku", "lagent-hakodate-ekimae"],
   9: ["kanemori-warehouse", "hakodate-gokoku-shrine", "hakodate-mt", "hakodate-hachimangu"],
   10: ["morning-market", "motomachi", "lucky-pierrot-tokura", "hakodate-airport"]
 };
 
 const legacyDayTwoBackup = ["sapporo-odori", "shiroi-koibito-park", "sapporo-susukino"];
-const dayTwoBackup = ["sunagawa-highway-oasis", "shiroi-koibito-park", "sapporo-susukino"];
+const dayTwoBackup = ["sunagawa-highway-oasis", "apa-sapporo-susukino-ekinishi", "shiroi-koibito-park", "sapporo-susukino"];
 
 const winterProfile = {
   label: "12/23-1/1",
@@ -911,13 +944,13 @@ const tripDates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29"
 
 const daySummaries = {
   1: "從新千歲機場入境、取車後前往旭川。入住後先到旭川站前補雪靴或防滑鞋，再視體力安排常磐公園、上川神社和平和通散步。",
-  2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌，晚上逛大通與薄野。",
+  2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌。先到 APA 飯店入住，再逛大通與薄野。",
   3: "上午安排札幌神社巡禮，接著前往小樽吃午餐、走運河、逛玻璃店與童話十字路。",
   4: "從札幌前往登別，走完地獄谷後逛溫泉街，再到室蘭天勝本店吃天丼，下午安排白鳥大橋展望台和幸福之鐘。",
   5: "札幌自由活動日，中午先吃鰻魚飯，傍晚再上藻岩山看夜景。",
   6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
-  7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡。",
-  8: "從洞爺湖開車到函館並還車，之後以市區交通前往五稜郭，晚上入住函館站附近。",
+  7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡，再到 Toya Kohan Tei 入住。",
+  8: "從洞爺湖開車到函館並還車，之後以市區交通前往五稜郭，逛完後到 La'gent Stay Hakodate Ekimae 入住。",
   9: "白天走金森倉庫與護國神社，提早上函館山看夜景；回市區休息後，午夜前往函館八幡宮初詣。",
   10: "元旦早上先確認函館朝市是否營業，再走元町；午餐到機場附近吃 Lucky Pierrot，之後搭車前往函館機場。當天已無車，需另查各段交通與元旦班次。"
 };
@@ -934,6 +967,18 @@ const spotLogistics = {
   "premier-cabin-asahikawa": {
     hours: "住宿設施依訂房方案；一般入住時間請以預約頁面為準",
     access: "JR 旭川站步行約 3 分鐘；旭川站前巴士總站步行約 5 分鐘"
+  },
+  "apa-sapporo-susukino-ekinishi": {
+    hours: "入住時間與停車安排請以訂房資料為準",
+    access: "從富良野、美瑛方向抵達札幌後，先到飯店辦理入住並放行李，再前往大通公園"
+  },
+  "toya-kohan-tei": {
+    hours: "入住時間與停車安排請以訂房資料為準",
+    access: "Day 7 洞爺湖周邊景點結束後前往飯店，冬季行車請預留緩衝"
+  },
+  "lagent-hakodate-ekimae": {
+    hours: "入住時間請以訂房資料為準",
+    access: "Day 8 五稜郭行程結束後返回函館站前，辦理入住並放行李"
   },
   "tokiwa-park": {
     hours: "公園全天可散步；管理事務所常見 08:30-17:15",
@@ -1283,8 +1328,8 @@ const knownWalkingLegs = {
 const storageKey = "hokkaido-trip-planner-plan";
 const mealPlanKey = "hokkaido-trip-planner-meals";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
-const previousPlanTemplateVersions = ["2026-08-17-otaru-naruto", "2026-09-21-winter-shopping", "2026-09-22-day5-unagi", "2026-09-22-day5-unagi-lunch", "2026-09-22-day4-noboribetsu-onsen-street", "2026-09-22-day4-tenkatsu-lunch"];
-const currentPlanTemplateVersion = "2026-09-22-hakodate-new-year";
+const previousPlanTemplateVersions = ["2026-08-17-otaru-naruto", "2026-09-21-winter-shopping", "2026-09-22-day5-unagi", "2026-09-22-day5-unagi-lunch", "2026-09-22-day4-noboribetsu-onsen-street", "2026-09-22-day4-tenkatsu-lunch", "2026-09-22-hakodate-new-year"];
+const currentPlanTemplateVersion = "2026-09-30-hotel-checkins";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -1409,6 +1454,7 @@ function ensureRequiredStops(plan) {
     });
   });
 
+  ensureHotelCheckIns(plan);
   return plan;
 }
 
@@ -1417,6 +1463,36 @@ function planStopsEqual(first, second) {
     && Array.isArray(second)
     && first.length === second.length
     && first.every((spotId, index) => spotId === second[index]);
+}
+
+function insertDayTwoHotelCheckIn(plan) {
+  const dayTwo = plan[2];
+  if (!Array.isArray(dayTwo)) return false;
+
+  const hotelId = "apa-sapporo-susukino-ekinishi";
+  const currentIndex = dayTwo.indexOf(hotelId);
+  const odoriIndex = dayTwo.indexOf("sapporo-odori");
+  const firstSapporoIndex = dayTwo.findIndex((id) => id !== hotelId && spotById(id)?.area === "札幌");
+  const targetIndex = odoriIndex >= 0 ? odoriIndex : firstSapporoIndex;
+  const targetId = targetIndex >= 0 ? dayTwo[targetIndex] : null;
+  if (currentIndex >= 0 && (targetIndex < 0 || currentIndex === targetIndex - 1)) return false;
+
+  if (currentIndex >= 0) dayTwo.splice(currentIndex, 1);
+  const insertionIndex = targetId ? dayTwo.indexOf(targetId) : dayTwo.length;
+  dayTwo.splice(insertionIndex < 0 ? dayTwo.length : insertionIndex, 0, hotelId);
+  return true;
+}
+
+function ensureHotelCheckIns(plan) {
+  let changed = insertDayTwoHotelCheckIn(plan);
+  [[7, "toya-kohan-tei"], [8, "lagent-hakodate-ekimae"]].forEach(([day, hotelId]) => {
+    if (!Array.isArray(plan[day])) plan[day] = [];
+    if (!plan[day].includes(hotelId)) {
+      plan[day].push(hotelId);
+      changed = true;
+    }
+  });
+  return changed;
 }
 
 function migratePreviousTemplate(plan) {
@@ -1455,6 +1531,8 @@ function migratePreviousTemplate(plan) {
     plan[10] = [...winterTemplate[10]];
     changed = true;
   }
+
+  if (ensureHotelCheckIns(plan)) changed = true;
 
   return changed;
 }
@@ -1670,6 +1748,7 @@ function getDrivingRouteUrlForStop(day, index, spotId) {
 }
 
 const hakodateTransitLegs = {
+  "8|goryokaku|lagent-hakodate-ekimae": "從五稜郭公園步行到五稜郭公園前站，搭往函館駅前方向的市電，回飯店辦理入住",
   "9|kanemori-warehouse|hakodate-gokoku-shrine": "從金森倉庫步行經元町坡道到函館護國神社；積雪時注意防滑，也可搭計程車",
   "9|hakodate-gokoku-shrine|hakodate-mt": "從函館護國神社步行到函館山纜車山麓站，再搭纜車上山；跨年當天先確認末班",
   "9|hakodate-mt|hakodate-hachimangu": "先搭纜車下山；跨年深夜前往函館八幡宮建議搭計程車，返飯店也請預留交通。市電 2 系統到谷地頭只適用於仍有班次時",
@@ -1940,6 +2019,7 @@ function buildSyncPayload(plan = getLocalCloudPlan()) {
 function applyRemotePayload(payload) {
   const hasRemoteMeals = payload?.plan?._meals !== undefined || payload?.mealPlan !== undefined;
   const remotePlan = getRemoteCloudPlan(payload);
+  const needsTemplateMigration = [2, 7, 8].some((day) => !planStopsEqual(payload?.plan?.[day], remotePlan[day]));
   state.plan = normalizeImportedPlan(remotePlan);
   if (hasRemoteMeals) {
     state.mealPlan = normalizeMealPlan(remotePlan._meals);
@@ -1954,7 +2034,7 @@ function applyRemotePayload(payload) {
   const savedIso = typeof payload?.updatedAt === "number" ? new Date(payload.updatedAt).toISOString() : new Date().toISOString();
   state.lastSavedAt = savedIso;
   state.dirty = false;
-  state.cloudPending = !hasRemoteMeals;
+  state.cloudPending = !hasRemoteMeals || needsTemplateMigration;
   if (state.cloudPending) {
     window.localStorage.setItem(cloudPendingKey, "1");
   } else {
@@ -1968,7 +2048,7 @@ function applyRemotePayload(payload) {
   window.localStorage.setItem(savedAtKey, state.lastSavedAt);
   render();
   updateSaveUi();
-  return { needsMealMigration: !hasRemoteMeals };
+  return { needsMigration: !hasRemoteMeals || needsTemplateMigration };
 }
 
 async function pushCloudState() {
@@ -2128,7 +2208,7 @@ async function connectCloudSync(rawCode) {
           cloud.applyingRemote = false;
         }
         setSyncStatus("已連線，自動同步中");
-        if (remoteResult?.needsMealMigration) {
+        if (remoteResult?.needsMigration) {
           queueCloudPush(0);
         }
       }
@@ -2185,7 +2265,7 @@ async function connectCloudSync(rawCode) {
         cloud.applyingRemote = false;
       }
       setSyncStatus(`已同步到最新版本 v${remoteVersion}`);
-      if (remoteResult?.needsMealMigration) {
+      if (remoteResult?.needsMigration) {
         queueCloudPush(0);
       }
     },
@@ -2645,7 +2725,11 @@ function getDayTwoSnapshot() {
 
 function getDayTwoOriginal() {
   const snapshot = getDayTwoSnapshot();
-  if (snapshot?.backupActive || isDayTwoBackup()) return snapshot?.original || [...winterTemplate[2]];
+  if (snapshot?.backupActive || isDayTwoBackup()) {
+    const plan = { 2: [...(snapshot?.original || winterTemplate[2])] };
+    insertDayTwoHotelCheckIn(plan);
+    return plan[2];
+  }
   return [...state.plan[2]];
 }
 
@@ -2663,7 +2747,7 @@ function renderDayAlternative() {
       <button type="button" class="small-button" data-alternative="A" aria-pressed="${!backup}">原行程</button>
       <button type="button" class="small-button" data-alternative="B" aria-pressed="${backup}">Plan B · 札幌景點版</button>
     </div>
-    <p>${backup ? "假設不幸遇到火山活動或道路管制，導致美瑛、富良野支線無法通行，就切換 Plan B：從旭川出發，途中在砂川 Highway Oasis 休息補給，再前往白色戀人公園，晚上在薄野吃飯。" : "保留美瑛、富良野的安排，再前往札幌；若曾套用備案，這裡會還原切換前的景點順序。"}</p>
+    <p>${backup ? "假設不幸遇到火山活動或道路管制，導致美瑛、富良野支線無法通行，就切換 Plan B：從旭川出發，途中在砂川 Highway Oasis 休息補給，抵達札幌先到 APA 飯店入住，再前往白色戀人公園，晚上在薄野吃飯。" : "保留美瑛、富良野的安排，再前往札幌；若曾套用備案，這裡會還原切換前的景點順序。"}</p>
     <p class="alternative-route">${ids.map((id) => escapeHtml(spotById(id).name)).join(" → ") || "尚未安排景點"}</p>
     <p>遇封路或不適合開車時，先留在安全地點確認交通狀況。餐食安排會保留，切換後請檢查餐廳地點。</p>
     <p>原行程備份保留在這台裝置，套用後的行程照常同步。</p>
@@ -3225,7 +3309,7 @@ function renderSummary() {
     dom.focusTitle.textContent = `Day ${day} · ${tripDates[day - 1]}`;
     dom.focusDesc.textContent = daySpots.length
       ? (day === 2 && isDayTwoBackup()
-          ? "Plan B：假設美瑛、富良野方向因火山活動或道路管制無法通行，從旭川出發，途中在砂川 Highway Oasis 休息補給，再前往白色戀人公園，晚上到薄野吃飯。"
+          ? "Plan B：假設美瑛、富良野方向因火山活動或道路管制無法通行，從旭川出發，途中在砂川 Highway Oasis 休息補給。抵達札幌先到 APA 飯店入住，再前往白色戀人公園，晚上到薄野吃飯。"
           : JSON.stringify(state.plan[day]) === JSON.stringify(winterTemplate[day])
             ? daySummaries[day]
             : `從${dayBaseAreas[day]}出發，安排${dayAreas.join("、")}共 ${daySpots.length} 個點位，包含${[...new Set(daySpots.map((spot) => spot.type))].slice(0, 3).join("、")}。`)
