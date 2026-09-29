@@ -88,6 +88,28 @@ const spots = [
     highlight: "平和通旁"
   },
   {
+    id: "ginneko-asahikawa",
+    name: "焼鳥専門ぎんねこ（新子燒）",
+    area: "旭川",
+    type: "在地美食",
+    season: ["winter"],
+    time: "1.5h",
+    best: "炭烤半隻嫩雞、醬汁／鹽味、買物公園周邊",
+    desc: "旭川名物新子燒的老店，位於 5・7 小路ふらりーと。新子燒現烤約 30 分鐘，可選醬汁、鹽味或各半；不接受座位預約，Day 1 晚餐視排隊情況決定。",
+    highlight: "旭川新子燒"
+  },
+  {
+    id: "jiyuken-asahikawa",
+    name: "自由軒（豬肉定食）",
+    area: "旭川",
+    type: "食堂",
+    season: ["winter"],
+    time: "1h",
+    best: "わらじ焼肉、炸豬排、1949 年創業",
+    desc: "位在平和通買物公園 5 條通的老食堂，招牌わらじ焼肉是豬肉料理，另有炸豬排、豬排燒與咖哩。Day 1 可作為不吃羊肉的晚餐候選。",
+    highlight: "旭川老食堂"
+  },
+  {
     id: "sunagawa-highway-oasis",
     name: "砂川 Highway Oasis",
     area: "砂川",
@@ -932,6 +954,14 @@ const spotLogistics = {
   "feeeal-asahikawa": {
     hours: "各店舖營業時間不同，出發前請以商場公告為準",
     access: "地址：旭川市1条通8丁目108番地。JR 旭川站步行約 5 分鐘，平和通買物公園旁"
+  },
+  "ginneko-asahikawa": {
+    hours: "店家公告 13:00-22:00，週一休；座位不接受預約，12/23 營業請再確認",
+    access: "地址：旭川市5条通7丁目右6，5・7 小路ふらりーと。位於平和通買物公園周邊，飯店入住後可步行前往"
+  },
+  "jiyuken-asahikawa": {
+    hours: "商店街公告 11:30-14:00、17:00-21:00，週日休；12/23 營業請再確認",
+    access: "地址：旭川市5条通8丁目，平和通買物公園沿線；飯店入住後可步行前往"
   },
   "sunagawa-highway-oasis": {
     hours: "冬季（10/1-4/30）09:00-17:00；餐廳 10:30-17:00（L.O. 16:30），元旦休館",
