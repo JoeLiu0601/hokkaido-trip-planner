@@ -1690,7 +1690,8 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
   overflow-wrap: anywhere;
 }
 
-#local-save-status[data-state="error"] {
+#local-save-status[data-state="error"],
+#local-save-status[data-state="conflict"] {
   color: #ffe0af;
 }
 
@@ -1823,6 +1824,82 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
 
 .flight-mobile-summary {
   display: none;
+}
+
+.sync-conflict-panel {
+  min-width: 0;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid rgba(255, 179, 71, 0.55);
+  border-radius: 14px;
+  background: rgba(255, 179, 71, 0.06);
+  overflow-wrap: anywhere;
+}
+
+.sync-conflict-panel[hidden] {
+  display: none;
+}
+
+.sync-conflict-panel h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+#sync-conflict-note {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.sync-conflict-item {
+  min-width: 0;
+  margin: 0 0 12px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.sync-conflict-item legend {
+  padding: 0 4px;
+  max-width: 100%;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.sync-conflict-item label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.sync-conflict-item input {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  min-height: 0;
+  margin: 3px 0 0;
+  accent-color: var(--accent-2);
+}
+
+.sync-conflict-item label > span {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.sync-conflict-item strong {
+  color: var(--text);
+}
+
+#resolve-sync-conflicts-btn {
+  min-height: 44px;
 }
 
 .undo-toast {

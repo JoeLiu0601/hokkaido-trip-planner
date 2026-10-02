@@ -8,7 +8,7 @@
       name="description"
       content="新千歲 → 旭川 → 札幌 → 洞爺湖 → 函館。10天北海道冬季行程規劃。"
     />
-    <link rel="stylesheet" href="styles.css?v=20261002-mobile-usability" />
+    <link rel="stylesheet" href="styles.css?v=20261003-sync-conflicts" />
   </head>
   <body>
     <main class="shell">
@@ -87,6 +87,12 @@
               <button class="small-button" id="retry-local-save-btn" type="button" hidden>重試儲存</button>
             </div>
           </div>
+          <section id="sync-conflict-panel" class="sync-conflict-panel" aria-labelledby="sync-conflict-title" hidden>
+            <h3 id="sync-conflict-title">同步內容需要確認</h3>
+            <p id="sync-conflict-note" role="status"></p>
+            <div id="sync-conflict-options"></div>
+            <button class="small-button alt" id="resolve-sync-conflicts-btn" type="button" disabled>套用選擇並同步</button>
+          </section>
           <div id="mobile-day-summary"></div>
           <details id="day-alternative-shell" class="day-alternative" hidden>
             <summary>Day 2 備案 · 天候有變時查看</summary>
@@ -210,6 +216,6 @@
 
     <!-- deploy-stamp: 2026-09-21T18:00:00+08:00 -->
     <script src="sync-config.js"></script>
-    <script src="app.js?v=20261002-mobile-usability"></script>
+    <script src="app.js?v=20261003-sync-conflicts"></script>
   </body>
 </html>

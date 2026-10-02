@@ -1339,6 +1339,7 @@ const syncClientIdKey = "hokkaido-trip-planner-sync-client-id";
 const cloudPendingKey = "hokkaido-trip-planner-cloud-pending";
 const localSnapshotKey = "hokkaido-trip-planner-local-snapshot";
 let loadedPlanNeedsSync = false;
+let loadedPlanNeedsSave = false;
 const syncCodeMinLength = 2;
 const syncCodeMaxLength = 40;
 const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐", "壽司", "拉麵", "甜點", "炸雞", "燒肉", "洋食", "漢堡", "天丼", "天婦羅", "鰻魚飯"];
@@ -1462,7 +1463,6 @@ function ensureRequiredStops(plan) {
     });
   });
 
-  ensureHotelCheckIns(plan);
   return plan;
 }
 
@@ -1479,13 +1479,11 @@ function insertDayTwoHotelCheckIn(plan) {
 
   const hotelId = "apa-sapporo-susukino-ekinishi";
   const currentIndex = dayTwo.indexOf(hotelId);
+  if (currentIndex >= 0) return false;
   const odoriIndex = dayTwo.indexOf("sapporo-odori");
   const firstSapporoIndex = dayTwo.findIndex((id) => id !== hotelId && spotById(id)?.area === "札幌");
   const targetIndex = odoriIndex >= 0 ? odoriIndex : firstSapporoIndex;
   const targetId = targetIndex >= 0 ? dayTwo[targetIndex] : null;
-  if (currentIndex >= 0 && (targetIndex < 0 || currentIndex === targetIndex - 1)) return false;
-
-  if (currentIndex >= 0) dayTwo.splice(currentIndex, 1);
   const insertionIndex = targetId ? dayTwo.indexOf(targetId) : dayTwo.length;
   dayTwo.splice(insertionIndex < 0 ? dayTwo.length : insertionIndex, 0, hotelId);
   return true;
@@ -1566,6 +1564,7 @@ function loadPlan() {
     }, {});
 
     if (previousPlanTemplateVersions.includes(storedTemplateVersion)) {
+      loadedPlanNeedsSave = true;
       const normalizedChanged = Object.keys(winterTemplate).some((key) => {
         const day = Number(key);
         return !planStopsEqual(Array.isArray(parsed[day]) ? parsed[day] : [], plan[day]);
@@ -1574,8 +1573,6 @@ function loadPlan() {
       loadedPlanNeedsSync = normalizedChanged || migrationChanged;
     }
 
-    const hasAnyStops = Object.values(plan).some((dayStops) => dayStops.length > 0);
-    if (!hasAnyStops) return createDefaultPlan();
     const beforeRequiredStops = JSON.stringify(plan);
     ensureRequiredStops(plan);
     loadedPlanNeedsSync = loadedPlanNeedsSync || beforeRequiredStops !== JSON.stringify(plan);
@@ -1753,6 +1750,7 @@ const cloud = {
   baseCode: savedCloudSnapshot?.syncCode || "",
   basePlan: savedCloudSnapshot?.basePlan ? getRemoteCloudPlan({ plan: savedCloudSnapshot.basePlan }) : null,
   deferredRemote: null,
+  conflict: null,
   hasSynced: false
 };
 
@@ -2141,40 +2139,255 @@ function valuesEqual(first, second) {
   return JSON.stringify(first) === JSON.stringify(second);
 }
 
-function chooseMergedValue(baseValue, localValue, remoteValue) {
-  if (valuesEqual(localValue, baseValue)) {
-    return cloneJson(remoteValue);
-  }
-  if (valuesEqual(remoteValue, baseValue)) {
-    return cloneJson(localValue);
-  }
-  return cloneJson(localValue);
+function conflictSignature(local, remote) {
+  return JSON.stringify([local, remote]);
 }
 
-function mergeCloudPlans(basePlan, localPlan, remotePlan) {
-  const merged = {};
-  Object.keys(winterTemplate).forEach((key) => {
-    const day = Number(key);
-    merged[day] = chooseMergedValue(basePlan?.[day] || [], localPlan?.[day] || [], remotePlan?.[day] || []);
-  });
+function selectMergeConflict(conflict, choices, conflicts) {
+  conflicts.items.push(conflict);
+  const selected = choices[conflict.id];
+  if (selected?.signature === conflictSignature(conflict.local, conflict.remote)
+    && ["local", "remote"].includes(selected.side)) {
+    return cloneJson(conflict[selected.side]);
+  }
+  conflicts.pending.push(conflict);
+  // This provisional value is never sent while conflicts remain unresolved.
+  return cloneJson(conflict.local);
+}
 
-  merged._meals = buildMealPlan();
-  Object.keys(merged._meals).forEach((key) => {
-    const day = Number(key);
-    mealSlotDefinitions.forEach((slot) => {
-      const fields = Object.keys(createMealEntry(slot.id));
-      fields.forEach((field) => {
-        merged._meals[day][slot.id][field] = chooseMergedValue(
-          basePlan?._meals?.[day]?.[slot.id]?.[field],
-          localPlan?._meals?.[day]?.[slot.id]?.[field],
-          remotePlan?._meals?.[day]?.[slot.id]?.[field]
-        );
-      });
-      merged._meals[day][slot.id] = normalizeMealEntry(merged._meals[day][slot.id], slot.id);
+function mergeValue(base, local, remote, conflict, choices, conflicts, hasBase) {
+  if (valuesEqual(local, remote)) return cloneJson(local);
+  if (hasBase && valuesEqual(local, base)) return cloneJson(remote);
+  if (hasBase && valuesEqual(remote, base)) return cloneJson(local);
+  return selectMergeConflict({ ...conflict, local, remote }, choices, conflicts);
+}
+
+function completeStopOrder(preferred, other, ids) {
+  const allowed = new Set(ids);
+  const order = preferred.filter((id) => allowed.has(id));
+  other.forEach((id, index) => {
+    if (!allowed.has(id) || order.includes(id)) return;
+    const next = other.slice(index + 1).find((candidate) => order.includes(candidate));
+    const previous = other.slice(0, index).reverse().find((candidate) => order.includes(candidate));
+    const insertion = next ? order.indexOf(next) : previous ? order.indexOf(previous) + 1 : order.length;
+    order.splice(insertion, 0, id);
+  });
+  ids.filter((id) => !order.includes(id)).sort().forEach((id) => order.push(id));
+  return order;
+}
+
+function mergeStopOrder(day, base, local, remote, ids, choices, conflicts) {
+  const relation = (list, first, second) => {
+    const firstIndex = list.indexOf(first);
+    const secondIndex = list.indexOf(second);
+    return firstIndex >= 0 && secondIndex >= 0 ? firstIndex < secondIndex : null;
+  };
+  const edges = new Map(ids.map((id) => [id, new Set()]));
+  const incoming = new Map(ids.map((id) => [id, 0]));
+  let incompatible = false;
+  ids.forEach((first, index) => {
+    ids.slice(index + 1).forEach((second) => {
+      const before = relation(base || [], first, second);
+      const here = relation(local, first, second);
+      const there = relation(remote, first, second);
+      let order = here ?? there ?? before;
+      if (here !== null && there !== null && here !== there) {
+        if (before === here) order = there;
+        else if (before === there) order = here;
+        else incompatible = true;
+      }
+      if (order === null) return;
+      const from = order ? first : second;
+      const to = order ? second : first;
+      edges.get(from).add(to);
+      incoming.set(to, incoming.get(to) + 1);
     });
   });
 
-  return merged;
+  const ready = ids.filter((id) => incoming.get(id) === 0).sort();
+  const order = [];
+  while (ready.length) {
+    const id = ready.shift();
+    order.push(id);
+    edges.get(id).forEach((next) => {
+      incoming.set(next, incoming.get(next) - 1);
+      if (incoming.get(next) === 0) {
+        ready.push(next);
+        ready.sort();
+      }
+    });
+  }
+  if (!incompatible && order.length === ids.length) return order;
+
+  return selectMergeConflict({
+    id: `order-${day}`, kind: "order", title: `Day ${day} 景點順序`,
+    local: completeStopOrder(local, remote, ids),
+    remote: completeStopOrder(remote, local, ids)
+  }, choices, conflicts);
+}
+
+function mergeCloudPlans(basePlan, localPlan, remotePlan, choices = {}) {
+  const merged = {};
+  const conflicts = { pending: [], items: [] };
+  const days = Object.keys(winterTemplate).map(Number);
+  const location = (plan, id) => days.find((day) => (plan?.[day] || []).includes(id)) ?? null;
+  const ids = [...new Set(days.flatMap((day) => [...(basePlan?.[day] || []), ...(localPlan[day] || []), ...(remotePlan[day] || [])]))];
+  const reordered = (plan, id, day) => {
+    const before = basePlan?.[day] || [];
+    const after = plan[day] || [];
+    return before.some((anchor) => anchor !== id && after.includes(anchor)
+      && (before.indexOf(id) < before.indexOf(anchor)) !== (after.indexOf(id) < after.indexOf(anchor)));
+  };
+  const destinations = new Map(ids.map((id) => {
+    const before = location(basePlan, id);
+    const local = location(localPlan, id);
+    const remote = location(remotePlan, id);
+    const conflict = { id: `place-${id}`, kind: "location", title: `${spotById(id)?.name || id} 的日期` };
+    const removalVsOrder = before !== null && (
+      local === null && remote === before && reordered(remotePlan, id, before)
+      || remote === null && local === before && reordered(localPlan, id, before)
+    );
+    const destination = removalVsOrder
+      ? selectMergeConflict({ ...conflict, local, remote }, choices, conflicts)
+      : mergeValue(before, local, remote, conflict, choices, conflicts, Boolean(basePlan));
+    return [id, destination];
+  }));
+
+  days.forEach((day) => {
+    const dayIds = ids.filter((id) => destinations.get(id) === day);
+    merged[day] = mergeStopOrder(day, basePlan?.[day], localPlan[day] || [], remotePlan[day] || [], dayIds, choices, conflicts);
+  });
+
+  const fieldLabels = { primaryId: "首選餐廳", backupId: "備選餐廳", time: "時間", priority: "優先度", booking: "訂位狀態", note: "備註" };
+  merged._meals = buildMealPlan();
+  days.forEach((day) => {
+    mealSlotDefinitions.forEach((slot) => {
+      const fallback = createMealEntry(slot.id);
+      const base = basePlan?._meals?.[day]?.[slot.id] || fallback;
+      const local = localPlan._meals?.[day]?.[slot.id] || fallback;
+      const remote = remotePlan._meals?.[day]?.[slot.id] || fallback;
+      Object.keys(fallback).forEach((field) => {
+        merged._meals[day][slot.id][field] = mergeValue(
+          base[field], local[field], remote[field],
+          { id: `meal-${day}-${slot.id}-${field}`, kind: "meal", field, title: `Day ${day} ${slot.label} · ${fieldLabels[field]}` },
+          choices, conflicts, Boolean(basePlan)
+        );
+      });
+      const meal = merged._meals[day][slot.id];
+      if (meal.primaryId && meal.primaryId === meal.backupId) {
+        const pair = selectMergeConflict({
+          id: `meal-pair-${day}-${slot.id}`, kind: "meal-pair", title: `Day ${day} ${slot.label} · 首選與備選重複`,
+          local: { primaryId: local.primaryId, backupId: local.backupId },
+          remote: { primaryId: remote.primaryId, backupId: remote.backupId }
+        }, choices, conflicts);
+        Object.assign(meal, pair);
+      }
+      merged._meals[day][slot.id] = normalizeMealEntry(meal, slot.id);
+    });
+  });
+
+  return { plan: merged, conflicts: conflicts.pending, items: conflicts.items };
+}
+
+function describeConflictValue(item, value) {
+  const name = (id) => spotById(id)?.name || "尚未安排";
+  if (item.kind === "location") return value === null ? "移除這個景點" : `安排在 Day ${value}`;
+  if (item.kind === "order") return value.map(name).join(" → ") || "沒有景點";
+  if (item.kind === "meal-pair") return `首選：${name(value.primaryId)}；備選：${name(value.backupId)}`;
+  if (["primaryId", "backupId"].includes(item.field)) return name(value);
+  if (item.field === "priority") return mealPriorityOptions.find((option) => option.value === value)?.label || value;
+  if (item.field === "booking") return mealBookingOptions.find((option) => option.value === value)?.label || value;
+  return value || "空白";
+}
+
+function renderSyncConflict() {
+  const panel = document.getElementById("sync-conflict-panel");
+  const context = cloud.conflict;
+  panel.hidden = !context;
+  if (!context) return;
+  const merge = mergeCloudPlans(context.basePlan, getLocalCloudPlan(), getRemoteCloudPlan(context.payload), context.choices);
+  context.items = merge.items;
+  const options = document.getElementById("sync-conflict-options");
+  options.innerHTML = context.items.map((item, index) => `
+    <fieldset class="sync-conflict-item">
+      <legend>${escapeHtml(item.title)}</legend>
+      ${["local", "remote"].map((side) => {
+        const choice = context.choices[item.id];
+        const selected = choice?.side === side && choice.signature === conflictSignature(item.local, item.remote);
+        return `<label>
+          <input type="radio" name="sync-choice-${index}" value="${side}" data-conflict-id="${escapeHtml(item.id)}" ${selected ? "checked" : ""}>
+          <span><strong>${side === "local" ? "這台裝置" : "雲端內容"}</strong><span>${escapeHtml(describeConflictValue(item, item[side]))}</span></span>
+        </label>`;
+      }).join("")}
+    </fieldset>`).join("");
+  const button = document.getElementById("resolve-sync-conflicts-btn");
+  const updateButton = () => {
+    button.disabled = context.items.some((item) => {
+      const selected = context.choices[item.id];
+      return !selected || selected.signature !== conflictSignature(item.local, item.remote);
+    });
+  };
+  options.querySelectorAll("[data-conflict-id]").forEach((input) => {
+    input.addEventListener("change", () => {
+      const item = context.items.find((item) => item.id === input.dataset.conflictId);
+      context.choices[item.id] = { side: input.value, signature: conflictSignature(item.local, item.remote) };
+      renderSyncConflict();
+      const replacement = [...options.querySelectorAll("[data-conflict-id]")].find((candidate) => candidate.dataset.conflictId === item.id && candidate.value === input.value);
+      replacement?.focus({ preventScroll: true });
+    });
+  });
+  document.getElementById("sync-conflict-note").textContent = context.items.length
+    ? "這台裝置與雲端的內容有衝突。請逐項選擇；確認前，這台裝置的修改會保留並暫停同步。"
+    : "目前修改已能合併，按下方按鈕繼續同步。";
+  updateButton();
+}
+
+function pauseForSyncConflict(basePlan, payload) {
+  const previous = cloud.conflict;
+  if (previous?.code === cloud.activeCode && previous.attempt === cloud.connectionAttempt
+    && Number(previous.payload.version || 0) > Number(payload.version || 0)) return;
+  cloud.conflict = {
+    code: cloud.activeCode, attempt: cloud.connectionAttempt,
+    basePlan: basePlan ? cloneJson(basePlan) : null,
+    payload: cloneJson(payload),
+    choices: previous?.code === cloud.activeCode && previous.attempt === cloud.connectionAttempt ? previous.choices : {},
+    items: []
+  };
+  // Retain the common ancestor so a reload can detect the same unresolved edits.
+  cloud.baseCode = cloud.activeCode;
+  cloud.basePlan = basePlan ? cloneJson(basePlan) : null;
+  state.cloudPending = true;
+  if (cloud.pendingTimer) {
+    window.clearTimeout(cloud.pendingTimer);
+    cloud.pendingTimer = null;
+  }
+  savePlan();
+  renderSyncConflict();
+  setSyncStatus("內容有衝突，請在日期下方確認");
+}
+
+function resolveSyncConflicts() {
+  const context = cloud.conflict;
+  if (!context || context.code !== cloud.activeCode || context.attempt !== cloud.connectionAttempt) return;
+  const remotePlan = getRemoteCloudPlan(context.payload);
+  const merge = mergeCloudPlans(context.basePlan, getLocalCloudPlan(), remotePlan, context.choices);
+  if (merge.conflicts.length) {
+    renderSyncConflict();
+    setUiMessage("內容有更新，請確認尚未選擇的項目。", "warn");
+    return;
+  }
+  dismissUndo();
+  state.plan = normalizeImportedPlan(merge.plan);
+  state.mealPlan = normalizeMealPlan(merge.plan._meals);
+  cloud.basePlan = cloneJson(remotePlan);
+  cloud.baseCode = context.code;
+  cloud.version = Number.isSafeInteger(context.payload.version) ? context.payload.version : cloud.version;
+  state.changeLog = Array.isArray(context.payload.changes) ? context.payload.changes.slice(0, 30) : state.changeLog;
+  cloud.conflict = null;
+  recordChange("確認同步衝突", "保留可合併的修改，依選擇處理衝突內容");
+  markDirty();
+  render();
+  queueCloudPush(0);
 }
 
 function buildSyncPayload(plan = getLocalCloudPlan()) {
@@ -2190,7 +2403,6 @@ function applyRemotePayload(payload) {
   dismissUndo();
   const hasRemoteMeals = payload?.plan?._meals !== undefined || payload?.mealPlan !== undefined;
   const remotePlan = getRemoteCloudPlan(payload);
-  const needsTemplateMigration = [2, 7, 8].some((day) => !planStopsEqual(payload?.plan?.[day], remotePlan[day]));
   state.plan = normalizeImportedPlan(remotePlan);
   if (hasRemoteMeals) {
     state.mealPlan = normalizeMealPlan(remotePlan._meals);
@@ -2202,7 +2414,7 @@ function applyRemotePayload(payload) {
   }
 
   const savedIso = typeof payload?.updatedAt === "number" ? new Date(payload.updatedAt).toISOString() : new Date().toISOString();
-  state.cloudPending = !hasRemoteMeals || needsTemplateMigration;
+  state.cloudPending = !hasRemoteMeals;
   cloud.syncedRevision = state.editRevision;
   cloud.hasSynced = true;
   cloud.baseCode = cloud.activeCode;
@@ -2212,7 +2424,7 @@ function applyRemotePayload(payload) {
   savePlan(savedIso);
   render();
   updateSaveUi();
-  return { needsMigration: !hasRemoteMeals || needsTemplateMigration };
+  return { needsMigration: !hasRemoteMeals };
 }
 
 function applyDeferredRemotePayload() {
@@ -2223,11 +2435,20 @@ function applyDeferredRemotePayload() {
   }
   const remoteVersion = Number.isSafeInteger(deferred.payload?.version) ? deferred.payload.version : 0;
   if (remoteVersion <= cloud.version) return;
+  if (cloud.conflict) {
+    pauseForSyncConflict(cloud.conflict.basePlan, deferred.payload);
+    return;
+  }
 
   if (hasPendingCloudChanges()) {
     const remotePlan = getRemoteCloudPlan(deferred.payload);
-    const basePlan = cloud.baseCode === deferred.code && cloud.basePlan ? cloud.basePlan : remotePlan;
-    const mergedPlan = mergeCloudPlans(basePlan, getLocalCloudPlan(), remotePlan);
+    const basePlan = cloud.baseCode === deferred.code ? cloud.basePlan : null;
+    const merge = mergeCloudPlans(basePlan, getLocalCloudPlan(), remotePlan);
+    if (merge.conflicts.length) {
+      pauseForSyncConflict(basePlan, deferred.payload);
+      return;
+    }
+    const mergedPlan = merge.plan;
     dismissUndo();
     state.plan = normalizeImportedPlan(mergedPlan);
     state.mealPlan = normalizeMealPlan(mergedPlan._meals);
@@ -2252,7 +2473,7 @@ function applyDeferredRemotePayload() {
 }
 
 async function pushCloudState() {
-  if (!cloud.initialized || !cloud.activeCode || cloud.applyingRemote || cloud.pushInFlight) {
+  if (!cloud.initialized || !cloud.activeCode || cloud.applyingRemote || cloud.pushInFlight || cloud.conflict) {
     return false;
   }
 
@@ -2281,8 +2502,16 @@ async function pushCloudState() {
       const snapshot = await transaction.get(ref);
       const data = snapshot.exists() ? snapshot.data() : {};
       const remotePlan = getRemoteCloudPlan(data);
-      const basePlan = pushBasePlan || remotePlan;
-      const mergedPlan = mergeCloudPlans(basePlan, localPlan, remotePlan);
+      const basePlan = snapshot.exists() ? pushBasePlan : remotePlan;
+      const merge = mergeCloudPlans(basePlan, localPlan, remotePlan);
+      if (merge.conflicts.length) {
+        const error = new Error("Sync choices required");
+        error.code = "planner/sync-conflict";
+        error.basePlan = basePlan;
+        error.payload = data;
+        throw error;
+      }
+      const mergedPlan = merge.plan;
       const currentVersion = typeof data?.version === "number" ? data.version : 0;
       const existingChanges = Array.isArray(data?.changes) ? data.changes : [];
       const nextVersion = currentVersion + 1;
@@ -2309,9 +2538,14 @@ async function pushCloudState() {
     cloud.syncedRevision = Math.max(cloud.syncedRevision, pushedRevision);
     cloud.hasSynced = true;
     const hasNewEdits = state.editRevision !== pushedRevision;
-    const reconciledPlan = hasNewEdits
+    const reconciliation = hasNewEdits
       ? mergeCloudPlans(localPlan, getLocalCloudPlan(), result.plan)
-      : result.plan;
+      : { plan: result.plan, conflicts: [] };
+    if (reconciliation.conflicts.length) {
+      pauseForSyncConflict(localPlan, { plan: result.plan, version: result.version, changes: result.changes });
+      return true;
+    }
+    const reconciledPlan = reconciliation.plan;
     state.plan = normalizeImportedPlan(reconciledPlan);
     state.mealPlan = normalizeMealPlan(reconciledPlan._meals);
     state.cloudPending = hasNewEdits || !valuesEqual(getLocalCloudPlan(), result.plan);
@@ -2321,6 +2555,10 @@ async function pushCloudState() {
     setSyncStatus(state.cloudPending ? "本次同步完成，正在等待同步新變更" : "同步完成");
   } catch (error) {
     if (pushConnectionAttempt !== cloud.connectionAttempt || cloud.activeCode !== pushCode) {
+      return false;
+    }
+    if (error?.code === "planner/sync-conflict") {
+      pauseForSyncConflict(error.basePlan, error.payload);
       return false;
     }
     console.error("Cloud sync push failed", error);
@@ -2338,7 +2576,7 @@ async function pushCloudState() {
 }
 
 function queueCloudPush(delay = 700) {
-  if (!cloud.initialized || !cloud.activeCode || cloud.applyingRemote || !hasPendingCloudChanges()) {
+  if (!cloud.initialized || !cloud.activeCode || cloud.applyingRemote || cloud.conflict || !hasPendingCloudChanges()) {
     return;
   }
 
@@ -2374,6 +2612,8 @@ async function connectCloudSync(rawCode) {
   state.syncCode = code;
   cloud.hasSynced = false;
   cloud.deferredRemote = null;
+  cloud.conflict = null;
+  renderSyncConflict();
   if (cloud.baseCode !== code) {
     cloud.baseCode = code;
     cloud.basePlan = null;
@@ -2387,6 +2627,7 @@ async function connectCloudSync(rawCode) {
   updateSyncUi();
 
   const attemptId = ++cloud.connectionAttempt;
+  cloud.activeCode = "";
   const ready = await ensureCloudInitialized();
   if (!ready || attemptId !== cloud.connectionAttempt) {
     return;
@@ -2419,9 +2660,9 @@ async function connectCloudSync(rawCode) {
       const data = snapshot.data();
       const remoteVersion = Number.isSafeInteger(data?.version) ? data.version : 0;
       if (hasPendingCloudChanges()) {
-        if (!cloud.basePlan || cloud.baseCode !== code) {
+        if (cloud.baseCode !== code) {
           cloud.baseCode = code;
-          cloud.basePlan = getRemoteCloudPlan(data);
+          cloud.basePlan = null;
         }
         cloud.version = Math.max(cloud.version, remoteVersion);
         savePlan();
@@ -2481,6 +2722,11 @@ async function connectCloudSync(rawCode) {
 
       const remoteVersion = Number.isSafeInteger(data.version) ? data.version : 0;
       if (remoteVersion <= cloud.version) {
+        return;
+      }
+      if (cloud.conflict) {
+        const shownVersion = Number.isSafeInteger(cloud.conflict.payload.version) ? cloud.conflict.payload.version : 0;
+        if (remoteVersion > shownVersion) pauseForSyncConflict(cloud.conflict.basePlan, data);
         return;
       }
 
@@ -2558,6 +2804,9 @@ function updateSaveUi() {
   } else if (!state.lastSavedAt) {
     message = "編輯後會自動存到此裝置";
     statusKind = "ready";
+  } else if (cloud.conflict) {
+    message = "已存此裝置 · 同步需確認";
+    statusKind = "conflict";
   } else if (state.cloudPending && (state.syncCode || cloud.activeCode)) {
     message = "已存此裝置 · 等待同步";
     statusKind = "pending";
@@ -2592,6 +2841,7 @@ function markDirty() {
   state.cloudPending = true;
   savePlan();
   renderSummary();
+  if (cloud.conflict) renderSyncConflict();
   updateSaveUi();
   queueCloudPush();
 }
@@ -3029,9 +3279,7 @@ function getDayTwoSnapshot() {
 function getDayTwoOriginal() {
   const snapshot = getDayTwoSnapshot();
   if (snapshot?.backupActive || isDayTwoBackup()) {
-    const plan = { 2: [...(snapshot?.original || winterTemplate[2])] };
-    insertDayTwoHotelCheckIn(plan);
-    return plan[2];
+    return [...(snapshot?.original || winterTemplate[2])];
   }
   return [...state.plan[2]];
 }
@@ -3925,6 +4173,7 @@ function render() {
   renderFlightCards();
   renderDayAlternative();
   renderDayTabs();
+  renderSyncConflict();
   renderMealPlanner();
   renderItinerary();
   renderSpotAreaTabs();
@@ -3967,6 +4216,7 @@ function bindGlobalEvents() {
   });
   document.getElementById("undo-action-btn").addEventListener("click", restoreRemovedAction);
   document.getElementById("undo-dismiss-btn").addEventListener("click", dismissUndo);
+  document.getElementById("resolve-sync-conflicts-btn").addEventListener("click", resolveSyncConflicts);
   document.getElementById("back-to-day").addEventListener("click", () => {
     state.summaryMode = "day";
     renderSummary();
@@ -4007,7 +4257,7 @@ function bindGlobalEvents() {
   document.getElementById("reset-plan-btn")?.addEventListener("click", resetToDefaultPlan);
 }
 
-if (loadedPlanNeedsSync) savePlan();
+if (loadedPlanNeedsSave || loadedPlanNeedsSync) savePlan();
 bindGlobalEvents();
 render();
 updateSaveUi();
