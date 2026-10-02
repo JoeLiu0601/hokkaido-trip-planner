@@ -541,6 +541,7 @@ select {
 
 .button-primary {
   background: linear-gradient(135deg, #ffb347, #ff8b5c);
+  color: #172630;
   box-shadow: 0 16px 30px rgba(255, 179, 71, 0.22);
 }
 
@@ -1425,21 +1426,26 @@ select {
     font-size: 1rem;
   }
 
-  .day-tabs {
+  .day-navigation {
     position: sticky;
     top: 0;
     z-index: 5;
+    margin: 0 -14px 14px;
+    padding: 0 14px;
+    background: rgba(8, 17, 30, 0.95);
+    border-block: 1px solid rgba(165, 191, 220, 0.12);
+    backdrop-filter: blur(16px);
+  }
+
+  .day-tabs {
     display: flex;
     gap: 8px;
-    margin: 0 -14px 14px;
-    padding: 9px 14px 10px;
+    margin: 0 -14px;
+    padding: 9px 14px 8px;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x proximity;
     scrollbar-width: none;
-    background: rgba(8, 17, 30, 0.95);
-    border-block: 1px solid rgba(165, 191, 220, 0.12);
-    backdrop-filter: blur(16px);
   }
 
   .day-tabs::-webkit-scrollbar,
@@ -1636,8 +1642,8 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
   .workspace { gap: 14px; margin-top: 14px; }
   .panel-head { gap: 6px; margin-bottom: 14px; }
   .panel-note { margin: 0; font-size: 0.82rem; }
-  .day-tabs { top: env(safe-area-inset-top, 0px); }
-  .focus-card { border-color: rgba(107, 212, 255, 0.24); scroll-margin-top: 94px; }
+  .day-navigation { top: env(safe-area-inset-top, 0px); }
+  .focus-card { border-color: rgba(107, 212, 255, 0.24); scroll-margin-top: 130px; }
   .focus-practical { overflow-wrap: anywhere; }
   .alternative-tabs { display: grid; grid-template-columns: 1fr; }
   .alternative-tabs .small-button { width: 100%; border-radius: 12px; }
@@ -1656,6 +1662,356 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
   .summary-figure strong { display: block; font-size: 1.1rem; line-height: 1.5; margin: 5px 0 8px; }
 }
 
+/* Compact reading and editing controls for the mobile itinerary. */
+.day-navigation {
+  min-width: 0;
+  margin-bottom: 18px;
+}
+
+.day-navigation .day-tabs {
+  margin-bottom: 0;
+}
+
+.local-save-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 32px;
+  padding: 5px 2px;
+}
+
+#local-save-status {
+  min-width: 0;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+#local-save-status[data-state="error"] {
+  color: #ffe0af;
+}
+
+#retry-local-save-btn {
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  font-size: 0.8rem;
+}
+
+.stop-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stop-quick-actions .small-button,
+.meal-summary-actions .small-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  text-decoration: none;
+  text-align: center;
+}
+
+.stop-quick-actions [aria-expanded="true"] {
+  border-color: rgba(107, 212, 255, 0.48);
+  background: rgba(107, 212, 255, 0.12);
+}
+
+.stop-inline-details,
+.stop-adjust-panel {
+  min-width: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+.stop-inline-details p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.stop-inline-details p:last-child {
+  margin-bottom: 0;
+}
+
+.stop-inline-details strong {
+  color: var(--text);
+}
+
+.stop-inline-details[hidden],
+.stop-adjust-panel[hidden],
+#retry-local-save-btn[hidden],
+.undo-toast[hidden] {
+  display: none;
+}
+
+.meal-summary {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.meal-summary p {
+  margin: 0;
+}
+
+.meal-summary strong {
+  color: var(--text);
+}
+
+.meal-summary-row {
+  display: grid;
+  grid-template-columns: 2.5em minmax(0, 1fr);
+  gap: 8px;
+  align-items: baseline;
+}
+
+.meal-summary-row > :first-child {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.meal-summary-note {
+  padding-left: 10px;
+  border-left: 2px solid rgba(107, 212, 255, 0.32);
+  font-size: 0.82rem;
+}
+
+.meal-summary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.meal-editor {
+  min-width: 0;
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.meal-editor > summary,
+.flight-mobile-summary > details > summary {
+  min-height: 44px;
+  padding: 12px 2px;
+  color: var(--accent-2);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.meal-editor-content {
+  padding-top: 6px;
+}
+
+.day-alternative > summary,
+.planner-settings > summary,
+.change-log-summary {
+  min-height: 44px;
+}
+
+.flight-mobile-summary {
+  display: none;
+}
+
+.undo-toast {
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 44px;
+  align-items: center;
+  gap: 8px;
+  width: min(560px, calc(100vw - 24px));
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 179, 71, 0.48);
+  border-radius: 16px;
+  background: #22343e;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transform: translateX(-50%);
+}
+
+#undo-message {
+  min-width: 0;
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+#undo-action-btn {
+  color: #172630;
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+
+.undo-dismiss {
+  padding: 4px;
+  width: 44px;
+  font-size: 1.4rem;
+}
+
+body.undo-toast-visible .shell {
+  padding-bottom: max(128px, calc(env(safe-area-inset-bottom, 0px) + 116px));
+}
+
+@media (max-width: 640px) {
+  .day-navigation {
+    margin-bottom: 14px;
+  }
+
+  .local-save-bar {
+    padding: 2px 0 7px;
+    min-height: 30px;
+  }
+
+  #local-save-status {
+    font-size: 0.76rem;
+  }
+
+  .stop-card {
+    scroll-margin-top: 132px;
+  }
+
+  .stop-quick-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .stop-quick-actions .small-button {
+    min-width: 0;
+    min-height: 44px;
+    padding: 9px 6px;
+    font-size: 0.84rem;
+    border-radius: 12px;
+  }
+
+  .stop-adjust-panel .stop-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .stop-adjust-panel .small-button {
+    min-width: 0;
+    padding: 9px 5px;
+    font-size: 0.84rem;
+    border-radius: 12px;
+  }
+
+  .stop-card .tag-extra {
+    display: none;
+  }
+
+  .meal-slot {
+    padding-top: 12px;
+    padding-bottom: 4px;
+  }
+
+  .meal-slot-head {
+    margin-bottom: 8px;
+  }
+
+  .meal-summary-actions .small-button {
+    width: auto;
+    font-size: 0.84rem;
+  }
+
+  .meal-editor-content {
+    padding-bottom: 10px;
+  }
+
+  .flight-panel > .flight-grid {
+    display: none;
+  }
+
+  .flight-panel-heading {
+    margin-bottom: 8px;
+  }
+
+  .flight-panel-heading h2 {
+    font-size: 1.15rem;
+  }
+
+  .flight-panel-heading > p {
+    font-size: 0.75rem;
+  }
+
+  .flight-mobile-summary {
+    display: block;
+  }
+
+  .flight-mobile-lines {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .flight-mobile-lines > * {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 10px;
+    min-width: 0;
+    margin: 0;
+    padding: 8px 10px;
+    border: 1px solid rgba(107, 212, 255, 0.18);
+    border-radius: 10px;
+    background: rgba(107, 212, 255, 0.04);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .flight-mobile-lines strong {
+    color: var(--text);
+  }
+
+  .flight-mobile-lines span,
+  .flight-mobile-lines small {
+    color: var(--muted);
+  }
+
+  .flight-mobile-lines time {
+    color: var(--accent-2);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .flight-mobile-summary > details > summary {
+    padding-bottom: 8px;
+  }
+
+  .flight-mobile-details {
+    display: grid;
+    gap: 10px;
+    padding-top: 6px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: max(16px, 1rem);
+  }
+
+  .undo-toast .small-button {
+    width: auto;
+  }
+}
+
 @media print {
   @page {
     size: A4;
@@ -1672,6 +2028,10 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
   }
 
   body > .shell {
+    display: none !important;
+  }
+
+  .undo-toast {
     display: none !important;
   }
 

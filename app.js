@@ -913,7 +913,9 @@ const flights = [
     arrivalTime: "21:40",
     arrivalCode: "TPE",
     arrivalAirport: "臺灣桃園國際機場",
-    details: ["直飛 · 4 小時 40 分", "經濟艙", "Airbus A321neo", "抵達第 1 航廈"]
+    // 星宇冬季排班通知：2026/12/1–2027/2/28 使用 A330neo。
+    // https://www.city.hakodate.hokkaido.jp/docs/2020102800153/file_contents/file_20269931641_1.pdf
+    details: ["直飛 · 4 小時 40 分", "經濟艙", "Airbus A330neo", "抵達第 1 航廈"]
   }
 ];
 
@@ -1335,6 +1337,8 @@ const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
 const syncClientIdKey = "hokkaido-trip-planner-sync-client-id";
 const cloudPendingKey = "hokkaido-trip-planner-cloud-pending";
+const localSnapshotKey = "hokkaido-trip-planner-local-snapshot";
+let loadedPlanNeedsSync = false;
 const syncCodeMinLength = 2;
 const syncCodeMaxLength = 40;
 const foodTypes = ["美食", "食堂", "市場", "海鮮", "餐", "壽司", "拉麵", "甜點", "炸雞", "燒肉", "洋食", "漢堡", "天丼", "天婦羅", "鰻魚飯"];
@@ -1428,7 +1432,11 @@ function normalizeMealPlan(rawMealPlan) {
 }
 
 function loadMealPlan() {
-  const stored = window.localStorage.getItem(mealPlanKey);
+  const snapshot = loadLocalSnapshot();
+  if (snapshot) {
+    return normalizeMealPlan(snapshot.mealPlan);
+  }
+  const stored = readLocalStorage(mealPlanKey);
   if (!stored) {
     return buildMealPlan();
   }
@@ -1538,13 +1546,14 @@ function migratePreviousTemplate(plan) {
 }
 
 function loadPlan() {
-  const stored = window.localStorage.getItem(storageKey);
+  const snapshot = loadLocalSnapshot();
+  const stored = snapshot ? JSON.stringify(snapshot.plan) : readLocalStorage(storageKey);
   if (!stored) {
     return createDefaultPlan();
   }
 
   try {
-    const storedTemplateVersion = window.localStorage.getItem(planTemplateVersionKey);
+    const storedTemplateVersion = snapshot?.templateVersion || readLocalStorage(planTemplateVersionKey);
     if (![...previousPlanTemplateVersions, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
       return createDefaultPlan();
     }
@@ -1562,46 +1571,99 @@ function loadPlan() {
         return !planStopsEqual(Array.isArray(parsed[day]) ? parsed[day] : [], plan[day]);
       });
       const migrationChanged = migratePreviousTemplate(plan);
-      window.localStorage.setItem(storageKey, JSON.stringify(plan));
-      window.localStorage.setItem(planTemplateVersionKey, currentPlanTemplateVersion);
-      if (normalizedChanged || migrationChanged) {
-        window.localStorage.setItem(cloudPendingKey, "1");
-      }
+      loadedPlanNeedsSync = normalizedChanged || migrationChanged;
     }
 
     const hasAnyStops = Object.values(plan).some((dayStops) => dayStops.length > 0);
-    return hasAnyStops ? ensureRequiredStops(plan) : createDefaultPlan();
+    if (!hasAnyStops) return createDefaultPlan();
+    const beforeRequiredStops = JSON.stringify(plan);
+    ensureRequiredStops(plan);
+    loadedPlanNeedsSync = loadedPlanNeedsSync || beforeRequiredStops !== JSON.stringify(plan);
+    return plan;
   } catch {
     return createDefaultPlan();
   }
 }
 
-function savePlan() {
-  window.localStorage.setItem(storageKey, JSON.stringify(state.plan));
-  window.localStorage.setItem(mealPlanKey, JSON.stringify(state.mealPlan));
-  window.localStorage.setItem(planTemplateVersionKey, currentPlanTemplateVersion);
+function readLocalStorage(key) {
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function loadLocalSnapshot() {
+  try {
+    const snapshot = JSON.parse(readLocalStorage(localSnapshotKey) || "null");
+    return snapshot?.version === 1 && snapshot.plan && snapshot.mealPlan
+      && [...previousPlanTemplateVersions, currentPlanTemplateVersion].includes(snapshot.templateVersion)
+      ? snapshot : null;
+  } catch {
+    return null;
+  }
+}
+
+function savePlan(savedAt = new Date().toISOString()) {
+  try {
+    // A single write keeps the plan, meals and pending flag together on reload.
+    window.localStorage.setItem(localSnapshotKey, JSON.stringify({
+      version: 1,
+      plan: state.plan,
+      mealPlan: state.mealPlan,
+      templateVersion: currentPlanTemplateVersion,
+      savedAt,
+      cloudPending: state.cloudPending,
+      syncCode: state.syncCode,
+      basePlan: cloud.baseCode === state.syncCode ? cloud.basePlan : null
+    }));
+    state.lastSavedAt = savedAt;
+    state.dirty = false;
+  } catch (error) {
+    state.dirty = true;
+    console.warn("Local plan save failed", error);
+    return false;
+  }
+
+  // Older versions can still read these keys; the complete snapshot is authoritative.
+  try {
+    window.localStorage.setItem(storageKey, JSON.stringify(state.plan));
+    window.localStorage.setItem(mealPlanKey, JSON.stringify(state.mealPlan));
+    window.localStorage.setItem(planTemplateVersionKey, currentPlanTemplateVersion);
+    window.localStorage.setItem(savedAtKey, savedAt);
+    if (state.cloudPending) window.localStorage.setItem(cloudPendingKey, "1");
+    else window.localStorage.removeItem(cloudPendingKey);
+  } catch {
+    // The complete snapshot above already saved successfully.
+  }
+  return true;
 }
 
 function loadSavedAt() {
-  return window.localStorage.getItem(savedAtKey) || "";
+  return loadLocalSnapshot()?.savedAt || readLocalStorage(savedAtKey) || "";
 }
 
 function loadSyncCode() {
-  return window.localStorage.getItem(syncCodeKey) || "";
+  return readLocalStorage(syncCodeKey) || loadLocalSnapshot()?.syncCode || "";
 }
 
 function loadCloudPending() {
-  return window.localStorage.getItem(cloudPendingKey) === "1";
+  const snapshot = loadLocalSnapshot();
+  return loadedPlanNeedsSync || (snapshot ? snapshot.cloudPending === true : readLocalStorage(cloudPendingKey) === "1");
 }
 
 function getOrCreateClientId() {
-  const existing = window.localStorage.getItem(syncClientIdKey);
+  const existing = readLocalStorage(syncClientIdKey);
   if (existing) {
     return existing;
   }
 
   const newId = `client-${Math.random().toString(36).slice(2, 10)}`;
-  window.localStorage.setItem(syncClientIdKey, newId);
+  try {
+    window.localStorage.setItem(syncClientIdKey, newId);
+  } catch {
+    // Cloud sync can still use a session client ID when device storage is blocked.
+  }
   return newId;
 }
 
@@ -1659,6 +1721,8 @@ const dom = {
   printPlanBtn: document.getElementById("print-plan-btn"),
   printReport: document.getElementById("print-report"),
   saveStatus: document.getElementById("save-status"),
+  localSaveStatus: document.getElementById("local-save-status"),
+  retryLocalSaveBtn: document.getElementById("retry-local-save-btn"),
   syncCodeInput: document.getElementById("sync-code-input"),
   connectSyncBtn: document.getElementById("connect-sync-btn"),
   syncStatus: document.getElementById("sync-status"),
@@ -1668,6 +1732,7 @@ const dom = {
 };
 
 let uiMessageTimer = null;
+const savedCloudSnapshot = loadLocalSnapshot();
 
 const cloud = {
   initialized: false,
@@ -1685,11 +1750,115 @@ const cloud = {
   clientId: getOrCreateClientId(),
   version: 0,
   syncedRevision: 0,
-  basePlan: null
+  baseCode: savedCloudSnapshot?.syncCode || "",
+  basePlan: savedCloudSnapshot?.basePlan ? getRemoteCloudPlan({ plan: savedCloudSnapshot.basePlan }) : null,
+  deferredRemote: null,
+  hasSynced: false
 };
 
 function getEditorLabel() {
   return cloud.clientId.replace("client-", "裝置-");
+}
+
+const disclosureState = new Map();
+let undoAction = null;
+
+function disclosureIsOpen(key, defaultOpen = false) {
+  return disclosureState.has(key) ? disclosureState.get(key) : defaultOpen;
+}
+
+function bindDisclosures(container) {
+  container.querySelectorAll("details[data-disclosure]").forEach((details) => {
+    details.addEventListener("toggle", () => {
+      if (details.isConnected) disclosureState.set(details.dataset.disclosure, details.open);
+    });
+  });
+}
+
+function scrollToSection(element) {
+  element?.scrollIntoView({
+    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    block: "start"
+  });
+}
+
+function inlineSpotDetailsHtml(spot, day, index) {
+  const logistics = getSpotLogistics(spot.id);
+  const transport = index >= 0
+    ? getDriveInfoForStop(day, index, spot.id)
+    : "加入當日行程後，可查看接續交通。";
+  return `
+    <p><strong>看點：</strong>${escapeHtml(spot.best)}</p>
+    ${logistics?.hours ? `<p><strong>營業資訊：</strong>${escapeHtml(logistics.hours)}</p>` : ""}
+    ${logistics?.access ? `<p><strong>交通建議：</strong>${escapeHtml(logistics.access)}</p>` : ""}
+    <p>${escapeHtml(transport)}</p>
+    <p class="inline-detail-note">營業時間與交通班次，請以當日公告為準。</p>
+  `;
+}
+
+function bindPlacePanels(container) {
+  container.querySelectorAll("[data-details-toggle], [data-adjust-toggle]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const panel = document.getElementById(button.getAttribute("aria-controls"));
+      const open = button.getAttribute("aria-expanded") !== "true";
+      panel.hidden = !open;
+      button.setAttribute("aria-expanded", String(open));
+      disclosureState.set(button.dataset.disclosureKey, open);
+      button.textContent = button.hasAttribute("data-details-toggle")
+        ? (open ? "收合細節" : "看細節")
+        : (open ? "收合調整" : "調整");
+    });
+  });
+}
+
+function dismissUndo() {
+  undoAction = null;
+  document.getElementById("undo-toast").hidden = true;
+  document.body.classList.remove("undo-toast-visible");
+}
+
+function offerUndo(action, message) {
+  undoAction = { ...action, syncCode: state.syncCode };
+  document.getElementById("undo-message").textContent = message;
+  document.getElementById("undo-toast").hidden = false;
+  document.body.classList.add("undo-toast-visible");
+}
+
+function restoreRemovedAction() {
+  const action = undoAction;
+  dismissUndo();
+  if (!action || action.syncCode !== state.syncCode) return;
+
+  if (action.kind === "spot") {
+    if (Object.values(state.plan).some((list) => list.includes(action.spotId))) {
+      setUiMessage("這個景點已在行程內。", "info");
+      return;
+    }
+    const list = state.plan[action.day];
+    const nextIndex = list.indexOf(action.nextId);
+    const previousIndex = list.indexOf(action.previousId);
+    const index = nextIndex >= 0 ? nextIndex : previousIndex >= 0 ? previousIndex + 1 : Math.min(action.index, list.length);
+    list.splice(index, 0, action.spotId);
+    state.focusId = action.spotId;
+    recordChange("復原移除景點", `Day ${action.day}：${spotById(action.spotId)?.name || action.spotId}`);
+  } else {
+    if (!isMealEntryDefault(state.mealPlan[action.day][action.slotId], action.slotId)) {
+      setUiMessage("這餐已有新的安排，請保留目前內容。", "info");
+      return;
+    }
+    state.mealPlan[action.day][action.slotId] = action.entry;
+    recordChange("復原餐食安排", `Day ${action.day}`);
+  }
+  state.selectedDay = action.day;
+  state.summaryMode = "day";
+  markDirty();
+  render();
+  window.requestAnimationFrame(() => {
+    const target = action.kind === "spot"
+      ? dom.itineraryList.querySelector(`[data-spot-id="${action.spotId}"]`)
+      : document.getElementById(`meal-${action.day}-${action.slotId}-title`);
+    scrollToSection(target);
+  });
 }
 
 function recordChange(summary, detail = "") {
@@ -1862,6 +2031,7 @@ function setSyncStatus(message) {
   if (dom.syncStatus) {
     dom.syncStatus.textContent = `雲端同步：${message}`;
   }
+  updateSaveUi();
 }
 
 function setUiMessage(message = "", kind = "info") {
@@ -2017,6 +2187,7 @@ function buildSyncPayload(plan = getLocalCloudPlan()) {
 }
 
 function applyRemotePayload(payload) {
+  dismissUndo();
   const hasRemoteMeals = payload?.plan?._meals !== undefined || payload?.mealPlan !== undefined;
   const remotePlan = getRemoteCloudPlan(payload);
   const needsTemplateMigration = [2, 7, 8].some((day) => !planStopsEqual(payload?.plan?.[day], remotePlan[day]));
@@ -2025,30 +2196,59 @@ function applyRemotePayload(payload) {
     state.mealPlan = normalizeMealPlan(remotePlan._meals);
   }
   state.carModel = fixedCarModel;
-  state.selectedDay = 1;
-
-  const hasFocus = Object.values(state.plan).some((dayList) => dayList.length > 0);
-  const firstId = hasFocus ? Object.values(state.plan).flat()[0] : spots[0].id;
-  state.focusId = firstId || spots[0].id;
+  if (!state.plan[state.selectedDay]) state.selectedDay = 1;
+  if (!state.plan[state.selectedDay].includes(state.focusId)) {
+    state.focusId = state.plan[state.selectedDay][0] || spots[0].id;
+  }
 
   const savedIso = typeof payload?.updatedAt === "number" ? new Date(payload.updatedAt).toISOString() : new Date().toISOString();
-  state.lastSavedAt = savedIso;
-  state.dirty = false;
   state.cloudPending = !hasRemoteMeals || needsTemplateMigration;
-  if (state.cloudPending) {
-    window.localStorage.setItem(cloudPendingKey, "1");
-  } else {
-    window.localStorage.removeItem(cloudPendingKey);
-  }
   cloud.syncedRevision = state.editRevision;
+  cloud.hasSynced = true;
+  cloud.baseCode = cloud.activeCode;
   cloud.version = typeof payload?.version === "number" ? payload.version : cloud.version;
   cloud.basePlan = remotePlan;
   state.changeLog = Array.isArray(payload?.changes) ? payload.changes.slice(0, 30) : [];
-  savePlan();
-  window.localStorage.setItem(savedAtKey, state.lastSavedAt);
+  savePlan(savedIso);
   render();
   updateSaveUi();
   return { needsMigration: !hasRemoteMeals || needsTemplateMigration };
+}
+
+function applyDeferredRemotePayload() {
+  const deferred = cloud.deferredRemote;
+  cloud.deferredRemote = null;
+  if (!deferred || deferred.code !== cloud.activeCode || deferred.attempt !== cloud.connectionAttempt) {
+    return;
+  }
+  const remoteVersion = Number.isSafeInteger(deferred.payload?.version) ? deferred.payload.version : 0;
+  if (remoteVersion <= cloud.version) return;
+
+  if (hasPendingCloudChanges()) {
+    const remotePlan = getRemoteCloudPlan(deferred.payload);
+    const basePlan = cloud.baseCode === deferred.code && cloud.basePlan ? cloud.basePlan : remotePlan;
+    const mergedPlan = mergeCloudPlans(basePlan, getLocalCloudPlan(), remotePlan);
+    dismissUndo();
+    state.plan = normalizeImportedPlan(mergedPlan);
+    state.mealPlan = normalizeMealPlan(mergedPlan._meals);
+    state.cloudPending = true;
+    cloud.baseCode = deferred.code;
+    cloud.basePlan = cloneJson(remotePlan);
+    cloud.version = remoteVersion;
+    cloud.hasSynced = true;
+    state.changeLog = Array.isArray(deferred.payload.changes) ? deferred.payload.changes.slice(0, 30) : [];
+    savePlan();
+    render();
+    setSyncStatus(`收到遠端 v${remoteVersion}，正在同步本機變更`);
+  } else {
+    try {
+      cloud.applyingRemote = true;
+      applyRemotePayload(deferred.payload);
+    } finally {
+      cloud.applyingRemote = false;
+    }
+    setSyncStatus(`已同步到最新版本 v${remoteVersion}`);
+  }
 }
 
 async function pushCloudState() {
@@ -2057,12 +2257,16 @@ async function pushCloudState() {
   }
 
   const { doc, runTransaction } = cloud.modules;
-  const ref = doc(cloud.db, "tripPlans", cloud.activeCode);
+  const pushCode = cloud.activeCode;
+  const pushConnectionAttempt = cloud.connectionAttempt;
+  const pushBasePlan = cloud.baseCode === pushCode && cloud.basePlan ? cloneJson(cloud.basePlan) : null;
+  const ref = doc(cloud.db, "tripPlans", pushCode);
   const pushedRevision = state.editRevision;
   const localPlan = getLocalCloudPlan();
   const syncPayload = cloneJson(buildSyncPayload(localPlan));
   let pushSucceeded = false;
   cloud.pushInFlight = true;
+  setSyncStatus("正在同步...");
 
   try {
     const changeItem = {
@@ -2077,7 +2281,7 @@ async function pushCloudState() {
       const snapshot = await transaction.get(ref);
       const data = snapshot.exists() ? snapshot.data() : {};
       const remotePlan = getRemoteCloudPlan(data);
-      const basePlan = cloud.basePlan || remotePlan;
+      const basePlan = pushBasePlan || remotePlan;
       const mergedPlan = mergeCloudPlans(basePlan, localPlan, remotePlan);
       const currentVersion = typeof data?.version === "number" ? data.version : 0;
       const existingChanges = Array.isArray(data?.changes) ? data.changes : [];
@@ -2094,29 +2298,37 @@ async function pushCloudState() {
       return { version: nextVersion, changes: nextChanges, plan: mergedPlan };
     });
 
-    cloud.version = result.version;
-    cloud.basePlan = cloneJson(result.plan);
     pushSucceeded = true;
-    state.changeLog = result.changes.slice(0, 30);
-    state.lastSavedAt = new Date().toISOString();
-    cloud.syncedRevision = Math.max(cloud.syncedRevision, pushedRevision);
-    if (state.editRevision === pushedRevision) {
-      state.plan = normalizeImportedPlan(result.plan);
-      state.mealPlan = normalizeMealPlan(result.plan._meals);
-      state.dirty = false;
-      state.cloudPending = false;
-      window.localStorage.removeItem(cloudPendingKey);
+    if (pushConnectionAttempt !== cloud.connectionAttempt || cloud.activeCode !== pushCode) {
+      return true;
     }
+    cloud.version = result.version;
+    cloud.baseCode = pushCode;
+    cloud.basePlan = cloneJson(result.plan);
+    state.changeLog = result.changes.slice(0, 30);
+    cloud.syncedRevision = Math.max(cloud.syncedRevision, pushedRevision);
+    cloud.hasSynced = true;
+    const hasNewEdits = state.editRevision !== pushedRevision;
+    const reconciledPlan = hasNewEdits
+      ? mergeCloudPlans(localPlan, getLocalCloudPlan(), result.plan)
+      : result.plan;
+    state.plan = normalizeImportedPlan(reconciledPlan);
+    state.mealPlan = normalizeMealPlan(reconciledPlan._meals);
+    state.cloudPending = hasNewEdits || !valuesEqual(getLocalCloudPlan(), result.plan);
     savePlan();
-    window.localStorage.setItem(savedAtKey, state.lastSavedAt);
     render();
     updateSaveUi();
-    setSyncStatus("同步完成");
+    setSyncStatus(state.cloudPending ? "本次同步完成，正在等待同步新變更" : "同步完成");
   } catch (error) {
+    if (pushConnectionAttempt !== cloud.connectionAttempt || cloud.activeCode !== pushCode) {
+      return false;
+    }
     console.error("Cloud sync push failed", error);
-    setSyncStatus("同步失敗，本機變更仍保留");
+    setSyncStatus(state.dirty ? "同步失敗，存到此裝置也失敗，請重試" : "同步失敗，已存此裝置，等待重試");
   } finally {
     cloud.pushInFlight = false;
+    applyDeferredRemotePayload();
+    updateSaveUi();
     if (hasPendingCloudChanges()) {
       queueCloudPush(pushSucceeded ? 0 : 5000);
     }
@@ -2126,7 +2338,7 @@ async function pushCloudState() {
 }
 
 function queueCloudPush(delay = 700) {
-  if (!cloud.initialized || !cloud.activeCode || cloud.applyingRemote) {
+  if (!cloud.initialized || !cloud.activeCode || cloud.applyingRemote || !hasPendingCloudChanges()) {
     return;
   }
 
@@ -2160,7 +2372,18 @@ async function connectCloudSync(rawCode) {
   }
 
   state.syncCode = code;
-  window.localStorage.setItem(syncCodeKey, code);
+  cloud.hasSynced = false;
+  cloud.deferredRemote = null;
+  if (cloud.baseCode !== code) {
+    cloud.baseCode = code;
+    cloud.basePlan = null;
+    cloud.version = 0;
+  }
+  try {
+    window.localStorage.setItem(syncCodeKey, code);
+  } catch {
+    setUiMessage("同步代碼無法存到此裝置，下次開啟需重新輸入。", "warn");
+  }
   updateSyncUi();
 
   const attemptId = ++cloud.connectionAttempt;
@@ -2182,6 +2405,7 @@ async function connectCloudSync(rawCode) {
   const { doc, getDoc, onSnapshot } = cloud.modules;
   const ref = doc(cloud.db, "tripPlans", code);
   cloud.activeCode = "";
+  cloud.hasSynced = false;
   setSyncStatus("連線中...");
 
   try {
@@ -2195,8 +2419,12 @@ async function connectCloudSync(rawCode) {
       const data = snapshot.data();
       const remoteVersion = Number.isSafeInteger(data?.version) ? data.version : 0;
       if (hasPendingCloudChanges()) {
-        cloud.basePlan = getRemoteCloudPlan(data);
+        if (!cloud.basePlan || cloud.baseCode !== code) {
+          cloud.baseCode = code;
+          cloud.basePlan = getRemoteCloudPlan(data);
+        }
         cloud.version = Math.max(cloud.version, remoteVersion);
+        savePlan();
         setSyncStatus("已連線，正在保留並送出本機變更");
         queueCloudPush(0);
       } else {
@@ -2214,9 +2442,13 @@ async function connectCloudSync(rawCode) {
       }
     } else {
       recordChange("建立雲端同步", `同步代碼：${code}`);
+      cloud.baseCode = code;
+      cloud.basePlan = null;
+      cloud.version = 0;
       state.cloudPending = true;
-      window.localStorage.setItem(cloudPendingKey, "1");
+      savePlan();
       const created = await pushCloudState();
+      if (attemptId !== cloud.connectionAttempt || cloud.activeCode !== code) return;
       setSyncStatus(created ? "已連線，已建立雲端資料" : "雲端建立失敗，本機資料仍保留");
     }
   } catch (error) {
@@ -2253,6 +2485,9 @@ async function connectCloudSync(rawCode) {
       }
 
       if (hasPendingCloudChanges()) {
+        if (cloud.pushInFlight && (!cloud.deferredRemote || remoteVersion > cloud.deferredRemote.payload.version)) {
+          cloud.deferredRemote = { code, attempt: attemptId, payload: cloneJson(data) };
+        }
         setSyncStatus(`收到遠端 v${remoteVersion}；先保留本機變更`);
         return;
       }
@@ -2307,30 +2542,45 @@ function formatSavedAt(isoText) {
 
 function updateSaveUi() {
   if (dom.savePlanBtn) {
-    dom.savePlanBtn.disabled = !state.dirty;
+    dom.savePlanBtn.disabled = !state.dirty && Boolean(state.lastSavedAt);
+    dom.savePlanBtn.textContent = state.dirty ? "重試儲存" : "儲存到此裝置";
   }
 
-  if (!dom.saveStatus) {
-    return;
+  if (dom.retryLocalSaveBtn) {
+    dom.retryLocalSaveBtn.hidden = !state.dirty;
   }
 
+  let message;
+  let statusKind;
   if (state.dirty) {
-    dom.saveStatus.textContent = "有未儲存變更";
-    return;
+    message = "存到此裝置失敗，請重試";
+    statusKind = "error";
+  } else if (!state.lastSavedAt) {
+    message = "編輯後會自動存到此裝置";
+    statusKind = "ready";
+  } else if (state.cloudPending && (state.syncCode || cloud.activeCode)) {
+    message = "已存此裝置 · 等待同步";
+    statusKind = "pending";
+  } else if (cloud.hasSynced && !hasPendingCloudChanges()) {
+    message = "已存此裝置 · 已同步";
+    statusKind = "synced";
+  } else {
+    message = "已存此裝置";
+    statusKind = "local";
   }
 
   const savedText = formatSavedAt(state.lastSavedAt);
-  dom.saveStatus.textContent = savedText ? `已儲存：${savedText}` : "尚未儲存變更";
+  [dom.localSaveStatus, dom.saveStatus].forEach((status) => {
+    if (!status) return;
+    status.textContent = message;
+    status.dataset.state = statusKind;
+    status.title = savedText ? `上次存到此裝置：${savedText}` : "";
+  });
 }
 
 function persistState() {
-  recordChange("手動儲存行程", `Day ${state.selectedDay} 內容已更新`);
-  state.cloudPending = true;
-  window.localStorage.setItem(cloudPendingKey, "1");
+  if (!state.lastSavedAt) state.cloudPending = true;
   savePlan();
-  state.lastSavedAt = new Date().toISOString();
-  window.localStorage.setItem(savedAtKey, state.lastSavedAt);
-  state.dirty = false;
   renderSummary();
   updateSaveUi();
   queueCloudPush(0);
@@ -2339,6 +2589,8 @@ function persistState() {
 function markDirty() {
   state.dirty = true;
   state.editRevision += 1;
+  state.cloudPending = true;
+  savePlan();
   renderSummary();
   updateSaveUi();
   queueCloudPush();
@@ -2396,6 +2648,7 @@ async function importPlanFromFile(file) {
     const text = await file.text();
     const parsed = JSON.parse(text);
     const importedPlan = normalizeImportedPlan(parsed?.plan ?? parsed);
+    dismissUndo();
     state.plan = importedPlan;
     state.mealPlan = normalizeMealPlan(parsed?.mealPlan ?? parsed?.plan?._meals ?? parsed?._meals ?? {});
 
@@ -2436,6 +2689,7 @@ function resetToDefaultPlan() {
 
   state.plan = createDefaultPlan();
   state.mealPlan = buildMealPlan();
+  dismissUndo();
   state.selectedDay = 1;
   state.summaryMode = "day";
   state.focusId = state.plan[1][0] || spots[0].id;
@@ -2458,8 +2712,8 @@ function addSpotToDay(spotId, day, mode = "toggle") {
   const list = state.plan[day];
   const spot = spotById(spotId);
   if (mode === "toggle" && list.includes(spotId)) {
-    state.plan[day] = list.filter((id) => id !== spotId);
-    recordChange("移除景點", `Day ${day}：${spot?.name || spotId}`);
+    removeSpotFromDay(spotId, day);
+    return;
   } else if (!list.includes(spotId)) {
     list.push(spotId);
     recordChange("加入景點", `Day ${day}：${spot?.name || spotId}`);
@@ -2471,30 +2725,23 @@ function addSpotToDay(spotId, day, mode = "toggle") {
 }
 
 function removeSpotFromDay(spotId, day) {
-  const spot = spotById(spotId);
-  state.plan[day] = state.plan[day].filter((id) => id !== spotId);
-  if (state.focusId === spotId) {
-    state.focusId = state.plan[day][0] || spots[0].id;
-  }
-  recordChange("移除景點", `Day ${day}：${spot?.name || spotId}`);
-  markDirty();
-  render();
+  removeSpotAtIndex(day, state.plan[day].indexOf(spotId));
 }
 
 function removeSpotAtIndex(day, index) {
   const list = state.plan[day];
-  if (index < 0 || index >= list.length) {
-    return;
-  }
-
-  const [removed] = list.splice(index, 1);
-  const removedSpot = spotById(removed);
-  if (state.focusId === removed) {
+  if (index < 0 || index >= list.length) return;
+  const spotId = list[index];
+  const spot = spotById(spotId);
+  const action = { kind: "spot", day, spotId, index, previousId: list[index - 1], nextId: list[index + 1] };
+  list.splice(index, 1);
+  if (state.focusId === spotId) {
     state.focusId = list[0] || spots[0].id;
   }
-  recordChange("拖曳移除景點", `Day ${day}：${removedSpot?.name || removed}`);
+  recordChange("移除景點", `Day ${day}：${spot?.name || spotId}`);
   markDirty();
   render();
+  offerUndo(action, `已移除「${spot?.name || spotId}」`);
 }
 
 function moveSpotInDay(day, fromIndex, toIndex) {
@@ -2556,7 +2803,7 @@ function renderMealOptions(day, selectedId, excludedId, placeholder) {
   return `<option value="">${placeholder}</option>${options}`;
 }
 
-function updateMealEntry(slotId, field, rawValue) {
+function updateMealEntry(slotId, field, rawValue, refresh = true) {
   const day = state.selectedDay;
   const current = state.mealPlan[day]?.[slotId] || createMealEntry(slotId);
   const allowedFields = new Set(["primaryId", "backupId", "time", "priority", "booking", "note"]);
@@ -2576,22 +2823,42 @@ function updateMealEntry(slotId, field, rawValue) {
     next.backupId = "";
   }
 
+  if (valuesEqual(current, next)) {
+    return;
+  }
+
   state.mealPlan[day][slotId] = next;
   const definition = mealSlotDefinitions.find((slot) => slot.id === slotId);
   const primaryName = spotById(next.primaryId)?.name || "尚未安排";
   recordChange(`更新${definition?.label || "餐食"}`, `Day ${day}：${primaryName}`);
   markDirty();
-  renderMealPlanner();
-  renderDayTabs();
+  if (refresh) {
+    renderMealPlanner();
+    renderDayTabs();
+  } else {
+    const timeLabel = dom.mealSlots?.querySelector(`[data-meal-summary-time="${slotId}"]`);
+    if (timeLabel) timeLabel.textContent = next.time || definition?.defaultTime || "";
+    const noteLabel = dom.mealSlots?.querySelector(`[data-meal-summary-note="${slotId}"]`);
+    if (noteLabel) {
+      noteLabel.textContent = next.note;
+      noteLabel.hidden = !next.note;
+    }
+    const clearButton = dom.mealSlots?.querySelector(`[data-clear-meal="${slotId}"]`);
+    if (clearButton) clearButton.disabled = isMealEntryDefault(next, slotId);
+  }
 }
 
 function clearMealEntry(slotId) {
   const definition = mealSlotDefinitions.find((slot) => slot.id === slotId);
+  const day = state.selectedDay;
+  const entry = cloneJson(state.mealPlan[day][slotId]);
+  if (isMealEntryDefault(entry, slotId)) return;
   state.mealPlan[state.selectedDay][slotId] = createMealEntry(slotId);
   recordChange(`清除${definition?.label || "餐食"}`, `Day ${state.selectedDay}`);
   markDirty();
   renderMealPlanner();
   renderDayTabs();
+  offerUndo({ kind: "meal", day, slotId, entry }, `已清除 Day ${day} ${definition?.label || "餐食"}`);
 }
 
 function isMealEntryDefault(entry, slotId) {
@@ -2604,6 +2871,22 @@ function renderMealPlanner() {
   }
 
   const day = state.selectedDay;
+  const activeControl = document.activeElement;
+  const activeEditor = activeControl?.closest?.("details.meal-editor[data-disclosure]");
+  const activeSlot = activeControl?.dataset?.mealSlot;
+  const activeField = activeControl?.dataset?.mealField;
+  const focusedMeal = dom.mealSlots.contains(activeControl)
+    && activeControl.matches(".meal-control[data-meal-field]")
+    && activeEditor?.dataset.disclosure === `meal-${day}-${activeSlot}`
+    && activeEditor.open
+    ? {
+      slotId: activeSlot,
+      field: activeField,
+      value: activeControl.value,
+      selectionStart: activeField === "note" ? activeControl.selectionStart : null,
+      selectionEnd: activeField === "note" ? activeControl.selectionEnd : null
+    }
+    : null;
   const meals = state.mealPlan[day] || buildMealPlan()[day];
   const slots = getMealSlotsForDay(day);
   const arrangedCount = slots.filter((slot) => meals[slot.id]?.primaryId).length;
@@ -2614,7 +2897,9 @@ function renderMealPlanner() {
   dom.mealSlots.innerHTML = slots.map((slot) => {
     const entry = meals[slot.id] || createMealEntry(slot.id);
     const primary = spotById(entry.primaryId);
+    const backup = spotById(entry.backupId);
     const logistics = primary ? getSpotLogistics(primary.id) : null;
+    const disclosureKey = `meal-${day}-${slot.id}`;
     const priorityLabel = mealPriorityOptions.find((option) => option.value === entry.priority)?.label || "彈性安排";
     const bookingLabel = mealBookingOptions.find((option) => option.value === entry.booking)?.label || "待確認";
     const priorityOptions = mealPriorityOptions.map((option) => `
@@ -2628,7 +2913,7 @@ function renderMealPlanner() {
       <section class="meal-slot" aria-labelledby="meal-${day}-${slot.id}-title">
         <div class="meal-slot-head">
           <div>
-            <p class="meal-time-label">${escapeHtml(entry.time || slot.defaultTime)}</p>
+            <p class="meal-time-label" data-meal-summary-time="${slot.id}">${escapeHtml(entry.time || slot.defaultTime)}</p>
             <h4 id="meal-${day}-${slot.id}-title">${slot.label}</h4>
           </div>
           <div class="meal-status-tags">
@@ -2637,57 +2922,72 @@ function renderMealPlanner() {
           </div>
         </div>
 
-        <div class="meal-fields">
-          <label class="meal-field meal-field-primary">
-            <span>首選餐廳</span>
-            <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="primaryId">
-              ${renderMealOptions(day, entry.primaryId, "", "尚未安排")}
-            </select>
-          </label>
-          <label class="meal-field meal-field-backup">
-            <span>備選餐廳</span>
-            <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="backupId">
-              ${renderMealOptions(day, entry.backupId, entry.primaryId, "沒有備選")}
-            </select>
-          </label>
-          <label class="meal-field meal-field-time">
-            <span>時間</span>
-            <input class="meal-control" type="time" value="${escapeHtml(entry.time)}" data-meal-slot="${slot.id}" data-meal-field="time" />
-          </label>
-          <label class="meal-field meal-field-priority">
-            <span>優先度</span>
-            <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="priority">${priorityOptions}</select>
-          </label>
-          <label class="meal-field meal-field-booking">
-            <span>訂位狀態</span>
-            <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="booking">${bookingOptions}</select>
-          </label>
-          <label class="meal-field meal-field-note">
-            <span>備註</span>
-            <input class="meal-control" type="text" maxlength="120" value="${escapeHtml(entry.note)}" placeholder="取號、預約時間、想吃的餐點" data-meal-slot="${slot.id}" data-meal-field="note" />
-          </label>
+        <div class="meal-summary">
+          <p class="meal-summary-row"><span>首選</span><strong>${escapeHtml(primary?.name || "尚未安排")}</strong></p>
+          <p class="meal-summary-row"><span>備選</span><span>${escapeHtml(backup?.name || "沒有備選")}</span></p>
+          <p class="meal-summary-note" data-meal-summary-note="${slot.id}" ${entry.note ? "" : "hidden"}>${escapeHtml(entry.note)}</p>
         </div>
-
         ${primary ? `
-          <div class="meal-selection">
-            <div>
-              <strong>${escapeHtml(primary.name)}</strong>
-              <span>${escapeHtml(primary.area)} · ${escapeHtml(primary.highlight)}</span>
-              ${logistics?.hours ? `<small>常見營業：${escapeHtml(logistics.hours)}</small>` : ""}
-            </div>
-            <div class="meal-selection-actions">
-              <a class="map-link" href="${getMapUrl(primary)}" target="_blank" rel="noopener noreferrer">Google Maps</a>
-              <button class="small-button alt" type="button" data-meal-focus="${primary.id}">看概覽</button>
-            </div>
+          <div class="meal-summary-actions">
+            <a class="map-link" href="${getMapUrl(primary)}" target="_blank" rel="noopener noreferrer">導航到首選餐廳</a>
           </div>
         ` : ""}
 
-        <button class="small-button alt meal-clear" type="button" data-clear-meal="${slot.id}" ${isMealEntryDefault(entry, slot.id) ? "disabled" : ""}>清除此餐</button>
+        <details class="meal-editor" data-disclosure="${disclosureKey}" ${disclosureIsOpen(disclosureKey, false) ? "open" : ""}>
+          <summary>編輯${slot.label}</summary>
+          <div class="meal-editor-content">
+            <div class="meal-fields">
+              <label class="meal-field meal-field-primary">
+                <span>首選餐廳</span>
+                <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="primaryId">
+                  ${renderMealOptions(day, entry.primaryId, "", "尚未安排")}
+                </select>
+              </label>
+              <label class="meal-field meal-field-backup">
+                <span>備選餐廳</span>
+                <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="backupId">
+                  ${renderMealOptions(day, entry.backupId, entry.primaryId, "沒有備選")}
+                </select>
+              </label>
+              <label class="meal-field meal-field-time">
+                <span>時間</span>
+                <input class="meal-control" type="time" value="${escapeHtml(entry.time)}" data-meal-slot="${slot.id}" data-meal-field="time" />
+              </label>
+              <label class="meal-field meal-field-priority">
+                <span>優先度</span>
+                <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="priority">${priorityOptions}</select>
+              </label>
+              <label class="meal-field meal-field-booking">
+                <span>訂位狀態</span>
+                <select class="meal-control" data-meal-slot="${slot.id}" data-meal-field="booking">${bookingOptions}</select>
+              </label>
+              <label class="meal-field meal-field-note">
+                <span>備註</span>
+                <input class="meal-control" type="text" maxlength="120" value="${escapeHtml(entry.note)}" placeholder="取號、預約時間、想吃的餐點" data-meal-slot="${slot.id}" data-meal-field="note" />
+              </label>
+            </div>
+            ${primary ? `
+              <div class="meal-selection">
+                <div>
+                  <span>${escapeHtml(primary.area)} · ${escapeHtml(primary.highlight)}</span>
+                  ${logistics?.hours ? `<small>常見營業：${escapeHtml(logistics.hours)}</small>` : ""}
+                  ${logistics?.access ? `<small>交通建議：${escapeHtml(logistics.access)}</small>` : ""}
+                </div>
+              </div>
+            ` : ""}
+            <button class="small-button alt meal-clear" type="button" data-clear-meal="${slot.id}" ${isMealEntryDefault(entry, slot.id) ? "disabled" : ""}>清除此餐</button>
+          </div>
+        </details>
       </section>
     `;
   }).join("");
 
   dom.mealSlots.querySelectorAll("[data-meal-field]").forEach((control) => {
+    if (control.dataset.mealField === "note" || control.dataset.mealField === "time") {
+      control.addEventListener("input", () => {
+        updateMealEntry(control.dataset.mealSlot, control.dataset.mealField, control.value, false);
+      });
+    }
     control.addEventListener("change", () => {
       updateMealEntry(control.dataset.mealSlot, control.dataset.mealField, control.value);
     });
@@ -2697,14 +2997,17 @@ function renderMealPlanner() {
     button.addEventListener("click", () => clearMealEntry(button.dataset.clearMeal));
   });
 
-  dom.mealSlots.querySelectorAll("[data-meal-focus]").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.focusId = button.dataset.mealFocus;
-      state.summaryMode = "spot";
-      renderSummary();
-      revealSpotDetails();
-    });
-  });
+  bindDisclosures(dom.mealSlots);
+  if (focusedMeal) {
+    const control = dom.mealSlots.querySelector(`[data-meal-slot="${focusedMeal.slotId}"][data-meal-field="${focusedMeal.field}"]`);
+    if (control?.closest("details.meal-editor")?.open) {
+      control.focus({ preventScroll: true });
+      if (focusedMeal.field === "note" && control.value === focusedMeal.value
+        && Number.isInteger(focusedMeal.selectionStart) && Number.isInteger(focusedMeal.selectionEnd)) {
+        control.setSelectionRange(focusedMeal.selectionStart, focusedMeal.selectionEnd);
+      }
+    }
+  }
 }
 
 function dayTwoOriginalKey() {
@@ -2840,7 +3143,7 @@ function renderItinerary() {
         <div class="stop-top">
           <div>
             <h3>這一天還是空白的</h3>
-            <p class="stop-desc">從右邊的景點庫拖曳進來，或先點按加入，讓路線先有骨架。</p>
+            <p class="stop-desc">從景點庫點按加入，開始安排這一天的路線。</p>
           </div>
         </div>
       </div>
@@ -2850,8 +3153,11 @@ function renderItinerary() {
       .map((id, index) => {
         const spot = spotById(id);
         const drivingRouteUrl = getDrivingRouteUrlForStop(state.selectedDay, index, spot.id);
+        const key = `stop-${state.selectedDay}-${spot.id}`;
+        const detailsOpen = disclosureIsOpen(`${key}-details`);
+        const adjustOpen = disclosureIsOpen(`${key}-adjust`);
         return `
-          <article class="stop-card" draggable="true" data-index="${index}" data-spot-id="${spot.id}">
+          <article class="stop-card" draggable="${!window.matchMedia("(max-width: 640px)").matches}" data-index="${index}" data-spot-id="${spot.id}">
             <div class="stop-top">
               <div>
                 <div class="stop-title-row">
@@ -2860,20 +3166,28 @@ function renderItinerary() {
                 </div>
                 <p class="stop-desc">${spot.desc}</p>
                 <p class="spot-extra">${getDriveInfoForStop(state.selectedDay, index, spot.id)}</p>
-                <a class="map-link" href="${drivingRouteUrl || getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">${drivingRouteUrl ? "Google Maps 開車路線" : "Google Maps 搜尋地點"}</a>
               </div>
               <span class="tag">${spot.time}</span>
             </div>
             <div class="place-meta">
               <span class="tag">${spot.area}</span>
               <span class="tag">${spot.type}</span>
-              <span class="tag">${spot.best}</span>
+              <span class="tag tag-extra">${spot.best}</span>
             </div>
-            <div class="stop-actions">
-              <button class="small-button" data-move-up="${spot.id}">上移</button>
-              <button class="small-button" data-move-down="${spot.id}">下移</button>
-              <button class="small-button alt" data-focus="${spot.id}">看細節</button>
-              <button class="small-button" data-remove="${spot.id}">移除</button>
+            <div class="stop-quick-actions">
+              <a class="small-button map-link" href="${drivingRouteUrl || getMapUrl(spot)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(spot.name)}${drivingRouteUrl ? "開車路線導航" : "地圖"}">導航</a>
+              <button class="small-button alt" data-details-toggle data-disclosure-key="${key}-details" aria-controls="${key}-details" aria-expanded="${detailsOpen}">${detailsOpen ? "收合細節" : "看細節"}</button>
+              <button class="small-button" data-adjust-toggle data-disclosure-key="${key}-adjust" aria-controls="${key}-adjust" aria-expanded="${adjustOpen}">${adjustOpen ? "收合調整" : "調整"}</button>
+            </div>
+            <div class="stop-inline-details" id="${key}-details" data-inline-details ${detailsOpen ? "" : "hidden"}>
+              ${inlineSpotDetailsHtml(spot, state.selectedDay, index)}
+            </div>
+            <div class="stop-adjust-panel" id="${key}-adjust" data-adjust-panel ${adjustOpen ? "" : "hidden"}>
+              <div class="stop-actions">
+                <button class="small-button" data-move-up="${spot.id}" ${index === 0 ? "disabled" : ""}>上移</button>
+                <button class="small-button" data-move-down="${spot.id}" ${index === ids.length - 1 ? "disabled" : ""}>下移</button>
+                <button class="small-button" data-remove="${spot.id}">移除</button>
+              </div>
             </div>
           </article>
         `;
@@ -2891,8 +3205,7 @@ function renderItinerary() {
         return;
       }
       const index = ids.indexOf(button.dataset.moveUp);
-      const toIndex = index <= 0 ? ids.length - 1 : index - 1;
-      moveSpotInDay(state.selectedDay, index, toIndex);
+      if (index > 0) moveSpotInDay(state.selectedDay, index, index - 1);
     });
   });
 
@@ -2902,19 +3215,11 @@ function renderItinerary() {
         return;
       }
       const index = ids.indexOf(button.dataset.moveDown);
-      const toIndex = index >= ids.length - 1 ? 0 : index + 1;
-      moveSpotInDay(state.selectedDay, index, toIndex);
+      if (index >= 0 && index < ids.length - 1) moveSpotInDay(state.selectedDay, index, index + 1);
     });
   });
 
-  dom.itineraryList.querySelectorAll("[data-focus]").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.focusId = button.dataset.focus;
-      state.summaryMode = "spot";
-      render();
-      revealSpotDetails();
-    });
-  });
+  bindPlacePanels(dom.itineraryList);
 
   dom.itineraryList.querySelectorAll(".stop-card[draggable='true']").forEach((card) => {
     card.addEventListener("dragstart", (event) => {
@@ -3163,32 +3468,30 @@ function renderSpotGrid() {
       const selectedDay = Object.keys(state.plan).find((day) => state.plan[Number(day)].includes(spot.id));
       const isSelected = Boolean(selectedDay);
       const buttonLabel = isSelected ? `已加入 Day ${selectedDay}` : `＋ 加入 Day ${state.selectedDay}`;
-      const logistics = getSpotLogistics(spot.id);
-      const quickHours = logistics?.hours ? `<p class="spot-extra">常見營業：${logistics.hours}</p>` : "";
       const selectedIndex = (state.plan[state.selectedDay] || []).indexOf(spot.id);
-      const quickDrive = `<p class="spot-extra">${selectedIndex >= 0
-        ? getDriveInfoForStop(state.selectedDay, selectedIndex, spot.id)
-        : "加入當日行程後顯示接續交通"}</p>`;
+      const key = `library-${state.selectedDay}-${spot.id}-details`;
+      const detailsOpen = disclosureIsOpen(key);
       return `
-        <article class="spot-card ${isSelected ? "selected" : ""}" data-spot="${spot.id}" draggable="${isSelected ? "false" : "true"}">
+        <article class="spot-card ${isSelected ? "selected" : ""}" data-spot="${spot.id}" draggable="${!isSelected && !window.matchMedia("(max-width: 640px)").matches}">
           <div class="spot-top">
             <div>
               <h3>${spot.name}</h3>
               <p class="spot-desc">${spot.desc}</p>
-              ${quickHours}
-              ${quickDrive}
-              <a class="map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">Google Maps 搜尋地點</a>
             </div>
             <span class="tag">${spot.time}</span>
           </div>
           <div class="place-meta">
             <span class="tag">${spot.area}</span>
             <span class="tag">${spot.type}</span>
-            <span class="tag">${spot.highlight}</span>
+            <span class="tag tag-extra">${spot.highlight}</span>
           </div>
-          <div class="stop-actions">
+          <div class="stop-quick-actions">
             <button class="small-button alt" data-add="${spot.id}" ${isSelected ? "disabled" : ""}>${buttonLabel}</button>
-            <button class="small-button" data-pin="${spot.id}">看概覽</button>
+            <a class="small-button map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(spot.name)}地圖">導航</a>
+            <button class="small-button" data-details-toggle data-disclosure-key="${key}" aria-controls="${key}" aria-expanded="${detailsOpen}">${detailsOpen ? "收合細節" : "看細節"}</button>
+          </div>
+          <div class="stop-inline-details" id="${key}" data-inline-details ${detailsOpen ? "" : "hidden"}>
+            ${inlineSpotDetailsHtml(spot, state.selectedDay, selectedIndex)}
           </div>
         </article>
       `;
@@ -3212,15 +3515,23 @@ function renderSpotGrid() {
 
   // 分頁控制列
   dom.spotPagination.innerHTML = `
-    <button class="page-btn" id="spot-prev" ${state.spotPage === 0 ? "disabled" : ""}>&#8249;</button>
+    <button class="page-btn" id="spot-prev" aria-label="上一頁景點" ${state.spotPage === 0 ? "disabled" : ""}>&#8249;</button>
     <span class="page-info">${state.spotPage + 1} / ${totalPages}</span>
-    <button class="page-btn" id="spot-next" ${state.spotPage >= totalPages - 1 ? "disabled" : ""}>&#8250;</button>
+    <button class="page-btn" id="spot-next" aria-label="下一頁景點" ${state.spotPage >= totalPages - 1 ? "disabled" : ""}>&#8250;</button>
   `;
   document.getElementById("spot-prev").addEventListener("click", () => {
-    if (state.spotPage > 0) { state.spotPage--; renderSpotGrid(); }
+    if (state.spotPage > 0) {
+      state.spotPage--;
+      renderSpotGrid();
+      if (window.matchMedia("(max-width: 640px)").matches) scrollToSection(dom.spotGrid.closest(".explore-panel"));
+    }
   });
   document.getElementById("spot-next").addEventListener("click", () => {
-    if (state.spotPage < totalPages - 1) { state.spotPage++; renderSpotGrid(); }
+    if (state.spotPage < totalPages - 1) {
+      state.spotPage++;
+      renderSpotGrid();
+      if (window.matchMedia("(max-width: 640px)").matches) scrollToSection(dom.spotGrid.closest(".explore-panel"));
+    }
   });
 
   dom.spotGrid.querySelectorAll("[data-add]").forEach((button) => {
@@ -3230,25 +3541,9 @@ function renderSpotGrid() {
     });
   });
 
-  dom.spotGrid.querySelectorAll("[data-pin]").forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.stopPropagation();
-      state.focusId = button.dataset.pin;
-      state.summaryMode = "spot";
-      render();
-      revealSpotDetails();
-    });
-  });
+  bindPlacePanels(dom.spotGrid);
 
   dom.spotGrid.querySelectorAll(".spot-card").forEach((card) => {
-    card.addEventListener("click", (event) => {
-      if ((event.target).closest("button, a")) return;
-      state.focusId = card.dataset.spot;
-      state.summaryMode = "spot";
-      renderSummary();
-      revealSpotDetails();
-    });
-
     card.addEventListener("dragstart", (event) => {
       if (card.getAttribute("draggable") !== "true") {
         event.preventDefault();
@@ -3455,6 +3750,26 @@ function flightCardsHtml() {
 function renderFlightCards() {
   if (dom.flightGrid) {
     dom.flightGrid.innerHTML = flightCardsHtml();
+    let mobileSummary = document.getElementById("mobile-flight-summary");
+    if (!mobileSummary) {
+      mobileSummary = document.createElement("div");
+      mobileSummary.id = "mobile-flight-summary";
+      mobileSummary.className = "flight-mobile-summary";
+      dom.flightGrid.insertAdjacentElement("afterend", mobileSummary);
+    }
+    mobileSummary.innerHTML = `
+      <div class="flight-mobile-lines">
+        ${flights.map((flight) => `<div>
+          <strong>${escapeHtml(flight.airline)} ${escapeHtml(flight.number)}</strong>
+          <span>${escapeHtml(flight.date)}</span>
+          <span><time>${escapeHtml(flight.departureTime)}</time> ${escapeHtml(flight.departureCode)} → <time>${escapeHtml(flight.arrivalTime)}</time> ${escapeHtml(flight.arrivalCode)}</span>
+        </div>`).join("")}
+      </div>
+      <details data-disclosure="flight-details" ${disclosureIsOpen("flight-details") ? "open" : ""}>
+        <summary>航班詳情</summary>
+        <div class="flight-mobile-details">${flightCardsHtml()}</div>
+      </details>`;
+    bindDisclosures(mobileSummary);
   }
 }
 
@@ -3645,7 +3960,13 @@ function positionDaySummary() {
 
 function bindGlobalEvents() {
   positionDaySummary();
-  window.matchMedia("(max-width: 640px)").addEventListener("change", positionDaySummary);
+  window.matchMedia("(max-width: 640px)").addEventListener("change", () => {
+    positionDaySummary();
+    renderItinerary();
+    renderSpotGrid();
+  });
+  document.getElementById("undo-action-btn").addEventListener("click", restoreRemovedAction);
+  document.getElementById("undo-dismiss-btn").addEventListener("click", dismissUndo);
   document.getElementById("back-to-day").addEventListener("click", () => {
     state.summaryMode = "day";
     renderSummary();
@@ -3657,6 +3978,7 @@ function bindGlobalEvents() {
   });
 
   dom.savePlanBtn?.addEventListener("click", persistState);
+  dom.retryLocalSaveBtn?.addEventListener("click", persistState);
   dom.printPlanBtn?.addEventListener("click", printPlanAsPdf);
   window.addEventListener("beforeprint", renderPrintReport);
   dom.connectSyncBtn?.addEventListener("click", () => connectCloudSync(dom.syncCodeInput?.value));
@@ -3685,6 +4007,7 @@ function bindGlobalEvents() {
   document.getElementById("reset-plan-btn")?.addEventListener("click", resetToDefaultPlan);
 }
 
+if (loadedPlanNeedsSync) savePlan();
 bindGlobalEvents();
 render();
 updateSaveUi();
