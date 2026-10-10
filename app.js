@@ -960,7 +960,7 @@ const spots = [
     season: ["winter"],
     time: "1h",
     best: "函館站步行約 2 分鐘、朝市對面、車站用餐備選",
-    desc: "位於函館朝市對面的 Hotel New Ohte 2 樓，函館站步行約 2 分鐘。可作 D8 回站前飯店時的小丑漢堡備選，或 D10 搭機場巴士前的午餐選項。一般 08:00–22:00，餐點最後點餐 21:30；08:00–10:00 只供應漢堡與咖哩。2027 元旦營業待確認，上一年 1/1 曾延至 11:00 開店，不能預設當天 08:00 可吃早餐；候餐需留緩衝。",
+    desc: "位於函館朝市對面的 Hotel New Ohte 2 樓，函館站步行約 2 分鐘，可作 D8 回站前飯店時的小丑漢堡備選。一般 08:00–22:00，餐點最後點餐 21:30；08:00–10:00 只供應漢堡與咖哩。2027 元旦營業待確認，上一年 1/1 曾延至 11:00 開店，不能預設當天 08:00 可吃早餐；候餐需留緩衝。",
     highlight: "函館站前用餐備選"
   },
   {
@@ -993,7 +993,7 @@ const spots = [
     season: ["winter"],
     time: "約 20 分鐘＋候車",
     best: "D10 函館站前到機場、函館帝產巴士",
-    desc: "從 JR 函館站前搭函館帝產巴士前往機場，車程約 20 分鐘。D10 以 13:30 左右出發為目標；下方「D10 機場巴士備選」列出過往跨年參考時刻，2027/1/1 正式班次與乘車處請以出發前公告為準。",
+    desc: "從 JR 函館站前搭函館帝產巴士前往機場，車程約 20 分鐘。D10 以 13:30 左右出發為目標；下方「車站到機場巴士」列出過往跨年參考時刻，2027/1/1 正式班次與乘車處請以出發前公告為準。",
     highlight: "D10 交通選項"
   }
 ];
@@ -1090,7 +1090,7 @@ const spotLogistics = {
   },
   "lucky-pierrot-hakodate-station": {
     hours: "官方一般 08:00–22:00（餐點 L.O. 21:30）；08:00–10:00 僅漢堡與咖哩。2027/1/1 營業待確認，2026/1/1 曾為 11:00 開店",
-    access: "函館市若松町8-8，Hotel New Ohte 2 樓，1 樓有專用入口；函館站步行約 2 分鐘、朝市對面。D10 用餐後回站前搭機場巴士，請預留候餐、取行李與候車時間",
+    access: "函館市若松町8-8，Hotel New Ohte 2 樓，1 樓有專用入口；函館站步行約 2 分鐘、朝市對面",
     infoUrl: "https://luckypierrot.jp/shop/hakodatest/",
     checkedAt: "2026/10/11"
   },
@@ -2250,7 +2250,7 @@ const hakodateTransitLegs = {
   "9|hakodate-mt|hakodate-hachimangu": "先搭纜車下山；跨年深夜前往函館八幡宮建議搭計程車，返飯店也請預留交通。市電 2 系統到谷地頭只適用於仍有班次時",
   "10|morning-market|motomachi": "朝市步行到函館駅前，搭往谷地頭／函館どつく前方向的市電至十字街，再步行上坡逛元町",
   "10|motomachi|hakodate-station-airport-bus": "從元町步行到十字街，搭往函館駅前方向的市電，回站前飯店取行李再候車。目標約 13:15 到巴士月台；2027 元旦班次與月台出發前再確認",
-  "10|hakodate-station-airport-bus|hakodate-airport": "函館帝產巴士從函館站前到機場，車程約 20 分鐘；下方「D10 機場巴士備選」列有過往跨年參考班表，2027/1/1 發車時間請以最新公告為準。雪天另留緩衝；回程 JX861 18:00",
+  "10|hakodate-station-airport-bus|hakodate-airport": "函館帝產巴士從函館站前到機場，車程約 20 分鐘；下方「車站到機場巴士」列有過往跨年參考班表，2027/1/1 發車時間請以最新公告為準。雪天另留緩衝；回程 JX861 18:00",
   "10|motomachi|lucky-pierrot-tokura": "元町到戶倉店以計程車較實際；若搭市電，可從十字街往湯の川方向搭到終點，但下車後仍需走較長一段",
   "10|lucky-pierrot-tokura|hakodate-airport": "從戶倉店到函館機場建議搭計程車；市電不直達機場，若改搭巴士須先查元旦班次"
 };
@@ -3677,7 +3677,7 @@ const dayOptionalSpots = {
     ids: ["noboribetsu-onsen-ichiba", "noboribetsu-cafe-denen"]
   },
   10: {
-    title: "D10 機場巴士備選",
+    title: "車站到機場巴士",
     timetable: {
       rows: [
         { departure: "13:30", arrival: "13:50", label: "優先參考" },
@@ -3688,7 +3688,7 @@ const dayOptionalSpots = {
       note: "這是函館帝產巴士上一年度跨年參考時刻，2027/1/1 正式班次與函館站乘車處尚未確認。車程約 20 分鐘，雪天請另留緩衝；出發前請查看最新公告。",
       infoUrl: "https://www.hokkaido-airports.com/ja/hakodate/access/bus/"
     },
-    ids: ["lucky-pierrot-hakodate-station"]
+    ids: []
   }
 };
 
