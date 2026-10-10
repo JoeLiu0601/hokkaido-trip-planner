@@ -227,8 +227,19 @@ const spots = [
     season: ["winter"],
     time: "2h",
     best: "夜景、城市輪廓、傍晚",
-    desc: "很適合接在溫泉日後面，用夜景把整天的節奏收住。",
+    desc: "搭纜車登高欣賞札幌夜景，適合傍晚到夜間參觀。冬季纜車 11:00–22:00，最後上山 21:30；12/31、1/1 休業。市電「纜車入口」附近有免費接駁到山麓站，約每 15 分鐘一班，冬季週末／假日 10:47 起、平日 17:17 起運行。出發前確認天候與運行狀況。",
     highlight: "城市夜色"
+  },
+  {
+    id: "nakajima-park",
+    name: "中島公園",
+    area: "札幌",
+    type: "公園・散步",
+    season: ["winter"],
+    time: "1h",
+    best: "雪景散步、豐平館外觀、拍照",
+    desc: "市中心的雪景散步點，可沿園路欣賞樹木與白藍色的豐平館外觀，預留約 30–60 分鐘。冬季日本庭園關閉，園路可能結冰，沿開放步道行走；天冷或風雪大時可縮短停留。",
+    highlight: "市區雪景散步"
   },
   {
     id: "unagi-nakajima",
@@ -1001,7 +1012,7 @@ const winterTemplate = {
   2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "apa-sapporo-susukino-ekinishi", "sapporo-odori", "sapporo-susukino"],
   3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "wakadori-naruto-honten", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
   4: ["noboribetsu-valley", "noboribetsu-onsen-street", "tenkatsu-honten-muroran", "muroran-hakucho-bridge-view", "happiness-bell"],
-  5: ["unagi-nakajima", "moiwa-yama"],
+  5: ["nakajima-park", "unagi-nakajima", "moiwa-yama"],
   6: ["sapporo-beer-museum", "ario-sapporo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"],
   7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view", "toya-kohan-tei"],
   8: ["hachimanzaka", "goryokaku", "lucky-pierrot-goryokaku", "lagent-hakodate-ekimae"],
@@ -1027,7 +1038,7 @@ const daySummaries = {
   2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌。先到 APA 飯店入住，再逛大通與薄野；天候備案另列白色戀人公園與宮之森佛朗西斯教會。",
   3: "上午安排札幌神社巡禮，接著前往小樽吃午餐、走運河、逛玻璃店與童話十字路。",
   4: "從札幌前往登別，走完地獄谷後逛溫泉街，再到室蘭天勝本店吃天丼，下午安排白鳥大橋展望台和幸福之鐘。",
-  5: "札幌自由活動日，中午先吃鰻魚飯，傍晚再上藻岩山看夜景。",
+  5: "上午在中島公園散步看雪景，中午吃鰻魚飯，下午自由休息，傍晚再上藻岩山看夜景。",
   6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
   7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡，再到 Toya Kohan Tei 入住。",
   8: "從洞爺湖開車到函館並還車，寄放行李後先到八幡坂拍港景，再搭市電前往五稜郭，在塔旁的小丑漢堡用餐，最後到 La'gent Stay Hakodate Ekimae 入住。站前小丑漢堡、箱館奉行所與六花亭可從景點庫選用。",
@@ -1279,8 +1290,16 @@ const spotLogistics = {
     tickets: "成人往返 ¥2,100（纜車＋迷你纜車）",
     ticketNotes: "可現場購票，也提供網路前售票。冬季觀光道路封閉；先看天候與運行狀況，再決定是否購票上山。",
     ticketUrl: "https://mt-moiwa.jp/guide/",
-    hours: "冬季（12-3 月）纜車 11:00-22:00，最後上山 21:30；迷你纜車最後上山 21:40；12/31、1/1 休業",
-    access: "自駕請導航至纜車山麓站；冬季不能走觀光道路上山。也可搭市電轉接駁巴士或計程車"
+    hours: "冬季（12–3 月）纜車 11:00–22:00，最後上山 21:30；迷你纜車 11:10–21:50，最後上山 21:40；12/31、1/1 休業，惡劣天候可能停駛",
+    access: "自駕請導航至纜車山麓站，冬季觀光道路封閉。搭市電在「ロープウェイ入口（纜車入口）」下車，步行約 1 分鐘到免費接駁乘車處，乘車約 2 分鐘抵達山麓站；約每 15 分鐘一班，冬季週末／假日 10:47 起、平日 17:17 起運行。D5 為週日，適用週末時間；實際班次出發前確認",
+    infoUrl: "https://mt-moiwa.jp/access/shuttlebus-tram/",
+    checkedAt: "2026/10/11"
+  },
+  "nakajima-park": {
+    hours: "戶外散步免費；日本庭園冬季（11 月上旬–4 月下旬）關閉。管理事務所 09:00–17:00、12/29–1/3 休息，並非公園全面休園",
+    access: "地址：札幌市中央區中島公園1。地下鐵中島公園站旁，散步後可走回公園北側的うなぎ仲じま用餐。公園無一般停車場，自駕使用周邊收費停車場；雪天留步行緩衝",
+    infoUrl: "https://www.sapporo.travel/spot/facility/nakajima_park/",
+    checkedAt: "2026/10/11"
   },
   "unagi-nakajima": {
     hours: "午餐 11:30-15:00（L.O. 14:00）；晚餐 17:00-22:00（L.O. 21:00）；年末營業請另行確認",
@@ -1480,6 +1499,7 @@ const unspecifiedDrivingStops = new Set([
 ]);
 
 const knownWalkingLegs = {
+  "nakajima-park|unagi-nakajima": "中島公園散步後步行回北側中島公園站附近的鰻魚飯餐廳；依園內位置預留約 5–15 分鐘，雪天另留緩衝",
   "premier-cabin-asahikawa|aeon-mall-asahikawa-ekimae": "旭川站前飯店到 AEON MALL 步行即可，不必開車",
   "sapporo-beer-museum|ario-sapporo": "啤酒博物館與 Ario 相鄰，步行即可，不必開車",
   "noboribetsu-valley|noboribetsu-onsen-street": "地獄谷到登別溫泉街可步行串遊；雪地路滑請放慢腳步",
@@ -1495,8 +1515,9 @@ const previousPlanTemplateVersions = ["2026-08-17-otaru-naruto", "2026-09-21-win
 const hotelCheckInTemplateVersion = "2026-09-30-hotel-checkins";
 const itineraryOptionsTemplateVersion = "2026-10-11-hakodate-options";
 const dayEightRoutingTemplateVersion = "2026-10-11-day8-hachimanzaka";
-previousPlanTemplateVersions.push(hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion);
-const currentPlanTemplateVersion = "2026-10-11-day2-day8-routing";
+const dayTwoEightRoutingTemplateVersion = "2026-10-11-day2-day8-routing";
+previousPlanTemplateVersions.push(hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion);
+const currentPlanTemplateVersion = "2026-10-11-day5-nakajima";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -1752,6 +1773,13 @@ function migrateDayTwoChurchBackup(plan) {
   return true;
 }
 
+function migrateDayFiveNakajima(plan) {
+  if (!planStopsEqual(plan[5], ["unagi-nakajima", "moiwa-yama"])) return false;
+  if (Object.values(plan).some((stops) => stops.includes("nakajima-park"))) return false;
+  plan[5] = [...winterTemplate[5]];
+  return true;
+}
+
 function loadPlan() {
   const snapshot = loadLocalSnapshot();
   const stored = snapshot ? JSON.stringify(snapshot.plan) : readLocalStorage(storageKey);
@@ -1779,11 +1807,12 @@ function loadPlan() {
         return !planStopsEqual(Array.isArray(parsed[day]) ? parsed[day] : [], plan[day]);
       });
       // The 9/30 template already had check-ins. Do not run older hotel/AEON insertion again.
-      const legacyChanged = ![hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion].includes(storedTemplateVersion) && migratePreviousTemplate(plan);
-      const optionsChanged = ![itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion].includes(storedTemplateVersion) && migrateHakodateOptions(plan);
-      const dayEightChanged = storedTemplateVersion !== dayEightRoutingTemplateVersion && migrateDayEightHachimanzaka(plan);
+      const legacyChanged = ![hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion].includes(storedTemplateVersion) && migratePreviousTemplate(plan);
+      const optionsChanged = ![itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion].includes(storedTemplateVersion) && migrateHakodateOptions(plan);
+      const dayEightChanged = ![dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion].includes(storedTemplateVersion) && migrateDayEightHachimanzaka(plan);
       const dayTwoChanged = migrateDayTwoChurchBackup(plan);
-      const migrationChanged = legacyChanged || optionsChanged || dayEightChanged || dayTwoChanged;
+      const dayFiveChanged = migrateDayFiveNakajima(plan);
+      const migrationChanged = legacyChanged || optionsChanged || dayEightChanged || dayTwoChanged || dayFiveChanged;
       loadedPlanNeedsSync = normalizedChanged || migrationChanged;
     }
 
