@@ -60,6 +60,15 @@ body {
 .day-option-card h3 { line-height: 1.6; overflow-wrap: anywhere; }
 .day-option-card ul { padding-left: 22px; color: var(--muted); font-size: 0.88rem; line-height: 1.8; }
 .day-option-card .stop-quick-actions { margin-top: 12px; }
+.day-options-note { margin: 0 0 12px; }
+.airport-bus-timetable { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 0.86rem; }
+.airport-bus-timetable th,
+.airport-bus-timetable td { padding: 9px 7px; border-bottom: 1px solid var(--line); text-align: left; }
+.airport-bus-timetable th { color: var(--accent-2); font-size: 0.78rem; }
+.airport-bus-timetable td:first-child,
+.airport-bus-timetable td:nth-child(2) { color: var(--text); font-weight: 700; white-space: nowrap; }
+.airport-bus-timetable td:last-child { color: var(--muted); }
+.bus-timetable-note { margin: 12px 0; }
 
 button,
 input,

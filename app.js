@@ -341,6 +341,28 @@ const spots = [
     highlight: "Day4 散步小吃"
   },
   {
+    id: "noboribetsu-onsen-ichiba",
+    name: "溫泉市場（海鮮／閻魔炒麵）",
+    area: "登別溫泉",
+    type: "在地美食",
+    season: ["winter"],
+    time: "0.5–1h",
+    best: "海鮮丼、炭烤貝類、登別閻魔炒麵、溫泉蛋、生乳冰淇淋",
+    desc: "在登別溫泉街極樂通一帶，可選海鮮料理與登別閻魔炒麵，也有溫泉蛋、生乳冰淇淋。適合在地獄谷散步後吃點在地口味；D4 加入後會接在溫泉街之後。",
+    highlight: "溫泉街在地美食"
+  },
+  {
+    id: "noboribetsu-cafe-denen",
+    name: "喫茶田園（閻魔炒麵／蛋包飯）",
+    area: "登別溫泉",
+    type: "咖啡・洋食",
+    season: ["winter"],
+    time: "0.5–1h",
+    best: "登別閻魔炒麵、蛋包飯、奶油餡蜜、咖啡",
+    desc: "位於登別溫泉街閻魔堂前，可吃季節海鮮風味的閻魔炒麵，也有份量十足的蛋包飯與餡蜜。營業時間較短，適合作為 D4 溫泉街用餐或甜點備選。",
+    highlight: "溫泉街餐食備選"
+  },
+  {
     id: "morning-market",
     name: "函館朝市（海鮮丼）",
     area: "函館",
@@ -965,13 +987,13 @@ const spots = [
   },
   {
     id: "hakodate-station-airport-bus",
-    name: "函館站 → 機場巴士（13:30 左右）",
+    name: "函館帝產巴士｜函館站前 → 機場",
     area: "函館",
     type: "交通",
     season: ["winter"],
     time: "約 20 分鐘＋候車",
-    best: "D10 巴士選項、JR 函館站前、函館帝產巴士",
-    desc: "D10 以 13:30 左右離開函館站為目標。過往跨年班表參考：13:30 → 13:50（優先）、13:40 → 14:00、13:50 → 14:10。這是 2025/12/1–2026/1/5 的班表，不能視為 2027/1/1 已確定班次；請在出發前重新確認元旦時刻與月台。現行機場官網列成人 ¥700、車程約 20 分鐘，雪天需另留緩衝。",
+    best: "D10 函館站前到機場、函館帝產巴士",
+    desc: "從 JR 函館站前搭函館帝產巴士前往機場，車程約 20 分鐘。D10 以 13:30 左右出發為目標；下方「D10 機場巴士備選」列出過往跨年參考時刻，2027/1/1 正式班次與乘車處請以出發前公告為準。",
     highlight: "D10 交通選項"
   }
 ];
@@ -1015,8 +1037,8 @@ const winterTemplate = {
   5: ["nakajima-park", "unagi-nakajima", "moiwa-yama"],
   6: ["sapporo-beer-museum", "ario-sapporo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"],
   7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view", "toya-kohan-tei"],
-  8: ["hachimanzaka", "goryokaku", "lucky-pierrot-goryokaku", "lagent-hakodate-ekimae"],
-  9: ["kanemori-warehouse", "hakodate-mt", "hakodate-gokoku-shrine"],
+  8: ["goryokaku", "lucky-pierrot-goryokaku", "lagent-hakodate-ekimae"],
+  9: ["hachimanzaka", "kanemori-warehouse", "hakodate-mt", "hakodate-gokoku-shrine"],
   10: ["morning-market", "motomachi", "hakodate-station-airport-bus", "hakodate-airport"]
 };
 
@@ -1037,12 +1059,12 @@ const daySummaries = {
   1: "從新千歲機場入境、取車後前往旭川。入住後先到旭川站前補雪靴或防滑鞋，再視體力安排常磐公園、上川神社和平和通散步。",
   2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌。先到 APA 飯店入住，再逛大通與薄野；天候備案另列白色戀人公園與宮之森佛朗西斯教會。",
   3: "上午安排札幌神社巡禮，接著前往小樽吃午餐、走運河、逛玻璃店與童話十字路。",
-  4: "從札幌前往登別，走完地獄谷後逛溫泉街，再到室蘭天勝本店吃天丼，下午安排白鳥大橋展望台和幸福之鐘。",
+  4: "從札幌前往登別，走地獄谷與溫泉街，再前往室蘭安排天勝、白鳥大橋展望台和幸福之鐘。登別閻魔炒麵、海鮮料理與喫茶田園甜點可參考下方備選；若在登別用正餐，再調整天勝安排。",
   5: "上午在中島公園散步看雪景，中午吃鰻魚飯，下午自由休息，傍晚再上藻岩山看夜景。",
   6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
   7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡，再到 Toya Kohan Tei 入住。",
-  8: "從洞爺湖開車到函館並還車，寄放行李後先到八幡坂拍港景，再搭市電前往五稜郭，在塔旁的小丑漢堡用餐，最後到 La'gent Stay Hakodate Ekimae 入住。站前小丑漢堡、箱館奉行所與六花亭可從景點庫選用。",
-  9: "白天走金森倉庫，提早上函館山看夜景；回市區吃飯休息後，午夜前往護國神社初詣。當年夜間開放與深夜往返交通仍需確認。",
+  8: "從洞爺湖開車到函館並還車，寄放行李後前往五稜郭，在塔旁的小丑漢堡用餐，最後到 La'gent Stay Hakodate Ekimae 入住。站前小丑漢堡、箱館奉行所與六花亭可從景點庫選用。",
+  9: "白天先逛八幡坂與金森倉庫，提早上函館山看夜景；回市區吃飯休息後，午夜前往護國神社初詣。當年夜間開放與深夜往返交通仍需確認。",
   10: "元旦先確認朝市是否營業，再走元町，回函館站取行李，目標 13:30 左右搭機場巴士。參考車程約 20 分鐘；2027 元旦班次待確認。小丑漢堡已移到 D8，回程 JX861 為 18:00。"
 };
 
@@ -1087,10 +1109,8 @@ const spotLogistics = {
     checkedAt: "2026/10/11"
   },
   "hakodate-station-airport-bus": {
-    hours: "2027/1/1 實際班次尚未核實。以下為 2025/12/1–2026/1/5 過往跨年班表，非本次旅行正式班次",
-    access: "JR 函館站前搭函館帝產機場巴士。過往為 11 號月台，元旦月台與班次需再確認；現行機場官網列成人 ¥700、約 20 分鐘。現金準備零錢或千圓鈔，先付車資。電話 0138-55-1111",
-    departures: ["優先參考：13:30 出發 → 13:50 抵達", "候補參考：13:40 出發 → 14:00 抵達", "候補參考：13:50 出發 → 14:10 抵達"],
-    departureNote: "以上到達時間來自過往班表，雪天可能延誤；建議提早 10–15 分鐘到站，另留 30–40 分鐘交通緩衝（行程估計）。約 14:00 到機場會比 18:00 起飛早很多，可安排午餐休息；報到櫃台開放時間另依星宇通知。",
+    hours: "2027/1/1 正式班次尚未確認；D10 備選區列有函館帝產巴士 2025/12/1–2026/1/5 過往跨年參考時刻",
+    access: "JR 函館站前搭函館帝產機場巴士。函館空港官網列成人 ¥700、車程約 20 分鐘；乘車處、票價與支付方式以出發前最新公告為準。電話 0138-55-1111",
     infoUrl: "https://www.hokkaido-airports.com/ja/hakodate/access/bus/",
     checkedAt: "2026/10/11"
   },
@@ -1332,6 +1352,22 @@ const spotLogistics = {
     hours: "街區全天可通行；餐廳與商店多約 10:00 起營業，各店時間與休息日不同",
     access: "位在地獄谷入口與登別溫泉巴士總站之間；可續停地獄谷停車場，再步行逛溫泉街與用餐"
   },
+  "noboribetsu-onsen-ichiba": {
+    hours: "10:30–21:00；用餐區 11:00–21:00，不定休；12/26 年末營業與閻魔炒麵供應時間出發前確認",
+    access: "地址：登別市登別温泉町50，位於溫泉街；電話 0143-84-2560",
+    infoUrl: "https://noboribetsu-spa.jp/tw/spot/spot0169/",
+    foodUrl: "https://www.noboribetsubrand.jp/enmayakisobainfo/%E6%B8%A9%E6%B3%89%E5%B8%82%E5%A0%B4/",
+    foodUrlLabel: "登別閻魔炒麵店家介紹",
+    checkedAt: "2026/10/11"
+  },
+  "noboribetsu-cafe-denen": {
+    hours: "11:30–15:00，不定休；12/26 年末營業與閻魔炒麵供應時間出發前確認",
+    access: "地址：登別市登別温泉町76，面向閻魔堂；電話 0143-84-2049",
+    infoUrl: "https://noboribetsu-spa.jp/spot/spot0203/",
+    foodUrl: "https://www.noboribetsubrand.jp/enmayakisobainfo/%E5%96%AB%E8%8C%B6%E7%94%B0%E5%9C%92/",
+    foodUrlLabel: "登別閻魔炒麵店家介紹",
+    checkedAt: "2026/10/11"
+  },
   "muroran-hakucho-bridge-view": {
     hours: "展望區通常可自由停留；夜景與冬季路況需注意安全",
     access: "室蘭 IC 往白鳥大橋方向，自駕較方便；白鳥灣展望台也可由崎守站步行約 16 分鐘"
@@ -1519,6 +1555,10 @@ const unspecifiedDrivingStops = new Set([
 
 const knownWalkingLegs = {
   "nakajima-park|unagi-nakajima": "中島公園散步後步行回北側中島公園站附近的鰻魚飯餐廳；依園內位置預留約 5–15 分鐘，雪天另留緩衝",
+  "noboribetsu-onsen-street|noboribetsu-onsen-ichiba": "登別溫泉街內步行至溫泉市場，沿極樂通散步即可",
+  "noboribetsu-onsen-street|noboribetsu-cafe-denen": "登別溫泉街內步行至閻魔堂前的喫茶田園",
+  "noboribetsu-onsen-ichiba|noboribetsu-cafe-denen": "兩處都在登別溫泉街，步行即可串遊",
+  "noboribetsu-cafe-denen|noboribetsu-onsen-ichiba": "兩處都在登別溫泉街，步行即可串遊",
   "premier-cabin-asahikawa|aeon-mall-asahikawa-ekimae": "旭川站前飯店到 AEON MALL 步行即可，不必開車",
   "sapporo-beer-museum|ario-sapporo": "啤酒博物館與 Ario 相鄰，步行即可，不必開車",
   "noboribetsu-valley|noboribetsu-onsen-street": "地獄谷到登別溫泉街可步行串遊；雪地路滑請放慢腳步",
@@ -1535,8 +1575,9 @@ const hotelCheckInTemplateVersion = "2026-09-30-hotel-checkins";
 const itineraryOptionsTemplateVersion = "2026-10-11-hakodate-options";
 const dayEightRoutingTemplateVersion = "2026-10-11-day8-hachimanzaka";
 const dayTwoEightRoutingTemplateVersion = "2026-10-11-day2-day8-routing";
-previousPlanTemplateVersions.push(hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion);
-const currentPlanTemplateVersion = "2026-10-11-day5-nakajima";
+const dayNineHachimanzakaTemplateVersion = "2026-10-11-day9-hachimanzaka";
+previousPlanTemplateVersions.push(hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion, "2026-10-11-day5-nakajima");
+const currentPlanTemplateVersion = dayNineHachimanzakaTemplateVersion;
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -1769,19 +1810,12 @@ function migrateHakodateOptions(plan) {
   return changed;
 }
 
-function migrateDayEightHachimanzaka(plan) {
+function migrateDayNineHachimanzaka(plan) {
   const spotId = "hachimanzaka";
-  let changed = false;
-  // Apply this requested move once, while preserving all other stops and their order.
-  Object.keys(plan).forEach((key) => {
-    if (Number(key) === 8 || !plan[key].includes(spotId)) return;
-    plan[key] = plan[key].filter((id) => id !== spotId);
-    changed = true;
-  });
-  if (plan[8][0] !== spotId || plan[8].filter((id) => id === spotId).length !== 1) {
-    plan[8] = [spotId, ...plan[8].filter((id) => id !== spotId)];
-    changed = true;
-  }
+  if (!plan[8].includes(spotId)) return false;
+  plan[8] = plan[8].filter((id) => id !== spotId);
+  plan[9] = [spotId, ...plan[9].filter((id) => id !== spotId)];
+  const changed = true;
   return changed;
 }
 
@@ -1828,10 +1862,10 @@ function loadPlan() {
       // The 9/30 template already had check-ins. Do not run older hotel/AEON insertion again.
       const legacyChanged = ![hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion].includes(storedTemplateVersion) && migratePreviousTemplate(plan);
       const optionsChanged = ![itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion].includes(storedTemplateVersion) && migrateHakodateOptions(plan);
-      const dayEightChanged = ![dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion].includes(storedTemplateVersion) && migrateDayEightHachimanzaka(plan);
+      const dayNineChanged = migrateDayNineHachimanzaka(plan);
       const dayTwoChanged = migrateDayTwoChurchBackup(plan);
       const dayFiveChanged = migrateDayFiveNakajima(plan);
-      const migrationChanged = legacyChanged || optionsChanged || dayEightChanged || dayTwoChanged || dayFiveChanged;
+      const migrationChanged = legacyChanged || optionsChanged || dayNineChanged || dayTwoChanged || dayFiveChanged;
       loadedPlanNeedsSync = normalizedChanged || migrationChanged;
     }
 
@@ -2059,6 +2093,7 @@ function practicalOptionsHtml(spot) {
   return `
     ${logistics.departures ? `<p><strong>參考班次（非 2027 元旦確定班表）：</strong></p><ul>${logistics.departures.map((departure) => `<li>${escapeHtml(departure)}</li>`).join("")}</ul><p>${escapeHtml(logistics.departureNote)}</p>` : ""}
     ${logistics.infoUrl ? `<p><a class="map-link" href="${escapeHtml(logistics.infoUrl)}" target="_blank" rel="noopener noreferrer">官方資訊（${escapeHtml(logistics.checkedAt || "2026/10/11")} 查閱）</a></p>` : ""}
+    ${logistics.foodUrl ? `<p><a class="map-link" href="${escapeHtml(logistics.foodUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(logistics.foodUrlLabel || "店家特色資訊")}</a></p>` : ""}
   `;
 }
 
@@ -2200,6 +2235,7 @@ function getDrivingRouteUrlForStop(day, index, spotId) {
 
 const hakodateTransitLegs = {
   "8|hachimanzaka|goryokaku": "八幡坂沿步道下坡返回末廣町電停，搭往湯の川方向的市電到五稜郭公園前，再步行到五稜郭；冬季候車與雪地步行請留緩衝",
+  "9|hachimanzaka|kanemori-warehouse": "從八幡坂沿步道下坡，步行前往金森倉庫；積雪或路面結冰時放慢腳步，必要時改搭市電或計程車",
   "8|goryokaku|lucky-pierrot-hakodate-station": "從五稜郭公園步行到五稜郭公園前電停，搭往函館駅前方向的市電，再步行到朝市對面的 Hotel New Ohte 2 樓用餐",
   "8|lucky-pierrot-hakodate-station|lagent-hakodate-ekimae": "用餐後步行回函館站旁的飯店入住；若行李寄放飯店，先回飯店取行李即可",
   "10|motomachi|lucky-pierrot-hakodate-station": "元町步行下坡到十字街，搭往函館駅前方向的市電，站前店在朝市對面；元旦營業及候餐時間先確認",
@@ -2214,12 +2250,16 @@ const hakodateTransitLegs = {
   "9|hakodate-mt|hakodate-hachimangu": "先搭纜車下山；跨年深夜前往函館八幡宮建議搭計程車，返飯店也請預留交通。市電 2 系統到谷地頭只適用於仍有班次時",
   "10|morning-market|motomachi": "朝市步行到函館駅前，搭往谷地頭／函館どつく前方向的市電至十字街，再步行上坡逛元町",
   "10|motomachi|hakodate-station-airport-bus": "從元町步行到十字街，搭往函館駅前方向的市電，回站前飯店取行李再候車。目標約 13:15 到巴士月台；2027 元旦班次與月台出發前再確認",
-  "10|hakodate-station-airport-bus|hakodate-airport": "過往跨年班表（2025/12/1–2026/1/5）為函館站 13:30→機場 13:50、13:40→14:00、13:50→14:10；非 2027/1/1 確定班次。車程約 20 分鐘，雪天另留緩衝；回程 JX861 18:00",
+  "10|hakodate-station-airport-bus|hakodate-airport": "函館帝產巴士從函館站前到機場，車程約 20 分鐘；下方「D10 機場巴士備選」列有過往跨年參考班表，2027/1/1 發車時間請以最新公告為準。雪天另留緩衝；回程 JX861 18:00",
   "10|motomachi|lucky-pierrot-tokura": "元町到戶倉店以計程車較實際；若搭市電，可從十字街往湯の川方向搭到終點，但下車後仍需走較長一段",
   "10|lucky-pierrot-tokura|hakodate-airport": "從戶倉店到函館機場建議搭計程車；市電不直達機場，若改搭巴士須先查元旦班次"
 };
 
 function getHakodateTransitInfo(day, index, spotId, dayStops) {
+  if (index === 0 && day === 9 && spotId === "hachimanzaka") {
+    return "函館站前搭往函館どつく前方向的市電到末廣町，再步行上坡前往八幡坂；雪地請預留步行緩衝";
+  }
+
   if (day === 8 && index === 0) {
     if (spotId === "hachimanzaka") {
       return "從洞爺湖自駕抵達函館並還車，先寄放行李；由函館駅前搭往函館どつく前方向的市電到末廣町，再步行前往八幡坂。拍坂頂港景需上坡，雪地請慢走";
@@ -3631,7 +3671,25 @@ function renderDayAlternative() {
 }
 
 const dayOptionalSpots = {
-  10: { title: "D10 機場巴士備選", ids: ["hakodate-station-airport-bus", "lucky-pierrot-hakodate-station"], note: "2027 元旦班次尚未核實。以下為過往跨年班表參考，請以函館機場官方交通資訊與營運單位最新公告為準。" }
+  4: {
+    title: "D4 登別溫泉街美食備選",
+    note: "可加入一間當地吃或甜點選擇；加入後會排在溫泉街之後、室蘭天勝之前。若改在登別吃正餐，可再調整天勝安排。12/26 年末營業與閻魔炒麵供應時間行前確認。",
+    ids: ["noboribetsu-onsen-ichiba", "noboribetsu-cafe-denen"]
+  },
+  10: {
+    title: "D10 機場巴士備選",
+    timetable: {
+      rows: [
+        { departure: "13:30", arrival: "13:50", label: "優先參考" },
+        { departure: "13:40", arrival: "14:00", label: "候補" },
+        { departure: "13:50", arrival: "14:10", label: "候補" }
+      ],
+      period: "2025/12/1–2026/1/5（過往跨年班表）",
+      note: "這是函館帝產巴士上一年度跨年參考時刻，2027/1/1 正式班次與函館站乘車處尚未確認。車程約 20 分鐘，雪天請另留緩衝；出發前請查看最新公告。",
+      infoUrl: "https://www.hokkaido-airports.com/ja/hakodate/access/bus/"
+    },
+    ids: ["lucky-pierrot-hakodate-station"]
+  }
 };
 
 function renderDayOptions() {
@@ -3645,7 +3703,18 @@ function renderDayOptions() {
   if (shell.dataset.day !== String(day)) shell.open = false;
   shell.dataset.day = String(day);
   document.getElementById("day-options-title").textContent = options.title;
-  panel.innerHTML = `<p>${escapeHtml(options.note)}</p>${options.ids.map((id) => {
+  const timetable = options.timetable ? `
+    <article class="day-option-card bus-timetable-card">
+      <h3>函館帝產巴士｜函館站前 → 函館機場</h3>
+      <p><strong>跨年參考班表：</strong>${escapeHtml(options.timetable.period)}</p>
+      <table class="airport-bus-timetable">
+        <thead><tr><th scope="col">站前出發</th><th scope="col">機場抵達</th><th scope="col">安排</th></tr></thead>
+        <tbody>${options.timetable.rows.map((row) => `<tr><td>${escapeHtml(row.departure)}</td><td>${escapeHtml(row.arrival)}</td><td>${escapeHtml(row.label)}</td></tr>`).join("")}</tbody>
+      </table>
+      <p class="bus-timetable-note">${escapeHtml(options.timetable.note)}</p>
+      <a class="map-link" href="${escapeHtml(options.timetable.infoUrl)}" target="_blank" rel="noopener noreferrer">函館空港官方巴士資訊</a>
+    </article>` : "";
+  panel.innerHTML = `${options.note ? `<p class="day-options-note">${escapeHtml(options.note)}</p>` : ""}${timetable}${options.ids.map((id) => {
     const spot = spotById(id);
     const selected = state.plan[day].includes(id);
     const otherDay = Object.keys(state.plan).find((key) => Number(key) !== day && state.plan[key].includes(id));
@@ -3668,11 +3737,19 @@ function renderDayOptions() {
       const id = button.dataset.dayOption;
       if (state.plan[day].includes(id) || Object.keys(state.plan).some((key) => Number(key) !== day && state.plan[key].includes(id))) return;
       const stops = state.plan[day];
-      let beforeId = null;
-      if (day === 10) {
-        beforeId = id === "lucky-pierrot-hakodate-station" && stops.includes("hakodate-station-airport-bus") ? "hakodate-station-airport-bus" : "hakodate-airport";
+      let insertion = -1;
+      if (day === 4) {
+        const streetIndex = stops.indexOf("noboribetsu-onsen-street");
+        if (streetIndex >= 0) {
+          insertion = streetIndex + 1;
+          while (insertion < stops.length && dayOptionalSpots[day].ids.includes(stops[insertion])) insertion += 1;
+        } else {
+          insertion = stops.indexOf("tenkatsu-honten-muroran");
+        }
+      } else if (day === 10) {
+        const beforeId = id === "lucky-pierrot-hakodate-station" && stops.includes("hakodate-station-airport-bus") ? "hakodate-station-airport-bus" : "hakodate-airport";
+        insertion = stops.indexOf(beforeId);
       }
-      const insertion = beforeId ? stops.indexOf(beforeId) : -1;
       stops.splice(insertion < 0 ? stops.length : insertion, 0, id);
       recordChange("加入當日備選", `Day ${day}：${spotById(id).name}`);
       state.summaryMode = "day";
