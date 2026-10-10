@@ -370,7 +370,7 @@ const spots = [
     season: ["winter"],
     time: "2h",
     best: "星形城郭、百萬夜景、展望塔",
-    desc: "冬季夜間點燈時很適合安排百萬夜景，和跨年夜景行程可以串成同一天。",
+    desc: "公園可散步看雪景，登五稜郭塔則能俯瞰完整星形城郭。安排在 Day 8；2026–2027 冬季點燈日期仍需確認官方公告。",
     highlight: "百萬夜景"
   },
   {
@@ -392,8 +392,8 @@ const spots = [
     season: ["winter"],
     time: "1.5h",
     best: "元旦初詣、祈福、跨年儀式感",
-    desc: "排在 Day 9 最後，函館山夜景後先回市區吃飯休息，約 23:30 再前往函館八幡宮，跨過午夜後進行元旦初詣。2027 年正式授與所時間預計要到 12 月公告；往年午夜後有延長服務。",
-    highlight: "午夜初詣"
+    desc: "Day 9 午夜初詣備選，主安排為函館護國神社。若護國當晚不開放或交通不適合，再考慮改去八幡宮，不必兩座都跑。2026/12/31–2027/1/1 參拜與授與所時間仍待確認；深夜往返建議預約計程車。",
+    highlight: "D9 初詣備選"
   },
   {
     id: "hakodate-airport",
@@ -528,7 +528,7 @@ const spots = [
     season: ["winter"],
     time: "1.5h",
     best: "啤酒歷史、限定試飲、紅磚建築",
-    desc: "北海道代表性的啤酒主題博物館，可自由參觀後到付費試飲區喝限定啤酒。旁邊就是 Ario 札幌，逛完可直接接商場取暖或吃飯。",
+    desc: "北海道代表性的啤酒主題博物館，自行參觀需買門票，試飲另計。旁邊就是 Ario 札幌，逛完可直接接商場取暖或吃飯。",
     highlight: "啤酒名所"
   },
   {
@@ -849,9 +849,9 @@ const spots = [
     type: "神社參拜",
     season: ["winter"],
     time: "1h",
-    best: "參拜、函館山山麓、安靜感",
-    desc: "位在函館山山麓，從元町或函館山纜車站周邊順路可到。適合放在 Day9 金森紅磚倉庫後，往函館山夜景前銜接。",
-    highlight: "山麓參拜"
+    best: "D9 午夜初詣主選、函館山山麓、元町",
+    desc: "Day 9 午夜初詣主選。傍晚先看函館山夜景，再回市區吃飯休息，午夜前前往護國神社；八幡宮保留為備選。神社靠近纜車山麓站，但不必在山上等到跨年。2027 初詣開放、授與所與御朱印時間尚未核實，出發前電話確認；雪夜坡道請注意防滑。",
+    highlight: "D9 初詣主選"
   },
   {
     id: "ajisai-honten-hakodate",
@@ -882,9 +882,64 @@ const spots = [
     type: "漢堡",
     season: ["winter"],
     time: "1h",
-    best: "中華雞腿漢堡、函館機場前午餐、需另安排交通",
-    desc: "Day 10 仍排在元町散步後、前往機場前，但抵達函館時已還車。戶倉店不在元町或函館站步行圈，需另查市電／巴士轉乘或安排計程車，吃完也要再前往機場。餐點現做，請連候餐與候車時間一起預留；元旦營業以當年公告為準。",
-    highlight: "Day10 機場前午餐"
+    best: "中華雞腿漢堡、戶倉地區、需另安排交通",
+    desc: "保留為戶倉地區餐廳選項。本版小丑漢堡主安排改到 Day 8 五稜郭公園前店；戶倉店不在元町或函館站步行圈，若另外選這間，需安排轉乘或計程車。餐點現做，候餐與年末年始營業請另確認。",
+    highlight: "戶倉餐廳備選"
+  },
+  {
+    id: "miyanomori-frances-church",
+    name: "宮之森佛朗西斯教會（夜間備案）",
+    area: "札幌",
+    type: "教會・燈飾",
+    season: ["winter"],
+    time: "0.5–1h",
+    best: "D2 晚間備選、宮の森フランセス教会、庭園燈飾",
+    desc: "Day 2 入住 APA 後的夜間備案，與大通活動依時間擇一，不必全部塞入。過往燈飾為 17:00–20:00、免費；2026/12/24 開放、點燈與聖誕活動尚未核實。婚禮或包場可能限制入場，請先電話確認能否一般參觀，勿把婚禮諮詢或甜點店營業時間當成燈飾時間。",
+    highlight: "D2 夜間備案"
+  },
+  {
+    id: "lucky-pierrot-goryokaku",
+    name: "小丑漢堡 Lucky Pierrot 五稜郭公園前店",
+    area: "函館",
+    type: "漢堡",
+    season: ["winter"],
+    time: "1h",
+    best: "D8 小丑漢堡、中華雞腿漢堡、五稜郭塔旁",
+    desc: "Day 8 五稜郭散步前後吃小丑漢堡，選塔旁的五稜郭公園前店，省去繞往戶倉。可參考中華雞腿漢堡與招牌薯條；餐點現做、熱門時段易排隊，預留候餐時間。2026 年末特別營業仍需出發前確認。",
+    highlight: "D8 五稜郭用餐"
+  },
+  {
+    id: "hakodate-bugyosho",
+    name: "箱館奉行所（五稜郭內）",
+    area: "函館",
+    type: "歷史建築",
+    season: ["winter"],
+    time: "0.5–1h",
+    best: "D8 周邊備選、幕末歷史、木造建築",
+    desc: "位於五稜郭公園內，喜歡歷史或日式建築可順遊。成人入館 ¥500；冬季 09:00–17:00，16:45 停止受理，12/31–1/3 休館，適合留在 D8（12/30）。館內須脫鞋，沒有行李寄放，大型行李可能無法入館；建議先寄放行李。",
+    highlight: "D8 歷史備選"
+  },
+  {
+    id: "rokkatei-goryokaku",
+    name: "六花亭五稜郭店（甜點・休息）",
+    area: "函館",
+    type: "甜點",
+    season: ["winter"],
+    time: "0.5–1h",
+    best: "D8 周邊備選、六花亭伴手禮、喫茶室",
+    desc: "五稜郭周邊的甜點與伴手禮備選，可作散步後的休息點。商店 09:30–17:30；喫茶室 10:30–16:00、15:30 最後點餐，喫茶室週四休息。D8 是週三，仍需確認今年年末特別營業；想坐下吃甜點，要比商店打烊更早到。",
+    highlight: "D8 甜點備選"
+  },
+  {
+    id: "hakodate-station-airport-bus",
+    name: "函館站 → 機場巴士（13:30 左右）",
+    area: "函館",
+    type: "交通",
+    season: ["winter"],
+    time: "約 20 分鐘＋候車",
+    best: "D10 巴士選項、JR 函館站前、函館帝產巴士",
+    desc: "D10 以 13:30 左右離開函館站為目標。過往跨年班表參考：13:30 → 13:50（優先）、13:40 → 14:00、13:50 → 14:10。這是 2025/12/1–2026/1/5 的班表，不能視為 2027/1/1 已確定班次；請在出發前重新確認元旦時刻與月台。現行機場官網列成人 ¥700、車程約 20 分鐘，雪天需另留緩衝。",
+    highlight: "D10 交通選項"
   }
 ];
 
@@ -927,9 +982,9 @@ const winterTemplate = {
   5: ["unagi-nakajima", "moiwa-yama"],
   6: ["sapporo-beer-museum", "ario-sapporo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"],
   7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view", "toya-kohan-tei"],
-  8: ["goryokaku", "lagent-hakodate-ekimae"],
-  9: ["kanemori-warehouse", "hakodate-gokoku-shrine", "hakodate-mt", "hakodate-hachimangu"],
-  10: ["morning-market", "motomachi", "lucky-pierrot-tokura", "hakodate-airport"]
+  8: ["goryokaku", "lucky-pierrot-goryokaku", "lagent-hakodate-ekimae"],
+  9: ["kanemori-warehouse", "hakodate-mt", "hakodate-gokoku-shrine"],
+  10: ["morning-market", "motomachi", "hakodate-station-airport-bus", "hakodate-airport"]
 };
 
 const legacyDayTwoBackup = ["sapporo-odori", "shiroi-koibito-park", "sapporo-susukino"];
@@ -946,18 +1001,54 @@ const tripDates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29"
 
 const daySummaries = {
   1: "從新千歲機場入境、取車後前往旭川。入住後先到旭川站前補雪靴或防滑鞋，再視體力安排常磐公園、上川神社和平和通散步。",
-  2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌。先到 APA 飯店入住，再逛大通與薄野。",
+  2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌。先到 APA 飯店入住，再逛大通與薄野；宮之森佛朗西斯教會列夜間備案，先確認當晚能否參觀。",
   3: "上午安排札幌神社巡禮，接著前往小樽吃午餐、走運河、逛玻璃店與童話十字路。",
   4: "從札幌前往登別，走完地獄谷後逛溫泉街，再到室蘭天勝本店吃天丼，下午安排白鳥大橋展望台和幸福之鐘。",
   5: "札幌自由活動日，中午先吃鰻魚飯，傍晚再上藻岩山看夜景。",
   6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
   7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡，再到 Toya Kohan Tei 入住。",
-  8: "從洞爺湖開車到函館並還車，之後以市區交通前往五稜郭，逛完後到 La'gent Stay Hakodate Ekimae 入住。",
-  9: "白天走金森倉庫與護國神社，提早上函館山看夜景；回市區休息後，午夜前往函館八幡宮初詣。",
-  10: "元旦早上先確認函館朝市是否營業，再走元町；午餐到機場附近吃 Lucky Pierrot，之後搭車前往函館機場。當天已無車，需另查各段交通與元旦班次。"
+  8: "從洞爺湖開車到函館並還車，寄放行李後以市區交通前往五稜郭，在塔旁的小丑漢堡用餐，再到 La'gent Stay Hakodate Ekimae 入住。箱館奉行所與六花亭列周邊備選，依時間選一個即可。",
+  9: "白天走金森倉庫，提早上函館山看夜景；回市區吃飯休息後，午夜初詣以護國神社為主、八幡宮備選。當年夜間開放與深夜往返交通仍需確認。",
+  10: "元旦先確認朝市是否營業，再走元町，回函館站取行李，目標 13:30 左右搭機場巴士。參考車程約 20 分鐘；2027 元旦班次待確認。小丑漢堡已移到 D8，回程 JX861 為 18:00。"
 };
 
+// 未個別標示日期的票券於 2026/10/6（Asia/Taipei）查核；金額為成人一般票價、日圓。
 const spotLogistics = {
+  "miyanomori-frances-church": {
+    hours: "2026/12/24 夜間點燈與一般參觀待確認；前一季 17:00–20:00 僅供參考，婚禮／包場可能不開放",
+    access: "地址：札幌市中央区宮の森3条10丁目3-25。D2 入住後再視路況前往，與大通擇一；電話 011-633-1111",
+    infoUrl: "https://www.j-mfc.com/",
+    checkedAt: "2026/10/11"
+  },
+  "lucky-pierrot-goryokaku": {
+    hours: "官方一般營業 09:30–22:00，餐點 L.O. 21:30；2026 年末特別營業待確認",
+    access: "函館市五稜郭町30-14，五稜郭塔步行約 1 分鐘；從市電五稜郭公園前站下車後仍需步行至塔旁",
+    infoUrl: "https://luckypierrot.jp/shop/goryokaku/",
+    checkedAt: "2026/10/11"
+  },
+  "hakodate-bugyosho": {
+    tickets: "成人入館 ¥500",
+    ticketNotes: "現場購票。冬季 16:45 停止受理；12/31–1/3 休館。須脫鞋，沒有行李寄放，請先寄放大型行李。",
+    ticketUrl: "https://hakodate-bugyosho.jp/information/",
+    checkedAt: "2026/10/11",
+    hours: "11–3 月 09:00–17:00（16:45 停止受理）；12/31–1/3 休館，其他臨時休館請查官網",
+    access: "函館市五稜郭町44-3，位於五稜郭公園內，從五稜郭塔步行進入公園"
+  },
+  "rokkatei-goryokaku": {
+    hours: "商店 09:30–17:30；喫茶室 10:30–16:00（L.O. 15:30）、喫茶室週四休；年末特別營業待確認",
+    access: "函館市五稜郭町27-6，五稜郭周邊可步行串遊；喫茶室不接受預約",
+    infoUrl: "https://www.rokkatei.co.jp/shop/hakodate/",
+    checkedAt: "2026/10/11"
+  },
+  "hakodate-station-airport-bus": {
+    hours: "2027/1/1 實際班次尚未核實。以下為 2025/12/1–2026/1/5 過往跨年班表，非本次旅行正式班次",
+    access: "JR 函館站前搭函館帝產機場巴士。過往為 11 號月台，元旦月台與班次需再確認；現行機場官網列成人 ¥700、約 20 分鐘。現金準備零錢或千圓鈔，先付車資。電話 0138-55-1111",
+    departures: ["優先參考：13:30 出發 → 13:50 抵達", "候補參考：13:40 出發 → 14:00 抵達", "候補參考：13:50 出發 → 14:10 抵達"],
+    departureNote: "以上到達時間來自過往班表，雪天可能延誤；建議提早 10–15 分鐘到站，另留 30–40 分鐘交通緩衝（行程估計）。約 14:00 到機場會比 18:00 起飛早很多，可安排午餐休息；報到櫃台開放時間另依星宇通知。",
+    timetableUrl: "https://www.hakotaxi.co.jp/shuttlebus/251201air_st.pdf",
+    infoUrl: "https://www.hokkaido-airports.com/ja/hakodate/access/bus/",
+    checkedAt: "2026/10/11"
+  },
   "new-chitose-airport": {
     hours: "機場主體約 06:00-23:00（航班時段可能更早/更晚）",
     access: "JR 快速列車可到札幌；自駕取車後走道央道往旭川約 2.5-3 小時"
@@ -1023,6 +1114,9 @@ const spotLogistics = {
     access: "JR 上富良野站開車約 5 分鐘，冬季建議自駕並確認路況"
   },
   "ningle-terrace": {
+    tickets: "入場免費，不需買票",
+    ticketNotes: "木屋商品、飲食與體驗另計；各店可能不定休。",
+    ticketUrl: "https://www.princehotels.co.jp/shinfurano/facility/ningle_terrace/",
     hours: "冬季常見約 12:00-20:45",
     access: "從旭川/富良野自駕最方便，夜間注意結冰路段"
   },
@@ -1031,6 +1125,9 @@ const spotLogistics = {
     access: "札幌地鐵圓山公園站步行約 15 分鐘"
   },
   "sapporo-odori": {
+    tickets: "公園散步、燈節與聖誕市集入場免費",
+    ticketNotes: "市集飲食與購物另計。2026 大通燈節與聖誕市集都到 12/25，保留在 D2 12/24。",
+    ticketUrl: "https://www.sapporo.travel/white-illumination/",
     hours: "公園全天可進入；活動檔期時間依主辦單位",
     access: "地鐵大通站出站即達"
   },
@@ -1059,11 +1156,17 @@ const spotLogistics = {
     access: "地址：札幌市中央区南3条西4丁目12-1。狸小路商店街內，從大通、Pole Town、薄野皆可步行串接"
   },
   "shiroi-koibito-park": {
-    hours: "常見 10:00-18:00",
+    tickets: "庭院與購物免費；付費參觀成人 ¥1,200",
+    ticketNotes: "付費區可現場購票或官網預購；做餅乾等體驗另付費並依課程預約。12/31 付費區購票／換票到 15:30；2027/1/1、1/2 全館休館。",
+    ticketUrl: "https://www.shiroikoibitopark.jp/facility/counter.html",
+    hours: "2026/12/1–2027/3/31 園區 10:00-19:00、點燈 16:00-19:00，付費區最後受付 16:30；12/31、1/3 縮時至 17:00，1/1、1/2 休館",
     access: "地鐵東西線宮之澤站步行可到"
   },
   "sapporo-beer-museum": {
-    hours: "自由見學常見 11:00-18:00（最終入館 17:30）；週一、年末年始等可能休館",
+    tickets: "成人自行參觀 ¥1,000；試飲導覽 ¥2,000",
+    ticketNotes: "自行參觀免預約、不含試飲；試飲導覽需預約、全程日語，週一停辦（遇假日改週二）。D6 12/28 週一以自行參觀為主；開車者不能酒精試飲，年末營業另查當年度公告。",
+    ticketUrl: "https://www.sapporobeer.jp/brewery/s_museum/kengaku/",
+    hours: "自行參觀 11:00-18:00（最終入館 17:30）；週一停辦導覽，不是固定全館休館；12/31 休館，其他年末安排以公告為準",
     access: "地址：札幌市東区北7条東9丁目1-1。地鐵東区役所前站步行約 10 分鐘；旁邊可接 Ario 札幌"
   },
   "ario-sapporo": {
@@ -1119,8 +1222,11 @@ const spotLogistics = {
     access: "JR 小樽站前搭中央巴士往手宮方向，於手宮公園上周邊步行；自駕較彈性"
   },
   "taisho-glass": {
+    tickets: "逛店不需門票；玻璃製作體驗另付費",
+    ticketNotes: "費用依作品與課程。吹玻璃建議最晚前一天預約；蜻蜓玉（とんぼ玉）只接受當天店頭報名，不能事先預約。",
+    ticketUrl: "https://www.otaruglass.com/otaru-glass-experience",
     hours: "本店常見 09:00-19:00；各分店與體驗時段不同",
-    access: "小樽運河與堺町通可步行串遊，體驗課程建議事先預約"
+    access: "小樽運河與堺町通可步行串遊，體驗的報名方式依課程不同"
   },
   "otaru-meruhen-crossing": {
     hours: "街區全天可走；周邊商店多為白天到傍晚",
@@ -1135,8 +1241,11 @@ const spotLogistics = {
     access: "地址：小樽市色内1-1 小樽出抜小路內。JR 小樽站步行約 10 分鐘，位在小樽運河前"
   },
   "moiwa-yama": {
-    hours: "纜車常見 10:30-22:00（最終上山提前）",
-    access: "市電轉接駁巴士或計程車最順"
+    tickets: "成人往返 ¥2,100（纜車＋迷你纜車）",
+    ticketNotes: "可現場購票，也提供網路前售票。冬季觀光道路封閉；先看天候與運行狀況，再決定是否購票上山。",
+    ticketUrl: "https://mt-moiwa.jp/guide/",
+    hours: "冬季（12-3 月）纜車 11:00-22:00，最後上山 21:30；迷你纜車最後上山 21:40；12/31、1/1 休業",
+    access: "自駕請導航至纜車山麓站；冬季不能走觀光道路上山。也可搭市電轉接駁巴士或計程車"
   },
   "unagi-nakajima": {
     hours: "午餐 11:30-15:00（L.O. 14:00）；晚餐 17:00-22:00（L.O. 21:00）；年末營業請另行確認",
@@ -1179,14 +1288,22 @@ const spotLogistics = {
     access: "從二世谷/洞爺湖方向自駕順路，適合挑安全停車點拍羊蹄山"
   },
   "silo-observatory": {
+    tickets: "展望台免費，不需買票",
+    ticketNotes: "商品、飲食與雪遊體驗另計；廁所只在店舖營業時間開放。",
+    ticketUrl: "https://note.com/silo_tenboudai/n/n65c2324d8807",
     hours: "常見 08:30-17:00（11-4月），5-10月常見至 18:00",
     access: "道央道虻田洞爺湖 IC 開車約 15 分鐘；JR 洞爺站開車約 20 分鐘"
   },
   "konpira-crater-view": {
+    tickets: "展望台票價與冬季營業待確認",
+    ticketNotes: "先確認實際展望台入口與收費，不能把山麓散策路的資訊當成展望台票價；冬季開放、道路與停車也需另查。",
     hours: "展望台：12/29 是否開放待確認；金比羅山麓散策路：2026 年一般開放 4/25-10/31 09:00-16:00，冬季進入須至少提前 3 天申請",
     access: "導航時確認目的地是展望台，不是散策路入口；冬季先確認道路除雪、停車及展望台營業資訊"
   },
   "goryokaku": {
+    tickets: "公園免費；五稜郭塔成人 ¥1,200",
+    ticketNotes: "公園散步不需門票；登塔可現場購票或購買便利商店前售票，公園內其他收費設施另計。",
+    ticketUrl: "https://www.goryokaku-tower.co.jp/price/",
     hours: "公園全天可走；展望塔常見 09:00-18:00",
     access: "函館市電五稜郭公園前站下車後，步行至五稜郭公園約 18 分鐘；也可另查五稜郭塔前接駁巴士"
   },
@@ -1199,6 +1316,9 @@ const spotLogistics = {
     access: "函館市電谷地頭站步行約 5-10 分鐘；跨年午夜市電可能已收班，初詣往返先確認末班或安排計程車"
   },
   "hakodate-mt": {
+    tickets: "成人纜車往返 ¥1,800",
+    ticketNotes: "可現場購票或官網預購；官方網路票有效期為購買起 90 天。先確認天候、是否停駛與 12/31 特別末班，再購票上山。",
+    ticketUrl: "https://334.co.jp/ropeway/advance-ticket/",
     hours: "冬季通常 10:00-21:00；12/31 可能大幅縮短。2026/12/31 尚未公告，前一年度上行末班 17:30、下行末班 19:00",
     access: "纜車站可搭巴士/計程車；Day 9 建議 16:00 前抵達山麓站，並在出發前查官方最新運行公告"
   },
@@ -1227,8 +1347,10 @@ const spotLogistics = {
     access: "地址：函館市美原1丁目7-1。非市中心步行圈，建議自駕從五稜郭或函館機場方向順路停靠"
   },
   "hakodate-gokoku-shrine": {
-    hours: "社務所窗口常見 09:00-16:00 前後；境內參拜依現場公告",
-    access: "函館山麓站出口步行約 3 分鐘，適合與元町/函館山夜景串遊"
+    hours: "市官方旅遊頁列一般利用 09:00–16:00；2026/12/31 午夜至 2027/1/1 開放、授與所與御朱印仍待確認",
+    access: "函館山纜車山麓站附近，市電寶來町下車後上坡步行約 8–10 分鐘。電話 0138-23-0950；深夜市電不可預設仍有班次，先安排計程車往返",
+    infoUrl: "https://www.hakobura.jp/spots/503",
+    checkedAt: "2026/10/11"
   },
   "lucky-pierrot-bay-area": {
     hours: "官方營業 10:00-21:00（餐點 L.O. 20:30）",
@@ -1236,7 +1358,7 @@ const spotLogistics = {
   },
   "lucky-pierrot-tokura": {
     hours: "官方營業 10:00-21:00（餐點 L.O. 20:30）；2027 元旦是否調整仍需看年末公告",
-    access: "地址：函館市戶倉町30-1。市電到湯の川後離店仍有一段路；Day 10 從元町過來與餐後去機場，計程車較直接。接單後現做，需預留候餐時間"
+    access: "地址：函館市戶倉町30-1。市電到湯の川後離店仍有一段路，計程車較直接；本版主行程已改用 D8 五稜郭公園前店"
   },
   "morning-market": {
     hours: "冬季一般約 06:00 至 14:00 後（各店不同）；2027/1/1 尚未公告，前一年度函館官方年末年始表將元旦列為休業",
@@ -1247,12 +1369,15 @@ const spotLogistics = {
     access: "地址：函館市末広町14-12。函館站可步行或搭市電至十字街，步行約 5 分鐘"
   },
   motomachi: {
+    tickets: "街區散步免費；公會堂入館成人 ¥300",
+    ticketNotes: "舊函館區公會堂已公告 2026/12/31–2027/1/3 休館，D10 元旦以外觀參觀為主；其他教堂與館舍的參觀費用另計。",
+    ticketUrl: "https://hakodate-kokaido.jp/",
     hours: "街區全天可散步；教堂/館舍多為白天開放",
     access: "建議從十字街一路沿坡道慢走"
   },
   "hakodate-airport": {
     hours: "航廈常見約 07:30-20:00（依航班）",
-    access: "市電不直達機場。從函館站可搭機場巴士，約 20 分鐘；若從戶倉店出發，計程車較直接。元旦班次、候車與航班報到時間請事先確認"
+    access: "市電不直達機場。D10 回函館站取行李後搭機場巴士，目標 13:30 左右出發、車程約 20 分鐘；2027 元旦班次需再確認。JX861 18:00 起飛，報到時間依星宇通知"
   }
 };
 
@@ -1331,7 +1456,9 @@ const storageKey = "hokkaido-trip-planner-plan";
 const mealPlanKey = "hokkaido-trip-planner-meals";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
 const previousPlanTemplateVersions = ["2026-08-17-otaru-naruto", "2026-09-21-winter-shopping", "2026-09-22-day5-unagi", "2026-09-22-day5-unagi-lunch", "2026-09-22-day4-noboribetsu-onsen-street", "2026-09-22-day4-tenkatsu-lunch", "2026-09-22-hakodate-new-year"];
-const currentPlanTemplateVersion = "2026-09-30-hotel-checkins";
+const hotelCheckInTemplateVersion = "2026-09-30-hotel-checkins";
+previousPlanTemplateVersions.push(hotelCheckInTemplateVersion);
+const currentPlanTemplateVersion = "2026-10-11-hakodate-options";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -1543,6 +1670,27 @@ function migratePreviousTemplate(plan) {
   return changed;
 }
 
+function migrateHakodateOptions(plan) {
+  // Only replace unchanged former defaults; custom orders and deleted stops stay intact.
+  const oldDefaults = {
+    8: ["goryokaku", "lagent-hakodate-ekimae"],
+    9: ["kanemori-warehouse", "hakodate-gokoku-shrine", "hakodate-mt", "hakodate-hachimangu"],
+    10: ["morning-market", "motomachi", "lucky-pierrot-tokura", "hakodate-airport"]
+  };
+  let changed = false;
+  Object.entries(oldDefaults).forEach(([day, ids]) => {
+    if (planStopsEqual(plan[day], ids)) {
+      const otherDays = Object.entries(plan).filter(([key]) => key !== day);
+      const conflict = winterTemplate[day].some((id) => otherDays.some(([, stops]) => stops.includes(id)));
+      if (!conflict) {
+        plan[day] = [...winterTemplate[day]];
+        changed = true;
+      }
+    }
+  });
+  return changed;
+}
+
 function loadPlan() {
   const snapshot = loadLocalSnapshot();
   const stored = snapshot ? JSON.stringify(snapshot.plan) : readLocalStorage(storageKey);
@@ -1569,7 +1717,10 @@ function loadPlan() {
         const day = Number(key);
         return !planStopsEqual(Array.isArray(parsed[day]) ? parsed[day] : [], plan[day]);
       });
-      const migrationChanged = migratePreviousTemplate(plan);
+      // The 9/30 template already had check-ins. Do not run older hotel/AEON insertion again.
+      const legacyChanged = storedTemplateVersion !== hotelCheckInTemplateVersion && migratePreviousTemplate(plan);
+      const optionsChanged = migrateHakodateOptions(plan);
+      const migrationChanged = legacyChanged || optionsChanged;
       loadedPlanNeedsSync = normalizedChanged || migrationChanged;
     }
 
@@ -1780,6 +1931,27 @@ function scrollToSection(element) {
   });
 }
 
+function ticketInfoHtml(spot, showDetails = false) {
+  const logistics = getSpotLogistics(spot.id);
+  if (!logistics?.tickets) return "";
+  const summary = `<p class="spot-extra"><strong>票券：</strong>${escapeHtml(logistics.tickets)}</p>`;
+  if (!showDetails) return summary;
+  return `${summary}
+    ${logistics.ticketNotes ? `<p><strong>購票提醒：</strong>${escapeHtml(logistics.ticketNotes)}</p>` : ""}
+    ${logistics.ticketUrl ? `<p><a class="map-link" href="${escapeHtml(logistics.ticketUrl)}" target="_blank" rel="noopener noreferrer">官方資訊（${escapeHtml(logistics.checkedAt || "2026/10/6")} 查核）</a></p>` : ""}
+  `;
+}
+
+function practicalOptionsHtml(spot) {
+  const logistics = getSpotLogistics(spot.id);
+  if (!logistics) return "";
+  return `
+    ${logistics.departures ? `<p><strong>參考班次（非 2027 元旦確定班表）：</strong></p><ul>${logistics.departures.map((departure) => `<li>${escapeHtml(departure)}</li>`).join("")}</ul><p>${escapeHtml(logistics.departureNote)}</p>` : ""}
+    ${logistics.timetableUrl ? `<p><a class="map-link" href="${escapeHtml(logistics.timetableUrl)}" target="_blank" rel="noopener noreferrer">過往跨年班表（2025/12/1–2026/1/5）</a></p>` : ""}
+    ${logistics.infoUrl ? `<p><a class="map-link" href="${escapeHtml(logistics.infoUrl)}" target="_blank" rel="noopener noreferrer">官方資訊（${escapeHtml(logistics.checkedAt || "2026/10/11")} 查閱）</a></p>` : ""}
+  `;
+}
+
 function inlineSpotDetailsHtml(spot, day, index) {
   const logistics = getSpotLogistics(spot.id);
   const transport = index >= 0
@@ -1787,10 +1959,12 @@ function inlineSpotDetailsHtml(spot, day, index) {
     : "加入當日行程後，可查看接續交通。";
   return `
     <p><strong>看點：</strong>${escapeHtml(spot.best)}</p>
+    ${ticketInfoHtml(spot, true)}
     ${logistics?.hours ? `<p><strong>營業資訊：</strong>${escapeHtml(logistics.hours)}</p>` : ""}
     ${logistics?.access ? `<p><strong>交通建議：</strong>${escapeHtml(logistics.access)}</p>` : ""}
+    ${practicalOptionsHtml(spot)}
     <p>${escapeHtml(transport)}</p>
-    <p class="inline-detail-note">營業時間與交通班次，請以當日公告為準。</p>
+    <p class="inline-detail-note">票價、營業時間與交通班次，請以官方最新公告為準。</p>
   `;
 }
 
@@ -1915,11 +2089,17 @@ function getDrivingRouteUrlForStop(day, index, spotId) {
 }
 
 const hakodateTransitLegs = {
+  "8|goryokaku|lucky-pierrot-goryokaku": "從五稜郭塔步行約 1 分鐘到小丑漢堡五稜郭公園前店；公園內出發則先走回塔旁",
+  "8|lucky-pierrot-goryokaku|lagent-hakodate-ekimae": "用餐後步行到五稜郭公園前電停，搭往函館駅前方向的市電回飯店入住；大雪或提行李時可改搭計程車",
   "8|goryokaku|lagent-hakodate-ekimae": "從五稜郭公園步行到五稜郭公園前站，搭往函館駅前方向的市電，回飯店辦理入住",
+  "9|kanemori-warehouse|hakodate-mt": "由金森倉庫步行上坡到函館山纜車山麓站，積雪時可改搭計程車。建議 16:00 前到站，先確認 12/31 特別末班與風雪停駛狀況",
+  "9|hakodate-mt|hakodate-gokoku-shrine": "先搭纜車下山，再回市區吃飯休息；午夜初詣前另前往護國神社，勿在山上等到跨年。神社靠近山麓站，深夜往返飯店先安排計程車；當年夜間開放需確認",
   "9|kanemori-warehouse|hakodate-gokoku-shrine": "從金森倉庫步行經元町坡道到函館護國神社；積雪時注意防滑，也可搭計程車",
   "9|hakodate-gokoku-shrine|hakodate-mt": "從函館護國神社步行到函館山纜車山麓站，再搭纜車上山；跨年當天先確認末班",
   "9|hakodate-mt|hakodate-hachimangu": "先搭纜車下山；跨年深夜前往函館八幡宮建議搭計程車，返飯店也請預留交通。市電 2 系統到谷地頭只適用於仍有班次時",
   "10|morning-market|motomachi": "朝市步行到函館駅前，搭往谷地頭／函館どつく前方向的市電至十字街，再步行上坡逛元町",
+  "10|motomachi|hakodate-station-airport-bus": "從元町步行到十字街，搭往函館駅前方向的市電，回站前飯店取行李再候車。目標約 13:15 到巴士月台；2027 元旦班次與月台出發前再確認",
+  "10|hakodate-station-airport-bus|hakodate-airport": "過往跨年班表（2025/12/1–2026/1/5）為函館站 13:30→機場 13:50、13:40→14:00、13:50→14:10；非 2027/1/1 確定班次。車程約 20 分鐘，雪天另留緩衝；回程 JX861 18:00",
   "10|motomachi|lucky-pierrot-tokura": "元町到戶倉店以計程車較實際；若搭市電，可從十字街往湯の川方向搭到終點，但下車後仍需走較長一段",
   "10|lucky-pierrot-tokura|hakodate-airport": "從戶倉店到函館機場建議搭計程車；市電不直達機場，若改搭巴士須先查元旦班次"
 };
@@ -3331,6 +3511,62 @@ function renderDayAlternative() {
   });
 }
 
+const dayOptionalSpots = {
+  2: { title: "D2 夜間備案 · 宮之森教會", ids: ["miyanomori-frances-church"], note: "當晚開放待確認。與大通依時間擇一；加入後仍可調整或移除大通。" },
+  8: { title: "D8 小丑漢堡與五稜郭周邊", ids: ["lucky-pierrot-goryokaku", "hakodate-bugyosho", "rokkatei-goryokaku"], note: "小丑漢堡主安排為五稜郭公園前店，其餘兩處依喜好選一個即可；先寄放行李，留意奉行所與喫茶室的最晚受理時間。" },
+  9: { title: "D9 午夜初詣 · 八幡宮備選", ids: ["hakodate-hachimangu"], note: "主選護國神社。若當晚開放或交通不適合，再切換八幡宮；兩處 2027 初詣時間都需再確認。" },
+  10: { title: "D10 機場巴士 · 13:30 左右參考班次", ids: ["hakodate-station-airport-bus"], note: "2027 元旦班次尚未核實。以下是過往跨年班表參考，不是本次旅行的正式時刻。" }
+};
+
+function renderDayOptions() {
+  const shell = document.getElementById("day-options-shell");
+  const panel = document.getElementById("day-options");
+  const day = state.selectedDay;
+  const options = dayOptionalSpots[day];
+  shell.hidden = !options;
+  if (!options) return;
+  // Each day's accordion starts closed when changing days.
+  if (shell.dataset.day !== String(day)) shell.open = false;
+  shell.dataset.day = String(day);
+  document.getElementById("day-options-title").textContent = options.title;
+  panel.innerHTML = `<p>${escapeHtml(options.note)}</p>${options.ids.map((id) => {
+    const spot = spotById(id);
+    const selected = state.plan[day].includes(id);
+    const otherDay = Object.keys(state.plan).find((key) => Number(key) !== day && state.plan[key].includes(id));
+    const actionLabel = selected ? "已在當日行程" : day === 9 ? "改用八幡宮備案" : "加入當日行程";
+    return `<article class="day-option-card">
+      <h3>${escapeHtml(spot.name)}</h3>
+      <p>${escapeHtml(spot.desc)}</p>
+      ${ticketInfoHtml(spot)}
+      ${practicalOptionsHtml(spot)}
+      ${otherDay ? `<p>目前已安排在 Day ${escapeHtml(otherDay)}。</p>` : ""}
+      <div class="stop-quick-actions">
+        <button type="button" class="small-button" data-day-option="${id}" ${selected || otherDay ? "disabled" : ""}>${actionLabel}</button>
+        <a class="small-button map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">地圖</a>
+      </div>
+    </article>`;
+  }).join("")}`;
+  panel.querySelectorAll("[data-day-option]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const id = button.dataset.dayOption;
+      if (state.plan[day].includes(id) || Object.keys(state.plan).some((key) => Number(key) !== day && state.plan[key].includes(id))) return;
+      const stops = state.plan[day];
+      if (day === 9 && stops.includes("hakodate-gokoku-shrine")) {
+        stops.splice(stops.indexOf("hakodate-gokoku-shrine"), 1, id);
+        recordChange("切換初詣備案", "Day 9：護國神社 → 函館八幡宮");
+      } else {
+        const beforeId = day === 2 ? "sapporo-susukino" : day === 8 ? (stops.includes("lucky-pierrot-goryokaku") ? "lucky-pierrot-goryokaku" : "lagent-hakodate-ekimae") : day === 10 ? "hakodate-airport" : null;
+        const insertion = beforeId ? stops.indexOf(beforeId) : -1;
+        stops.splice(insertion < 0 ? stops.length : insertion, 0, id);
+        recordChange("加入當日備選", `Day ${day}：${spotById(id).name}`);
+      }
+      state.summaryMode = "day";
+      markDirty();
+      render();
+    });
+  });
+}
+
 function renderDayTabs() {
   const previousScroll = dom.dayTabs.scrollLeft;
   dom.dayTabs.innerHTML = Array.from({ length: 10 }, (_, index) => {
@@ -3413,6 +3649,7 @@ function renderItinerary() {
                   <h3>${index + 1}. ${spot.name}</h3>
                 </div>
                 <p class="stop-desc">${spot.desc}</p>
+                ${ticketInfoHtml(spot)}
                 <p class="spot-extra">${getDriveInfoForStop(state.selectedDay, index, spot.id)}</p>
               </div>
               <span class="tag">${spot.time}</span>
@@ -3607,7 +3844,7 @@ const shoppingSpotIds = new Set([
   "hakodate-meijikan",
   "mega-donki-hakodate"
 ]);
-const utilityTypes = ["抵達點", "離境點", "取車", "入住飯店", "休息補給"];
+const utilityTypes = ["抵達點", "離境點", "取車", "入住飯店", "休息補給", "交通"];
 
 function typeIncludes(spot, keywords) {
   return keywords.some((keyword) => spot.type.includes(keyword) || spot.name.includes(keyword));
@@ -3725,6 +3962,7 @@ function renderSpotGrid() {
             <div>
               <h3>${spot.name}</h3>
               <p class="spot-desc">${spot.desc}</p>
+              ${ticketInfoHtml(spot)}
             </div>
             <span class="tag">${spot.time}</span>
           </div>
@@ -3890,8 +4128,10 @@ function renderSummary() {
     if (dom.focusPractical) {
       dom.focusPractical.innerHTML = logistics
         ? `
+          ${ticketInfoHtml(focus, true)}
           <p><strong>常見營業：</strong>${logistics.hours}</p>
           <p><strong>交通建議：</strong>${logistics.access}</p>
+          ${practicalOptionsHtml(focus)}
           <p><strong>${getDriveInfoForFocus()}</strong></p>
           <p><a class="map-link" href="${focusMapUrl}" target="_blank" rel="noopener noreferrer">${focusMapLabel}（${focus.name}）</a></p>
           <p>提醒：營業時間與交通班次可能因季節調整，請以官方最新公告為準。</p>
@@ -4056,12 +4296,14 @@ function renderPrintReport() {
         ? daySpots
             .map((spot, spotIndex) => {
               const drivingRouteUrl = getDrivingRouteUrlForStop(day, spotIndex, spot.id);
+              const ticketSummary = getSpotLogistics(spot.id)?.tickets;
               return `
                 <li class="print-stop">
                   <span class="print-stop-number">${spotIndex + 1}</span>
                   <div class="print-stop-copy">
                     <h3>${escapeHtml(spot.name)}</h3>
                     <p>${escapeHtml(spot.area)} · ${escapeHtml(spot.type)} · ${escapeHtml(spot.time)}</p>
+                    ${ticketSummary ? `<small>票券：${escapeHtml(ticketSummary)}</small>` : ""}
                     <small>${escapeHtml(getDriveInfoForStop(day, spotIndex, spot.id))}</small>
                   </div>
                   <a href="${drivingRouteUrl || getMapUrl(spot)}">${drivingRouteUrl ? "開車路線" : "地圖"}</a>
@@ -4172,6 +4414,7 @@ function printPlanAsPdf() {
 function render() {
   renderFlightCards();
   renderDayAlternative();
+  renderDayOptions();
   renderDayTabs();
   renderSyncConflict();
   renderMealPlanner();
