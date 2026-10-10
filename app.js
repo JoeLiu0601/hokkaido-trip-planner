@@ -29,7 +29,7 @@ const spots = [
     season: ["winter"],
     time: "1h",
     best: "Check-in、溫泉、旭川站前",
-    desc: "第一晚的旭川住宿點，位在旭川站附近，辦理入住後可以先整理行李、休息一下，再步行到市區找晚餐。",
+    desc: "第一晚的旭川住宿點，位在旭川站附近。一般入住 15:00 起、退房 11:00 前；辦理入住後可先整理行李、休息一下，再步行到市區找晚餐。",
     highlight: "旭川入住"
   },
   {
@@ -40,7 +40,7 @@ const spots = [
     season: ["winter"],
     time: "0.5h",
     best: "Check-in、放行李、稍作休息",
-    desc: "12/24 從富良野、美瑛返回札幌後，先到 APA 飯店辦理入住、放好行李，再前往大通公園與薄野。",
+    desc: "12/24 從富良野、美瑛返回札幌後，先到 APA 飯店辦理入住、放好行李，再前往大通公園與薄野。一般入住 15:00 起、退房 10:00 前。",
     highlight: "札幌入住"
   },
   {
@@ -51,7 +51,7 @@ const spots = [
     season: ["winter"],
     time: "0.5h",
     best: "Check-in、放行李、溫泉休息",
-    desc: "12/29 Day 7 洞爺湖周邊行程結束後，前往 Toya Kohan Tei 辦理入住，晚上在湖畔休息。",
+    desc: "12/29 Day 7 洞爺湖周邊行程結束後，前往 Toya Kohan Tei 辦理入住，晚上在湖畔休息。一般入住 15:00 起、退房 10:00 前；若預計 18:00 後抵達，請先通知飯店。",
     highlight: "洞爺湖入住"
   },
   {
@@ -62,7 +62,7 @@ const spots = [
     season: ["winter"],
     time: "0.5h",
     best: "Check-in、放行李、函館站前",
-    desc: "12/30 Day 8 逛完五稜郭後，回函館站前飯店辦理入住，整理行李並休息。",
+    desc: "12/30 Day 8 逛完五稜郭後，回函館站前飯店辦理入住，整理行李並休息。一般入住 15:00 起、退房 11:00 前。",
     highlight: "函館入住"
   },
   {
@@ -1104,19 +1104,27 @@ const spotLogistics = {
     access: "抵達後到國內線 1F 到着口3附近租車櫃台報到，再搭接駁車到營業所，單程約 10-15 分鐘"
   },
   "premier-cabin-asahikawa": {
-    hours: "住宿設施依訂房方案；一般入住時間請以預約頁面為準",
+    hours: "一般入住 15:00 起、退房 11:00 前；會員或訂房方案可能有不同時間",
+    infoUrl: "https://cabin.kenhotels.com/asahikawa/faq/",
+    checkedAt: "2026/10/11",
     access: "JR 旭川站步行約 3 分鐘；旭川站前巴士總站步行約 5 分鐘"
   },
   "apa-sapporo-susukino-ekinishi": {
-    hours: "入住時間與停車安排請以訂房資料為準",
+    hours: "一般入住 15:00 起、退房 10:00 前",
+    infoUrl: "https://www.apahotel.com/hotel/hokkaido-tohoku/hokkaido/sapporosusukino-ekinishi/",
+    checkedAt: "2026/10/11",
     access: "從富良野、美瑛方向抵達札幌後，先到飯店辦理入住並放行李，再前往大通公園"
   },
   "toya-kohan-tei": {
-    hours: "入住時間與停車安排請以訂房資料為準",
+    hours: "一般入住 15:00 起、退房 10:00 前；部分訂房方案時間可能不同，到達超過 18:00 請通知飯店",
+    infoUrl: "https://www.toya-kohantei.com/faq/",
+    checkedAt: "2026/10/11",
     access: "Day 7 洞爺湖周邊景點結束後前往飯店，冬季行車請預留緩衝"
   },
   "lagent-hakodate-ekimae": {
-    hours: "入住時間請以訂房資料為準",
+    hours: "一般入住 15:00 起、退房 11:00 前；訂房方案可能另有規定",
+    infoUrl: "https://lagent.jp/hakodate-ekimae/faq/",
+    checkedAt: "2026/10/11",
     access: "Day 8 五稜郭行程結束後返回函館站前，辦理入住並放行李"
   },
   "tokiwa-park": {
@@ -1443,22 +1451,34 @@ const accommodations = [
   {
     label: "12/23-12/24 旭川",
     name: "Premier Hotel -CABIN- Asahikawa",
-    note: "旭川住宿"
+    note: "旭川住宿",
+    checkIn: "15:00 起",
+    checkOut: "11:00 前",
+    infoUrl: "https://cabin.kenhotels.com/asahikawa/faq/"
   },
   {
     label: "12/24-12/29 札幌",
     name: "APA Hotel Sapporo Susukino Ekinishi",
-    note: "札幌市區住宿"
+    note: "札幌市區住宿",
+    checkIn: "15:00 起",
+    checkOut: "10:00 前",
+    infoUrl: "https://www.apahotel.com/hotel/hokkaido-tohoku/hokkaido/sapporosusukino-ekinishi/"
   },
   {
     label: "12/29-12/30 洞爺湖",
     name: "Toya Kohan Tei",
-    note: "湖畔溫泉住宿"
+    note: "洞爺湖住宿",
+    checkIn: "15:00 起",
+    checkOut: "10:00 前",
+    infoUrl: "https://www.toya-kohantei.com/faq/"
   },
   {
     label: "12/30-1/1 函館",
     name: "La'gent Stay Hakodate Ekimae",
-    note: "函館住宿"
+    note: "函館住宿",
+    checkIn: "15:00 起",
+    checkOut: "11:00 前",
+    infoUrl: "https://lagent.jp/hakodate-ekimae/faq/"
   }
 ];
 
@@ -4300,7 +4320,9 @@ function renderSummary() {
         <span class="stay-label">${hotel.label}</span>
         <h3>${hotel.name}</h3>
         <p>${hotel.note}</p>
+        <p>入住 ${hotel.checkIn}・退房 ${hotel.checkOut}</p>
         <a class="map-link" href="${getAccommodationMapUrl(hotel)}" target="_blank" rel="noopener noreferrer">Google Maps 搜尋地點</a>
+        <a class="map-link" href="${escapeHtml(hotel.infoUrl)}" target="_blank" rel="noopener noreferrer">飯店官方資訊</a>
       </article>
     `)
     .join("");
@@ -4385,6 +4407,7 @@ function renderPrintReport() {
         <span>${escapeHtml(hotel.label)}</span>
         <strong>${escapeHtml(hotel.name)}</strong>
         <small>${escapeHtml(hotel.note)}</small>
+        <small>入住 ${escapeHtml(hotel.checkIn)}・退房 ${escapeHtml(hotel.checkOut)}</small>
       </article>
     `)
     .join("");
