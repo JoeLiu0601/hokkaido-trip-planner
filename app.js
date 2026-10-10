@@ -1091,7 +1091,6 @@ const spotLogistics = {
     access: "JR 函館站前搭函館帝產機場巴士。過往為 11 號月台，元旦月台與班次需再確認；現行機場官網列成人 ¥700、約 20 分鐘。現金準備零錢或千圓鈔，先付車資。電話 0138-55-1111",
     departures: ["優先參考：13:30 出發 → 13:50 抵達", "候補參考：13:40 出發 → 14:00 抵達", "候補參考：13:50 出發 → 14:10 抵達"],
     departureNote: "以上到達時間來自過往班表，雪天可能延誤；建議提早 10–15 分鐘到站，另留 30–40 分鐘交通緩衝（行程估計）。約 14:00 到機場會比 18:00 起飛早很多，可安排午餐休息；報到櫃台開放時間另依星宇通知。",
-    timetableUrl: "https://www.hakotaxi.co.jp/shuttlebus/251201air_st.pdf",
     infoUrl: "https://www.hokkaido-airports.com/ja/hakodate/access/bus/",
     checkedAt: "2026/10/11"
   },
@@ -2059,7 +2058,6 @@ function practicalOptionsHtml(spot) {
   if (!logistics) return "";
   return `
     ${logistics.departures ? `<p><strong>參考班次（非 2027 元旦確定班表）：</strong></p><ul>${logistics.departures.map((departure) => `<li>${escapeHtml(departure)}</li>`).join("")}</ul><p>${escapeHtml(logistics.departureNote)}</p>` : ""}
-    ${logistics.timetableUrl ? `<p><a class="map-link" href="${escapeHtml(logistics.timetableUrl)}" target="_blank" rel="noopener noreferrer">過往跨年班表（2025/12/1–2026/1/5）</a></p>` : ""}
     ${logistics.infoUrl ? `<p><a class="map-link" href="${escapeHtml(logistics.infoUrl)}" target="_blank" rel="noopener noreferrer">官方資訊（${escapeHtml(logistics.checkedAt || "2026/10/11")} 查閱）</a></p>` : ""}
   `;
 }
@@ -3633,7 +3631,7 @@ function renderDayAlternative() {
 }
 
 const dayOptionalSpots = {
-  10: { title: "D10 機場巴士與站前用餐備選", ids: ["hakodate-station-airport-bus", "lucky-pierrot-hakodate-station"], note: "2027 元旦班次尚未核實。巴士以 13:30 左右出發為目標，以下為過往跨年班表參考；站前小丑漢堡可作午餐備選，元旦開店時間與候餐須確認。" }
+  10: { title: "D10 機場巴士備選", ids: ["hakodate-station-airport-bus", "lucky-pierrot-hakodate-station"], note: "2027 元旦班次尚未核實。以下為過往跨年班表參考，請以函館機場官方交通資訊與營運單位最新公告為準。" }
 };
 
 function renderDayOptions() {
