@@ -1010,6 +1010,8 @@ select {
 }
 
 .drag-handle {
+  -webkit-user-select: none;
+  user-select: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;

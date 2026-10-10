@@ -915,9 +915,9 @@ const spots = [
     type: "街景・拍照",
     season: ["winter"],
     time: "0.5h",
-    best: "D8 第一站、坂頂港景、摩周丸、雪景",
-    desc: "排在 Day 8 最上方。從坂頂公共步道向下看，筆直的坡道通往函館港，正面可見摩周丸；可預留約 20–30 分鐘散步拍照（行程估計）。冬季街樹有燈飾，2026–2027 點燈日期與時間需另確認。走兩側步道並注意防滑，拍照不站車道，也不進入高校或私人土地。",
-    highlight: "D8 坂道港景"
+    best: "坂頂港景、摩周丸、雪景",
+    desc: "筆直的坡道通往函館港，從坂頂可望見摩周丸，是函館經典的港景拍照點。可預留約 20–30 分鐘散步拍照；冬季注意防滑，沿兩側步道行走，拍照不站車道。2026–2027 冬季燈飾日期與時間待確認。",
+    highlight: "坂道港景"
   },
   {
     id: "lucky-pierrot-hakodate-station",
@@ -3709,11 +3709,11 @@ function renderItinerary() {
         const detailsOpen = disclosureIsOpen(`${key}-details`);
         const adjustOpen = disclosureIsOpen(`${key}-adjust`);
         return `
-          <article class="stop-card" draggable="${!window.matchMedia("(max-width: 640px)").matches}" data-index="${index}" data-spot-id="${spot.id}">
+          <article class="stop-card" data-index="${index}" data-spot-id="${spot.id}">
             <div class="stop-top">
               <div>
                 <div class="stop-title-row">
-                  <span class="drag-handle" aria-hidden="true">⋮⋮</span>
+                  <span class="drag-handle" draggable="${!window.matchMedia("(max-width: 640px)").matches}" title="拖曳調整順序" aria-hidden="true">⋮⋮</span>
                   <h3>${index + 1}. ${spot.name}</h3>
                 </div>
                 <p class="stop-desc">${spot.desc}</p>
@@ -3774,25 +3774,27 @@ function renderItinerary() {
 
   bindPlacePanels(dom.itineraryList);
 
-  dom.itineraryList.querySelectorAll(".stop-card[draggable='true']").forEach((card) => {
-    card.addEventListener("dragstart", (event) => {
+  dom.itineraryList.querySelectorAll(".stop-card").forEach((card) => {
+    const handle = card.querySelector(".drag-handle[draggable='true']");
+    handle?.addEventListener("dragstart", (event) => {
       state.dragging = Number(card.dataset.index);
       card.classList.add("dragging");
       event.dataTransfer.effectAllowed = "move";
       event.dataTransfer.setData("application/x-hokkaido-stop-index", card.dataset.index);
+      event.dataTransfer.setDragImage(card, 14, 14);
     });
 
-    card.addEventListener("dragend", () => {
+    handle?.addEventListener("dragend", () => {
       state.dragging = null;
       card.classList.remove("dragging");
       dom.itineraryList.querySelectorAll(".drop-target").forEach((dropCard) => dropCard.classList.remove("drop-target"));
     });
 
     card.addEventListener("dragover", (event) => {
-      event.preventDefault();
-      if (state.dragging === null) {
+      if (!Array.from(event.dataTransfer.types || []).includes("application/x-hokkaido-stop-index")) {
         return;
       }
+      event.preventDefault();
       card.classList.add("drop-target");
       event.dataTransfer.dropEffect = "move";
     });
@@ -3802,8 +3804,12 @@ function renderItinerary() {
     });
 
     card.addEventListener("drop", (event) => {
+      if (!Array.from(event.dataTransfer.types || []).includes("application/x-hokkaido-stop-index")) return;
+      const rawIndex = event.dataTransfer.getData("application/x-hokkaido-stop-index");
+      if (!/^\d+$/.test(rawIndex)) return;
+      const fromIndex = Number(rawIndex);
+      if (!Number.isInteger(fromIndex) || fromIndex >= state.plan[state.selectedDay].length) return;
       event.preventDefault();
-      const fromIndex = Number(event.dataTransfer.getData("application/x-hokkaido-stop-index"));
       const toIndex = Number(card.dataset.index);
       card.classList.remove("drop-target");
       moveSpotInDay(state.selectedDay, fromIndex, toIndex);
@@ -3854,10 +3860,11 @@ function renderItinerary() {
     });
 
     dom.itineraryDropzone.addEventListener("drop", (event) => {
-      const fromIndex = Number(event.dataTransfer.getData("application/x-hokkaido-stop-index"));
-      if (Number.isNaN(fromIndex)) {
-        return;
-      }
+      if (!Array.from(event.dataTransfer.types || []).includes("application/x-hokkaido-stop-index")) return;
+      const rawIndex = event.dataTransfer.getData("application/x-hokkaido-stop-index");
+      if (!/^\d+$/.test(rawIndex)) return;
+      const fromIndex = Number(rawIndex);
+      if (!Number.isInteger(fromIndex) || fromIndex >= state.plan[state.selectedDay].length) return;
       event.preventDefault();
       dom.itineraryDropzone.classList.remove("active-dropzone");
       removeSpotAtIndex(state.selectedDay, fromIndex);
@@ -4025,10 +4032,13 @@ function renderSpotGrid() {
       const key = `library-${state.selectedDay}-${spot.id}-details`;
       const detailsOpen = disclosureIsOpen(key);
       return `
-        <article class="spot-card ${isSelected ? "selected" : ""}" data-spot="${spot.id}" draggable="${!isSelected && !window.matchMedia("(max-width: 640px)").matches}">
+        <article class="spot-card ${isSelected ? "selected" : ""}" data-spot="${spot.id}">
           <div class="spot-top">
             <div>
-              <h3>${spot.name}</h3>
+              <div class="stop-title-row">
+                ${isSelected ? "" : `<span class="drag-handle" draggable="${!window.matchMedia("(max-width: 640px)").matches}" title="拖曳加入行程" aria-hidden="true">⋮⋮</span>`}
+                <h3>${spot.name}</h3>
+              </div>
               <p class="spot-desc">${spot.desc}</p>
               ${ticketInfoHtml(spot)}
             </div>
@@ -4098,19 +4108,17 @@ function renderSpotGrid() {
   bindPlacePanels(dom.spotGrid);
 
   dom.spotGrid.querySelectorAll(".spot-card").forEach((card) => {
-    card.addEventListener("dragstart", (event) => {
-      if (card.getAttribute("draggable") !== "true") {
-        event.preventDefault();
-        return;
-      }
+    const handle = card.querySelector(".drag-handle[draggable='true']");
+    handle?.addEventListener("dragstart", (event) => {
       state.dragging = card.dataset.spot;
       card.classList.add("dragging");
       event.dataTransfer.effectAllowed = "copy";
       event.dataTransfer.setData("application/x-hokkaido-spot", card.dataset.spot);
       event.dataTransfer.setData("text/plain", card.dataset.spot);
+      event.dataTransfer.setDragImage(card, 14, 14);
     });
 
-    card.addEventListener("dragend", () => {
+    handle?.addEventListener("dragend", () => {
       state.dragging = null;
       card.classList.remove("dragging");
       dom.dayTabs.querySelectorAll(".drop-target").forEach((dropButton) => dropButton.classList.remove("drop-target"));
