@@ -8,7 +8,7 @@
       name="description"
       content="新千歲 → 旭川 → 札幌 → 洞爺湖 → 函館。10天北海道冬季行程規劃。"
     />
-    <link rel="stylesheet" href="styles.css?v=20261011-itinerary-options" />
+    <link rel="stylesheet" href="styles.css?v=20261011-settings-visible" />
   </head>
   <body>
     <main class="shell">
@@ -59,15 +59,15 @@
           <p class="toolbar-save-status" id="save-status">尚未儲存變更</p>
           <p class="toolbar-save-status" id="ui-message" hidden></p>
         </div>
-        <details class="planner-settings">
-          <summary>同步與設定</summary>
+        <section class="planner-settings" aria-labelledby="planner-settings-title">
+          <h3 id="planner-settings-title" class="planner-settings-title">同步與設定</h3>
           <div class="toolbar-actions">
           <input id="sync-code-input" class="summary-input sync-code-input" type="text" minlength="2" maxlength="40" pattern="[a-zA-Z0-9_-]{2,40}" autocapitalize="off" autocorrect="off" spellcheck="false" title="只接受英文字母、數字、-、_，長度 2–40 字" placeholder="同步代碼（例如 py）" />
           <button class="button button-secondary" id="connect-sync-btn">啟用自動同步</button>
           <p class="toolbar-save-status" id="sync-status">雲端同步：未啟用</p>
           <button class="button button-secondary" id="reset-plan-btn">恢復預設行程</button>
           </div>
-        </details>
+        </section>
       </section>
 
       <section class="workspace">
@@ -220,6 +220,6 @@
 
     <!-- deploy-stamp: 2026-09-21T18:00:00+08:00 -->
     <script src="sync-config.js"></script>
-    <script src="app.js?v=20261011-itinerary-options"></script>
+    <script src="app.js?v=20261011-station-burger"></script>
   </body>
 </html>

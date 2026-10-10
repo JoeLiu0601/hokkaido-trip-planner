@@ -1626,8 +1626,7 @@ select {
 .hero-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .panel-head > div { flex-shrink: 0; }
 .planner-settings { min-width: 0; border-top: 1px solid var(--line); padding-top: 8px; }
-.planner-settings summary { cursor: pointer; padding: 12px 2px; color: var(--muted); font-size: 0.9rem; }
-.planner-settings[open] summary { margin-bottom: 8px; }
+.planner-settings-title { margin: 0 0 8px; padding: 12px 2px; color: var(--muted); font-size: 0.9rem; font-weight: 600; line-height: 1.6; }
 .explore-search { display: block; margin-bottom: 18px; }
 #back-to-day[hidden] { display: none; }
 #mobile-day-summary:not(:empty) { margin-bottom: 16px; }
@@ -1821,7 +1820,6 @@ button:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px soli
 }
 
 .day-alternative > summary,
-.planner-settings > summary,
 .change-log-summary {
   min-height: 44px;
 }

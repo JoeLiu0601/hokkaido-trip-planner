@@ -909,6 +909,17 @@ const spots = [
     highlight: "D8 五稜郭用餐"
   },
   {
+    id: "lucky-pierrot-hakodate-station",
+    name: "小丑漢堡 Lucky Pierrot 函館站前店",
+    area: "函館",
+    type: "漢堡",
+    season: ["winter"],
+    time: "1h",
+    best: "函館站步行約 2 分鐘、朝市對面、車站用餐備選",
+    desc: "位於函館朝市對面的 Hotel New Ohte 2 樓，函館站步行約 2 分鐘。可作 D8 回站前飯店時的小丑漢堡備選，或 D10 搭機場巴士前的午餐選項。一般 08:00–22:00，餐點最後點餐 21:30；08:00–10:00 只供應漢堡與咖哩。2027 元旦營業待確認，上一年 1/1 曾延至 11:00 開店，不能預設當天 08:00 可吃早餐；候餐需留緩衝。",
+    highlight: "函館站前用餐備選"
+  },
+  {
     id: "hakodate-bugyosho",
     name: "箱館奉行所（五稜郭內）",
     area: "函館",
@@ -1024,6 +1035,12 @@ const spotLogistics = {
     hours: "官方一般營業 09:30–22:00，餐點 L.O. 21:30；2026 年末特別營業待確認",
     access: "函館市五稜郭町30-14，五稜郭塔步行約 1 分鐘；從市電五稜郭公園前站下車後仍需步行至塔旁",
     infoUrl: "https://luckypierrot.jp/shop/goryokaku/",
+    checkedAt: "2026/10/11"
+  },
+  "lucky-pierrot-hakodate-station": {
+    hours: "官方一般 08:00–22:00（餐點 L.O. 21:30）；08:00–10:00 僅漢堡與咖哩。2027/1/1 營業待確認，2026/1/1 曾為 11:00 開店",
+    access: "函館市若松町8-8，Hotel New Ohte 2 樓，1 樓有專用入口；函館站步行約 2 分鐘、朝市對面。D10 用餐後回站前搭機場巴士，請預留候餐、取行李與候車時間",
+    infoUrl: "https://luckypierrot.jp/shop/hakodatest/",
     checkedAt: "2026/10/11"
   },
   "hakodate-bugyosho": {
@@ -2089,6 +2106,10 @@ function getDrivingRouteUrlForStop(day, index, spotId) {
 }
 
 const hakodateTransitLegs = {
+  "8|goryokaku|lucky-pierrot-hakodate-station": "從五稜郭公園步行到五稜郭公園前電停，搭往函館駅前方向的市電，再步行到朝市對面的 Hotel New Ohte 2 樓用餐",
+  "8|lucky-pierrot-hakodate-station|lagent-hakodate-ekimae": "用餐後步行回函館站旁的飯店入住；若行李寄放飯店，先回飯店取行李即可",
+  "10|motomachi|lucky-pierrot-hakodate-station": "元町步行下坡到十字街，搭往函館駅前方向的市電，站前店在朝市對面；元旦營業及候餐時間先確認",
+  "10|lucky-pierrot-hakodate-station|hakodate-station-airport-bus": "從站前店步行返回函館站，取行李後搭機場巴士；目標約 13:15 到月台，2027 元旦班次與月台另確認",
   "8|goryokaku|lucky-pierrot-goryokaku": "從五稜郭塔步行約 1 分鐘到小丑漢堡五稜郭公園前店；公園內出發則先走回塔旁",
   "8|lucky-pierrot-goryokaku|lagent-hakodate-ekimae": "用餐後步行到五稜郭公園前電停，搭往函館駅前方向的市電回飯店入住；大雪或提行李時可改搭計程車",
   "8|goryokaku|lagent-hakodate-ekimae": "從五稜郭公園步行到五稜郭公園前站，搭往函館駅前方向的市電，回飯店辦理入住",
@@ -3513,9 +3534,9 @@ function renderDayAlternative() {
 
 const dayOptionalSpots = {
   2: { title: "D2 夜間備案 · 宮之森教會", ids: ["miyanomori-frances-church"], note: "當晚開放待確認。與大通依時間擇一；加入後仍可調整或移除大通。" },
-  8: { title: "D8 小丑漢堡與五稜郭周邊", ids: ["lucky-pierrot-goryokaku", "hakodate-bugyosho", "rokkatei-goryokaku"], note: "小丑漢堡主安排為五稜郭公園前店，其餘兩處依喜好選一個即可；先寄放行李，留意奉行所與喫茶室的最晚受理時間。" },
+  8: { title: "D8 小丑漢堡與五稜郭周邊", ids: ["lucky-pierrot-goryokaku", "lucky-pierrot-hakodate-station", "hakodate-bugyosho", "rokkatei-goryokaku"], note: "小丑漢堡可選五稜郭公園前店，或回站前再吃；點選站前店會替換當日五稜郭分店。奉行所與六花亭依喜好選一處即可，先寄放行李並留意最晚受理時間。" },
   9: { title: "D9 午夜初詣 · 八幡宮備選", ids: ["hakodate-hachimangu"], note: "主選護國神社。若當晚開放或交通不適合，再切換八幡宮；兩處 2027 初詣時間都需再確認。" },
-  10: { title: "D10 機場巴士 · 13:30 左右參考班次", ids: ["hakodate-station-airport-bus"], note: "2027 元旦班次尚未核實。以下是過往跨年班表參考，不是本次旅行的正式時刻。" }
+  10: { title: "D10 機場巴士與站前用餐備選", ids: ["hakodate-station-airport-bus", "lucky-pierrot-hakodate-station"], note: "2027 元旦班次尚未核實。巴士以 13:30 左右出發為目標，以下為過往跨年班表參考；站前小丑漢堡可作午餐備選，元旦開店時間與候餐須確認。" }
 };
 
 function renderDayOptions() {
@@ -3533,7 +3554,11 @@ function renderDayOptions() {
     const spot = spotById(id);
     const selected = state.plan[day].includes(id);
     const otherDay = Object.keys(state.plan).find((key) => Number(key) !== day && state.plan[key].includes(id));
-    const actionLabel = selected ? "已在當日行程" : day === 9 ? "改用八幡宮備案" : "加入當日行程";
+    let actionLabel = "加入當日行程";
+    if (day === 9) actionLabel = "改用八幡宮備案";
+    if (day === 8 && id === "lucky-pierrot-hakodate-station" && state.plan[day].includes("lucky-pierrot-goryokaku")) actionLabel = "改吃站前店";
+    if (day === 8 && id === "lucky-pierrot-goryokaku" && state.plan[day].includes("lucky-pierrot-hakodate-station")) actionLabel = "改吃五稜郭店";
+    if (selected) actionLabel = "已在當日行程";
     return `<article class="day-option-card">
       <h3>${escapeHtml(spot.name)}</h3>
       <p>${escapeHtml(spot.desc)}</p>
@@ -3554,8 +3579,21 @@ function renderDayOptions() {
       if (day === 9 && stops.includes("hakodate-gokoku-shrine")) {
         stops.splice(stops.indexOf("hakodate-gokoku-shrine"), 1, id);
         recordChange("切換初詣備案", "Day 9：護國神社 → 函館八幡宮");
+      } else if (day === 8 && id === "lucky-pierrot-hakodate-station" && stops.includes("lucky-pierrot-goryokaku")) {
+        stops.splice(stops.indexOf("lucky-pierrot-goryokaku"), 1, id);
+        recordChange("切換小丑漢堡分店", "Day 8：五稜郭公園前店 → 函館站前店");
+      } else if (day === 8 && id === "lucky-pierrot-goryokaku" && stops.includes("lucky-pierrot-hakodate-station")) {
+        stops.splice(stops.indexOf("lucky-pierrot-hakodate-station"), 1, id);
+        recordChange("切換小丑漢堡分店", "Day 8：函館站前店 → 五稜郭公園前店");
       } else {
-        const beforeId = day === 2 ? "sapporo-susukino" : day === 8 ? (stops.includes("lucky-pierrot-goryokaku") ? "lucky-pierrot-goryokaku" : "lagent-hakodate-ekimae") : day === 10 ? "hakodate-airport" : null;
+        let beforeId = null;
+        if (day === 2) beforeId = "sapporo-susukino";
+        if (day === 8) {
+          beforeId = ["lucky-pierrot-goryokaku", "lucky-pierrot-hakodate-station", "lagent-hakodate-ekimae"].find((stopId) => stops.includes(stopId));
+        }
+        if (day === 10) {
+          beforeId = id === "lucky-pierrot-hakodate-station" && stops.includes("hakodate-station-airport-bus") ? "hakodate-station-airport-bus" : "hakodate-airport";
+        }
         const insertion = beforeId ? stops.indexOf(beforeId) : -1;
         stops.splice(insertion < 0 ? stops.length : insertion, 0, id);
         recordChange("加入當日備選", `Day ${day}：${spotById(id).name}`);
