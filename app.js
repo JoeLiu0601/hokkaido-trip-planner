@@ -392,8 +392,8 @@ const spots = [
     season: ["winter"],
     time: "1.5h",
     best: "元旦初詣、祈福、跨年儀式感",
-    desc: "Day 9 午夜初詣備選，主安排為函館護國神社。若護國當晚不開放或交通不適合，再考慮改去八幡宮，不必兩座都跑。2026/12/31–2027/1/1 參拜與授與所時間仍待確認；深夜往返建議預約計程車。",
-    highlight: "D9 初詣備選"
+    desc: "位於谷地頭地區的神社，可依個人喜好安排參拜。2026/12/31–2027/1/1 參拜與授與所時間仍待確認；若深夜前往，請先安排往返交通。",
+    highlight: "谷地頭參拜"
   },
   {
     id: "hakodate-airport",
@@ -850,7 +850,7 @@ const spots = [
     season: ["winter"],
     time: "1h",
     best: "D9 午夜初詣主選、函館山山麓、元町",
-    desc: "Day 9 午夜初詣主選。傍晚先看函館山夜景，再回市區吃飯休息，午夜前前往護國神社；八幡宮保留為備選。神社靠近纜車山麓站，但不必在山上等到跨年。2027 初詣開放、授與所與御朱印時間尚未核實，出發前電話確認；雪夜坡道請注意防滑。",
+    desc: "Day 9 午夜初詣安排。傍晚先看函館山夜景，再回市區吃飯休息，午夜前前往護國神社。神社靠近纜車山麓站，但不必在山上等到跨年。2027 初詣開放、授與所與御朱印時間尚未核實，出發前電話確認；雪夜坡道請注意防滑。",
     highlight: "D9 初詣主選"
   },
   {
@@ -894,7 +894,7 @@ const spots = [
     season: ["winter"],
     time: "0.5–1h",
     best: "D2 晚間備選、宮の森フランセス教会、庭園燈飾",
-    desc: "Day 2 入住 APA 後的夜間備案，與大通活動依時間擇一，不必全部塞入。過往燈飾為 17:00–20:00、免費；2026/12/24 開放、點燈與聖誕活動尚未核實。婚禮或包場可能限制入場，請先電話確認能否一般參觀，勿把婚禮諮詢或甜點店營業時間當成燈飾時間。",
+    desc: "Day 2 天候備案（Plan B）中的夜間安排，接在白色戀人公園後，再到薄野吃飯。過往燈飾為 17:00–20:00、免費；2026/12/24 開放、點燈與聖誕活動尚未核實。婚禮或包場可能限制入場，請先電話確認能否一般參觀；若不開放或時間不足，可略過教會直接前往薄野。",
     highlight: "D2 夜間備案"
   },
   {
@@ -907,6 +907,17 @@ const spots = [
     best: "D8 小丑漢堡、中華雞腿漢堡、五稜郭塔旁",
     desc: "Day 8 五稜郭散步前後吃小丑漢堡，選塔旁的五稜郭公園前店，省去繞往戶倉。可參考中華雞腿漢堡與招牌薯條；餐點現做、熱門時段易排隊，預留候餐時間。2026 年末特別營業仍需出發前確認。",
     highlight: "D8 五稜郭用餐"
+  },
+  {
+    id: "hachimanzaka",
+    name: "八幡坂",
+    area: "函館",
+    type: "街景・拍照",
+    season: ["winter"],
+    time: "0.5h",
+    best: "D8 第一站、坂頂港景、摩周丸、雪景",
+    desc: "排在 Day 8 最上方。從坂頂公共步道向下看，筆直的坡道通往函館港，正面可見摩周丸；可預留約 20–30 分鐘散步拍照（行程估計）。冬季街樹有燈飾，2026–2027 點燈日期與時間需另確認。走兩側步道並注意防滑，拍照不站車道，也不進入高校或私人土地。",
+    highlight: "D8 坂道港景"
   },
   {
     id: "lucky-pierrot-hakodate-station",
@@ -993,13 +1004,14 @@ const winterTemplate = {
   5: ["unagi-nakajima", "moiwa-yama"],
   6: ["sapporo-beer-museum", "ario-sapporo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"],
   7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view", "toya-kohan-tei"],
-  8: ["goryokaku", "lucky-pierrot-goryokaku", "lagent-hakodate-ekimae"],
+  8: ["hachimanzaka", "goryokaku", "lucky-pierrot-goryokaku", "lagent-hakodate-ekimae"],
   9: ["kanemori-warehouse", "hakodate-mt", "hakodate-gokoku-shrine"],
   10: ["morning-market", "motomachi", "hakodate-station-airport-bus", "hakodate-airport"]
 };
 
 const legacyDayTwoBackup = ["sapporo-odori", "shiroi-koibito-park", "sapporo-susukino"];
-const dayTwoBackup = ["sunagawa-highway-oasis", "apa-sapporo-susukino-ekinishi", "shiroi-koibito-park", "sapporo-susukino"];
+const previousDayTwoBackup = ["sunagawa-highway-oasis", "apa-sapporo-susukino-ekinishi", "shiroi-koibito-park", "sapporo-susukino"];
+const dayTwoBackup = ["sunagawa-highway-oasis", "apa-sapporo-susukino-ekinishi", "shiroi-koibito-park", "miyanomori-frances-church", "sapporo-susukino"];
 
 const winterProfile = {
   label: "12/23-1/1",
@@ -1012,22 +1024,28 @@ const tripDates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29"
 
 const daySummaries = {
   1: "從新千歲機場入境、取車後前往旭川。入住後先到旭川站前補雪靴或防滑鞋，再視體力安排常磐公園、上川神社和平和通散步。",
-  2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌。先到 APA 飯店入住，再逛大通與薄野；宮之森佛朗西斯教會列夜間備案，先確認當晚能否參觀。",
+  2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌。先到 APA 飯店入住，再逛大通與薄野；天候備案另列白色戀人公園與宮之森佛朗西斯教會。",
   3: "上午安排札幌神社巡禮，接著前往小樽吃午餐、走運河、逛玻璃店與童話十字路。",
   4: "從札幌前往登別，走完地獄谷後逛溫泉街，再到室蘭天勝本店吃天丼，下午安排白鳥大橋展望台和幸福之鐘。",
   5: "札幌自由活動日，中午先吃鰻魚飯，傍晚再上藻岩山看夜景。",
   6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
   7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡，再到 Toya Kohan Tei 入住。",
-  8: "從洞爺湖開車到函館並還車，寄放行李後以市區交通前往五稜郭，在塔旁的小丑漢堡用餐，再到 La'gent Stay Hakodate Ekimae 入住。箱館奉行所與六花亭列周邊備選，依時間選一個即可。",
-  9: "白天走金森倉庫，提早上函館山看夜景；回市區吃飯休息後，午夜初詣以護國神社為主、八幡宮備選。當年夜間開放與深夜往返交通仍需確認。",
+  8: "從洞爺湖開車到函館並還車，寄放行李後先到八幡坂拍港景，再搭市電前往五稜郭，在塔旁的小丑漢堡用餐，最後到 La'gent Stay Hakodate Ekimae 入住。站前小丑漢堡、箱館奉行所與六花亭可從景點庫選用。",
+  9: "白天走金森倉庫，提早上函館山看夜景；回市區吃飯休息後，午夜前往護國神社初詣。當年夜間開放與深夜往返交通仍需確認。",
   10: "元旦先確認朝市是否營業，再走元町，回函館站取行李，目標 13:30 左右搭機場巴士。參考車程約 20 分鐘；2027 元旦班次待確認。小丑漢堡已移到 D8，回程 JX861 為 18:00。"
 };
 
 // 未個別標示日期的票券於 2026/10/6（Asia/Taipei）查核；金額為成人一般票價、日圓。
 const spotLogistics = {
+  hachimanzaka: {
+    hours: "戶外坂道，白天可拍港景；2026–2027 冬季燈飾檔期與時間待確認",
+    access: "市電末廣町下車，官方列步行約 1 分鐘到八幡坂；拍攝坂頂港景仍需沿步道上坡。從函館站搭往函館どつく前方向的市電，雪地請預留步行緩衝",
+    infoUrl: "https://www.hakobura.jp/spots/478",
+    checkedAt: "2026/10/11"
+  },
   "miyanomori-frances-church": {
     hours: "2026/12/24 夜間點燈與一般參觀待確認；前一季 17:00–20:00 僅供參考，婚禮／包場可能不開放",
-    access: "地址：札幌市中央区宮の森3条10丁目3-25。D2 入住後再視路況前往，與大通擇一；電話 011-633-1111",
+    access: "地址：札幌市中央区宮の森3条10丁目3-25。D2 Plan B 接在白色戀人公園之後，參觀前先確認當晚是否開放，之後到薄野；電話 011-633-1111",
     infoUrl: "https://www.j-mfc.com/",
     checkedAt: "2026/10/11"
   },
@@ -1448,6 +1466,7 @@ const drivingStartHotels = {
 };
 
 const drivingPlaceOverrides = {
+  "miyanomori-frances-church": "札幌市中央区宮の森3条10丁目3-25 宮の森フランセス教会",
   "nippon-rentacar-new-chitose": "北海道千歳市美々758-136 ニッポンレンタカー新千歳空港営業所",
   "moiwa-yama": "もいわ山ロープウェイ山麓駅 札幌 北海道"
 };
@@ -1474,8 +1493,10 @@ const mealPlanKey = "hokkaido-trip-planner-meals";
 const planTemplateVersionKey = "hokkaido-trip-planner-plan-template-version";
 const previousPlanTemplateVersions = ["2026-08-17-otaru-naruto", "2026-09-21-winter-shopping", "2026-09-22-day5-unagi", "2026-09-22-day5-unagi-lunch", "2026-09-22-day4-noboribetsu-onsen-street", "2026-09-22-day4-tenkatsu-lunch", "2026-09-22-hakodate-new-year"];
 const hotelCheckInTemplateVersion = "2026-09-30-hotel-checkins";
-previousPlanTemplateVersions.push(hotelCheckInTemplateVersion);
-const currentPlanTemplateVersion = "2026-10-11-hakodate-options";
+const itineraryOptionsTemplateVersion = "2026-10-11-hakodate-options";
+const dayEightRoutingTemplateVersion = "2026-10-11-day8-hachimanzaka";
+previousPlanTemplateVersions.push(hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion);
+const currentPlanTemplateVersion = "2026-10-11-day2-day8-routing";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -1708,6 +1729,29 @@ function migrateHakodateOptions(plan) {
   return changed;
 }
 
+function migrateDayEightHachimanzaka(plan) {
+  const spotId = "hachimanzaka";
+  let changed = false;
+  // Apply this requested move once, while preserving all other stops and their order.
+  Object.keys(plan).forEach((key) => {
+    if (Number(key) === 8 || !plan[key].includes(spotId)) return;
+    plan[key] = plan[key].filter((id) => id !== spotId);
+    changed = true;
+  });
+  if (plan[8][0] !== spotId || plan[8].filter((id) => id === spotId).length !== 1) {
+    plan[8] = [spotId, ...plan[8].filter((id) => id !== spotId)];
+    changed = true;
+  }
+  return changed;
+}
+
+function migrateDayTwoChurchBackup(plan) {
+  if (!planStopsEqual(plan[2], previousDayTwoBackup)) return false;
+  if (Object.entries(plan).some(([day, stops]) => Number(day) !== 2 && stops.includes("miyanomori-frances-church"))) return false;
+  plan[2] = [...dayTwoBackup];
+  return true;
+}
+
 function loadPlan() {
   const snapshot = loadLocalSnapshot();
   const stored = snapshot ? JSON.stringify(snapshot.plan) : readLocalStorage(storageKey);
@@ -1735,9 +1779,11 @@ function loadPlan() {
         return !planStopsEqual(Array.isArray(parsed[day]) ? parsed[day] : [], plan[day]);
       });
       // The 9/30 template already had check-ins. Do not run older hotel/AEON insertion again.
-      const legacyChanged = storedTemplateVersion !== hotelCheckInTemplateVersion && migratePreviousTemplate(plan);
-      const optionsChanged = migrateHakodateOptions(plan);
-      const migrationChanged = legacyChanged || optionsChanged;
+      const legacyChanged = ![hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion].includes(storedTemplateVersion) && migratePreviousTemplate(plan);
+      const optionsChanged = ![itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion].includes(storedTemplateVersion) && migrateHakodateOptions(plan);
+      const dayEightChanged = storedTemplateVersion !== dayEightRoutingTemplateVersion && migrateDayEightHachimanzaka(plan);
+      const dayTwoChanged = migrateDayTwoChurchBackup(plan);
+      const migrationChanged = legacyChanged || optionsChanged || dayEightChanged || dayTwoChanged;
       loadedPlanNeedsSync = normalizedChanged || migrationChanged;
     }
 
@@ -2106,6 +2152,7 @@ function getDrivingRouteUrlForStop(day, index, spotId) {
 }
 
 const hakodateTransitLegs = {
+  "8|hachimanzaka|goryokaku": "八幡坂沿步道下坡返回末廣町電停，搭往湯の川方向的市電到五稜郭公園前，再步行到五稜郭；冬季候車與雪地步行請留緩衝",
   "8|goryokaku|lucky-pierrot-hakodate-station": "從五稜郭公園步行到五稜郭公園前電停，搭往函館駅前方向的市電，再步行到朝市對面的 Hotel New Ohte 2 樓用餐",
   "8|lucky-pierrot-hakodate-station|lagent-hakodate-ekimae": "用餐後步行回函館站旁的飯店入住；若行李寄放飯店，先回飯店取行李即可",
   "10|motomachi|lucky-pierrot-hakodate-station": "元町步行下坡到十字街，搭往函館駅前方向的市電，站前店在朝市對面；元旦營業及候餐時間先確認",
@@ -2127,6 +2174,9 @@ const hakodateTransitLegs = {
 
 function getHakodateTransitInfo(day, index, spotId, dayStops) {
   if (day === 8 && index === 0) {
+    if (spotId === "hachimanzaka") {
+      return "從洞爺湖自駕抵達函館並還車，先寄放行李；由函館駅前搭往函館どつく前方向的市電到末廣町，再步行前往八幡坂。拍坂頂港景需上坡，雪地請慢走";
+    }
     return spotId === "goryokaku"
       ? "從洞爺湖自駕抵達函館並還車；若從函館駅前出發，搭往湯の川方向的市電到五稜郭公園前，再步行約 18 分鐘。回飯店可搭反方向市電返回函館駅前"
       : "從洞爺湖自駕抵達函館並還車；後續交通請依還車地點查市電／巴士／步行路線";
@@ -3499,8 +3549,9 @@ function renderDayAlternative() {
       <button type="button" class="small-button" data-alternative="A" aria-pressed="${!backup}">原行程</button>
       <button type="button" class="small-button" data-alternative="B" aria-pressed="${backup}">Plan B · 札幌景點版</button>
     </div>
-    <p>${backup ? "假設不幸遇到火山活動或道路管制，導致美瑛、富良野支線無法通行，就切換 Plan B：從旭川出發，途中在砂川 Highway Oasis 休息補給，抵達札幌先到 APA 飯店入住，再前往白色戀人公園，晚上在薄野吃飯。" : "保留美瑛、富良野的安排，再前往札幌；若曾套用備案，這裡會還原切換前的景點順序。"}</p>
+    <p>${backup ? "假設不幸遇到火山活動或道路管制，導致美瑛、富良野支線無法通行，就切換 Plan B：從旭川出發，途中在砂川 Highway Oasis 休息補給，抵達札幌先到 APA 飯店入住，再前往白色戀人公園、宮之森佛朗西斯教會，最後到薄野吃飯。" : "保留美瑛、富良野的安排，再前往札幌；若曾套用備案，這裡會還原切換前的景點順序。"}</p>
     <p class="alternative-route">${ids.map((id) => escapeHtml(spotById(id).name)).join(" → ") || "尚未安排景點"}</p>
+    ${backup ? `<p>宮之森教會 2026/12/24 點燈與一般參觀仍待確認；婚禮或包場可能不開放，先電話確認。若時間不足或不能入場，略過教會直接到薄野。</p>` : ""}
     <p>遇封路或不適合開車時，先留在安全地點確認交通狀況。餐食安排會保留，切換後請檢查餐廳地點。</p>
     <p>原行程備份保留在這台裝置，套用後的行程照常同步。</p>
     <button type="button" class="small-button" id="apply-day-alternative" ${applied ? "disabled" : ""}>${applied ? "目前已套用此方案" : backup ? "套用 Plan B" : "還原原行程"}</button>`;
@@ -3533,9 +3584,6 @@ function renderDayAlternative() {
 }
 
 const dayOptionalSpots = {
-  2: { title: "D2 夜間備案 · 宮之森教會", ids: ["miyanomori-frances-church"], note: "當晚開放待確認。與大通依時間擇一；加入後仍可調整或移除大通。" },
-  8: { title: "D8 小丑漢堡與五稜郭周邊", ids: ["lucky-pierrot-goryokaku", "lucky-pierrot-hakodate-station", "hakodate-bugyosho", "rokkatei-goryokaku"], note: "小丑漢堡可選五稜郭公園前店，或回站前再吃；點選站前店會替換當日五稜郭分店。奉行所與六花亭依喜好選一處即可，先寄放行李並留意最晚受理時間。" },
-  9: { title: "D9 午夜初詣 · 八幡宮備選", ids: ["hakodate-hachimangu"], note: "主選護國神社。若當晚開放或交通不適合，再切換八幡宮；兩處 2027 初詣時間都需再確認。" },
   10: { title: "D10 機場巴士與站前用餐備選", ids: ["hakodate-station-airport-bus", "lucky-pierrot-hakodate-station"], note: "2027 元旦班次尚未核實。巴士以 13:30 左右出發為目標，以下為過往跨年班表參考；站前小丑漢堡可作午餐備選，元旦開店時間與候餐須確認。" }
 };
 
@@ -3555,9 +3603,6 @@ function renderDayOptions() {
     const selected = state.plan[day].includes(id);
     const otherDay = Object.keys(state.plan).find((key) => Number(key) !== day && state.plan[key].includes(id));
     let actionLabel = "加入當日行程";
-    if (day === 9) actionLabel = "改用八幡宮備案";
-    if (day === 8 && id === "lucky-pierrot-hakodate-station" && state.plan[day].includes("lucky-pierrot-goryokaku")) actionLabel = "改吃站前店";
-    if (day === 8 && id === "lucky-pierrot-goryokaku" && state.plan[day].includes("lucky-pierrot-hakodate-station")) actionLabel = "改吃五稜郭店";
     if (selected) actionLabel = "已在當日行程";
     return `<article class="day-option-card">
       <h3>${escapeHtml(spot.name)}</h3>
@@ -3576,28 +3621,13 @@ function renderDayOptions() {
       const id = button.dataset.dayOption;
       if (state.plan[day].includes(id) || Object.keys(state.plan).some((key) => Number(key) !== day && state.plan[key].includes(id))) return;
       const stops = state.plan[day];
-      if (day === 9 && stops.includes("hakodate-gokoku-shrine")) {
-        stops.splice(stops.indexOf("hakodate-gokoku-shrine"), 1, id);
-        recordChange("切換初詣備案", "Day 9：護國神社 → 函館八幡宮");
-      } else if (day === 8 && id === "lucky-pierrot-hakodate-station" && stops.includes("lucky-pierrot-goryokaku")) {
-        stops.splice(stops.indexOf("lucky-pierrot-goryokaku"), 1, id);
-        recordChange("切換小丑漢堡分店", "Day 8：五稜郭公園前店 → 函館站前店");
-      } else if (day === 8 && id === "lucky-pierrot-goryokaku" && stops.includes("lucky-pierrot-hakodate-station")) {
-        stops.splice(stops.indexOf("lucky-pierrot-hakodate-station"), 1, id);
-        recordChange("切換小丑漢堡分店", "Day 8：函館站前店 → 五稜郭公園前店");
-      } else {
-        let beforeId = null;
-        if (day === 2) beforeId = "sapporo-susukino";
-        if (day === 8) {
-          beforeId = ["lucky-pierrot-goryokaku", "lucky-pierrot-hakodate-station", "lagent-hakodate-ekimae"].find((stopId) => stops.includes(stopId));
-        }
-        if (day === 10) {
-          beforeId = id === "lucky-pierrot-hakodate-station" && stops.includes("hakodate-station-airport-bus") ? "hakodate-station-airport-bus" : "hakodate-airport";
-        }
-        const insertion = beforeId ? stops.indexOf(beforeId) : -1;
-        stops.splice(insertion < 0 ? stops.length : insertion, 0, id);
-        recordChange("加入當日備選", `Day ${day}：${spotById(id).name}`);
+      let beforeId = null;
+      if (day === 10) {
+        beforeId = id === "lucky-pierrot-hakodate-station" && stops.includes("hakodate-station-airport-bus") ? "hakodate-station-airport-bus" : "hakodate-airport";
       }
+      const insertion = beforeId ? stops.indexOf(beforeId) : -1;
+      stops.splice(insertion < 0 ? stops.length : insertion, 0, id);
+      recordChange("加入當日備選", `Day ${day}：${spotById(id).name}`);
       state.summaryMode = "day";
       markDirty();
       render();
@@ -4128,7 +4158,7 @@ function renderSummary() {
     dom.focusTitle.textContent = `Day ${day} · ${tripDates[day - 1]}`;
     dom.focusDesc.textContent = daySpots.length
       ? (day === 2 && isDayTwoBackup()
-          ? "Plan B：假設美瑛、富良野方向因火山活動或道路管制無法通行，從旭川出發，途中在砂川 Highway Oasis 休息補給。抵達札幌先到 APA 飯店入住，再前往白色戀人公園，晚上到薄野吃飯。"
+          ? "Plan B：假設美瑛、富良野方向因火山活動或道路管制無法通行，從旭川出發，途中在砂川 Highway Oasis 休息補給。抵達札幌先到 APA 飯店入住，再走白色戀人公園、宮之森佛朗西斯教會，最後到薄野吃飯；教會當晚開放需先確認。"
           : JSON.stringify(state.plan[day]) === JSON.stringify(winterTemplate[day])
             ? daySummaries[day]
             : `從${dayBaseAreas[day]}出發，安排${dayAreas.join("、")}共 ${daySpots.length} 個點位，包含${[...new Set(daySpots.map((spot) => spot.type))].slice(0, 3).join("、")}。`)
