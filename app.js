@@ -401,10 +401,21 @@ const spots = [
     area: "函館",
     type: "歷史景點",
     season: ["winter"],
-    time: "2h",
-    best: "星形城郭、百萬夜景、展望塔",
-    desc: "公園可散步看雪景，登五稜郭塔則能俯瞰完整星形城郭。安排在 Day 8；2026–2027 冬季點燈日期仍需確認官方公告。",
-    highlight: "百萬夜景"
+    time: "1h",
+    best: "星形城郭、雪景、護城河散步",
+    desc: "沿星形城郭與護城河散步看雪景，公園散策免費。想從高處看完整星形，可另外加入五稜郭塔。2026–2027 冬季點燈日期仍需確認官方公告。",
+    highlight: "星形城郭散步"
+  },
+  {
+    id: "goryokaku-tower",
+    name: "五稜郭塔",
+    area: "函館",
+    type: "展望台",
+    season: ["winter"],
+    time: "1h",
+    best: "星形城郭全景、雪景、室內展望台",
+    desc: "從室內展望台俯瞰五稜郭完整星形與函館市景，適合搭配公園散步，預留約 45–60 分鐘（停留估計，排隊另計）。成人 ¥1,200；09:00–18:00，17:50 停售展望票，建議提早抵達。年末特別公告與冬季點燈日期請出發前再確認。",
+    highlight: "俯瞰完整星形"
   },
   {
     id: "hakodate-mt",
@@ -811,13 +822,13 @@ const spots = [
   },
   {
     id: "muroran-hakucho-bridge-view",
-    name: "室蘭白鳥大橋展望台",
+    name: "白鳥大橋（祝津公園展望台）",
     area: "室蘭",
     type: "展望台",
     season: ["winter"],
-    time: "1h",
+    time: "0.5h",
     best: "白鳥大橋、港灣、工場夜景",
-    desc: "可眺望白鳥大橋與室蘭港灣的展望點，適合接在登別地獄谷後，當作札幌返回前的海港景觀停留。",
+    desc: "目的地：祝津公園展望台（室蘭市祝津町3丁目）。可眺望白鳥大橋、港灣與工場景觀，設有免費停車場，適合自駕短停約 20–30 分鐘。冬季先確認進場道路與步道積雪、結冰情況。",
     highlight: "室蘭港景"
   },
   {
@@ -828,7 +839,7 @@ const spots = [
     season: ["winter"],
     time: "0.5h",
     best: "拍照、海景、短暫停留",
-    desc: "適合放在室蘭展望行程中的小停留點，停留時間不用長，主要作為 Day4 登別與室蘭之間的輕量拍照點。",
+    desc: "目的地：地球岬展望台（室蘭市母戀南町4丁目），幸福之鐘就在展望區內，可一併欣賞太平洋海景與燈塔。使用地球岬停車場，普通車目前 ¥500；停車後仍需步行上展望區，冬季留意坡道、階梯結冰與海風。",
     highlight: "短停拍照"
   },
   {
@@ -1059,7 +1070,7 @@ const daySummaries = {
   1: "從新千歲機場入境、取車後前往旭川。入住後先到旭川站前補雪靴或防滑鞋，再視體力安排常磐公園、上川神社和平和通散步。",
   2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌。先到 APA 飯店入住，再逛大通與薄野；天候備案另列白色戀人公園與宮之森佛朗西斯教會。",
   3: "上午安排札幌神社巡禮，接著前往小樽吃午餐、走運河、逛玻璃店與童話十字路。",
-  4: "從札幌前往登別，走地獄谷與溫泉街，再前往室蘭安排天勝、白鳥大橋展望台和幸福之鐘。登別閻魔炒麵、海鮮料理與喫茶田園甜點可參考下方備選；若在登別用正餐，再調整天勝安排。",
+  4: "從札幌前往登別，走地獄谷與溫泉街，再前往室蘭看白鳥大橋（祝津公園展望台）與地球岬的幸福之鐘。午餐可依當天喜好選登別溫泉街或室蘭天勝；登別閻魔炒麵、海鮮料理與喫茶田園甜點可參考下方備選。",
   5: "上午在中島公園散步看雪景，中午吃鰻魚飯，下午自由休息，傍晚再上藻岩山看夜景。",
   6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
   7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡，再到 Toya Kohan Tei 入住。",
@@ -1369,12 +1380,16 @@ const spotLogistics = {
     checkedAt: "2026/10/11"
   },
   "muroran-hakucho-bridge-view": {
-    hours: "展望區通常可自由停留；夜景與冬季路況需注意安全",
-    access: "室蘭 IC 往白鳥大橋方向，自駕較方便；白鳥灣展望台也可由崎守站步行約 16 分鐘"
+    hours: "戶外展望點；冬季開放與進場路況以現場公告為準",
+    access: "導航目的地：祝津公園展望台，室蘭市祝津町3丁目。設有免費停車場，停車後步行至展望區；冬季請確認道路與步道狀況。",
+    infoUrl: "https://muro-kanko.com/night/syukuzu.html",
+    checkedAt: "2026/10/12"
   },
   "happiness-bell": {
     hours: "戶外拍照點通常可自由停留；冬季以現場路況為準",
-    access: "建議與室蘭白鳥大橋展望行程一起自駕短停"
+    access: "導航目的地：地球岬展望台，室蘭市母戀南町4丁目。停地球岬停車場後步行至展望區與幸福之鐘；普通車目前 ¥500，冬季積雪、結冰與開放狀況另確認。",
+    infoUrl: "https://www.city.muroran.lg.jp/content/?content=1559",
+    checkedAt: "2026/10/12"
   },
   "tenkatsu-honten-muroran": {
     hours: "常見平日 11:00-18:00、週末及假日 11:00-18:30；週四休息，售完可能提早結束",
@@ -1398,11 +1413,19 @@ const spotLogistics = {
     access: "導航時確認目的地是展望台，不是散策路入口；冬季先確認道路除雪、停車及展望台營業資訊"
   },
   "goryokaku": {
-    tickets: "公園免費；五稜郭塔成人 ¥1,200",
-    ticketNotes: "公園散步不需門票；登塔可現場購票或購買便利商店前售票，公園內其他收費設施另計。",
-    ticketUrl: "https://www.goryokaku-tower.co.jp/price/",
-    hours: "公園全天可走；展望塔常見 09:00-18:00",
+    tickets: "公園散策免費；展望塔與公園內其他收費設施另計",
+    ticketNotes: "登塔票價與開放時間請查看獨立的「五稜郭塔」景點。",
+    hours: "外圍散策與園內區域開放時間不同，冬季以現場公告為準",
     access: "函館市電五稜郭公園前站下車後，步行至五稜郭公園約 18 分鐘；也可另查五稜郭塔前接駁巴士"
+  },
+  "goryokaku-tower": {
+    tickets: "成人 ¥1,200；國中／高中生 ¥900；小學生 ¥600；未就學兒童免費",
+    ticketNotes: "可現場購票或購買便利商店前售票；公園散步不含登塔，兩者可分開安排。",
+    ticketUrl: "https://www.goryokaku-tower.co.jp/price/",
+    infoUrl: "https://www.goryokaku-tower.co.jp/",
+    checkedAt: "2026/10/12",
+    hours: "09:00–18:00，17:50 停售展望票；官方目前列年中無休，特別公告另查",
+    access: "函館市五稜郭町43-9，位於五稜郭公園入口旁；市電五稜郭公園前站下車後步行前往，雪地需留緩衝。塔無一般汽車專用停車場，使用周邊收費停車場。"
   },
   "ajisai-honten-hakodate": {
     hours: "官方營業 11:00-20:25（L.O.）；第 4 個週三休息，遇假日改翌平日",
@@ -1540,6 +1563,8 @@ const drivingStartHotels = {
 };
 
 const drivingPlaceOverrides = {
+  "muroran-hakucho-bridge-view": "祝津公園展望台 室蘭市祝津町3丁目 北海道",
+  "happiness-bell": "地球岬展望台 室蘭市母恋南町4丁目 北海道",
   "miyanomori-frances-church": "札幌市中央区宮の森3条10丁目3-25 宮の森フランセス教会",
   "nippon-rentacar-new-chitose": "北海道千歳市美々758-136 ニッポンレンタカー新千歳空港営業所",
   "moiwa-yama": "もいわ山ロープウェイ山麓駅 札幌 北海道"
@@ -1549,8 +1574,8 @@ const unspecifiedDrivingStops = new Set([
   "asahikawa-heiwa-dori", "sapporo-odori", "sapporo-susukino", "otaru-canal",
   "otaru-sakaimachi", "otaru-meruhen-crossing", "furano-field", "yotei-mountain",
   "toyako-lake", "noboribetsu-onsen-street", "soup-curry", "sapporo-ramen-yokocho",
-  "kinotoya-bake-pole-town", "3coins-pole-town", "muroran-hakucho-bridge-view",
-  "happiness-bell", "makkari-village", "konpira-crater-view", "motomachi"
+  "kinotoya-bake-pole-town", "3coins-pole-town",
+  "makkari-village", "konpira-crater-view", "motomachi"
 ]);
 
 const knownWalkingLegs = {
@@ -2184,7 +2209,7 @@ function recordChange(summary, detail = "") {
 }
 
 function getMapUrl(spot) {
-  const query = `${spot.name} ${spot.area} 北海道`;
+  const query = drivingPlaceOverrides[spot.id] || `${spot.name} ${spot.area} 北海道`;
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
@@ -2241,6 +2266,9 @@ const hakodateTransitLegs = {
   "10|motomachi|lucky-pierrot-hakodate-station": "元町步行下坡到十字街，搭往函館駅前方向的市電，站前店在朝市對面；元旦營業及候餐時間先確認",
   "10|lucky-pierrot-hakodate-station|hakodate-station-airport-bus": "從站前店步行返回函館站，取行李後搭機場巴士；目標約 13:15 到月台，2027 元旦班次與月台另確認",
   "8|goryokaku|lucky-pierrot-goryokaku": "從五稜郭塔步行約 1 分鐘到小丑漢堡五稜郭公園前店；公園內出發則先走回塔旁",
+  "8|goryokaku|goryokaku-tower": "從五稜郭公園走回入口旁的五稜郭塔，依散步位置預留步行時間；17:50 停售展望票，請提早抵達",
+  "8|goryokaku-tower|goryokaku": "下塔後步行進五稜郭公園散策，雪地步行留意防滑",
+  "8|goryokaku-tower|lucky-pierrot-goryokaku": "從五稜郭塔步行約 1 分鐘到小丑漢堡五稜郭公園前店",
   "8|lucky-pierrot-goryokaku|lagent-hakodate-ekimae": "用餐後步行到五稜郭公園前電停，搭往函館駅前方向的市電回飯店入住；大雪或提行李時可改搭計程車",
   "8|goryokaku|lagent-hakodate-ekimae": "從五稜郭公園步行到五稜郭公園前站，搭往函館駅前方向的市電，回飯店辦理入住",
   "9|kanemori-warehouse|hakodate-mt": "由金森倉庫步行上坡到函館山纜車山麓站，積雪時可改搭計程車。建議 16:00 前到站，先確認 12/31 特別末班與風雪停駛狀況",
