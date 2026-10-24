@@ -7,7 +7,7 @@ const spots = [
     season: ["winter"],
     time: "0h",
     best: "抵達北海道第一步",
-    desc: "12/23 抵達新千歲機場，搭車前往旭川，車程約 2.5 小時。途中可在高速公路服務區稍作停留。",
+    desc: "12/23 搭長榮 BR166，預計日本時間 11:00 抵達新千歲機場。入境、領行李與取車後前往旭川；本版先為冬季行車、服務區午餐與休息合計預留約 3.5 小時，雪天可能更久。",
     highlight: "旅程起點"
   },
   {
@@ -1067,7 +1067,7 @@ const winterProfile = {
 const tripDates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29", "12/30", "12/31", "1/1"];
 
 const daySummaries = {
-  1: "從新千歲機場入境、取車後前往旭川。入住後先到旭川站前補雪靴或防滑鞋，再視體力安排常磐公園、上川神社和平和通散步。",
+  1: "11:00 抵達新千歲機場，入境、取車後前往旭川，途中簡單午餐與休息。先試排約 16:45 入住、17:15 採買雪靴、18:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。",
   2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌。先到 APA 飯店入住，再逛大通與薄野；天候備案另列白色戀人公園與宮之森佛朗西斯教會。",
   3: "上午安排札幌神社巡禮，接著前往小樽吃午餐、走運河、逛玻璃店與童話十字路。",
   4: "從札幌前往登別，走地獄谷與溫泉街，再前往室蘭看白鳥大橋（祝津公園展望台）與地球岬的幸福之鐘。午餐可依當天喜好選登別溫泉街或室蘭天勝；登別閻魔炒麵、海鮮料理與喫茶田園甜點可參考下方備選。",
@@ -1078,6 +1078,52 @@ const daySummaries = {
   9: "白天先逛八幡坂與金森倉庫，提早上函館山看夜景；回市區吃飯休息後，午夜前往護國神社初詣。當年夜間開放與深夜往返交通仍需確認。",
   10: "元旦先確認朝市是否營業，再走元町，回函館站取行李，目標 13:30 左右搭機場巴士。參考車程約 20 分鐘；2027 元旦班次待確認。小丑漢堡已移到 D8，回程 JX861 為 18:00。"
 };
+
+const dayOneTimingDraft = {
+  "new-chitose-airport": {
+    time: "11:00–12:15",
+    duration: "約 75 分",
+    note: "BR166 預計 11:00 抵達；預留入境、領行李與前往租車櫃台的時間。"
+  },
+  "nippon-rentacar-new-chitose": {
+    time: "12:15–13:15",
+    duration: "約 1 小時",
+    note: "先在機場櫃台報到，再搭接駁車取車、確認雪胎與操作。接駁單程約 10–15 分鐘，等車與手續另留時間。"
+  },
+  "premier-cabin-asahikawa": {
+    time: "16:45–17:15",
+    duration: "約 30 分",
+    note: "13:15–16:45 先抓開車至旭川，含約 30 分鐘服務區午餐與休息。抵達後停車、入住、放行李；下雪或塞車就順延。",
+    navigationMode: "driving"
+  },
+  "aeon-mall-asahikawa-ekimae": {
+    time: "17:15–18:15",
+    duration: "約 1 小時",
+    note: "步行到站前 AEON，先買雪靴、防滑鞋與保暖配件；時間含往返站前的步行緩衝。",
+    navigationMode: "walking"
+  },
+  "tokiwa-park": {
+    time: "彈性 · 約 20–30 分鐘",
+    duration: "約 20–30 分",
+    note: "有精神、天候好再短暫散步，不必排在晚餐前；晚上天黑、路滑或太冷就略過。",
+    optional: true,
+    navigationMode: "walking"
+  },
+  "kamikawa-shrine": {
+    time: "彈性 · 約 20–30 分鐘",
+    duration: "約 20–30 分",
+    note: "較早到旭川時才考慮。若要買御守，先確認授與所時間；傍晚後抵達就略過，不必為了這站再趕路。",
+    optional: true,
+    navigationMode: "driving"
+  },
+  "asahikawa-heiwa-dori": {
+    time: "18:15–19:45",
+    duration: "約 1.5 小時",
+    note: "散步找晚餐，餐廳當天再決定；排隊就延後。約 19:45 後回飯店泡湯、休息，戶外散步隨體力決定。",
+    navigationMode: "walking"
+  }
+};
+const dayOneTimedStopIds = Object.keys(dayOneTimingDraft).filter((id) => !dayOneTimingDraft[id].optional);
 
 // 未個別標示日期的票券於 2026/10/6（Asia/Taipei）查核；金額為成人一般票價、日圓。
 const spotLogistics = {
@@ -1127,11 +1173,13 @@ const spotLogistics = {
   },
   "new-chitose-airport": {
     hours: "機場主體約 06:00-23:00（航班時段可能更早/更晚）",
-    access: "JR 快速列車可到札幌；自駕取車後走道央道往旭川約 2.5-3 小時"
+    access: "取車後走道央道往旭川；D1 試排為冬季行車、服務區午餐與休息合計留約 3.5 小時，風雪時可能更久"
   },
   "nippon-rentacar-new-chitose": {
-    hours: "常見 07:00-22:00；11-3月常見 07:00-21:00，年末年始可能縮短",
-    access: "抵達後到國內線 1F 到着口3附近租車櫃台報到，再搭接駁車到營業所，單程約 10-15 分鐘"
+    hours: "官方公告 2026/11/1–12/30 為 07:00–21:00；2026/12/31–2027/1/1 為 07:00–20:00",
+    access: "抵達後到國內線 1F 到着口3附近租車櫃台報到，再搭接駁車到營業所，單程約 10–15 分鐘；這段搭接駁，不需自行走到營業所",
+    infoUrl: "https://store.nipponrentacar.co.jp/b/nrs/info/810034/",
+    checkedAt: "2026/10/12"
   },
   "premier-cabin-asahikawa": {
     hours: "一般入住 15:00 起、退房 11:00 前；會員或訂房方案可能有不同時間",
@@ -1565,6 +1613,11 @@ const drivingStartHotels = {
 };
 
 const drivingPlaceOverrides = {
+  "premier-cabin-asahikawa": "プレミアホテル-CABIN-旭川 北海道旭川市1条通7丁目",
+  "aeon-mall-asahikawa-ekimae": "イオンモール旭川駅前 旭川 北海道",
+  "asahikawa-heiwa-dori": "旭川平和通買物公園 旭川駅前 北海道",
+  "tokiwa-park": "常磐公園 旭川 北海道",
+  "kamikawa-shrine": "上川神社 旭川 神楽岡公園 北海道",
   "muroran-hakucho-bridge-view": "祝津公園展望台 室蘭市祝津町3丁目 北海道",
   "happiness-bell": "地球岬展望台 室蘭市母恋南町4丁目 北海道",
   "miyanomori-frances-church": "札幌市中央区宮の森3条10丁目3-25 宮の森フランセス教会",
@@ -2015,6 +2068,7 @@ const dom = {
   searchInput: document.getElementById("search-input"),
   dayTabs: document.getElementById("day-tabs"),
   itineraryList: document.getElementById("itinerary-list"),
+  dayTimingDraft: document.getElementById("day-timing-draft"),
   itineraryDropzone: document.getElementById("itinerary-dropzone"),
   spotGrid: document.getElementById("spot-grid"),
   spotAreaTabs: document.getElementById("spot-area-tabs"),
@@ -2215,6 +2269,56 @@ function getMapUrl(spot) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
+function getDayOneNavigationMode(spotId) {
+  return dayOneTimingDraft[spotId]?.navigationMode
+    || (["ginneko-asahikawa", "jiyuken-asahikawa", "feeeal-asahikawa"].includes(spotId) ? "walking" : "");
+}
+
+function getStopNavigation(day, index, spot) {
+  const mode = day === 1 ? getDayOneNavigationMode(spot.id) : "";
+  const pickupIndex = (state.plan[day] || []).indexOf("nippon-rentacar-new-chitose");
+  if (mode && (mode !== "driving" || (pickupIndex >= 0 && index > pickupIndex))) {
+    const destination = drivingPlaceOverrides[spot.id] || `${spot.name} ${spot.area} 北海道`;
+    return {
+      url: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=${mode}&dir_action=navigate`,
+      label: mode === "driving" ? "開車導航" : "步行導航"
+    };
+  }
+  const routeUrl = getDrivingRouteUrlForStop(day, index, spot.id);
+  return { url: routeUrl || getMapUrl(spot), label: routeUrl ? "開車路線" : "地圖" };
+}
+
+function isDayOneTimingDraftApplicable() {
+  const timedStops = (state.plan[1] || []).filter((id) => dayOneTimedStopIds.includes(id));
+  return JSON.stringify(timedStops) === JSON.stringify(dayOneTimedStopIds);
+}
+
+function getTimingDraftForStop(day, spotId) {
+  return day === 1 && isDayOneTimingDraftApplicable() ? dayOneTimingDraft[spotId] : null;
+}
+
+function timingDraftHtml(draft) {
+  return draft ? `
+    <div class="stop-timing${draft.optional ? " stop-timing-optional" : ""}">
+      <p><strong>${escapeHtml(draft.time)}</strong><span>${draft.optional ? "可略過" : "預估"}</span></p>
+      <p class="stop-timing-note">${escapeHtml(draft.note)}</p>
+    </div>` : "";
+}
+
+function renderDayTimingDraft() {
+  dom.dayTimingDraft.hidden = state.selectedDay !== 1 || !state.plan[1]?.length;
+  if (dom.dayTimingDraft.hidden) {
+    dom.dayTimingDraft.innerHTML = "";
+    return;
+  }
+  dom.dayTimingDraft.innerHTML = `
+    <h3 id="day-timing-title">Day 1 時間試排</h3>
+    <p>${isDayOneTimingDraftApplicable()
+      ? "下方時間皆為日本時間、初步估計。入住 → 買雪靴 → 晚餐是主要安排，兩個戶外點不必全去；若加入其他景點，請另留時間。"
+      : "主要站點已調整，原試排時間先隱藏，需依新順序重新估算。參考節奏：11:00 抵達、約 16:45 入住、17:15 採買、18:15 晚餐。"}</p>
+    <p>開車含午餐、休息先抓 3.5 小時，風雪時可能更久，晚到就直接採買、吃飯。點景點名稱或導航按鈕可開啟 Google 地圖；入住後站前採買、用餐使用步行導航。</p>`;
+}
+
 function getAccommodationMapUrl(hotel) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hotel.name)}`;
 }
@@ -2335,6 +2439,10 @@ function getDriveInfoForStop(day, index, spotId) {
     }
     if (spotId === "nippon-rentacar-new-chitose") {
       return "從機場搭租車公司接駁車到營業所取車；這段不是自駕";
+    }
+    if (getDayOneNavigationMode(spotId) === "walking") {
+      return getKnownWalkingLeg(day, index, spotId)
+        || "由目前位置步行前往｜點名稱或步行導航開啟 Google 地圖；雪地步行請留緩衝";
     }
     const pickupIndex = dayStops.indexOf("nippon-rentacar-new-chitose");
     if (pickupIndex < 0 || index <= pickupIndex) {
@@ -3841,6 +3949,8 @@ function renderDayTabs() {
 
 function renderItinerary() {
   const ids = state.plan[state.selectedDay];
+  window.HOKKAIDO_JOURNEY?.render();
+  renderDayTimingDraft();
   dom.dayNote.textContent = `今天編輯第 ${state.selectedDay} 天的行程，建議保持同區域或同主題移動。`;
 
   if (!ids.length) {
@@ -3858,23 +3968,25 @@ function renderItinerary() {
     dom.itineraryList.innerHTML = ids
       .map((id, index) => {
         const spot = spotById(id);
-        const drivingRouteUrl = getDrivingRouteUrlForStop(state.selectedDay, index, spot.id);
+        const navigation = getStopNavigation(state.selectedDay, index, spot);
+        const timingDraft = getTimingDraftForStop(state.selectedDay, spot.id);
         const key = `stop-${state.selectedDay}-${spot.id}`;
         const detailsOpen = disclosureIsOpen(`${key}-details`);
         const adjustOpen = disclosureIsOpen(`${key}-adjust`);
         return `
           <article class="stop-card" data-index="${index}" data-spot-id="${spot.id}">
+            ${timingDraftHtml(timingDraft)}
             <div class="stop-top">
               <div>
                 <div class="stop-title-row">
                   <span class="drag-handle" draggable="${!window.matchMedia("(max-width: 640px)").matches}" title="拖曳調整順序" aria-hidden="true">⋮⋮</span>
-                  <h3>${index + 1}. ${spot.name}</h3>
+                  <h3><a class="stop-name-link" href="${navigation.url}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(spot.name)}，${navigation.label}">${index + 1}. ${spot.name}</a></h3>
                 </div>
                 <p class="stop-desc">${spot.desc}</p>
                 ${ticketInfoHtml(spot)}
                 <p class="spot-extra">${getDriveInfoForStop(state.selectedDay, index, spot.id)}</p>
               </div>
-              <span class="tag">${spot.time}</span>
+              <span class="tag">${timingDraft?.duration || spot.time}</span>
             </div>
             <div class="place-meta">
               <span class="tag">${spot.area}</span>
@@ -3882,7 +3994,7 @@ function renderItinerary() {
               <span class="tag tag-extra">${spot.best}</span>
             </div>
             <div class="stop-quick-actions">
-              <a class="small-button map-link" href="${drivingRouteUrl || getMapUrl(spot)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(spot.name)}${drivingRouteUrl ? "開車路線導航" : "地圖"}">導航</a>
+              <a class="small-button map-link" href="${navigation.url}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(spot.name)}，${navigation.label}">${navigation.label.includes("導航") ? navigation.label : "導航"}</a>
               <button class="small-button alt" data-details-toggle data-disclosure-key="${key}-details" aria-controls="${key}-details" aria-expanded="${detailsOpen}">${detailsOpen ? "收合細節" : "看細節"}</button>
               <button class="small-button" data-adjust-toggle data-disclosure-key="${key}-adjust" aria-controls="${key}-adjust" aria-expanded="${adjustOpen}">${adjustOpen ? "收合調整" : "調整"}</button>
             </div>
@@ -4338,11 +4450,9 @@ function renderSummary() {
     }
   } else {
     const focusIndex = (state.plan[state.selectedDay] || []).indexOf(focus.id);
-    const drivingRouteUrl = focusIndex >= 0
-      ? getDrivingRouteUrlForStop(state.selectedDay, focusIndex, focus.id)
-      : "";
-    const focusMapUrl = drivingRouteUrl || getMapUrl(focus);
-    const focusMapLabel = drivingRouteUrl ? "Google Maps 開車路線" : "Google Maps 搜尋地點";
+    const navigation = focusIndex >= 0 ? getStopNavigation(state.selectedDay, focusIndex, focus) : { url: getMapUrl(focus), label: "搜尋地點" };
+    const focusMapUrl = navigation.url;
+    const focusMapLabel = `Google Maps ${navigation.label}`;
     if (dom.focusTag) {
       dom.focusTag.textContent = "景點詳情";
     }
@@ -4528,18 +4638,20 @@ function renderPrintReport() {
       const stopsHtml = daySpots.length
         ? daySpots
             .map((spot, spotIndex) => {
-              const drivingRouteUrl = getDrivingRouteUrlForStop(day, spotIndex, spot.id);
+              const navigation = getStopNavigation(day, spotIndex, spot);
+              const timingDraft = getTimingDraftForStop(day, spot.id);
               const ticketSummary = getSpotLogistics(spot.id)?.tickets;
               return `
                 <li class="print-stop">
                   <span class="print-stop-number">${spotIndex + 1}</span>
                   <div class="print-stop-copy">
                     <h3>${escapeHtml(spot.name)}</h3>
-                    <p>${escapeHtml(spot.area)} · ${escapeHtml(spot.type)} · ${escapeHtml(spot.time)}</p>
+                    <p>${escapeHtml(spot.area)} · ${escapeHtml(spot.type)} · ${escapeHtml(timingDraft?.duration || spot.time)}</p>
+                    ${timingDraft ? `<small>日本時間試排：${escapeHtml(timingDraft.time)}（${timingDraft.optional ? "彈性選項" : "預估"}） · ${escapeHtml(timingDraft.note)}</small>` : ""}
                     ${ticketSummary ? `<small>票券：${escapeHtml(ticketSummary)}</small>` : ""}
                     <small>${escapeHtml(getDriveInfoForStop(day, spotIndex, spot.id))}</small>
                   </div>
-                  <a href="${drivingRouteUrl || getMapUrl(spot)}">${drivingRouteUrl ? "開車路線" : "地圖"}</a>
+                  <a href="${navigation.url}">${navigation.label}</a>
                 </li>
               `;
             })
