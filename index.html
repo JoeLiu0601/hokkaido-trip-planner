@@ -9,10 +9,10 @@
       content="新千歲 → 旭川 → 札幌 → 洞爺湖 → 函館。10天北海道冬季行程規劃。"
     />
     <link rel="stylesheet" href="styles.css?v=20261012-day1-layout-restored" />
-    <link rel="stylesheet" href="journey.css?v=20261025-transparent-pals" />
-    <link rel="stylesheet" href="journey-winter.css?v=20261025-d1-winter" />
+    <link rel="stylesheet" href="journey.css?v=20261026-winter-themes-nav" />
+    <link rel="stylesheet" href="journey-winter.css?v=20261026-winter-themes-nav" />
   </head>
-  <body>
+  <body class="winter-view-active" data-planner-theme="dark">
     <main class="shell">
       <header class="hero card">
         <div class="hero-copy">
@@ -85,15 +85,21 @@
           <div class="day-navigation">
             <div class="winter-nav-bar">
               <button type="button" data-planner-view="overview" aria-pressed="false">‹ 總覽</button>
-              <h1>北海道冬日散步</h1>
+              <h1 tabindex="-1">北海道冬日散步</h1>
+              <button type="button" id="planner-theme-toggle" aria-label="切換至淺色模式">☀ 淺色</button>
               <button type="button" data-planner-view="edit" aria-pressed="false">編輯</button>
+              <button type="button" data-planner-view="travel" aria-pressed="false">旅途中</button>
             </div>
             <div class="view-switch" role="group" aria-label="行程檢視方式">
               <button type="button" data-planner-view="overview" aria-pressed="false"><span aria-hidden="true">🗺️</span>總覽</button>
               <button type="button" data-planner-view="edit" aria-pressed="true">行程編輯</button>
-              <button type="button" data-planner-view="travel" aria-pressed="false"><img src="assets/mimikyu-travel.png" width="26" height="26" alt="" />旅途中</button>
+              <button type="button" data-planner-view="travel" aria-pressed="false"><img src="assets/pikachu-travel-cutout.png" width="26" height="26" alt="" />旅途中</button>
             </div>
-            <div class="day-tabs" id="day-tabs"></div>
+            <div class="day-tabs-controls">
+              <button type="button" id="day-tabs-prev" aria-label="顯示前面的日期" aria-controls="day-tabs" disabled>‹</button>
+              <div class="day-tabs" id="day-tabs"></div>
+              <button type="button" id="day-tabs-next" aria-label="顯示後面的日期" aria-controls="day-tabs">›</button>
+            </div>
             <div class="local-save-bar">
               <p id="local-save-status" role="status" aria-live="polite">編輯後會自動存到此裝置</p>
               <button class="small-button" id="retry-local-save-btn" type="button" hidden>重試儲存</button>
@@ -235,6 +241,7 @@
     <!-- deploy-stamp: 2026-09-21T18:00:00+08:00 -->
     <script src="sync-config.js"></script>
     <script src="app.js?v=20261025-journey-hook"></script>
-    <script src="journey.js?v=20261025-d1-winter"></script>
+    <script src="journey-scenes.js?v=20261026-winter-themes-nav"></script>
+    <script src="journey.js?v=20261026-winter-themes-nav"></script>
   </body>
 </html>

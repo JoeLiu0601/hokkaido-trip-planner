@@ -13,7 +13,7 @@
   <path d="M-20 223C75 184 102 260 192 270S301 328 402 275" fill="none" stroke="#d0e8ec" stroke-width="18"/>
   <path d="M-20 223C75 184 102 260 192 270S301 328 402 275" fill="none" stroke="#f9ffff" stroke-width="1.5" stroke-dasharray="9 20"/>
   <path d="M0 378q95-22 181-8t199-8v32H0Z" fill="#fffdf7"/>
-  <g font-family="sans-serif" fill="#91aaa9"><text x="23" y="26" font-size="9" letter-spacing="2.4">A LITTLE WINTER JOURNEY</text><text x="323" y="31" font-size="20" opacity=".7">旭川</text><text x="31" y="387" font-size="11" letter-spacing="3">新千歲</text></g>
+  <g font-family="sans-serif" fill="#60777c"><text x="23" y="26" font-size="9" letter-spacing="2.4">A LITTLE WINTER JOURNEY</text><text x="323" y="31" font-size="20" opacity=".7">旭川</text><text x="31" y="387" font-size="11" letter-spacing="3">新千歲</text></g>
   <use href="#cloud" x="182" y="24"/><use href="#cloud" x="20" y="110" transform="translate(6 20) scale(.75)"/>
   <use href="#pine" x="37" y="156"/><use href="#pine" x="70" y="169" transform="translate(14 30) scale(.8)"/><use href="#pine" x="208" y="75" transform="translate(20 10) scale(.8)"/><use href="#pine" x="347" y="299" transform="translate(30 40) scale(.8)"/>
   <use href="#snow" x="18" y="63"/><use href="#snow" x="167" y="43"/><use href="#snow" x="366" y="120"/><use href="#snow" x="96" y="246"/><use href="#snow" x="265" y="337"/>
@@ -26,5 +26,5 @@
   <g transform="translate(278 34)" stroke="#8c9fa4" stroke-width="1.4"><path d="M0 11h44v54H0Z" fill="#f9f7ed"/><path d="M-4 11 22 0l26 11Z" fill="#ccdfe4"/><path d="M17 49h11v16H17Z" fill="#deb36e"/><path d="M7 20h7v8H7zm23 0h7v8h-7ZM7 35h7v8H7zm23 0h7v8h-7Z" fill="#b3d1dc"/><text x="22" y="-6" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#77939d" stroke="none">CABIN</text></g>
   <g transform="translate(291 174)" stroke="#8a9ca2" stroke-width="1.4"><path d="M0 10h42v35H0Z" fill="#f8f8f2"/><path d="M-3 10h48L37 0H6Z" fill="#d9c7d9"/><path d="M6 18h10v12H6zm20 0h10v12H26Z" fill="#c4dee7"/><path d="M17 29h8v16h-8Z" fill="#b8cbd0"/><text x="21" y="7" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#7b617b" stroke="none">AEON</text></g>
   <g transform="translate(146 151)" stroke="#9b9d8e" stroke-width="1.3"><path d="M0 13h47v32H0Z" fill="#fff9e8"/><path d="M-3 14 4 0h40l6 14Z" fill="#d6b79d"/><path d="M2 14h9v8H2zm18 0h9v8h-9zm18 0h9v8h-9Z" fill="#eacb9a"/><path d="M6 27h11v13H6zm22 0h11v18H28Z" fill="#bdd1d0"/><path d="M-7 43h61"/><circle cx="55" cy="21" r="5" fill="#e8b07e"/><path d="M55 7v10m0 9v17"/></g>
-  <g font-family="sans-serif" fill="#8a9d9d" font-size="9"><text x="24" y="151">雪景慢慢看</text><text x="253" y="292">自駕・午餐・休息</text><text x="267" y="305">合計先留約 3.5 小時</text></g>
+  <g font-family="sans-serif" fill="#536a72" font-size="9"><text x="24" y="151">雪景慢慢看</text><text x="253" y="292">自駕・午餐・休息</text><text x="267" y="305">合計先留約 3.5 小時</text></g>
 </svg>

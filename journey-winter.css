@@ -2,17 +2,21 @@ body.winter-view-active {
   color-scheme: light;
   --bg: #f8f5ed; --bg-soft: #f2eee3; --card: #fffdf8; --card-strong: #eee9db;
   --text: #344951; --muted: #5f7478; --line: #deded3;
-  --accent: #d6a34a; --accent-2: #538c9d; --accent-3: #4e8b73;
+  --accent: #735523; --accent-2: #345f6c; --accent-3: #356349;
   background: radial-gradient(circle at 12% 15%, #e4f0f1 0, transparent 38%), #f8f5ed;
 }
-.winter-view-active .shell { max-width: 720px; margin: 0 auto; padding: 16px 18px 40px; gap: 18px; }
+.winter-view-active .shell { width: 100%; max-width: 760px; margin: 0 auto; padding: 16px 18px 40px; gap: 18px; }
 .winter-view-active .shell > .hero { display: none; }
 .winter-view-active .itinerary-panel { padding: 0; border: 0; box-shadow: none; background: transparent; }
 .winter-nav-bar { display: none; }
 .winter-view-active .winter-nav-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .winter-nav-bar h1 { margin: 0; color: #526f78; font-size: .95rem; font-weight: 700; letter-spacing: .04em; }
+.winter-nav-bar h1:focus { outline: none; }
 .winter-nav-bar button { min-height: 44px; min-width: 48px; padding: 8px 2px; border: 0; color: var(--muted); background: transparent; font: inherit; font-size: .75rem; cursor: pointer; }
 .winter-nav-bar button:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; border-radius: 6px; }
+.winter-nav-bar [data-planner-view="travel"] { display: none; }
+.winter-edit-active .winter-nav-bar [data-planner-view="travel"] { display: block; }
+.winter-edit-active .winter-nav-bar [data-planner-view="edit"] { display: none; }
 .winter-view-active .view-switch { display: none; }
 .winter-view-active .day-navigation { margin: 0 0 12px; padding: 0 0 8px; border: 0; background: rgba(248,245,237,.96); backdrop-filter: blur(14px); }
 .winter-view-active .day-tabs { display: flex; margin: 0; gap: 7px; padding: 8px 0 0; overflow-x: auto; scrollbar-width: none; }
@@ -39,8 +43,9 @@ body.winter-view-active {
 .winter-view-active .journey-map-trail { stroke: #dba684; stroke-width: 2.5; }
 .winter-stop circle { fill: #fffdf8; stroke: #9aadb0; stroke-width: 1.4; }
 .winter-stop > rect { fill: #fffdf8; stroke: #d0d9d4; stroke-width: 1; }
-.winter-stop-number { font: 700 10px sans-serif; fill: #7a9298; }
-.winter-stop-label { font: 600 12px "Noto Sans TC","Microsoft JhengHei",sans-serif; fill: #526e77; }
+.winter-stop-number { font: 700 10px sans-serif; fill: #4f6a70; }
+.winter-stop-label { font: 600 15px "Noto Sans TC","Microsoft JhengHei",sans-serif; fill: #526e77; }
+.winter-stop-label.is-day-one { font-size: 14px; }
 .winter-stop.is-preview circle, .winter-stop.is-next circle { fill: #f6df9e; stroke: #c49f56; stroke-width: 2; }
 .winter-stop.is-preview > rect { fill: #f8e7b9; stroke: #d5b66d; }
 .winter-stop.is-done > rect { fill: #e3efe7; }
@@ -61,6 +66,9 @@ body.winter-view-active {
 .winter-focus-eyebrow { color: #826a3d; font-size: .68rem; letter-spacing: .04em; font-weight: 700; }
 .winter-focus-top > span:last-child { color: var(--muted); font-size: .65rem; }
 .winter-focus-card h3 { margin: 8px 0; font-size: 1.15rem; line-height: 1.5; overflow-wrap: anywhere; }
+.winter-focus-card h3 { scroll-margin-top: 150px; }
+.winter-focus-card h3:focus { outline: none; }
+.winter-overview-heading h2 { scroll-margin-top: 100px; }
 .winter-focus-summary { margin: 0 0 14px; color: var(--muted); font-size: .8rem; line-height: 1.8; }
 .winter-focus-actions { display: grid; grid-template-columns: 1.2fr 1fr; gap: 8px; }
 .winter-focus-actions > * { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px; border: 1px solid #dce4dc; border-radius: 11px; background: #f5f7f1; color: #526f78; text-decoration: none; font: inherit; font-size: .78rem; font-weight: 600; cursor: pointer; }
@@ -82,7 +90,7 @@ body.winter-view-active {
 .winter-view-active .journey-timeline-section > h3 { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 18px; color: #627b81; font-size: .95rem; }
 .winter-view-active .journey-timeline-section > h3 > span { color: var(--muted); font-size: .65rem; font-weight: 400; }
 .winter-view-active .journey-stop-dot { border-color: #d9dfd5; background: #f3f3e9; color: var(--muted); }
-.winter-view-active .journey-stop.is-next .journey-stop-dot { background: #f2d994; color: #947b42; border-color: #e7cd8c; }
+.winter-view-active .journey-stop.is-next .journey-stop-dot { background: #f2d994; color: #6c562b; border-color: #e7cd8c; }
 .winter-view-active .journey-stop > details { background: #fffdf9; border-color: #e0e3d9; }
 .winter-view-active .journey-stop.is-next > details { border-color: #dfd0a4; }
 .winter-view-active .journey-stop:not(:last-child)::before { border-color: #d5ded6; }
@@ -93,6 +101,48 @@ body.winter-view-active {
 .winter-footnote { margin: 22px 3px; font-size: .68rem; color: var(--muted); line-height: 1.8; }
 .winter-view-active .flight-panel,.winter-view-active .toolbar { background: #fffdf8; border-color: #dfe3d7; box-shadow: none; }
 .winter-view-active .flight-card { background: #f6f5ec; border-color: #e5e4d8; }
+.winter-player-note { margin: 7px 0 2px; color: var(--muted); font-size: .65rem; line-height: 1.7; }
+.winter-route-details { margin-top: 6px; }
+.winter-route-details > summary { min-height: 48px; padding: 12px 3px; color: #526f78; cursor: pointer; font-size: .86rem; font-weight: 700; }
+.winter-route-details > summary span { margin-left: 8px; color: var(--muted); font-size: .65rem; font-weight: 400; }
+.winter-view-active .journey-progress-track { height: 4px; margin-top: 0; background: #e2e7dd; }
+.winter-view-active .winter-focus-card { margin-top: 14px; }
+.winter-view-active .journey-overview-map { border-color: #cfddd8; background: #dceef1; border-radius: 20px; }
+.winter-view-active .journey-overview-map svg { max-width: 450px; }
+.winter-view-active .journey-overview-map .journey-map-note { background: #fffdf8; color: var(--muted); }
+.winter-city-label rect { fill: #fffdf8; stroke: #b7cec9; stroke-width: 1; }
+.winter-city-label text { fill: #446570; font: 700 14px sans-serif; }
+.winter-city-label .winter-city-days { font-size: 10px; font-weight: 400; }
+.winter-city-label.is-selected rect { fill: #f6e2ae; stroke: #c8a668; }
+.journey-overview-map a:focus-visible .winter-city-label rect { stroke: #538c9d; stroke-width: 3; }
+.winter-overview-caption { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; margin-top: 24px; }
+.winter-overview-caption h3 { margin: 0; font-size: 1rem; }
+.winter-overview-caption span { color: var(--muted); font-size: .75rem; }
+.winter-view-active .journey-overview-card { padding: 15px; border-color: #dce2d7; background: #fffdf8; box-shadow: 0 3px 14px #52666c05; gap: 10px; }
+.winter-view-active .journey-overview-card.is-selected { border-color: #cfb272; background: #fffcf1; }
+.winter-view-active .journey-overview-card-head strong { color: #866d37; }
+.winter-day-card-art { display: block; overflow: hidden; margin: -15px -15px 4px; border-radius: 15px 15px 0 0; }
+.winter-day-card-art svg { display: block; width: 100%; height: auto; }
+.winter-edit-active .shell { max-width: 1440px; }
+.winter-edit-active .itinerary-panel { padding: 18px; border: 1px solid var(--line); background: var(--card); }
+.winter-edit-active .card { box-shadow: 0 5px 20px #52666c08; }
+.winter-edit-active .local-save-bar { display: flex; }
+.winter-view-active .focus-card { background: #edf3ed; }
+.winter-view-active .focus-practical p,.winter-view-active .focus-practical strong,
+.winter-view-active .spot-extra,.winter-view-active .tag,.winter-view-active .stay-label,
+.winter-view-active .spot-category-tab strong { color: var(--muted); }
+.winter-view-active .tag,.winter-view-active .stay-label { background: #edf2e9; }
+.winter-view-active .map-link,.winter-view-active .map-link:hover,
+.winter-view-active .chip.active,.winter-view-active #ui-message { color: var(--accent-2); }
+.winter-view-active .meal-tag-important,.winter-view-active #ui-message[data-kind="warn"],
+.winter-view-active #local-save-status[data-state="error"],.winter-view-active #local-save-status[data-state="conflict"] { color: #7b5b28; }
+.winter-view-active .meal-tag-booked { color: #3e7156; }
+.winter-view-active .small-button.alt.meal-clear { color: #984d59; }
+.winter-view-active input,.winter-view-active select,.winter-view-active textarea { color: var(--text); background-color: #f5f5ec; border-color: #c8d5d0; }
+.winter-view-active .undo-toast { background: #fff5d8; border-color: #d4bc81; box-shadow: 0 8px 24px #304d6225; }
+.winter-view-active .detail-hero,.winter-view-active .spot-detail,.winter-view-active .route-distance { background-color: #edf3ef; }
+.winter-view-active .button-primary { background: #efd698; color: #5e512f; border-color: #dbbf7f; }
+@media print { .winter-nav-bar { display: none !important; } }
 .journey-pal-motion { animation: winter-walk 1s ease-in-out infinite; animation-play-state: paused; }
 .journey-pal-motion.motion-piplup { animation-name: winter-hop; animation-duration: .8s; }
 .journey-pal-motion.motion-mew { animation-name: winter-float; animation-duration: 1.9s; }
@@ -117,3 +167,87 @@ body.winter-view-active {
   .winter-pals-row button { padding-inline: 4px; font-size: .68rem; }
 }
 @media (prefers-reduced-motion:reduce) { .journey-pal-motion { animation: none !important; } }
+
+/* Both modes share readable type and controls. Maps retain their light artwork. */
+body.winter-view-active {
+  --text: #293f49; --muted: #4d626a; --line: #c5d2ce;
+  --paper: #fffdf7; --surface: #edf2ec; --input-surface: #f4f6ef;
+  --warm-surface: #f3dfa8; --warm-text: #624b21;
+}
+body.winter-view-active[data-planner-theme="dark"] {
+  color-scheme: dark;
+  --bg: #14252e; --bg-soft: #1c303c; --card: #203540; --card-strong: #2b4551;
+  --text: #f0f6f5; --muted: #c7d8dd; --line: #506a75;
+  --accent: #f2d399; --accent-2: #a8dcee; --accent-3: #a4d9bc;
+  --paper: #203540; --surface: #29434e; --input-surface: #172d38;
+  --warm-surface: #e9cb8d; --warm-text: #f2d399;
+  background: radial-gradient(circle at 10% 12%, #254450 0, transparent 45%), #14252e;
+}
+.winter-view-active .winter-nav-bar { gap: 6px; }
+.winter-view-active .winter-nav-bar h1 { min-width: 0; font-size: .88rem; color: var(--text); }
+.winter-view-active .winter-nav-bar button { font-size: .78rem; }
+.winter-view-active .day-navigation { background: var(--bg); }
+.winter-view-active .winter-heading p { color: var(--muted); font-size: .68rem; letter-spacing: .1em; }
+.winter-view-active .winter-heading > div > span { font-size: .82rem; }
+.winter-view-active .winter-date strong { color: var(--accent-2); }
+.winter-view-active .winter-date span { font-size: .68rem; }
+.winter-view-active .winter-date { border-color: var(--line); }
+.winter-view-active .day-tab { background: var(--paper); border-color: var(--line); }
+.winter-view-active .day-tab strong { color: var(--text); }
+.winter-view-active .day-tab.active { background: var(--warm-surface); border-color: #c8a868; }
+.winter-view-active .day-tab.active strong { color: #423619; }
+.winter-view-active .winter-focus-card,.winter-view-active .winter-map-shell,
+.winter-view-active .journey-stop > details,.winter-view-active .journey-overview-card,
+.winter-view-active .flight-panel,.winter-view-active .toolbar { background: var(--paper); border-color: var(--line); }
+.winter-view-active .winter-focus-card h3 { color: var(--text); font-size: 1.2rem; }
+.winter-view-active .winter-focus-eyebrow { color: var(--warm-text); font-size: .78rem; }
+.winter-view-active .winter-focus-top > span:last-child { color: var(--muted); font-size: .78rem; }
+.winter-view-active .winter-focus-summary,.winter-view-active .winter-focus-info p { color: var(--muted); font-size: .9rem; }
+.winter-view-active .winter-focus-actions > * { background: var(--surface); border-color: var(--line); color: var(--text); font-size: .85rem; }
+.winter-view-active .winter-focus-actions > a { background: var(--warm-surface); color: #423619; border-color: #c8a868; }
+.winter-view-active .winter-return,.winter-view-active .winter-progress-tools { color: var(--muted); font-size: .8rem; }
+.winter-view-active .winter-progress-tools button { background: var(--surface); color: var(--accent-3); border-color: var(--line); }
+.winter-view-active .winter-focus-info { border-color: var(--line); }
+.winter-view-active .winter-day-progress,.winter-view-active .winter-player-note,
+.winter-view-active .winter-footnote { color: var(--muted); font-size: .78rem; }
+.winter-view-active .journey-progress-track { background: var(--surface); }
+.winter-view-active .winter-route-details > summary { color: var(--text); font-size: .9rem; }
+.winter-view-active .winter-route-details > summary span { color: var(--muted); font-size: .75rem; }
+.winter-view-active .winter-map-topline { color: var(--text); background: var(--paper); border-color: var(--line); font-size: .9rem; font-weight: 700; }
+.winter-view-active .winter-map-topline > span:first-child { color: var(--text); font-weight: 700; }
+.winter-view-active .winter-map-topline > span:last-child { color: var(--muted); font-size: .72rem; }
+.winter-view-active .journey-playback { background: var(--paper); border-color: var(--line); }
+.winter-view-active .journey-playback-caption > strong { color: var(--accent-2); }
+.winter-view-active .journey-playback-caption > span { color: var(--text); font-size: .88rem; }
+.winter-view-active .journey-playback-controls [data-player-speed] { color: var(--text); background: var(--surface); border-color: var(--line); }
+.winter-view-active .winter-pals-row button { color: var(--muted); border-color: var(--line); font-size: .8rem; }
+.winter-view-active .winter-pals-row button[aria-pressed=true] { color: var(--text); background: var(--surface); }
+.winter-view-active .journey-timeline-section > h3,.winter-view-active .journey-stop summary > strong { color: var(--text); }
+.winter-view-active .journey-timeline-section > h3 > span,.winter-view-active .journey-stop-time,
+.winter-view-active .journey-stop-status { color: var(--muted); font-size: .78rem; }
+.winter-view-active .journey-stop-dot { color: var(--text); background: var(--surface); border-color: var(--line); }
+.winter-view-active .journey-stop.is-next .journey-stop-dot { color: #423619; background: var(--warm-surface); }
+.winter-view-active .journey-stop.is-next > details { border-color: var(--accent); }
+.winter-view-active .journey-optional,.winter-view-active .flight-card,
+.winter-view-active .focus-card,.winter-view-active .tag,.winter-view-active .stay-label { background: var(--surface); border-color: var(--line); }
+.winter-view-active input,.winter-view-active select,.winter-view-active textarea { color: var(--text); background-color: var(--input-surface); border-color: var(--line); }
+.winter-view-active input::placeholder,.winter-view-active textarea::placeholder { color: var(--muted); opacity: 1; }
+.winter-view-active .journey-overview-map .journey-map-note { background: var(--paper); color: var(--muted); font-size: .8rem; }
+.winter-view-active .journey-overview-card.is-selected { background: var(--surface); border-color: var(--accent); }
+.winter-view-active .journey-overview-card-head strong { color: var(--accent); }
+.winter-view-active .meal-tag-important,.winter-view-active #ui-message[data-kind="warn"],
+.winter-view-active #local-save-status[data-state="error"],.winter-view-active #local-save-status[data-state="conflict"] { color: var(--warm-text); }
+.winter-view-active .meal-tag-booked { color: var(--accent-3); }
+.winter-view-active .small-button.alt.meal-clear { color: var(--text); }
+.winter-view-active .undo-toast { background: var(--paper); color: var(--text); border-color: var(--line); }
+.winter-view-active .winter-stop-label { fill: #2c4855; }
+.winter-view-active .winter-stop-number { fill: #2c4855; }
+.winter-view-active .journey-overview-map { background: var(--paper); border-color: var(--line); }
+.day-tabs-controls { display: grid; grid-template-columns: 44px minmax(0,1fr) 44px; align-items: center; gap: 6px; min-width: 0; }
+.day-tabs-controls > button { display: grid; place-items: center; min-height: 44px; width: 44px; padding: 0; border: 1px solid var(--line); border-radius: 10px; color: var(--text); background: var(--paper); font: inherit; font-size: 1.6rem; cursor: pointer; }
+.day-tabs-controls > button:disabled { opacity: .35; cursor: default; }
+.day-tabs-controls > button:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.winter-view-active .day-tabs { min-width: 0; position: relative; scroll-behavior: smooth; }
+.winter-view-active .day-tabs.is-dragging { scroll-behavior: auto; scroll-snap-type: none; user-select: none; cursor: grabbing; }
+.winter-view-active .day-tabs.is-dragging * { cursor: grabbing; }
+.workspace.is-overview .day-tabs-controls { display: none; }

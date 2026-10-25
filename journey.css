@@ -171,8 +171,8 @@ svg .journey-pal-mimikyu { transform-box: fill-box; }
 .journey-overview-card-footer { display: flex; flex-wrap: wrap; gap: 5px 10px; justify-content: space-between; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.73rem; line-height: 1.6; }
 
 @media (hover: hover) and (pointer: fine) {
-  body { cursor: url("assets/pikachu-cursor-cutout.png") 1 3, auto; }
-  a, button:not(:disabled), summary, [role="button"], .spot-card, select, input[type="range"], input[type="checkbox"] { cursor: url("assets/pikachu-cursor-cutout.png") 1 3, pointer; }
+  body { cursor: url("assets/mimikyu-cursor.png") 20 1, auto; }
+  a, button:not(:disabled), summary, [role="button"], .spot-card, select, input[type="range"], input[type="checkbox"] { cursor: url("assets/mimikyu-cursor.png") 20 1, pointer; }
   input[type="text"], input[type="search"], input[type="time"], textarea, [contenteditable="true"] { cursor: text; }
 }
 
