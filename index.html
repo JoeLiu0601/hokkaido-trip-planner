@@ -8,7 +8,7 @@
       name="description"
       content="新千歲 → 旭川 → 札幌 → 洞爺湖 → 函館。10天北海道冬季行程規劃。"
     />
-    <link rel="stylesheet" href="styles.css?v=20261012-day1-layout-restored" />
+    <link rel="stylesheet" href="styles.css?v=20261026-d9-bus-toolbar" />
     <link rel="stylesheet" href="journey.css?v=20261026-hero-return" />
     <link rel="stylesheet" href="journey-winter.css?v=20261026-hero-return" />
   </head>
@@ -59,11 +59,12 @@
       </section>
 
       <section class="toolbar card">
-        <div class="toolbar-actions">
+        <div class="toolbar-actions toolbar-actions-primary">
           <button class="button button-primary toolbar-save" id="save-plan-btn" disabled>儲存變更</button>
           <button class="button button-secondary" id="print-plan-btn">儲存 PDF</button>
           <p class="toolbar-save-status" id="save-status">尚未儲存變更</p>
           <p class="toolbar-save-status" id="ui-message" hidden></p>
+          <button type="button" class="button button-secondary theme-settings-button" id="planner-theme-toggle" aria-label="切換至淺色模式">☀ 淺色</button>
         </div>
         <section class="planner-settings" aria-labelledby="planner-settings-title">
           <h3 id="planner-settings-title" class="planner-settings-title">同步與設定</h3>
@@ -90,7 +91,6 @@
             <div class="winter-nav-bar">
               <button type="button" data-planner-view="overview" aria-pressed="false">‹ 總覽</button>
               <p class="winter-nav-title" tabindex="-1">北海道冬日散步</p>
-              <button type="button" id="planner-theme-toggle" aria-label="切換至淺色模式">☀ 淺色</button>
               <button type="button" data-planner-view="edit" aria-pressed="false">編輯</button>
               <button type="button" data-planner-view="travel" aria-pressed="false">旅途中</button>
             </div>
@@ -244,8 +244,8 @@
 
     <!-- deploy-stamp: 2026-09-21T18:00:00+08:00 -->
     <script src="sync-config.js"></script>
-    <script src="app.js?v=20261025-journey-hook"></script>
-    <script src="journey-scenes.js?v=20261026-winter-themes-nav"></script>
-    <script src="journey.js?v=20261026-hero-return"></script>
+    <script src="app.js?v=20261026-d9-bus-toolbar"></script>
+    <script src="journey-scenes.js?v=20261026-d9-titles"></script>
+    <script src="journey.js?v=20261026-d9-bus-toolbar"></script>
   </body>
 </html>

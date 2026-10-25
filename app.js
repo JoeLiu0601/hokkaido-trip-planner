@@ -1004,7 +1004,7 @@ const spots = [
     season: ["winter"],
     time: "約 20 分鐘＋候車",
     best: "D10 函館站前到機場、函館帝產巴士",
-    desc: "從 JR 函館站前搭函館帝產巴士前往機場，車程約 20 分鐘。D10 以 13:30 左右出發為目標；下方「車站到機場巴士」列出過往跨年參考時刻，2027/1/1 正式班次與乘車處請以出發前公告為準。",
+    desc: "從 JR 函館站前搭函館帝產巴士前往機場，車程約 20 分鐘。D10 以 13:30 左右出發為目標；本景點直接列出過往跨年參考班表，2027/1/1 正式班次與乘車處請以出發前公告為準。",
     highlight: "D10 交通選項"
   }
 ];
@@ -1075,7 +1075,7 @@ const daySummaries = {
   6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
   7: "從札幌前往洞爺湖，途中經過真狩村，抵達後走湖畔、展望台與火山遺跡，再到 Toya Kohan Tei 入住。",
   8: "從洞爺湖開車到函館並還車，寄放行李後前往五稜郭，在塔旁的小丑漢堡用餐，最後到 La'gent Stay Hakodate Ekimae 入住。站前小丑漢堡、箱館奉行所與六花亭可從景點庫選用。",
-  9: "白天先逛八幡坂與金森倉庫，提早上函館山看夜景；回市區吃飯休息後，午夜前往護國神社初詣。當年夜間開放與深夜往返交通仍需確認。",
+  9: "09:30 從 La'gent Stay 函館站前出發，白天逛八幡坂與金森，下午提早上函館山；晚餐後回飯店休息。護國神社午夜初詣僅在當年開放與深夜往返交通確認後安排。",
   10: "元旦先確認朝市是否營業，再走元町，回函館站取行李，目標 13:30 左右搭機場巴士。參考車程約 20 分鐘；2027 元旦班次待確認。小丑漢堡已移到 D8，回程 JX861 為 18:00。"
 };
 
@@ -1125,6 +1125,41 @@ const dayOneTimingDraft = {
 };
 const dayOneTimedStopIds = Object.keys(dayOneTimingDraft).filter((id) => !dayOneTimingDraft[id].optional);
 
+const dayNineTimingDraft = {
+  hachimanzaka: {
+    time: "10:10–11:00", duration: "約 50 分",
+    note: "09:30 從 La'gent Stay 函館站前出發。先走到函館駅前電停，搭往函館どつく前方向的市電至末廣町，再走步道上八幡坂；含候車與雪地步行先留 40 分鐘，並非指定班次。"
+  },
+  "kanemori-warehouse": {
+    time: "11:15–12:15", duration: "約 1 小時",
+    note: "八幡坂拍照後，預留 15 分鐘下坡步行到金森。12:15–13:15 在海灣周邊午餐，13:15–14:15 留給室內採買、咖啡與休息；14:15 離開海灣往纜車站，避免逛到太晚。餐廳尚未指定。"
+  },
+  "hakodate-mt": {
+    time: "15:30–17:00", duration: "約 1.5 小時",
+    note: "14:15 離開海灣，目標 14:45 到山麓站，預留約 45 分鐘購票、排隊與上山。15:30–17:00 看日景轉夜景，冷時到室內取暖；17:00 開始排隊下山，連回站前交通留至 18:15。實際依風雪、當日排隊及 2026/12/31 特別營業調整。"
+  },
+  "hakodate-gokoku-shrine": {
+    time: "23:40–翌日00:30", duration: "約 50 分（待確認）",
+    note: "18:15–19:15 站前晚餐，19:15–22:45 回飯店休息。22:45 起整裝，目標 23:15 搭預先確認的計程車，23:40 到神社；午夜開放及回程車未確認前，此段僅為條件式試排。翌日 00:30–01:10 預留回飯店；不要預設市電仍在運行。"
+  }
+};
+const dayNineTimedStopIds = Object.keys(dayNineTimingDraft);
+const dayNineSchedule = [
+  ["09:30–10:10", "飯店出發 → 八幡坂", "La'gent Stay 函館站前出發，市電至末廣町後上坡；候車與雪地步行共留 40 分鐘。"],
+  ["10:10–11:00", "八幡坂拍照", "白天拍港景，沿人行步道慢走；天候差時縮短停留。"],
+  ["11:00–12:15", "下坡 → 金森紅磚倉庫", "前 15 分鐘步行，11:15 起逛倉庫，優先看最想逛的店。"],
+  ["12:15–13:15", "海灣周邊午餐", "餐廳未指定；先選 12/31 有營業的店，排隊過久就換店。"],
+  ["13:15–14:15", "海灣採買／咖啡休息", "安排室內暖身與彈性緩衝；14:15 準時離開，留住下午上山時間。"],
+  ["14:15–15:30", "前往山麓站、購票候車與上山", "14:45 抵達山麓站為目標，積雪時可改搭計程車；上山候車先留 45 分鐘。"],
+  ["15:30–17:00", "函館山日景 → 夜景", "16:30–17:00 作為冬季夜景觀賞目標，並非精確日落預報；室內外交替取暖。"],
+  ["17:00–18:15", "排隊下山 → 函館站前", "先留約 45 分鐘下山排隊與搭纜車，再留 30 分鐘回站前；風雪或人潮會順延。"],
+  ["18:15–19:15", "站前晚餐", "先確認餐廳 12/31 營業與最後點餐時間，避免跨年晚間臨時找不到店。"],
+  ["19:15–22:45", "回飯店休息", "補暖、充電、整理防滑鞋與保暖衣物，保留晚上的體力。"],
+  ["22:45–23:40", "整裝與計程車前往神社", "目標 23:15 飯店出發；須先確認神社午夜開放與往返車輛，不把臨時叫車當保證。"],
+  ["23:40–翌日00:30", "護國神社跨年初詣（待確認）", "僅在當年夜間開放與交通確認後採用；未開放或天候不適合，就留在飯店跨年。"],
+  ["翌日00:30–01:10", "返回飯店", "以預先確認的計程車回程為主，預留等待與雪夜交通時間。"]
+];
+
 // 未個別標示日期的票券於 2026/10/6（Asia/Taipei）查核；金額為成人一般票價、日圓。
 const spotLogistics = {
   hachimanzaka: {
@@ -1166,7 +1201,7 @@ const spotLogistics = {
     checkedAt: "2026/10/11"
   },
   "hakodate-station-airport-bus": {
-    hours: "2027/1/1 正式班次尚未確認；D10 備選區列有函館帝產巴士 2025/12/1–2026/1/5 過往跨年參考時刻",
+    hours: "2027/1/1 正式班次尚未確認；景點卡內列有函館帝產巴士 2025/12/1–2026/1/5 過往跨年參考時刻",
     access: "JR 函館站前搭函館帝產機場巴士。函館空港官網列成人 ¥700、車程約 20 分鐘；乘車處、票價與支付方式以出發前最新公告為準。電話 0138-55-1111",
     infoUrl: "https://www.hokkaido-airports.com/ja/hakodate/access/bus/",
     checkedAt: "2026/10/11"
@@ -1489,8 +1524,8 @@ const spotLogistics = {
     tickets: "成人纜車往返 ¥1,800",
     ticketNotes: "可現場購票或官網預購；官方網路票有效期為購買起 90 天。先確認天候、是否停駛與 12/31 特別末班，再購票上山。",
     ticketUrl: "https://334.co.jp/ropeway/advance-ticket/",
-    hours: "冬季通常 10:00-21:00；12/31 可能大幅縮短。2026/12/31 尚未公告，前一年度上行末班 17:30、下行末班 19:00",
-    access: "纜車站可搭巴士/計程車；Day 9 建議 16:00 前抵達山麓站，並在出發前查官方最新運行公告"
+    hours: "官方一般冬季營運 10:00–21:00、上行末班 20:30；2026/12/31 特別營業尚未確認，請以當年公告與天候運行為準",
+    access: "Day 9 試排目標 14:45 到纜車山麓站，預留購票與排隊時間；風雪停駛時改排市區，不預設能開車上山"
   },
   "marui-imai-hakodate": {
     hours: "常見 10:00-18:30；跨年與元旦通常縮短或休館，請以年末年始公告為準",
@@ -2293,8 +2328,14 @@ function isDayOneTimingDraftApplicable() {
   return JSON.stringify(timedStops) === JSON.stringify(dayOneTimedStopIds);
 }
 
+function isDayNineTimingDraftApplicable() {
+  return JSON.stringify(state.plan[9] || []) === JSON.stringify(dayNineTimedStopIds);
+}
+
 function getTimingDraftForStop(day, spotId) {
-  return day === 1 && isDayOneTimingDraftApplicable() ? dayOneTimingDraft[spotId] : null;
+  if (day === 1 && isDayOneTimingDraftApplicable()) return dayOneTimingDraft[spotId] || null;
+  if (day === 9 && isDayNineTimingDraftApplicable()) return dayNineTimingDraft[spotId] || null;
+  return null;
 }
 
 function timingDraftHtml(draft) {
@@ -2305,10 +2346,28 @@ function timingDraftHtml(draft) {
     </div>` : "";
 }
 
+function dayNineTimingDraftHtml(headingId = "day-timing-title") {
+  const applicable = isDayNineTimingDraftApplicable();
+  return `<h3 id="${headingId}">Day 9 時間試排</h3>
+    <p>09:30 從 La'gent Stay 函館站前出發。下列皆為日本時間與冬季移動估算，包含午、晚餐及回飯店休息；餐廳尚未指定，市電時間也不是預約班次。</p>
+    ${!applicable ? `<p><strong>主要景點順序已調整：</strong>下方原試排僅供參考，景點時間標籤已隱藏，需按新路線重新估算。</p>` : ""}
+    <details class="day-nine-schedule"><summary>查看完整試排（午餐／休息／跨年）</summary>
+      <ol>${dayNineSchedule.map(([time, title, note]) => `<li><strong class="day-nine-schedule-time">${escapeHtml(time)}</strong><span><b>${escapeHtml(title)}</b><small>${escapeHtml(note)}</small></span></li>`).join("")}</ol>
+    </details>
+    <p>護國神社 2026/12/31 午夜開放及深夜往返車輛尚未確認。若無法確認或天候不佳，飯店休息後就在站前跨年；請勿預設午夜有市電。</p>
+    <p class="day-nine-sources">行前再看：<a href="https://334.co.jp/ropeway/price/" target="_blank" rel="noopener noreferrer">函館山纜車</a> · <a href="https://hakodate-kanemori.com/" target="_blank" rel="noopener noreferrer">金森倉庫</a> · <a href="https://www.hakobura.jp/spots/503" target="_blank" rel="noopener noreferrer">護國神社</a> · <a href="https://www.city.hakodate.hokkaido.jp/docs/2014012100939/" target="_blank" rel="noopener noreferrer">函館市電</a></p>`;
+}
+
 function renderDayTimingDraft() {
-  dom.dayTimingDraft.hidden = state.selectedDay !== 1 || !state.plan[1]?.length;
+  dom.dayTimingDraft.hidden = ![1, 9].includes(state.selectedDay) || !state.plan[state.selectedDay]?.length;
   if (dom.dayTimingDraft.hidden) {
     dom.dayTimingDraft.innerHTML = "";
+    return;
+  }
+  if (state.selectedDay === 9) {
+    const open = dom.dayTimingDraft.querySelector(".day-nine-schedule")?.open ?? false;
+    dom.dayTimingDraft.innerHTML = dayNineTimingDraftHtml();
+    dom.dayTimingDraft.querySelector(".day-nine-schedule").open = open;
     return;
   }
   dom.dayTimingDraft.innerHTML = `
@@ -2377,21 +2436,21 @@ const hakodateTransitLegs = {
   "8|goryokaku-tower|lucky-pierrot-goryokaku": "從五稜郭塔步行約 1 分鐘到小丑漢堡五稜郭公園前店",
   "8|lucky-pierrot-goryokaku|lagent-hakodate-ekimae": "用餐後步行到五稜郭公園前電停，搭往函館駅前方向的市電回飯店入住；大雪或提行李時可改搭計程車",
   "8|goryokaku|lagent-hakodate-ekimae": "從五稜郭公園步行到五稜郭公園前站，搭往函館駅前方向的市電，回飯店辦理入住",
-  "9|kanemori-warehouse|hakodate-mt": "由金森倉庫步行上坡到函館山纜車山麓站，積雪時可改搭計程車。建議 16:00 前到站，先確認 12/31 特別末班與風雪停駛狀況",
+  "9|kanemori-warehouse|hakodate-mt": "由金森倉庫步行上坡到函館山纜車山麓站，積雪時可改搭計程車。D9 試排 14:15 離開海灣、14:45 到站；先確認 12/31 特別營業與風雪停駛狀況",
   "9|hakodate-mt|hakodate-gokoku-shrine": "先搭纜車下山，再回市區吃飯休息；午夜初詣前另前往護國神社，勿在山上等到跨年。神社靠近山麓站，深夜往返飯店先安排計程車；當年夜間開放需確認",
   "9|kanemori-warehouse|hakodate-gokoku-shrine": "從金森倉庫步行經元町坡道到函館護國神社；積雪時注意防滑，也可搭計程車",
   "9|hakodate-gokoku-shrine|hakodate-mt": "從函館護國神社步行到函館山纜車山麓站，再搭纜車上山；跨年當天先確認末班",
   "9|hakodate-mt|hakodate-hachimangu": "先搭纜車下山；跨年深夜前往函館八幡宮建議搭計程車，返飯店也請預留交通。市電 2 系統到谷地頭只適用於仍有班次時",
   "10|morning-market|motomachi": "朝市步行到函館駅前，搭往谷地頭／函館どつく前方向的市電至十字街，再步行上坡逛元町",
   "10|motomachi|hakodate-station-airport-bus": "從元町步行到十字街，搭往函館駅前方向的市電，回站前飯店取行李再候車。目標約 13:15 到巴士月台；2027 元旦班次與月台出發前再確認",
-  "10|hakodate-station-airport-bus|hakodate-airport": "函館帝產巴士從函館站前到機場，車程約 20 分鐘；下方「車站到機場巴士」列有過往跨年參考班表，2027/1/1 發車時間請以最新公告為準。雪天另留緩衝；回程 JX861 18:00",
+  "10|hakodate-station-airport-bus|hakodate-airport": "函館帝產巴士從函館站前到機場，車程約 20 分鐘；巴士景點卡內列有過往跨年參考班表，2027/1/1 發車時間請以最新公告為準。雪天另留緩衝；回程 JX861 18:00",
   "10|motomachi|lucky-pierrot-tokura": "元町到戶倉店以計程車較實際；若搭市電，可從十字街往湯の川方向搭到終點，但下車後仍需走較長一段",
   "10|lucky-pierrot-tokura|hakodate-airport": "從戶倉店到函館機場建議搭計程車；市電不直達機場，若改搭巴士須先查元旦班次"
 };
 
 function getHakodateTransitInfo(day, index, spotId, dayStops) {
   if (index === 0 && day === 9 && spotId === "hachimanzaka") {
-    return "函館站前搭往函館どつく前方向的市電到末廣町，再步行上坡前往八幡坂；雪地請預留步行緩衝";
+    return "從 La'gent Stay 函館站前步行到函館駅前電停，搭往函館どつく前方向的市電到末廣町，再步行上坡前往八幡坂；雪地與候車請預留緩衝";
   }
 
   if (day === 8 && index === 0) {
@@ -3822,13 +3881,27 @@ const dayOptionalSpots = {
         { departure: "13:40", arrival: "14:00", label: "候補" },
         { departure: "13:50", arrival: "14:10", label: "候補" }
       ],
-      period: "2025/12/1–2026/1/5（過往跨年班表）",
+      period: "2025/12/1–2026/1/5",
       note: "這是函館帝產巴士上一年度跨年參考時刻，2027/1/1 正式班次與函館站乘車處尚未確認。車程約 20 分鐘，雪天請另留緩衝；出發前請查看最新公告。",
       infoUrl: "https://www.hokkaido-airports.com/ja/hakodate/access/bus/"
     },
     ids: []
   }
 };
+
+function airportBusTimetableHtml() {
+  const timetable = dayOptionalSpots[10].timetable;
+  return `<article class="day-option-card bus-timetable-card" aria-label="函館站前到函館機場參考班表">
+    <h3>函館帝產巴士｜函館站前 → 函館機場</h3>
+    <p><strong>過往跨年參考班表：</strong>${escapeHtml(timetable.period)}</p>
+    <table class="airport-bus-timetable">
+      <thead><tr><th scope="col">站前出發</th><th scope="col">機場抵達</th><th scope="col">安排</th></tr></thead>
+      <tbody>${timetable.rows.map((row) => `<tr><td>${escapeHtml(row.departure)}</td><td>${escapeHtml(row.arrival)}</td><td>${escapeHtml(row.label)}</td></tr>`).join("")}</tbody>
+    </table>
+    <p class="bus-timetable-note">${escapeHtml(timetable.note)}</p>
+    <a class="map-link" href="${escapeHtml(timetable.infoUrl)}" target="_blank" rel="noopener noreferrer">函館空港官方巴士資訊</a>
+  </article>`;
+}
 
 function renderDayOptions() {
   const shell = document.getElementById("day-options-shell");
@@ -3841,17 +3914,7 @@ function renderDayOptions() {
   if (shell.dataset.day !== String(day)) shell.open = false;
   shell.dataset.day = String(day);
   document.getElementById("day-options-title").textContent = options.title;
-  const timetable = options.timetable ? `
-    <article class="day-option-card bus-timetable-card">
-      <h3>函館帝產巴士｜函館站前 → 函館機場</h3>
-      <p><strong>跨年參考班表：</strong>${escapeHtml(options.timetable.period)}</p>
-      <table class="airport-bus-timetable">
-        <thead><tr><th scope="col">站前出發</th><th scope="col">機場抵達</th><th scope="col">安排</th></tr></thead>
-        <tbody>${options.timetable.rows.map((row) => `<tr><td>${escapeHtml(row.departure)}</td><td>${escapeHtml(row.arrival)}</td><td>${escapeHtml(row.label)}</td></tr>`).join("")}</tbody>
-      </table>
-      <p class="bus-timetable-note">${escapeHtml(options.timetable.note)}</p>
-      <a class="map-link" href="${escapeHtml(options.timetable.infoUrl)}" target="_blank" rel="noopener noreferrer">函館空港官方巴士資訊</a>
-    </article>` : "";
+  const timetable = options.timetable ? airportBusTimetableHtml() : "";
   panel.innerHTML = `${options.note ? `<p class="day-options-note">${escapeHtml(options.note)}</p>` : ""}${timetable}${options.ids.map((id) => {
     const spot = spotById(id);
     const selected = state.plan[day].includes(id);
@@ -3998,6 +4061,7 @@ function renderItinerary() {
               <button class="small-button alt" data-details-toggle data-disclosure-key="${key}-details" aria-controls="${key}-details" aria-expanded="${detailsOpen}">${detailsOpen ? "收合細節" : "看細節"}</button>
               <button class="small-button" data-adjust-toggle data-disclosure-key="${key}-adjust" aria-controls="${key}-adjust" aria-expanded="${adjustOpen}">${adjustOpen ? "收合調整" : "調整"}</button>
             </div>
+            ${state.selectedDay === 10 && spot.id === "hakodate-station-airport-bus" ? airportBusTimetableHtml() : ""}
             <div class="stop-inline-details" id="${key}-details" data-inline-details ${detailsOpen ? "" : "hidden"}>
               ${inlineSpotDetailsHtml(spot, state.selectedDay, index)}
             </div>

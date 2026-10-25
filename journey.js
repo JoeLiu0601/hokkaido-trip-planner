@@ -180,7 +180,11 @@
       "nippon-rentacar-new-chitose": "先在機場櫃台報到，再搭接駁車到營業所取車。",
       "premier-cabin-asahikawa": "13:15 左右出發往旭川，途中午餐、休息；抵達後先入住放行李。",
       "aeon-mall-asahikawa-ekimae": "步行到站前 AEON，先補雪靴、防滑鞋與保暖配件。",
-      "asahikawa-heiwa-dori": "在站前商店街散步、找晚餐，吃完回飯店休息。"
+      "asahikawa-heiwa-dori": "在站前商店街散步、找晚餐，吃完回飯店休息。",
+      hachimanzaka: "09:30 從 La'gent Stay 函館站前出發，搭市電到末廣町再上坡拍港景。",
+      "kanemori-warehouse": "八幡坂下坡後逛金森；午餐與咖啡安排在海灣周邊，14:15 離開。",
+      "hakodate-mt": "14:45 抵達山麓站為目標，預留排隊；下午上山看日景轉夜景，17:00 開始下山。",
+      "hakodate-gokoku-shrine": "晚餐後先回飯店休息；僅在午夜開放及往返車輛確認後，23:15 左右搭車前往。"
     };
     if (getTimingDraftForStop(state.selectedDay, spot.id) && summaries[spot.id]) return summaries[spot.id];
     return spot.best || spot.desc;
@@ -280,6 +284,7 @@
     return `<div class="winter-focus-top"><span class="winter-focus-eyebrow">${preview ? "正在預覽這一站" : "接下來去哪裡"}</span><span>${escapeHtml(timingText(spot))}</span></div>
       <h3 id="journey-next-title" tabindex="-1">${escapeHtml(spot.name)}</h3><p class="winter-focus-summary">${escapeHtml(summaryText(spot))}</p>
       <div class="winter-focus-actions"><a href="${escapeHtml(nav.url)}" target="_blank" rel="noopener noreferrer">↗ ${nav.label}</a><button type="button" data-winter-info aria-expanded="false" aria-controls="winter-focus-info">查看詳情 ⌄</button></div>
+      ${state.selectedDay === 10 && id === "hakodate-station-airport-bus" ? airportBusTimetableHtml() : ""}
       <div id="winter-focus-info" class="winter-focus-info" hidden><p>${escapeHtml(spot.desc)}</p>${logistics?.hours ? `<p><strong>開放／營業：</strong>${escapeHtml(logistics.hours)}</p>` : ""}${logistics?.tickets ? `<p><strong>票券：</strong>${escapeHtml(logistics.tickets)}</p>` : ""}</div>
       ${preview ? `<button type="button" class="winter-return" data-player-return>↶ 回到實際進度</button>` : `<details class="winter-progress-tools"><summary>標記這一站</summary><div><button type="button" data-journey-status="done" data-journey-id="${id}">✓ 完成這站</button><button type="button" data-journey-status="skipped" data-journey-id="${id}">略過</button></div></details>`}`;
   }
@@ -397,7 +402,7 @@
       </svg>
       <div class="journey-playback" id="journey-playback"><div class="journey-playback-caption"><strong data-player-time></strong><span data-player-caption></span></div>
         <div class="journey-playback-controls"><button type="button" data-player-toggle aria-label="播放行程" aria-pressed="false">▶</button><input type="range" data-player-slider aria-label="行程播放進度" min="${playback.min}" max="${playback.max}" step="0.1" value="${playback.min}" /><button type="button" data-player-speed aria-label="切換播放速度">×1</button></div>
-        <p class="winter-player-note">${playback.timed ? "日本時間試排" : "順序預覽，尚未排實際開始時間"} · 預覽不會改動完成紀錄</p>
+        <p class="winter-player-note">${playback.timed ? "日本時間試排" : state.selectedDay === 9 && isDayNineTimingDraftApplicable() ? "僅依順序播放；D9 時間請看上方完整試排" : "順序預覽，尚未排實際開始時間"} · 預覽不會改動完成紀錄</p>
       </div></section>`;
   }
 
@@ -421,6 +426,7 @@
             ${timing ? `<p>${escapeHtml(timing.note)}</p>` : ""}
             ${logistics?.hours ? `<p><strong>開放：</strong>${escapeHtml(logistics.hours)}</p>` : ""}
             ${logistics?.tickets ? `<p><strong>票券：</strong>${escapeHtml(logistics.tickets)}</p>` : ""}
+            ${state.selectedDay === 10 && id === "hakodate-station-airport-bus" ? airportBusTimetableHtml() : ""}
             <div class="journey-row-actions">
               <a class="small-button map-link" href="${escapeHtml(nav.url)}" target="_blank" rel="noopener noreferrer">${nav.label}</a>
               <button class="small-button" type="button" data-journey-status="${status === "pending" ? "done" : "pending"}" data-journey-id="${escapeHtml(id)}">${status === "pending" ? "標為完成" : "改回待出發"}</button>
@@ -517,6 +523,7 @@
     const openDetails = new Set(Array.from(host.querySelectorAll("details[data-journey-details][open]")).map((item) => item.dataset.journeyDetails));
     const mapOpen = host.querySelector(".winter-route-details")?.open ?? true;
     const optionalOpen = host.querySelector(".journey-optional")?.open ?? false;
+    const dayNineScheduleOpen = host.querySelector(".day-nine-schedule")?.open ?? false;
     const ids = (state.plan[state.selectedDay] || []).filter((id) => spotById(id));
     const mainIds = ids.filter((id) => !isOptional(id));
     const optionalIds = ids.filter(isOptional);
@@ -540,10 +547,11 @@
       <header class="winter-heading"><div><p>HOKKAIDO WINTER WALK</p><h2 id="journey-title" tabindex="-1">Day ${state.selectedDay} · ${scene.title}</h2><span>${escapeHtml(areas.join(" → ") || "今天的路線，等你來安排")}</span></div><div class="winter-date"><strong>${tripDates[state.selectedDay - 1].replace("/", ".")}</strong><span>${weekday} · 日本時間</span></div></header>
       <section class="journey-next-card winter-focus-card" aria-labelledby="journey-next-title"></section>
       <p class="journey-feedback" role="status" aria-live="polite" ${feedback ? "" : "hidden"}>${escapeHtml(feedback)}</p>
+      ${state.selectedDay === 9 && mainIds.length ? `<section class="day-timing-draft day-nine-timing-draft" aria-labelledby="journey-d9-timing-title">${dayNineTimingDraftHtml("journey-d9-timing-title")}</section>` : ""}
       <div class="winter-day-progress"><span>已完成 ${doneCount} / ${mainIds.length} 站${skippedCount ? ` · 略過 ${skippedCount}` : ""}</span><span>進度記在此裝置</span></div>
       ${mainIds.length ? `<div class="journey-progress-track" role="progressbar" aria-label="今日處理進度，含完成與略過" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percentage}"><span style="width:${percentage}%"></span></div><details class="winter-route-details" open><summary>今天的地圖與播放 <span>${mainIds.length} 站 · 可展開／收合</span></summary>${mapHtml(mainIds, nextId)}</details>` : ""}
       <div class="winter-pals-row" role="group" aria-label="選擇同行夥伴">${companions.map(pal => `<button type="button" data-companion="${pal.id}" aria-pressed="${activeCompanions.has(pal.id)}"><img src="${pal.src}" width="23" height="26" alt="" />${pal.name}</button>`).join("")}</div>
-      ${mainIds.length ? `<section class="journey-timeline-section"><h3>今天這樣走 <span>${playback.timed ? "日本時間 · 初步試排" : "行程順序 · 停留時間參考"}</span></h3><ol class="journey-timeline">${mainIds.map((id, index) => stopHtml(id, index, nextId)).join("")}</ol></section>` : ""}
+      ${mainIds.length ? `<section class="journey-timeline-section"><h3>今天這樣走 <span>${playback.timed || state.selectedDay === 9 && isDayNineTimingDraftApplicable() ? "日本時間 · 初步試排" : "行程順序 · 停留時間參考"}</span></h3><ol class="journey-timeline">${mainIds.map((id, index) => stopHtml(id, index, nextId)).join("")}</ol></section>` : ""}
       ${optionalIds.length ? `<details class="journey-optional"><summary>有空再去 <span>${optionalIds.length} 個彈性選項</span></summary><p>隨體力與天候安排，晚到就留給下次。</p><ol class="journey-timeline">${optionalIds.map((id, index) => stopHtml(id, index, null)).join("")}</ol></details>` : ""}
       <p class="winter-footnote">北海道主題插畫，路線依目前排序，位置與距離非實際地圖。導航請點景點卡；風雪、排隊可能讓行程順延。</p>`;
 
@@ -552,6 +560,8 @@
     if (map?.matches("details")) map.open = mapOpen;
     const optional = host.querySelector(".journey-optional");
     if (optional) optional.open = optionalOpen;
+    const schedule = host.querySelector(".day-nine-schedule");
+    if (schedule) schedule.open = dayNineScheduleOpen;
     if (mainIds.length) paintPlayback();
     else host.querySelector(".journey-next-card").innerHTML = focusCardHtml(null);
   }
