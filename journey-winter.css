@@ -6,12 +6,11 @@ body.winter-view-active {
   background: radial-gradient(circle at 12% 15%, #e4f0f1 0, transparent 38%), #f8f5ed;
 }
 .winter-view-active .shell { width: 100%; max-width: 760px; margin: 0 auto; padding: 16px 18px 40px; gap: 18px; }
-.winter-view-active .shell > .hero { display: none; }
 .winter-view-active .itinerary-panel { padding: 0; border: 0; box-shadow: none; background: transparent; }
 .winter-nav-bar { display: none; }
 .winter-view-active .winter-nav-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.winter-nav-bar h1 { margin: 0; color: #526f78; font-size: .95rem; font-weight: 700; letter-spacing: .04em; }
-.winter-nav-bar h1:focus { outline: none; }
+.winter-nav-title { margin: 0; color: #526f78; font-size: .95rem; font-weight: 700; letter-spacing: .04em; }
+.winter-nav-title:focus { outline: none; }
 .winter-nav-bar button { min-height: 44px; min-width: 48px; padding: 8px 2px; border: 0; color: var(--muted); background: transparent; font: inherit; font-size: .75rem; cursor: pointer; }
 .winter-nav-bar button:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; border-radius: 6px; }
 .winter-nav-bar [data-planner-view="travel"] { display: none; }
@@ -184,7 +183,7 @@ body.winter-view-active[data-planner-theme="dark"] {
   background: radial-gradient(circle at 10% 12%, #254450 0, transparent 45%), #14252e;
 }
 .winter-view-active .winter-nav-bar { gap: 6px; }
-.winter-view-active .winter-nav-bar h1 { min-width: 0; font-size: .88rem; color: var(--text); }
+.winter-view-active .winter-nav-title { min-width: 0; font-size: .88rem; color: var(--text); }
 .winter-view-active .winter-nav-bar button { font-size: .78rem; }
 .winter-view-active .day-navigation { background: var(--bg); }
 .winter-view-active .winter-heading p { color: var(--muted); font-size: .68rem; letter-spacing: .1em; }
@@ -251,3 +250,38 @@ body.winter-view-active[data-planner-theme="dark"] {
 .winter-view-active .day-tabs.is-dragging { scroll-behavior: auto; scroll-snap-type: none; user-select: none; cursor: grabbing; }
 .winter-view-active .day-tabs.is-dragging * { cursor: grabbing; }
 .workspace.is-overview .day-tabs-controls { display: none; }
+
+/* Keep the original trip cover; only the phone travel view can collapse it. */
+.winter-view-active:not(.winter-edit-active) .shell { max-width: 1180px; }
+.winter-view-active .workspace.is-travel { max-width: 760px; }
+.winter-view-active .shell > .hero {
+  display: grid; grid-template-columns: minmax(0,1.7fr) minmax(240px,.9fr);
+  gap: 24px; padding: 28px; color: #f5f8fa;
+  border-color: #82929b;
+  background-image: linear-gradient(90deg,rgba(15,29,39,.9),rgba(15,29,39,.73)),url("assets/hero-snow-hokkaido-v2.jpg");
+  background-position: center; background-size: cover;
+}
+.winter-view-active .hero h1 { color: #f5f8fa; font-size: clamp(2rem,4.5vw,4.4rem); line-height: 1.08; letter-spacing: -.04em; }
+.winter-view-active .hero h1:focus { outline: none; }
+.winter-view-active .hero .eyebrow { display: block; color: #a8dcee; }
+.winter-view-active .hero .lede { display: block; color: #dbe7ed; margin: 16px 0 0; }
+.winter-view-active .hero .hero-metrics { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.winter-view-active .hero .metric { display: block; padding: 15px; border: 1px solid #667c89; border-radius: 16px; background: rgba(10,25,35,.86); }
+.winter-view-active .hero .metric span { display: block; color: #cfdfE8; font-size: .8rem; }
+.winter-view-active .hero .metric strong { display: block; color: #f5f8fa; font-size: 1.35rem; margin-top: 6px; }
+.hero-mobile-tools { display: none; }
+@media (max-width:640px) {
+  .winter-view-active .shell > .hero { grid-template-columns: minmax(0,1fr); padding: 20px 18px; gap: 18px; margin-bottom: 16px; }
+  .winter-view-active .hero h1 { font-size: 2rem; }
+  .winter-view-active .hero .lede { font-size: .88rem; line-height: 1.8; }
+  .winter-view-active .hero .metric { padding: 12px; }
+  .winter-view-active .hero .metric strong { font-size: 1.15rem; }
+  .winter-travel-active .hero-mobile-tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; color: #dbe7ed; font-size: .82rem; }
+  .hero-mobile-tools button { min-height: 44px; padding: 7px 10px; border: 1px solid #a8c0cc; border-radius: 10px; color: #f5f8fa; background: #203844; font: inherit; font-size: .8rem; cursor: pointer; }
+  .hero-mobile-tools button:focus-visible { outline: 2px solid #f2d399; outline-offset: 3px; }
+  .winter-travel-active .hero:not(.is-expanded) .eyebrow,
+  .winter-travel-active .hero:not(.is-expanded) .lede,
+  .winter-travel-active .hero:not(.is-expanded) .hero-metrics { display: none; }
+  .winter-travel-active .shell > .hero:not(.is-expanded) { padding: 16px 18px 12px; gap: 0; }
+  .winter-travel-active .hero:not(.is-expanded) h1 { font-size: 1.6rem; line-height: 1.25; }
+}

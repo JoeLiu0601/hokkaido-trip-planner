@@ -23,6 +23,13 @@
     applyTheme();
     try { window.localStorage.setItem(themeKey, theme); } catch { /* Keep the selected theme for this visit. */ }
   });
+  const hero = document.querySelector(".hero");
+  const heroToggle = document.getElementById("hero-summary-toggle");
+  heroToggle?.addEventListener("click", () => {
+    const expanded = hero.classList.toggle("is-expanded");
+    heroToggle.setAttribute("aria-expanded", String(expanded));
+    heroToggle.textContent = expanded ? "收起旅程資訊 ⌃" : "旅程資訊 ⌄";
+  });
 
   const companions = [
     { id: "pikachu", name: "皮卡丘", src: "assets/pikachu-travel-cutout.png" },
@@ -496,6 +503,7 @@
     document.body.classList.toggle("travel-view-active", mode !== "edit");
     document.body.classList.add("winter-view-active");
     document.body.classList.toggle("winter-edit-active", mode === "edit");
+    document.body.classList.toggle("winter-travel-active", mode === "travel");
     host.hidden = mode === "edit";
     host.setAttribute("aria-label", mode === "overview" ? "十日行程總覽" : "旅途中行程");
     switchButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.plannerView === mode)));
@@ -551,8 +559,7 @@
   switchButtons.forEach((button) => button.addEventListener("click", () => {
     setMode(button.dataset.plannerView);
     renderJourney();
-    const heading = mode === "overview" ? host.querySelector("#journey-overview-title") : mode === "travel" ? host.querySelector("#journey-title") : document.querySelector(".winter-nav-bar h1");
-    heading?.focus();
+    document.getElementById("trip-title")?.focus();
   }));
 
   document.getElementById("day-tabs")?.addEventListener("click", (event) => {

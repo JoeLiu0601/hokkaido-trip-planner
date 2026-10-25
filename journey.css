@@ -29,11 +29,7 @@
 .view-switch button[aria-pressed="true"] { color: var(--text); background: var(--card-strong); border-color: var(--line); }
 .view-switch img { object-fit: contain; }
 .travel-view-active .shell { display: flex; flex-direction: column; }
-.travel-view-active .shell > .hero { order: 0; display: block; padding: 15px 22px; }
-.travel-view-active .hero h1 { font-size: 1.25rem; line-height: 1.4; letter-spacing: 0; }
-.travel-view-active .hero .eyebrow,
-.travel-view-active .hero .lede,
-.travel-view-active .hero .hero-metrics { display: none; }
+.travel-view-active .shell > .hero { order: 0; }
 .travel-view-active .shell > .workspace { order: 1; width: 100%; }
 .travel-view-active .shell > .flight-panel { order: 2; }
 .travel-view-active .shell > .toolbar { order: 3; }
