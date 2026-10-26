@@ -51,7 +51,7 @@ body {
 .day-timing-draft p {
   margin: 6px 0 0;
   color: var(--muted);
-  font-size: 0.84rem;
+  font-size: 0.9rem;
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
@@ -64,7 +64,8 @@ body {
 .day-schedule li span { min-width: 0; }
 .day-schedule li b { display: block; color: var(--text); font-size: .9rem; }
 .day-schedule li small { display: block; margin-top: 4px; color: var(--muted); font-size: .84rem; line-height: 1.6; overflow-wrap: anywhere; }
-.day-ten-timing-draft > p { font-size: .9rem; }
+.day-schedule-route strong, .day-schedule-warning strong { color: var(--text); }
+.day-schedule-warning { padding-left: 10px; border-left: 3px solid var(--accent); }
 .day-schedule-sources a { color: var(--accent-2); text-underline-offset: 3px; }
 @media (max-width: 480px) { .day-schedule li { grid-template-columns: 1fr; gap: 2px; } }
 .stop-timing {
