@@ -55,17 +55,18 @@ body {
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
-.day-nine-schedule { margin-top: 10px; border-top: 1px solid var(--line); }
-.day-nine-schedule > summary { min-height: 44px; padding: 12px 0; cursor: pointer; color: var(--text); font-weight: 700; }
-.day-nine-schedule > summary:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
-.day-nine-schedule ol { list-style: none; margin: 0; padding: 0; }
-.day-nine-schedule li { display: grid; grid-template-columns: minmax(112px, .32fr) 1fr; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
-.day-nine-schedule-time { color: var(--accent-2); font-size: .85rem; }
-.day-nine-schedule li span { min-width: 0; }
-.day-nine-schedule li b { display: block; color: var(--text); font-size: .86rem; }
-.day-nine-schedule li small { display: block; margin-top: 4px; color: var(--muted); font-size: .78rem; line-height: 1.55; overflow-wrap: anywhere; }
-.day-nine-sources a { color: var(--accent-2); text-underline-offset: 3px; }
-@media (max-width: 480px) { .day-nine-schedule li { grid-template-columns: 1fr; gap: 2px; } }
+.day-schedule { margin-top: 10px; border-top: 1px solid var(--line); }
+.day-schedule > summary { min-height: 44px; padding: 12px 0; cursor: pointer; color: var(--text); font-weight: 700; }
+.day-schedule > summary:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.day-schedule ol { list-style: none; margin: 0; padding: 0; }
+.day-schedule li { display: grid; grid-template-columns: minmax(112px, .32fr) 1fr; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
+.day-schedule-time { color: var(--accent-2); font-size: .9rem; }
+.day-schedule li span { min-width: 0; }
+.day-schedule li b { display: block; color: var(--text); font-size: .9rem; }
+.day-schedule li small { display: block; margin-top: 4px; color: var(--muted); font-size: .84rem; line-height: 1.6; overflow-wrap: anywhere; }
+.day-ten-timing-draft > p { font-size: .9rem; }
+.day-schedule-sources a { color: var(--accent-2); text-underline-offset: 3px; }
+@media (max-width: 480px) { .day-schedule li { grid-template-columns: 1fr; gap: 2px; } }
 .stop-timing {
   padding: 10px 12px;
   border-left: 3px solid var(--accent-2);
