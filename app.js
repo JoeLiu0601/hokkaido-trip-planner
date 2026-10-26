@@ -1677,7 +1677,8 @@ const drivingStartHotels = {
   4: accommodations[1],
   5: accommodations[1],
   6: accommodations[1],
-  7: accommodations[1]
+  7: accommodations[1],
+  8: accommodations[2]
 };
 
 // 固定住宿出發點獨立呈現，不加入景點排序或共編行程。
@@ -1703,7 +1704,10 @@ const drivingPlaceOverrides = {
   "happiness-bell": "地球岬展望台 室蘭市母恋南町4丁目 北海道",
   "miyanomori-frances-church": "札幌市中央区宮の森3条10丁目3-25 宮の森フランセス教会",
   "nippon-rentacar-new-chitose": "北海道千歳市美々758-136 ニッポンレンタカー新千歳空港営業所",
-  "moiwa-yama": "もいわ山ロープウェイ山麓駅 札幌 北海道"
+  "moiwa-yama": "もいわ山ロープウェイ山麓駅 札幌 北海道",
+  "hakodate-mt": "函館山ロープウェイ山麓駅 函館市元町19-7",
+  "hakodate-station-airport-bus": "函館駅前バスターミナル 11番のりば",
+  "lagent-hakodate-ekimae": "ラ・ジェント・ステイ函館駅前 函館市若松町12-8"
 };
 
 const unspecifiedDrivingStops = new Set([
@@ -2272,6 +2276,7 @@ function inlineSpotDetailsHtml(spot, day, index) {
     ${logistics?.access ? `<p><strong>交通建議：</strong>${escapeHtml(logistics.access)}</p>` : ""}
     ${practicalOptionsHtml(spot)}
     <p>${escapeHtml(transport)}</p>
+    ${plannedDrivingRouteHtml(day, index, spot.id)}
     <p class="inline-detail-note">票價、營業時間與交通班次，請以官方最新公告為準。</p>
   `;
 }
@@ -2357,23 +2362,59 @@ function getDayOneNavigationMode(spotId) {
 }
 
 function getStopNavigation(day, index, spot) {
-  if (day === 10 && spot.id === "hakodate-station-airport-bus") {
-    return {
-      url: `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent("函館駅前バスターミナル 11番のりば")}&destination=${encodeURIComponent("函館空港 国際線旅客ターミナル")}&travelmode=transit`,
-      label: "巴士導航"
-    };
+  const mode = getStopNavigationMode(day, index, spot.id);
+  const destination = mode === "driving" ? getDrivingPlaceQuery(spot)
+    : drivingPlaceOverrides[spot.id] || `${spot.name} ${spot.area} 北海道`;
+  if (!mode || !destination) return { url: getMapUrl(spot), label: "搜尋地點", mode: "" };
+  // 不指定 origin，交由地圖 App 使用裝置目前位置；規劃用起點只放在細節。
+  return {
+    url: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=${mode}${mode === "transit" ? "" : "&dir_action=navigate"}`,
+    label: mode === "driving" ? "從目前位置開車導航" : mode === "walking" ? "步行導航" : "搭車路線",
+    mode,
+    note: day === 6 && ["kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"].includes(spot.id)
+      ? "依試排先回 APA 停車，再使用步行導航。"
+      : day === 5 && spot.id === "moiwa-yama" ? "先回 APA 取車，再使用開車導航。" : ""
+  };
+}
+
+function getStopNavigationMode(day, index, spotId) {
+  const stops = state.plan[day] || [];
+  if (index < 0 || stops[index] !== spotId) return "";
+  if (day === 1) {
+    if (["new-chitose-airport", "nippon-rentacar-new-chitose"].includes(spotId)) return "";
+    const mode = getDayOneNavigationMode(spotId);
+    const pickupIndex = stops.indexOf("nippon-rentacar-new-chitose");
+    if (mode === "walking") return mode;
+    return pickupIndex >= 0 && index > pickupIndex ? "driving" : "";
   }
-  const mode = day === 1 ? getDayOneNavigationMode(spot.id) : "";
-  const pickupIndex = (state.plan[day] || []).indexOf("nippon-rentacar-new-chitose");
-  if (mode && (mode !== "driving" || (pickupIndex >= 0 && index > pickupIndex))) {
-    const destination = drivingPlaceOverrides[spot.id] || `${spot.name} ${spot.area} 北海道`;
-    return {
-      url: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=${mode}&dir_action=navigate`,
-      label: mode === "driving" ? "開車導航" : "步行導航"
-    };
+  const previous = stops[index - 1];
+  if (day === 8) {
+    if (index === 0 && spotId === "lagent-hakodate-ekimae") return "driving";
+    const nearby = ["goryokaku", "goryokaku-tower", "lucky-pierrot-goryokaku", "rokkatei-goryokaku"];
+    if (nearby.includes(previous) && nearby.includes(spotId)) return "walking";
+    return "transit";
   }
-  const routeUrl = getDrivingRouteUrlForStop(day, index, spot.id);
-  return { url: routeUrl || getMapUrl(spot), label: routeUrl ? "開車路線" : "地圖" };
+  if (day >= 9) {
+    if (["hakodate-gokoku-shrine", "hakodate-hachimangu"].includes(spotId)) return "";
+    if (spotId === "hakodate-mt" || (previous === "hachimanzaka" && spotId === "kanemori-warehouse")) return "walking";
+    if (day === 10 && ["morning-market", "hakodate-station-airport-bus"].includes(spotId)) return "walking";
+    return "transit";
+  }
+  if (getKnownWalkingLeg(day, index, spotId)) return "walking";
+  if (day === 2 && ["sapporo-odori", "sapporo-susukino"].includes(spotId)
+    && ["apa-sapporo-susukino-ekinishi", "sapporo-odori"].includes(previous)) return "walking";
+  if (day === 5 && ["nakajima-park", "unagi-nakajima"].includes(spotId)
+    && (index === 0 || ["nakajima-park", "unagi-nakajima"].includes(previous))) return "walking";
+  const otaruWalk = ["otaru-canal", "taisho-glass", "otaru-meruhen-crossing", "otaru-sakaimachi"];
+  if (otaruWalk.includes(previous) && otaruWalk.includes(spotId)) return "walking";
+  if (day === 6 && ["kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"].includes(spotId)) return "walking";
+  return "driving";
+}
+
+function plannedDrivingRouteHtml(day, index, spotId) {
+  const url = getDrivingRouteUrlForStop(day, index, spotId);
+  if (!url) return "";
+  return `<p><a class="map-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">查看飯店／上一站到這站的開車路線</a>（行前規劃）</p>`;
 }
 
 function isDayOneTimingDraftApplicable() {
@@ -2539,6 +2580,8 @@ function getDrivingPlaceQuery(place) {
 }
 
 function getDrivingOriginForStop(day, index) {
+  if (day === 5 && (state.plan[day] || [])[index] === "moiwa-yama"
+    && ["nakajima-park", "unagi-nakajima"].includes((state.plan[day] || [])[index - 1])) return accommodations[1];
   if (index > 0) {
     return spotById((state.plan[day] || [])[index - 1]);
   }
@@ -2551,15 +2594,7 @@ function getKnownWalkingLeg(day, index, spotId) {
 }
 
 function getDrivingRouteUrlForStop(day, index, spotId) {
-  if (day < 1 || day > 7 || getKnownWalkingLeg(day, index, spotId)
-    || (day === 1 && (spotId === "new-chitose-airport" || spotId === "nippon-rentacar-new-chitose"))) {
-    return "";
-  }
-  const dayStops = state.plan[day] || [];
-  const pickupIndex = dayStops.indexOf("nippon-rentacar-new-chitose");
-  if (day === 1 && (pickupIndex < 0 || index <= pickupIndex)) {
-    return "";
-  }
+  if (getStopNavigationMode(day, index, spotId) !== "driving") return "";
   const origin = getDrivingPlaceQuery(getDrivingOriginForStop(day, index));
   const destination = getDrivingPlaceQuery(spotById(spotId));
   if (!origin || !destination) {
@@ -2666,6 +2701,10 @@ function getDriveInfoForStop(day, index, spotId) {
     return walkingLeg;
   }
 
+  if (day === 5 && spotId === "moiwa-yama") return "先回 APA 取車，再開車到藻岩山纜車山麓站；主按鈕從手機目前位置導航，細節內可查看飯店出發的規劃路線";
+  if (day === 6 && spotId === "kinotoya-bake-pole-town") return "依試排先回 APA 停車，再步行逛地下街；抵達市區並停好車後使用步行導航";
+  if (getStopNavigationMode(day, index, spotId) === "walking") return "由目前位置步行前往｜雪地步行請留緩衝，主按鈕使用步行模式";
+
   const origin = getDrivingOriginForStop(day, index);
   if (!origin) {
     return "自駕起點待確認｜請先確認出發地點";
@@ -2677,7 +2716,7 @@ function getDriveInfoForStop(day, index, spotId) {
   if (!getDrivingPlaceQuery(spot)) {
     return `由 ${origin.name} 前往｜此站尚無明確自駕停靠點，請先確認目的地與停車處`;
   }
-  return `由 ${origin.name} 前往｜開啟地圖查當時路線與車程；冬季路況及停車處另確認`;
+  return `規劃由 ${origin.name} 前往；主按鈕從手機目前位置開車導航，飯店／上一站路線收在細節。冬季路況及停車處另確認`;
 }
 
 function getDriveInfoForFocus() {
@@ -3834,6 +3873,7 @@ function renderMealPlanner() {
   dom.mealSlots.innerHTML = slots.map((slot) => {
     const entry = meals[slot.id] || createMealEntry(slot.id);
     const primary = spotById(entry.primaryId);
+    const primaryNavigation = primary ? getStopNavigation(day, (state.plan[day] || []).indexOf(primary.id), primary) : null;
     const backup = spotById(entry.backupId);
     const logistics = primary ? getSpotLogistics(primary.id) : null;
     const disclosureKey = `meal-${day}-${slot.id}`;
@@ -3866,7 +3906,7 @@ function renderMealPlanner() {
         </div>
         ${primary ? `
           <div class="meal-summary-actions">
-            <a class="map-link" href="${getMapUrl(primary)}" target="_blank" rel="noopener noreferrer">導航到首選餐廳</a>
+            <a class="map-link" href="${primaryNavigation.url}" target="_blank" rel="noopener noreferrer">${primaryNavigation.label}（首選餐廳）</a>
           </div>
         ` : ""}
 
@@ -4210,7 +4250,7 @@ function renderItinerary() {
               <span class="tag tag-extra">${spot.best}</span>
             </div>
             <div class="stop-quick-actions">
-              <a class="small-button map-link" href="${navigation.url}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(spot.name)}，${navigation.label}">${navigation.label.includes("導航") ? navigation.label : "導航"}</a>
+              <a class="small-button map-link" href="${navigation.url}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(spot.name)}，${navigation.label}">${navigation.mode === "driving" ? "開車導航" : navigation.label}</a>
               <button class="small-button alt" data-details-toggle data-disclosure-key="${key}-details" aria-controls="${key}-details" aria-expanded="${detailsOpen}">${detailsOpen ? "收合細節" : "看細節"}</button>
               <button class="small-button" data-adjust-toggle data-disclosure-key="${key}-adjust" aria-controls="${key}-adjust" aria-expanded="${adjustOpen}">${adjustOpen ? "收合調整" : "調整"}</button>
             </div>
@@ -4534,7 +4574,7 @@ function renderSpotGrid() {
           </div>
           <div class="stop-quick-actions">
             <button class="small-button alt" data-add="${spot.id}" ${isSelected ? "disabled" : ""}>${buttonLabel}</button>
-            <a class="small-button map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(spot.name)}地圖">導航</a>
+            <a class="small-button map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(spot.name)}地圖">搜尋地點</a>
             <button class="small-button" data-details-toggle data-disclosure-key="${key}" aria-controls="${key}" aria-expanded="${detailsOpen}">${detailsOpen ? "收合細節" : "看細節"}</button>
           </div>
           <div class="stop-inline-details" id="${key}" data-inline-details ${detailsOpen ? "" : "hidden"}>

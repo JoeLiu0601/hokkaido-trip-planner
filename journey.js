@@ -289,9 +289,10 @@
     const logistics = getSpotLogistics(id);
     return `<div class="winter-focus-top"><span class="winter-focus-eyebrow">${preview ? "正在預覽這一站" : "接下來去哪裡"}</span><span>${escapeHtml(timingText(spot))}</span></div>
       <h3 id="journey-next-title" tabindex="-1">${escapeHtml(spot.name)}</h3><p class="winter-focus-summary">${escapeHtml(summaryText(spot))}</p>
+      ${nav.note ? `<p class="winter-focus-summary">${escapeHtml(nav.note)}</p>` : ""}
       <div class="winter-focus-actions"><a href="${escapeHtml(nav.url)}" target="_blank" rel="noopener noreferrer">↗ ${nav.label}</a><button type="button" data-winter-info aria-expanded="false" aria-controls="winter-focus-info">查看詳情 ⌄</button></div>
       ${state.selectedDay === 10 && id === "hakodate-station-airport-bus" ? airportBusTimetableHtml() : ""}
-      <div id="winter-focus-info" class="winter-focus-info" hidden><p>${escapeHtml(spot.desc)}</p>${logistics?.hours ? `<p><strong>開放／營業：</strong>${escapeHtml(logistics.hours)}</p>` : ""}${logistics?.tickets ? `<p><strong>票券：</strong>${escapeHtml(logistics.tickets)}</p>` : ""}</div>
+      <div id="winter-focus-info" class="winter-focus-info" hidden><p>${escapeHtml(spot.desc)}</p><p>${escapeHtml(getDriveInfoForStop(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id))}</p>${plannedDrivingRouteHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id)}${logistics?.hours ? `<p><strong>開放／營業：</strong>${escapeHtml(logistics.hours)}</p>` : ""}${logistics?.tickets ? `<p><strong>票券：</strong>${escapeHtml(logistics.tickets)}</p>` : ""}</div>
       ${preview ? `<button type="button" class="winter-return" data-player-return>↶ 回到實際進度</button>` : `<details class="winter-progress-tools"><summary>標記這一站</summary><div><button type="button" data-journey-status="done" data-journey-id="${id}">✓ 完成這站</button><button type="button" data-journey-status="skipped" data-journey-id="${id}">略過</button></div></details>`}`;
   }
 
@@ -430,6 +431,7 @@
           <div class="journey-stop-details">
             <p>${escapeHtml(spot.desc)}</p>
             ${timing ? `<p>${escapeHtml(timing.note)}</p>` : ""}
+            ${plannedDrivingRouteHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id)}
             ${logistics?.hours ? `<p><strong>開放：</strong>${escapeHtml(logistics.hours)}</p>` : ""}
             ${logistics?.tickets ? `<p><strong>票券：</strong>${escapeHtml(logistics.tickets)}</p>` : ""}
             ${state.selectedDay === 10 && id === "hakodate-station-airport-bus" ? airportBusTimetableHtml() : ""}
