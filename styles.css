@@ -39,6 +39,36 @@ body {
   display: none;
 }
 
+#day-departure:empty { display: none; }
+.workspace.is-travel #day-departure { display: none; }
+.day-departure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 16px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent-2);
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--text);
+  break-inside: avoid;
+}
+.day-departure-copy { flex: 1 1 210px; min-width: 0; }
+.day-departure h3 { margin: 5px 0 8px; color: var(--text); font-size: 1rem; line-height: 1.5; overflow-wrap: anywhere; }
+.day-departure p { margin: 4px 0 0; color: var(--muted); font-size: .9rem; line-height: 1.7; overflow-wrap: anywhere; }
+.day-departure p strong { color: var(--text); }
+.day-departure .day-departure-label { color: var(--accent-2); font-weight: 700; }
+.day-departure > a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; flex-shrink: 0; }
+@media print {
+  .print-report .day-departure { background: #fff; color: #24343e; border-color: #b6c2c6; padding: 10px; }
+  .print-report .day-departure h3,
+  .print-report .day-departure p,
+  .print-report .day-departure p strong { color: #24343e; }
+  .print-report .day-departure > a { color: #24343e; background: #fff; }
+}
+
 .day-timing-draft {
   margin-bottom: 16px;
   padding: 14px;

@@ -551,6 +551,7 @@
     const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"][new Date(Date.UTC(2026, 11, 22 + state.selectedDay)).getUTCDay()];
     host.innerHTML = `
       <header class="winter-heading"><div><p>HOKKAIDO WINTER WALK</p><h2 id="journey-title" tabindex="-1">Day ${state.selectedDay} · ${scene.title}</h2><span>${escapeHtml(areas.join(" → ") || "今天的路線，等你來安排")}</span></div><div class="winter-date"><strong>${tripDates[state.selectedDay - 1].replace("/", ".")}</strong><span>${weekday} · 日本時間</span></div></header>
+      ${dayDepartureHtml(state.selectedDay)}
       <section class="journey-next-card winter-focus-card" aria-labelledby="journey-next-title"></section>
       <p class="journey-feedback" role="status" aria-live="polite" ${feedback ? "" : "hidden"}>${escapeHtml(feedback)}</p>
       ${state.selectedDay >= 2 && mainIds.length ? `<section class="day-timing-draft daily-timing-draft" aria-labelledby="journey-day-timing-title">${getDayTimingDraftHtml(state.selectedDay, "journey-day-timing-title")}</section>` : ""}

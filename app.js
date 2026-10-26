@@ -1680,6 +1680,19 @@ const drivingStartHotels = {
   7: accommodations[1]
 };
 
+// 固定住宿出發點獨立呈現，不加入景點排序或共編行程。
+const dayDepartures = {
+  2: { hotel: accommodations[0], name: "旭川 Premier Hotel-CABIN", time: "08:30", checkout: true },
+  3: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "08:30" },
+  4: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "08:00" },
+  5: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "10:00" },
+  6: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "10:15" },
+  7: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "08:30", checkout: true },
+  8: { hotel: accommodations[2], name: "洞爺湖 湖畔亭", time: "08:30", checkout: true },
+  9: { hotel: accommodations[3], name: "La’gent Stay 函館站前", time: "09:30" },
+  10: { hotel: accommodations[3], name: "La’gent Stay 函館站前", time: "09:15", checkout: true, note: "先在飯店周邊吃早餐；10:15 前退房、寄行李，12:15 回來取行李。" }
+};
+
 const drivingPlaceOverrides = {
   "premier-cabin-asahikawa": "プレミアホテル-CABIN-旭川 北海道旭川市1条通7丁目",
   "aeon-mall-asahikawa-ekimae": "イオンモール旭川駅前 旭川 北海道",
@@ -2137,6 +2150,7 @@ const dom = {
   dayTabs: document.getElementById("day-tabs"),
   itineraryList: document.getElementById("itinerary-list"),
   dayTimingDraft: document.getElementById("day-timing-draft"),
+  dayDeparture: document.getElementById("day-departure"),
   itineraryDropzone: document.getElementById("itinerary-dropzone"),
   spotGrid: document.getElementById("spot-grid"),
   spotAreaTabs: document.getElementById("spot-area-tabs"),
@@ -2493,6 +2507,24 @@ function renderDayTimingDraft() {
 
 function getAccommodationMapUrl(hotel) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hotel.name)}`;
+}
+
+function dayDepartureHtml(day) {
+  const departure = dayDepartures[day];
+  if (!departure) return "";
+  const timingMatches = isDayTimingDraftApplicable(day);
+  const note = departure.note || (departure.checkout
+    ? "先吃早餐、退房並帶齊行李，再出發。"
+    : "今天續住，遊覽後回同一間飯店休息。");
+  return `<section class="day-departure" aria-label="Day ${day} 出發點">
+    <div class="day-departure-copy">
+      <p class="day-departure-label">今日出發點${departure.checkout ? " · 退房日" : " · 續住"}</p>
+      <h3>${escapeHtml(departure.name)}</h3>
+      <p><strong>${departure.time}</strong> ${day === 10 ? "開始當日行程" : "參考出發時間"} · 日本時間試排</p>
+      <p>${escapeHtml(note)}${timingMatches ? "" : " 目前路線與原試排不同，出發時間需再確認。"}</p>
+    </div>
+    <a class="small-button map-link" href="${getAccommodationMapUrl(departure.hotel)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(departure.name)}，查看飯店地圖">飯店地圖</a>
+  </section>`;
 }
 
 function getDrivingPlaceQuery(place) {
@@ -4132,6 +4164,7 @@ function renderDayTabs() {
 
 function renderItinerary() {
   const ids = state.plan[state.selectedDay];
+  dom.dayDeparture.innerHTML = dayDepartureHtml(state.selectedDay);
   window.HOKKAIDO_JOURNEY?.render();
   renderDayTimingDraft();
   dom.dayNote.textContent = `今天編輯第 ${state.selectedDay} 天的行程，建議保持同區域或同主題移動。`;
@@ -4871,6 +4904,7 @@ function renderPrintReport() {
             <p>${daySpots.length} 個點位</p>
           </header>
 
+          ${dayDepartureHtml(day)}
           <ol class="print-stop-list">${stopsHtml}</ol>
 
           <section class="print-day-footer">
