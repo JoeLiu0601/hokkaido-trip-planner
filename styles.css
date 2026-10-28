@@ -61,6 +61,22 @@ body {
 .day-departure p strong { color: var(--text); }
 .day-departure .day-departure-label { color: var(--accent-2); font-weight: 700; }
 .day-departure > a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; flex-shrink: 0; }
+.split-routes { flex: 1 1 100%; min-width: 0; border-top: 1px solid var(--line); padding-top: 10px; }
+.split-ski-route { margin-top: 8px; }
+.split-ski-route summary { display: list-item; min-height: 44px; padding: 10px 4px; color: var(--text); font-weight: 700; cursor: pointer; }
+.split-ski-route a { display: inline-flex; align-items: center; min-height: 44px; margin-top: 10px; white-space: normal; }
+.split-routes > a { display: inline-flex; align-items: center; min-height: 44px; margin-top: 10px; white-space: normal; }
+.group-route-picker { margin: 0 0 16px; color: var(--text); }
+.group-route-switch { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.group-route-switch button { min-height: 48px; padding: 10px 8px; border: 2px solid var(--line); border-radius: 12px; background: var(--card); color: var(--text); font: inherit; font-weight: 700; cursor: pointer; }
+.group-route-switch button[aria-pressed="true"] { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.group-route-switch button:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
+.group-route-picker p { color: var(--muted); font-size: .9rem; line-height: 1.7; margin: 10px 0 0; overflow-wrap: anywhere; }
+.group-ski-stages { list-style: none; margin: 16px 0; padding: 0; }
+.group-ski-stages li { padding: 12px 0; border-top: 1px solid var(--line); }
+.group-ski-stages h4 { margin: 5px 0; font-size: 1rem; color: var(--text); }
+.group-ski-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.group-ski-actions a { display: inline-flex; align-items: center; min-height: 44px; white-space: normal; }
 @media print {
   .print-report .day-departure { background: #fff; color: #24343e; border-color: #b6c2c6; padding: 10px; }
   .print-report .day-departure h3,

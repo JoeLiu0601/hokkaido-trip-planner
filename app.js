@@ -1067,12 +1067,12 @@ const winterProfile = {
 const tripDates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29", "12/30", "12/31", "1/1"];
 
 const daySummaries = {
-  1: "11:00 抵達新千歲機場，入境、取車後前往旭川，途中簡單午餐與休息。先試排約 16:45 入住、17:15 採買雪靴、18:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。",
+  1: "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先試排約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。",
   2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌。先到 APA 飯店入住，再逛大通與薄野；天候備案另列白色戀人公園與宮之森佛朗西斯教會。",
   3: "上午安排札幌神社巡禮，手稻放在前往小樽途中，接著吃午餐、逛玻璃店與童話十字路，再看天黑後的運河。完整時間試排另列建議順序供 review。",
   4: "從札幌前往登別，走地獄谷與溫泉街，再前往室蘭看白鳥大橋（祝津公園展望台）與地球岬的幸福之鐘。午餐可依當天喜好選登別溫泉街或室蘭天勝；登別閻魔炒麵、海鮮料理與喫茶田園甜點可參考下方備選。",
-  5: "上午在中島公園散步看雪景，中午吃鰻魚飯，下午自由休息，傍晚再上藻岩山看夜景。",
-  6: "札幌市區採買與美食日，安排啤酒博物館、商場、迴轉壽司、甜點與拉麵。",
+  5: "白天 A 線市區觀光、B 線自駕滑雪；傍晚在藻岩山纜車山麓站會合，一起看夜景，再搭朋友的車回 APA，停好車後步行吃晚餐。",
+  6: "A 線市區觀光：搭車前往啤酒博物館、Ario 與 Toriton，下午搭車回市中心逛地下街；B 線同伴自行開車去滑雪，集合時間另約。",
   7: "從札幌退房前往真狩村，經 SAIRO 展望台到洞爺湖，湖畔短逛後到 Toya Kohan Tei 入住；本次試排不安排火口，下午留給泡湯與休息。",
   8: "從洞爺湖開車到函館，先到 La'gent Stay 寄行李，再加油還車；之後搭市電逛五稜郭公園、登塔，在塔旁的小丑漢堡用餐，傍晚回飯店正式入住。函館山維持 D9。",
   9: "09:30 從 La'gent Stay 函館站前出發，白天逛八幡坂與金森，下午提早上函館山；晚餐後回飯店休息。護國神社午夜初詣僅在當年開放與深夜往返交通確認後安排。",
@@ -1081,23 +1081,23 @@ const daySummaries = {
 
 const dayOneTimingDraft = {
   "new-chitose-airport": {
-    time: "11:00–12:15",
-    duration: "約 75 分",
-    note: "BR166 預計 11:00 抵達；預留入境、領行李與前往租車櫃台的時間。"
+    time: "11:00–13:15",
+    duration: "入境約 75 分＋逛街約 1 小時",
+    note: "BR166 預計 11:00 抵達；11:00–12:15 入境、領行李，12:15–13:15 逛機場、買吃的。入境延誤就縮短逛街；取車預約時間請配合確認。"
   },
   "nippon-rentacar-new-chitose": {
-    time: "12:15–13:15",
+    time: "13:15–14:15",
     duration: "約 1 小時",
     note: "先在機場櫃台報到，再搭接駁車取車、確認雪胎與操作。接駁單程約 10–15 分鐘，等車與手續另留時間。"
   },
   "premier-cabin-asahikawa": {
-    time: "16:45–17:15",
+    time: "17:45–18:15",
     duration: "約 30 分",
-    note: "13:15–16:45 先抓開車至旭川，含約 30 分鐘服務區午餐與休息。抵達後停車、入住、放行李；下雪或塞車就順延。",
+    note: "14:15–17:45 先抓開車至旭川，含約 30 分鐘途中補餐與休息。抵達後停車、入住、放行李；下雪或塞車就順延。",
     navigationMode: "driving"
   },
   "aeon-mall-asahikawa-ekimae": {
-    time: "17:15–18:15",
+    time: "18:15–19:15",
     duration: "約 1 小時",
     note: "步行到站前 AEON，先買雪靴、防滑鞋與保暖配件；時間含往返站前的步行緩衝。",
     navigationMode: "walking"
@@ -1117,9 +1117,9 @@ const dayOneTimingDraft = {
     navigationMode: "driving"
   },
   "asahikawa-heiwa-dori": {
-    time: "18:15–19:45",
+    time: "19:15–20:45",
     duration: "約 1.5 小時",
-    note: "散步找晚餐，餐廳當天再決定；排隊就延後。約 19:45 後回飯店泡湯、休息，戶外散步隨體力決定。",
+    note: "散步找晚餐，餐廳當天再決定；先確認最後點餐，排隊太久就換附近店。約 20:45 後回飯店泡湯、休息，戶外散步隨體力決定。",
     navigationMode: "walking"
   }
 };
@@ -1675,8 +1675,6 @@ const drivingStartHotels = {
   2: accommodations[0],
   3: accommodations[1],
   4: accommodations[1],
-  5: accommodations[1],
-  6: accommodations[1],
   7: accommodations[1],
   8: accommodations[2]
 };
@@ -1687,7 +1685,7 @@ const dayDepartures = {
   3: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "08:30" },
   4: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "08:00" },
   5: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "10:00" },
-  6: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "10:15" },
+  6: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "10:00" },
   7: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "08:30", checkout: true },
   8: { hotel: accommodations[2], name: "洞爺湖 湖畔亭", time: "08:30", checkout: true },
   9: { hotel: accommodations[3], name: "La’gent Stay 函館站前", time: "09:30" },
@@ -1731,6 +1729,35 @@ const knownWalkingLegs = {
   "taisho-glass|otaru-meruhen-crossing": "大正硝子館到童話十字路建議步行，車輛停放處另確認",
   "kinotoya-bake-pole-town|3coins-pole-town": "兩間店都在 Pole Town 地下街，步行即可"
 };
+
+// 分組檢視只影響顯示，原共編景點與完成進度不因切換而更動。
+const groupRouteLabels = { A: "A 市區觀光", B: "B 滑雪" };
+const skiRouteDays = {
+  5: {
+    title: "滑雪與夜景會合",
+    route: "APA → 藻岩山滑雪場 → 夜景纜車山麓站會合 → 一起看夜景 → 開車回 APA",
+    stages: [
+      ["早上 · 時間待定", "APA 出發、自駕去滑雪", "依課程與租具報到時間出發；先確認是北斜面或南斜面入口。"],
+      ["白天", "藻岩山滑雪場", "課程、租具與滑雪結束時間尚未確定，須預留歸還裝備、換裝與移車時間。"],
+      ["傍晚 · 暫以 15:00 試排", "夜景纜車山麓站會合", "結束滑雪後，另外開車到もいわ山ロープウェイ山麓駅；與 A 線會合再一起上山。會合時間待課程確認。"],
+      ["會合後", "一起看藻岩山夜景", "一起搭纜車與迷你纜車上山，看完夜景下回山麓站。風雪停駛時另約市區集合。"],
+      ["下山後", "全員搭車回 APA", "回山麓停車場取車，一起回飯店停車，再步行吃晚餐。"]
+    ]
+  },
+  6: {
+    title: "滑雪日（待確認）",
+    route: "APA → 藻岩山滑雪場 → 開車回 APA；是否連滑兩天待確認",
+    stages: [
+      ["出發前", "確認是否繼續滑雪", "D6 是否滑雪、課程及出發時間未定；若一起逛市區，可切回 A 線查看原行程。"],
+      ["白天 · 條件式", "自行開車往返藻岩山滑雪場", "確認當季營業、報到入口與租具後出發；A 線留在市區搭車或步行。"],
+      ["結束後", "開車回 APA、另約晚餐", "先歸還裝備、回飯店停車，集合時間另約。D5 夜景不重複排在今天。"]
+    ]
+  }
+};
+
+function getGroupRouteForDay(day, group) {
+  return group === "B" ? skiRouteDays[day] || null : null;
+}
 
 const storageKey = "hokkaido-trip-planner-plan";
 const mealPlanKey = "hokkaido-trip-planner-meals";
@@ -2371,9 +2398,10 @@ function getStopNavigation(day, index, spot) {
     url: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=${mode}${mode === "transit" ? "" : "&dir_action=navigate"}`,
     label: mode === "driving" ? "從目前位置開車導航" : mode === "walking" ? "步行導航" : "搭車路線",
     mode,
-    note: day === 6 && ["kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"].includes(spot.id)
-      ? "依試排先回 APA 停車，再使用步行導航。"
-      : day === 5 && spot.id === "moiwa-yama" ? "先回 APA 取車，再使用開車導航。" : ""
+    note: day === 5 && spot.id === "moiwa-yama"
+      ? "去程市電＋免費接駁到纜車山麓站會合；看完夜景搭朋友的車回 APA。"
+      : day === 6 && spot.id === "kinotoya-bake-pole-town" && mode === "transit"
+        ? "搭車回大通／薄野，再步行逛地下街；市區觀光組使用大眾運輸。" : ""
   };
 }
 
@@ -2388,6 +2416,14 @@ function getStopNavigationMode(day, index, spotId) {
     return pickupIndex >= 0 && index > pickupIndex ? "driving" : "";
   }
   const previous = stops[index - 1];
+  if (day === 5 || day === 6) {
+    if (getKnownWalkingLeg(day, index, spotId)) return "walking";
+    if (day === 5 && ["nakajima-park", "unagi-nakajima"].includes(spotId)
+      && (index === 0 || ["nakajima-park", "unagi-nakajima"].includes(previous))) return "walking";
+    const downtown = ["kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka", "sapporo-susukino", "sapporo-odori", "apa-sapporo-susukino-ekinishi"];
+    if (day === 6 && downtown.includes(spotId) && (index === 0 || downtown.includes(previous))) return "walking";
+    return "transit";
+  }
   if (day === 8) {
     if (index === 0 && spotId === "lagent-hakodate-ekimae") return "driving";
     const nearby = ["goryokaku", "goryokaku-tower", "lucky-pierrot-goryokaku", "rokkatei-goryokaku"];
@@ -2403,11 +2439,8 @@ function getStopNavigationMode(day, index, spotId) {
   if (getKnownWalkingLeg(day, index, spotId)) return "walking";
   if (day === 2 && ["sapporo-odori", "sapporo-susukino"].includes(spotId)
     && ["apa-sapporo-susukino-ekinishi", "sapporo-odori"].includes(previous)) return "walking";
-  if (day === 5 && ["nakajima-park", "unagi-nakajima"].includes(spotId)
-    && (index === 0 || ["nakajima-park", "unagi-nakajima"].includes(previous))) return "walking";
   const otaruWalk = ["otaru-canal", "taisho-glass", "otaru-meruhen-crossing", "otaru-sakaimachi"];
   if (otaruWalk.includes(previous) && otaruWalk.includes(spotId)) return "walking";
-  if (day === 6 && ["kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"].includes(spotId)) return "walking";
   return "driving";
 }
 
@@ -2542,18 +2575,23 @@ function renderDayTimingDraft() {
     <h3 id="day-timing-title">Day 1 時間試排</h3>
     <p>${isDayOneTimingDraftApplicable()
       ? "下方時間皆為日本時間、初步估計。入住 → 買雪靴 → 晚餐是主要安排，兩個戶外點不必全去；若加入其他景點，請另留時間。"
-      : "主要站點已調整，原試排時間先隱藏，需依新順序重新估算。參考節奏：11:00 抵達、約 16:45 入住、17:15 採買、18:15 晚餐。"}</p>
-    <p>開車含午餐、休息先抓 3.5 小時，風雪時可能更久，晚到就直接採買、吃飯。點景點名稱或導航按鈕可開啟 Google 地圖；入住後站前採買、用餐使用步行導航。</p>`;
+      : "主要站點已調整，原試排時間先隱藏，需依新順序重新估算。參考節奏：11:00 抵達、入境後逛機場約 1 小時、約 17:45 入住、18:15 採買、19:15 晚餐。"}</p>
+    <p>機場逛街與入境分開留時間；取車後開車含補餐、休息先抓 3.5 小時，風雪時可能更久。入住後以採買、吃飯為主，晚餐最後點餐與租車預約時間請先確認。</p>`;
 }
 
 function getAccommodationMapUrl(hotel) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hotel.name)}`;
 }
 
-function dayDepartureHtml(day) {
+function getDayFiveReturnUrl() {
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(accommodations[1].name + " 札幌 北海道")}&travelmode=driving&dir_action=navigate`;
+}
+
+function dayDepartureHtml(day, group = "A") {
   const departure = dayDepartures[day];
   if (!departure) return "";
-  const timingMatches = isDayTimingDraftApplicable(day);
+  const skiRoute = getGroupRouteForDay(day, group);
+  const timingMatches = skiRoute || isDayTimingDraftApplicable(day);
   const note = departure.note || (departure.checkout
     ? "先吃早餐、退房並帶齊行李，再出發。"
     : "今天續住，遊覽後回同一間飯店休息。");
@@ -2561,10 +2599,20 @@ function dayDepartureHtml(day) {
     <div class="day-departure-copy">
       <p class="day-departure-label">今日出發點${departure.checkout ? " · 退房日" : " · 續住"}</p>
       <h3>${escapeHtml(departure.name)}</h3>
-      <p><strong>${departure.time}</strong> ${day === 10 ? "開始當日行程" : "參考出發時間"} · 日本時間試排</p>
+      <p><strong>${skiRoute ? "待課程確認" : departure.time}</strong> ${day === 10 ? "開始當日行程" : "參考出發時間"} · 日本時間試排</p>
       <p>${escapeHtml(note)}${timingMatches ? "" : " 目前路線與原試排不同，出發時間需再確認。"}</p>
     </div>
     <a class="small-button map-link" href="${getAccommodationMapUrl(departure.hotel)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(departure.name)}，查看飯店地圖">飯店地圖</a>
+    ${day === 5 || day === 6 ? `<div class="split-routes">
+      <p><strong>${skiRoute ? "B 線 · 自駕滑雪" : "A 線 · 市區觀光"}</strong></p>
+      <p>${skiRoute ? "依課程時間自行開車出發；滑雪場報到入口與當季營業需先確認。" : "白天以步行、地鐵／市電／巴士移動，累了可搭計程車。"}</p>
+      <details class="split-ski-route"><summary>B 線 · 同伴自駕滑雪</summary>
+        <p>${escapeHtml(skiRouteDays[day].route)}</p>
+        <p>北斜面、南斜面有不同入口，請依租具／課程報到處確認；滑雪場與夜景纜車山麓站不同。課程、出發與會合時間待確認。</p>
+        <a class="small-button map-link" href="https://sapporo-moiwa.jp/access/" target="_blank" rel="noopener noreferrer">滑雪場入口與官方交通</a>
+      </details>
+      ${day === 5 ? `<p><strong>傍晚會合：</strong>夜景纜車山麓站，會合時間待課程確認；下山後全員搭朋友的車回 APA。</p><a class="small-button map-link" href="${getDayFiveReturnUrl()}" target="_blank" rel="noopener noreferrer">回 APA 開車路線</a>` : ""}
+    </div>` : ""}
   </section>`;
 }
 
@@ -2580,8 +2628,6 @@ function getDrivingPlaceQuery(place) {
 }
 
 function getDrivingOriginForStop(day, index) {
-  if (day === 5 && (state.plan[day] || [])[index] === "moiwa-yama"
-    && ["nakajima-park", "unagi-nakajima"].includes((state.plan[day] || [])[index - 1])) return accommodations[1];
   if (index > 0) {
     return spotById((state.plan[day] || [])[index - 1]);
   }
@@ -2675,13 +2721,22 @@ function getDriveInfoForStop(day, index, spotId) {
   }
 
   const dayStops = state.plan[day] || [];
+  if (day === 5 || day === 6) {
+    const mode = getStopNavigationMode(day, index, spotId);
+    const prefix = "A 線市區觀光｜同伴用車滑雪，這段不自駕。";
+    if (day === 5 && spotId === "moiwa-yama") return `A 線去程｜從 APA 步行到資生館小學校前，搭經西線6條方向的市電至ロープウェイ入口，再轉免費接駁到山麓站和朋友會合；含候車先留約 1 小時。看完夜景，全員搭朋友的車回 APA。`;
+    if (day === 6 && spotId === "sapporo-beer-museum") return `${prefix}試排從 APA 搭地鐵到札幌站，再由北口搭 188 巴士到サッポロビール園；班次不合可改計程車，主按鈕從目前位置查路線。`;
+    if (day === 6 && spotId === "toriton-kita8") return `${prefix}原試排從 Ario 步行前往北8条光星店，雪地先留約 30 分鐘；路況差或太冷可改計程車，搭車按鈕從目前位置查路線。`;
+    if (mode === "walking") return `${prefix}${getKnownWalkingLeg(day, index, spotId) || "步行串接附近景點，雪地請留緩衝；走累可改計程車。"}`;
+    return `${prefix}依目前位置搭地鐵／市電／巴士前往，班次不合或風雪大可改計程車；不需回 APA 取車或停車。`;
+  }
   if (day >= 8) {
     return getHakodateTransitInfo(day, index, spotId, dayStops);
   }
 
   if (day === 1) {
     if (spotId === "new-chitose-airport") {
-      return "抵達新千歲機場｜尚未取車，先到租車櫃台報到";
+      return "抵達新千歲機場｜入境、領行李後逛機場約 1 小時，再到租車櫃台搭接駁；尚未取車";
     }
     if (spotId === "nippon-rentacar-new-chitose") {
       return "從機場搭租車公司接駁車到營業所取車；這段不是自駕";
@@ -2701,8 +2756,6 @@ function getDriveInfoForStop(day, index, spotId) {
     return walkingLeg;
   }
 
-  if (day === 5 && spotId === "moiwa-yama") return "先回 APA 取車，再開車到藻岩山纜車山麓站；主按鈕從手機目前位置導航，細節內可查看飯店出發的規劃路線";
-  if (day === 6 && spotId === "kinotoya-bake-pole-town") return "依試排先回 APA 停車，再步行逛地下街；抵達市區並停好車後使用步行導航";
   if (getStopNavigationMode(day, index, spotId) === "walking") return "由目前位置步行前往｜雪地步行請留緩衝，主按鈕使用步行模式";
 
   const origin = getDrivingOriginForStop(day, index);

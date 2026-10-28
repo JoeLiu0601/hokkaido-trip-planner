@@ -12,8 +12,9 @@ const runtime = vm.runInNewContext(
   + section('const accommodations =', 'const storageKey =')
   + section('function getMapUrl(', 'function isDayOneTimingDraftApplicable(')
   + section('function getDrivingPlaceQuery(', 'const hakodateTransitLegs =')
+  + section('function getDayFiveReturnUrl()', 'function dayDepartureHtml(')
   + '\nfunction spotById(id) { return spots.find(spot => spot.id === id); }'
-  + '\n({ state, spotById, getStopNavigation, getDrivingRouteUrlForStop });',
+  + '\n({ state, spotById, getStopNavigation, getDrivingRouteUrlForStop, getGroupRouteForDay, getDayFiveReturnUrl });',
   { state: { plan: {} } }
 );
 
@@ -33,10 +34,16 @@ const cases = [
   ['D4 onsen street on foot', 4, ['noboribetsu-valley', 'noboribetsu-onsen-street'], 'walking'],
   ['D5 park from APA on foot', 5, ['nakajima-park'], 'walking'],
   ['D5 unagi on foot', 5, ['nakajima-park', 'unagi-nakajima'], 'walking'],
-  ['D5 ropeway after retrieving car', 5, ['unagi-nakajima', 'moiwa-yama'], 'driving'],
+  ['D5 ropeway by transit without a car', 5, ['unagi-nakajima', 'moiwa-yama'], 'transit'],
+  ['D5 ropeway first by transit', 5, ['moiwa-yama'], 'transit'],
+  ['D5 reordered park is not an assumed walk from ropeway', 5, ['moiwa-yama', 'nakajima-park'], 'transit'],
+  ['D6 museum from hotel by transit', 6, ['sapporo-beer-museum'], 'transit'],
   ['D6 adjacent mall on foot', 6, ['sapporo-beer-museum', 'ario-sapporo'], 'walking'],
-  ['D6 Toriton by car', 6, ['ario-sapporo', 'toriton-kita8'], 'driving'],
-  ['D6 underground shops after parking', 6, ['toriton-kita8', 'kinotoya-bake-pole-town'], 'walking'],
+  ['D6 Toriton uses transit options', 6, ['ario-sapporo', 'toriton-kita8'], 'transit'],
+  ['D6 Toriton to underground shops by transit', 6, ['toriton-kita8', 'kinotoya-bake-pole-town'], 'transit'],
+  ['D6 underground shops on foot', 6, ['kinotoya-bake-pole-town', '3coins-pole-town'], 'walking'],
+  ['D6 nearby ramen on foot', 6, ['3coins-pole-town', 'ramen-haruka'], 'walking'],
+  ['D6 reordered shop after museum by transit', 6, ['sapporo-beer-museum', '3coins-pole-town'], 'transit'],
   ['D7 lake region has no confirmed parking destination', 7, ['toyako-lake'], ''],
   ['D8 Toya to Hakodate before return', 8, ['lagent-hakodate-ekimae'], 'driving'],
   ['D8 park after returning car', 8, ['lagent-hakodate-ekimae', 'goryokaku'], 'transit'],
@@ -70,7 +77,7 @@ for (const [name, day, stops, mode] of cases) {
     assert.ok(url.searchParams.get('destination'));
     if (stops[index] === 'hakodate-mt') assert.match(url.searchParams.get('destination'), /山麓駅/);
     if (stops[index] === 'moiwa-yama') assert.match(url.searchParams.get('destination'), /山麓駅/);
-    if (stops[index] === 'kinotoya-bake-pole-town') assert.match(nav.note, /停車/);
+    if (day === 5 || day === 6) assert.equal(runtime.getDrivingRouteUrlForStop(day, index, stops[index]), '');
   });
 }
 
@@ -80,8 +87,7 @@ test('planned route keeps hotel origin only in secondary preview', () => {
   assert.match(url.searchParams.get('origin'), /Toya Kohan Tei/);
   assert.equal(url.searchParams.get('dir_action'), null);
   runtime.state.plan[5] = ['unagi-nakajima', 'moiwa-yama'];
-  const moiwa = new URL(runtime.getDrivingRouteUrlForStop(5, 1, 'moiwa-yama'));
-  assert.match(moiwa.searchParams.get('origin'), /APA/);
+  assert.equal(runtime.getDrivingRouteUrlForStop(5, 1, 'moiwa-yama'), '');
 });
 
 test('unplaced library or meal options do not claim a transport mode', () => {
@@ -89,4 +95,25 @@ test('unplaced library or meal options do not claim a transport mode', () => {
   const nav = runtime.getStopNavigation(2, -1, runtime.spotById('unagi-nakajima'));
   assert.equal(nav.label, '搜尋地點');
   assert.equal(nav.mode, '');
+});
+
+test('group B changes only the two split days and preserves the shared plan', () => {
+  const original = JSON.stringify(runtime.state.plan);
+  for (let day = 1; day <= 10; day++) {
+    assert.equal(runtime.getGroupRouteForDay(day, 'A'), null);
+    const route = runtime.getGroupRouteForDay(day, 'B');
+    if (day === 5 || day === 6) assert.ok(route?.stages.length);
+    else assert.equal(route, null);
+  }
+  assert.match(runtime.getGroupRouteForDay(5, 'B').route, /會合.*一起看夜景.*開車回 APA/);
+  assert.match(runtime.getGroupRouteForDay(6, 'B').route, /待確認/);
+  assert.equal(JSON.stringify(runtime.state.plan), original);
+});
+
+test('D5 shared ride returns to APA using the current location', () => {
+  const url = new URL(runtime.getDayFiveReturnUrl());
+  assert.match(url.searchParams.get('destination'), /APA.*Susukino/);
+  assert.equal(url.searchParams.get('travelmode'), 'driving');
+  assert.equal(url.searchParams.get('dir_action'), 'navigate');
+  assert.equal(url.searchParams.has('origin'), false);
 });

@@ -58,6 +58,8 @@
   const validModes = ["overview", "edit", "travel"];
   const requestedView = new URLSearchParams(window.location.search).get("view");
   const savedView = readLocalStorage(viewKey);
+  const groupRouteKey = "hokkaido-planner-group-route";
+  let selectedGroup = readLocalStorage(groupRouteKey) === "B" ? "B" : "A";
   let mode = validModes.includes(requestedView) ? requestedView : validModes.includes(savedView) ? savedView : "edit";
   let feedback = "";
   let progressContext = "";
@@ -176,9 +178,9 @@
 
   function summaryText(spot) {
     const summaries = {
-      "new-chitose-airport": "BR166 抵達後，先入境、領行李，再到租車櫃台報到。",
+      "new-chitose-airport": "BR166 11:00 抵達，先入境、領行李，再留約 1 小時逛機場；13:15 左右前往租車櫃台。",
       "nippon-rentacar-new-chitose": "先在機場櫃台報到，再搭接駁車到營業所取車。",
-      "premier-cabin-asahikawa": "13:15 左右出發往旭川，途中午餐、休息；抵達後先入住放行李。",
+      "premier-cabin-asahikawa": "機場逛街、取車後約 14:15 出發往旭川，途中補餐、休息；約 17:45 入住放行李。",
       "aeon-mall-asahikawa-ekimae": "步行到站前 AEON，先補雪靴、防滑鞋與保暖配件。",
       "asahikawa-heiwa-dori": "在站前商店街散步、找晚餐，吃完回飯店休息。",
       hachimanzaka: "09:30 從 La'gent Stay 函館站前出發，搭市電到末廣町再上坡拍港景。",
@@ -449,6 +451,33 @@
     return new Intl.DateTimeFormat("zh-TW", { timeZone: "Asia/Tokyo", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date());
   }
 
+  function groupRouteSwitchHtml() {
+    return `<section class="group-route-picker" aria-label="分組路線">
+      <div class="group-route-switch" role="group" aria-label="選擇要查看的路線">${Object.entries(groupRouteLabels).map(([group, label]) => `<button type="button" data-group-route="${group}" aria-pressed="${selectedGroup === group}">${escapeHtml(label)}</button>`).join("")}</div>
+      <p>${selectedGroup === "A" ? "A 線白天市區觀光；D5 傍晚與滑雪組會合看夜景，搭朋友的車回 APA。" : "B 線自行開車滑雪；D5 傍晚會合看夜景，全員搭車回 APA。D6 是否繼續滑雪待確認。"} 其餘日期兩組共用。</p>
+    </section>`;
+  }
+
+  function renderSkiDay() {
+    pausePlayback();
+    playback = null;
+    previewPosition = null;
+    const day = state.selectedDay;
+    const route = getGroupRouteForDay(day, selectedGroup);
+    const meetingQuery = getDrivingPlaceQuery(spotById("moiwa-yama"));
+    const meetingUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(meetingQuery)}&travelmode=driving&dir_action=navigate`;
+    host.innerHTML = `<header class="winter-heading"><div><p>HOKKAIDO WINTER WALK</p><h2 id="journey-title" tabindex="-1">Day ${day} · ${escapeHtml(route.title)}</h2><span>B 滑雪 · 札幌</span></div><div class="winter-date"><strong>${tripDates[day - 1].replace("/", ".")}</strong><span>日本時間</span></div></header>
+      ${groupRouteSwitchHtml()}
+      ${dayDepartureHtml(day, "B")}
+      <section class="day-timing-draft group-ski-day" aria-labelledby="ski-route-title">
+        <h3 id="ski-route-title">B 線 · ${escapeHtml(route.title)}</h3>
+        <p class="day-schedule-route">${escapeHtml(route.route)}</p>
+        <ol class="group-ski-stages">${route.stages.map(([time, title, note]) => `<li><p><strong>${escapeHtml(time)}</strong></p><h4>${escapeHtml(title)}</h4><p>${escapeHtml(note)}</p></li>`).join("")}</ol>
+        <div class="group-ski-actions">${day === 5 ? `<a class="small-button map-link" href="${escapeHtml(meetingUrl)}" target="_blank" rel="noopener noreferrer">前往夜景會合點 · 開車導航</a>` : ""}<a class="small-button map-link" href="https://sapporo-moiwa.jp/access/" target="_blank" rel="noopener noreferrer">滑雪場入口與官方交通</a></div>
+        <p>出發前確認當季營業、課程與租具報到入口；時間未定的項目不代表已預約。</p>
+      </section>`;
+  }
+
   function renderOverview() {
     pausePlayback();
     const days = tripDates.map((date, index) => {
@@ -458,7 +487,8 @@
       const areas = [...new Set(places.map(spot => spot.area).filter(Boolean))];
       const done = mainPlaces.filter(spot => progress()[day]?.[spot.id] === "done").length;
       const skipped = mainPlaces.filter(spot => progress()[day]?.[spot.id] === "skipped").length;
-      return { day, date, places, mainPlaces, areas, done, skipped };
+      const groupRoute = getGroupRouteForDay(day, selectedGroup);
+      return { day, date, places, mainPlaces, areas: groupRoute ? ["札幌"] : areas, done, skipped, groupRoute };
     });
     const cities = [
       { name: "旭川", areas: ["旭川"], x: 272, y: 106, theme: "city" },
@@ -470,6 +500,7 @@
     ];
     host.innerHTML = `
       <header class="winter-heading winter-overview-heading"><div><p>OUR HOKKAIDO JOURNAL</p><h2 id="journey-overview-title" tabindex="-1">北海道十日總覽</h2><span>12.23 — 01.01 · 雪景、熱湯，還有想一起走的路</span></div><div class="winter-date"><strong>10</strong><span>WINTER DAYS</span></div></header>
+      ${groupRouteSwitchHtml()}
       <section class="journey-overview-map" aria-label="沿途城市索引">
         <div class="winter-map-topline"><span>沿途的冬日風景</span><span>點城市查看第一個相關日</span></div>
         <svg viewBox="0 0 380 480" role="group" aria-label="北海道城市插畫索引，位置非實際地圖">
@@ -491,16 +522,17 @@
         </svg>
         <p class="journey-map-note">城市位置為插畫示意；日期依目前行程顯示。下方選一天，開始今天的散步。</p>
       </section>
-      <div class="winter-overview-caption"><h3>把十天，一頁頁收藏</h3><span>${days.reduce((sum,day) => sum + day.places.length,0)} 個已排點位</span></div>
+      <div class="winter-overview-caption"><h3>把十天，一頁頁收藏</h3><span>${selectedGroup === "B" ? "D5／D6 滑雪安排 · 其餘共用" : `${days.reduce((sum,day) => sum + day.places.length,0)} 個已排點位`}</span></div>
       <div class="journey-overview-days">${days.map(day => {
         const scene = scenes.days[day.day - 1];
         const theme = scene.theme === "forest" ? "mountain" : scene.theme;
         return `<button type="button" class="journey-overview-card${day.day === state.selectedDay ? ' is-selected' : ''}" data-overview-day="${day.day}" aria-label="查看 Day ${day.day} ${day.date} 的行程">
-          <span class="winter-day-card-art" aria-hidden="true"><svg viewBox="0 0 300 92"><rect width="300" height="92" fill="#e6eff0"/><path d="M0 73q64-33 140-5t160-4v28H0Z" fill="#f7f6eb"/>${scenes.icon(theme,225,45,.85)}${scenes.icon('pine',34,48,.55)}<text x="65" y="44" fill="#577783" font-size="12" letter-spacing="3">DAY ${String(day.day).padStart(2,'0')}</text><text x="65" y="65" fill="#52676b" font-size="15">${scene.title}</text></svg></span>
+          <span class="winter-day-card-art" aria-hidden="true"><svg viewBox="0 0 300 92"><rect width="300" height="92" fill="#e6eff0"/><path d="M0 73q64-33 140-5t160-4v28H0Z" fill="#f7f6eb"/>${scenes.icon(theme,225,45,.85)}${scenes.icon('pine',34,48,.55)}<text x="65" y="44" fill="#577783" font-size="12" letter-spacing="3">DAY ${String(day.day).padStart(2,'0')}</text><text x="65" y="65" fill="#52676b" font-size="15">${escapeHtml(day.groupRoute?.title || scene.title)}</text></svg></span>
           <span class="journey-overview-card-head"><strong>Day ${day.day}</strong><span>${day.date}</span><span aria-hidden="true">↗</span></span>
           <span class="journey-overview-areas">${escapeHtml(day.areas.join(' → ') || '還沒有安排景點')}</span>
-          <span class="journey-overview-stops">${escapeHtml(day.places.slice(0,3).map(spot => spot.name).join(' · ') || '從行程編輯加入想去的地方。')}${day.places.length > 3 ? ` …另 ${day.places.length - 3} 站` : ''}</span>
-          <span class="journey-overview-card-footer">${day.places.length} 個點位${day.places.length !== day.mainPlaces.length ? ` · 含 ${day.places.length - day.mainPlaces.length} 個彈性選項` : ''}<span>已完成 ${day.done}/${day.mainPlaces.length}${day.skipped ? ` · 略過 ${day.skipped}` : ''}</span></span>
+          <span class="journey-overview-stops">${day.groupRoute ? escapeHtml(day.groupRoute.route) : `${escapeHtml(day.places.slice(0,3).map(spot => spot.name).join(' · ') || '從行程編輯加入想去的地方。')}${day.places.length > 3 ? ` …另 ${day.places.length - 3} 站` : ''}`}</span>
+          ${day.day === 5 && !day.groupRoute ? '<span class="journey-overview-stops">傍晚與 B 線會合看夜景，搭朋友的車回 APA。</span>' : ''}
+          <span class="journey-overview-card-footer">${day.groupRoute ? `B 線 · ${day.day === 5 ? "傍晚會合／共乘回 APA" : "是否滑雪待確認"}` : `${day.places.length} 個點位${day.places.length !== day.mainPlaces.length ? ` · 含 ${day.places.length - day.mainPlaces.length} 個彈性選項` : ''}<span>已完成 ${day.done}/${day.mainPlaces.length}${day.skipped ? ` · 略過 ${day.skipped}` : ''}</span>`}</span>
         </button>`;
       }).join('')}</div>`;
   }
@@ -524,6 +556,7 @@
     refreshDayNavigation();
     if (host.hidden) return;
     if (mode === "overview") { renderOverview(); return; }
+    if (getGroupRouteForDay(state.selectedDay, selectedGroup)) { renderSkiDay(); return; }
 
     const context = `${progressKey()}|${state.selectedDay}`;
     if (progressContext !== context) feedback = "";
@@ -553,6 +586,7 @@
     const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"][new Date(Date.UTC(2026, 11, 22 + state.selectedDay)).getUTCDay()];
     host.innerHTML = `
       <header class="winter-heading"><div><p>HOKKAIDO WINTER WALK</p><h2 id="journey-title" tabindex="-1">Day ${state.selectedDay} · ${scene.title}</h2><span>${escapeHtml(areas.join(" → ") || "今天的路線，等你來安排")}</span></div><div class="winter-date"><strong>${tripDates[state.selectedDay - 1].replace("/", ".")}</strong><span>${weekday} · 日本時間</span></div></header>
+      ${state.selectedDay === 5 || state.selectedDay === 6 ? groupRouteSwitchHtml() : ""}
       ${dayDepartureHtml(state.selectedDay)}
       <section class="journey-next-card winter-focus-card" aria-labelledby="journey-next-title"></section>
       <p class="journey-feedback" role="status" aria-live="polite" ${feedback ? "" : "hidden"}>${escapeHtml(feedback)}</p>
@@ -594,6 +628,16 @@
 
   host.addEventListener("click", (event) => {
     const target = event.target;
+    const groupButton = target.closest("[data-group-route]");
+    if (groupButton) {
+      const nextGroup = groupButton.dataset.groupRoute;
+      if (!Object.hasOwn(groupRouteLabels, nextGroup)) return;
+      selectedGroup = nextGroup;
+      try { window.localStorage.setItem(groupRouteKey, selectedGroup); } catch { /* Keep this choice for the current visit. */ }
+      renderJourney();
+      host.querySelector(`[data-group-route="${selectedGroup}"]`)?.focus();
+      return;
+    }
     const infoButton = target.closest("[data-winter-info]");
     if (infoButton) {
       const panel = host.querySelector("#winter-focus-info");
