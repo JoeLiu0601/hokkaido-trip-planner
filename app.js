@@ -143,6 +143,28 @@ const spots = [
     highlight: "旭川老食堂"
   },
   {
+    id: "kinkarou-ichijo-asahikawa",
+    name: "金花郎 一條本店（炭火燒肉）",
+    area: "旭川",
+    type: "燒肉",
+    season: ["winter"],
+    time: "1.5h",
+    best: "蔥鹽牛舌、炭火燒肉、旭川站周邊晚餐",
+    desc: "旭川市區的炭火燒肉店，官方招牌是用牛舌包蔥的蔥鹽牛舌。入住後想坐下來吃燒肉時，可和新子燒、自由軒擇一；食べログ列可預約，決定用餐後可先電話詢問座位。",
+    highlight: "旭川燒肉備選"
+  },
+  {
+    id: "seicomart-hot-chef",
+    name: "Seicomart HOT CHEF（沿途補餐）",
+    area: "北海道全域",
+    type: "美食補給",
+    season: ["winter"],
+    time: "0.5h",
+    best: "店內現做豬排飯、大飯糰、炸雞、彈性補餐",
+    desc: "北海道便利商店的店內現做熟食，豬排飯、大飯糰與炸雞適合當早餐、點心或移動日補餐。不必特地繞路，沿途找有 HOT CHEF 標示的門市即可；各店品項、製作時段與庫存不同。",
+    highlight: "沿途彈性補給"
+  },
+  {
     id: "sunagawa-highway-oasis",
     name: "砂川 Highway Oasis",
     area: "砂川",
@@ -554,6 +576,28 @@ const spots = [
     highlight: "札幌起源"
   },
   {
+    id: "samurai-cocono-susukino",
+    name: "SAMURAI COCONO SUSUKINO（湯咖哩）",
+    area: "札幌",
+    type: "湯咖哩美食",
+    season: ["winter"],
+    time: "1h",
+    best: "多種蔬菜、雞肉湯咖哩、薄野站直結商場",
+    desc: "以多種蔬菜搭配湯咖哩的札幌品牌，選薄野站直結 COCONO SUSUKINO 3F 分店，逛街時就能安排一餐。適合與其他湯咖哩店擇一，不接受座位預約，尖峰請另留候位時間。",
+    highlight: "薄野湯咖哩備選"
+  },
+  {
+    id: "kushidori-susukino-nishi5",
+    name: "串鳥 薄野西五丁目店（串燒）",
+    area: "札幌",
+    type: "串燒美食",
+    season: ["winter"],
+    time: "1.5h",
+    best: "雞翅、雞肉蔥串、豬肉蘆筍串、朋友聚餐",
+    desc: "薄野一帶的串燒連鎖店，雞肉串與豬肉蔬菜串適合分著點。可作為藻岩山夜景後、回 APA 再步行出來聚餐的晚餐備選；Hot Pepper 可查空位與訂位，會合時間確定後再安排。",
+    highlight: "薄野聚餐備選"
+  },
+  {
     id: "totori-honten",
     name: "トトリ 本店（燒肉／冷麵）",
     area: "札幌",
@@ -685,6 +729,17 @@ const spots = [
     best: "函館站前、餐飲、伴手禮",
     desc: "函館站前的複合商場，適合在搭車或回飯店前短暫逛逛。和函館朝市、車站周邊行程很好串。",
     highlight: "函館站前"
+  },
+  {
+    id: "hanamaru-kiralis-hakodate",
+    name: "根室花丸 Kiralis 函館店（迴轉壽司）",
+    area: "函館",
+    type: "迴轉壽司",
+    season: ["winter"],
+    time: "1.5h",
+    best: "北海道海鮮、函館站前、還車後步行用餐",
+    desc: "位在函館站前 Kiralis 地下 1 樓的根室花まる，適合還車後、回飯店前後吃壽司。可作為函館晚餐備選；不接受座位預約，採店頭抽號，候位時間另計。跨年特別營業仍需確認。",
+    highlight: "函館站前壽司"
   },
   {
     id: "hokkaido-shikisai-hakodate",
@@ -1301,6 +1356,22 @@ const spotLogistics = {
     hours: "商店街公告 11:30-14:00、17:00-21:00，週日休；12/23 營業請再確認",
     access: "地址：旭川市5条通8丁目，平和通買物公園沿線；飯店入住後可步行前往"
   },
+  "kinkarou-ichijo-asahikawa": {
+    hours: "午餐 11:30–14:30（L.O. 14:00）；晚餐平日 17:00、週末及假日 16:00 起，22:00 結束（L.O. 21:30）；不定休，12/23 營業請再確認",
+    access: "地址：旭川市1条通4丁目2043-2。旭川站周邊可步行前往；電話 0166-22-8929，訂位可先詢問，固定開放預約日未確認",
+    infoUrl: "https://www.kinkarou.jp/",
+    foodUrl: "https://www.threads.com/@pk2168/post/DeROsBVkiY7",
+    foodUrlLabel: "Threads 旅客用餐心得",
+    checkedAt: "2026/10/29"
+  },
+  "seicomart-hot-chef": {
+    hours: "各門市營業時間不同，並非每店都 24 小時或設有 HOT CHEF；熟食製作與供應時段依店家現場為準",
+    access: "此為沿途補餐選項，尚未指定門市。地圖先搜尋 Seicomart，選定附近門市後再確認 HOT CHEF、營業時間及停車；不需座位訂位",
+    infoUrl: "https://www.seicomart.co.jp/instore/lineup.html",
+    foodUrl: "https://store.seicomart.co.jp/",
+    foodUrlLabel: "官方門市搜尋（確認 HOT CHEF）",
+    checkedAt: "2026/10/29"
+  },
   "sunagawa-highway-oasis": {
     hours: "冬季（10/1-4/30）09:00-17:00；餐廳 10:30-17:00（L.O. 16:30），元旦休館",
     access: "地址：砂川市北光336番地7。從旭川往札幌可由道央道砂川 SA 上行線進入專用道路，停車與入館免費"
@@ -1376,6 +1447,22 @@ const spotLogistics = {
   "toriton-kita8": {
     hours: "常見 11:00-22:00（L.O. 21:30）；混雜時可能提前停止受付",
     access: "地址：札幌市東区北8条東5丁目19-1。札幌啤酒博物館開車約 10 分鐘；不接受座位預約，排隊時間要抓寬"
+  },
+  "samurai-cocono-susukino": {
+    hours: "官方一般 11:00–23:00（L.O. 21:30）；2026 年末特別營業請另確認",
+    access: "地址：札幌市中央区南4条西4丁目1-1 COCONO SUSUKINO 3F，薄野站直結。電話 011-596-6980；不接受座位預約，現場候位",
+    infoUrl: "https://samurai-curry.com/shop_susukino/",
+    foodUrl: "https://www.threads.com/@pk2168/post/Dd8RAEDEYc5",
+    foodUrlLabel: "Threads 品牌用餐心得（貼文未註明分店）",
+    checkedAt: "2026/10/29"
+  },
+  "kushidori-susukino-nishi5": {
+    hours: "平日 16:30–23:30，週末及假日 15:30–23:30；官方列 12/31、1/1–1/3 休息，年末臨時調整另查",
+    access: "地址：札幌市中央区南4条西5丁目10-1 つむぎビル2F，薄野站步行約 3 分鐘，從 APA 可步行前往。電話 011-596-8090；Hot Pepper 可查座位預約，開放日期及空位依頁面與店家確認",
+    infoUrl: "https://kushidori.com/shop/",
+    foodUrl: "https://www.hotpepper.jp/strJ003943021/",
+    foodUrlLabel: "Hot Pepper 座位預約／空位查詢",
+    checkedAt: "2026/10/29"
   },
   "hanamaru-stellar-place": {
     hours: "常見 11:00-22:00（L.O. 21:30）；不定休依 Stellar Place",
@@ -1572,6 +1659,14 @@ const spotLogistics = {
     hours: "各店舖與設施不同，出發前看官方樓層/店舖公告",
     access: "函館站前，適合和函館朝市、搭車或回飯店前後串在一起"
   },
+  "hanamaru-kiralis-hakodate": {
+    hours: "官方一般 11:00–22:00（L.O. 21:45），不定休；12/30–2027/1/1 特別營業尚未確認",
+    access: "地址：函館市若松町20-1 キラリス函館 B1F，函館站前、La’gent Stay 周邊可步行前往。電話 0138-24-0870；不接受座位預約，店頭一般 10:00 起取號，可掃 QR 查看候位；全員到齊才入座，叫號後超過 15 分鐘未到需重新取號",
+    infoUrl: "https://www.sushi-hanamaru.com/store/details/s16.html",
+    foodUrl: "https://www.threads.com/@hokkaido_mr.open/post/DQO8jDZD4l6",
+    foodUrlLabel: "Threads 函館用餐分享",
+    checkedAt: "2026/10/29"
+  },
   "hokkaido-shikisai-hakodate": {
     hours: "常見 07:00-20:00；站內個別專櫃可能較早結束，年末年始請確認公告",
     access: "地址：函館市若松町12-13 JR 函館站內。函館站出站即達，可和朝市、キラリス函館串接"
@@ -1693,6 +1788,11 @@ const dayDepartures = {
 };
 
 const drivingPlaceOverrides = {
+  "kinkarou-ichijo-asahikawa": "炭火焼き肉 金花郎 一条本店 北海道旭川市1条通4丁目2043-2",
+  "samurai-cocono-susukino": "Rojiura Curry SAMURAI. COCONO SUSUKINO 札幌市中央区南4条西4丁目1-1 3F",
+  "kushidori-susukino-nishi5": "串鳥 すすきの西五丁目店 札幌市中央区南4条西5丁目10-1 つむぎビル2F",
+  "hanamaru-kiralis-hakodate": "回転寿司 根室花まる キラリス函館店 函館市若松町20-1 地下1階",
+  "seicomart-hot-chef": "セイコーマート HOT CHEF 北海道",
   "premier-cabin-asahikawa": "プレミアホテル-CABIN-旭川 北海道旭川市1条通7丁目",
   "aeon-mall-asahikawa-ekimae": "イオンモール旭川駅前 旭川 北海道",
   "asahikawa-heiwa-dori": "旭川平和通買物公園 旭川駅前 北海道",
@@ -1713,7 +1813,7 @@ const unspecifiedDrivingStops = new Set([
   "otaru-sakaimachi", "otaru-meruhen-crossing", "furano-field", "yotei-mountain",
   "toyako-lake", "noboribetsu-onsen-street", "soup-curry", "sapporo-ramen-yokocho",
   "kinotoya-bake-pole-town", "3coins-pole-town",
-  "makkari-village", "konpira-crater-view", "motomachi"
+  "makkari-village", "konpira-crater-view", "motomachi", "seicomart-hot-chef"
 ]);
 
 const knownWalkingLegs = {
@@ -2385,7 +2485,7 @@ function getMapUrl(spot) {
 
 function getDayOneNavigationMode(spotId) {
   return dayOneTimingDraft[spotId]?.navigationMode
-    || (["ginneko-asahikawa", "jiyuken-asahikawa", "feeeal-asahikawa"].includes(spotId) ? "walking" : "");
+    || (["ginneko-asahikawa", "jiyuken-asahikawa", "feeeal-asahikawa", "kinkarou-ichijo-asahikawa"].includes(spotId) ? "walking" : "");
 }
 
 function getStopNavigation(day, index, spot) {
@@ -2408,6 +2508,7 @@ function getStopNavigation(day, index, spot) {
 function getStopNavigationMode(day, index, spotId) {
   const stops = state.plan[day] || [];
   if (index < 0 || stops[index] !== spotId) return "";
+  if (spotId === "seicomart-hot-chef") return "";
   if (day === 1) {
     if (["new-chitose-airport", "nippon-rentacar-new-chitose"].includes(spotId)) return "";
     const mode = getDayOneNavigationMode(spotId);
@@ -2420,7 +2521,7 @@ function getStopNavigationMode(day, index, spotId) {
     if (getKnownWalkingLeg(day, index, spotId)) return "walking";
     if (day === 5 && ["nakajima-park", "unagi-nakajima"].includes(spotId)
       && (index === 0 || ["nakajima-park", "unagi-nakajima"].includes(previous))) return "walking";
-    const downtown = ["kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka", "sapporo-susukino", "sapporo-odori", "apa-sapporo-susukino-ekinishi"];
+    const downtown = ["kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka", "sapporo-susukino", "sapporo-odori", "apa-sapporo-susukino-ekinishi", "samurai-cocono-susukino", "kushidori-susukino-nishi5"];
     if (day === 6 && downtown.includes(spotId) && (index === 0 || downtown.includes(previous))) return "walking";
     return "transit";
   }
