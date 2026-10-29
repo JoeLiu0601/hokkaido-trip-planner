@@ -2,7 +2,8 @@
 
 ## 2026-10-30
 
-- 依使用者要求準備推送搭車說明版，範圍為 app.js、journey.js、timing-drafts.js、index.html、tests/navigation.test.cjs 與本檔；推送前重跑三份 JavaScript 語法、45 項導航回歸、49 項行程檢查及 git diff --check，全部通過。本次手機排版沿用上列 40 組實測。四人代墊／分帳僅討論功能範圍，本版未新增記帳功能；推送及部署結果待補記。
+- 搭車說明版 b2e4031 已依使用者要求推送 main，範圍為 app.js、journey.js、timing-drafts.js、index.html、tests/navigation.test.cjs 與本檔；推送前重跑三份 JavaScript 語法、45 項導航回歸、49 項行程檢查及 git diff --check，全部通過。手機排版沿用上列 40 組實測。四人代墊／分帳僅討論功能範圍，本版未新增記帳功能。
+- 正式部署執行 40919635381 為 completed／success；正式首頁 HTTP 200 並引用 20261030-transit-stations，正式 app.js 可見函館站前門市及 JR 札幌→苗穂，timing-drafts.js 可見東区役所前→大通回程。此輪只核對部署與正式資源文字，未重做正式版瀏覽器互動或手機實機導航。
 - 搭車版最終驗證：編輯頁與旅途中頁各完成五天 × 兩色 × 320／430px 共 40 組排版檢查，無整頁／交通內容橫向溢出；旅途中交通詳情可正常開合，D9 下一站摘要明列函館駅前→5 系統→末広町。保存 output/preview/transit-stations-mobile.png，瀏覽器 error 紀錄為空，測後恢復視窗尺寸。初次本機連線被拒後啟動關閉雲端的預覽服務完成檢查；未測手機 GPS／地圖 App、實際乘車或年末班次。本版未提交／推送。
 - 驗證至本階段：三份 JavaScript 語法、45 項導航回歸、49 組行程時序／路線檢查及 git diff --check 通過。修正 Toriton 介紹殘留的開車敘述，配合 D6 步行／計程車。關閉雲端的本機 8791 實測 D5／D6／D8／D9／D10 × 深／淺色 × 320／430px 共 20 組，無整頁／行程卡橫向溢出，D6 JR 備案、D8 站前還車及 D9 市電分支皆可見；前端 error 紀錄為空。旅途中頁與最後文字修正待續驗，未推送。
 - 新增搭車回歸案例，檢查 D6 回程僅套用 Toriton 接 Pole Town 的順序、D5 保留共乘回程，以及函館 2／5 系統分支與去回方向；更新三份腳本快取版本及 D6 官方交通來源。本次尚未推送，待執行檢查。
