@@ -183,7 +183,7 @@ const spots = [
     season: ["winter"],
     time: "1.5h",
     best: "初詣、雪景、安靜感",
-    desc: "12/24 抵達札幌後的第一個景點，冬天很適合先把北海道的節奏慢慢打開。",
+    desc: "札幌代表性的神社，冬天可在雪景中參拜、散步；目前安排在 Day 3 前往小樽之前，其他神社依時間與體力取捨。",
     highlight: "札幌開場"
   },
   {
@@ -638,7 +638,7 @@ const spots = [
     season: ["winter"],
     time: "1.5h",
     best: "北海道海鮮、迴轉壽司、人氣排隊店",
-    desc: "離札幌啤酒博物館開車約 10 分鐘的人氣迴轉壽司店，食材水準高但常排很久，建議避開尖峰或先把等待時間抓進行程。",
+    desc: "札幌啤酒博物館與 Ario 周邊的人氣迴轉壽司店，D6 市區觀光組可步行或搭計程車前往。尖峰常需候位，建議避開用餐高峰並把等待時間抓進行程。",
     highlight: "排隊名店"
   },
   {
@@ -1115,7 +1115,7 @@ const dayTwoBackup = ["sunagawa-highway-oasis", "apa-sapporo-susukino-ekinishi",
 const winterProfile = {
   label: "12/23-1/1",
   blurb: "新千歲入境，旭川與富良野 1 天；札幌 6 天（含小樽）；洞爺湖 1 天，函館跨年 2 天",
-  route: "D1–D7 自駕；D8 開到函館還車，之後以步行、搭車為主。",
+  route: "D1–D4、D7 自駕；D5–D6 分組，A 線步行搭車、B 線自駕滑雪。D8 函館站前還車後改步行搭車；D5 夜景後共乘回 APA。",
   style: "冬季限定"
 };
 
@@ -1183,7 +1183,7 @@ const dayOneTimedStopIds = Object.keys(dayOneTimingDraft).filter((id) => !dayOne
 const dayNineTimingDraft = {
   hachimanzaka: {
     time: "10:10–11:00", duration: "約 50 分",
-    note: "09:30 從 La'gent Stay 函館站前出發。先走到函館駅前電停，搭往函館どつく前方向的市電至末廣町，再走步道上八幡坂；含候車與雪地步行先留 40 分鐘，並非指定班次。"
+    note: "09:30 從 La'gent Stay 函館站前出發。步行到函館駅前電停，搭 5 系統往函館どつく前，在末廣町（末広町）下車，再沿步道上八幡坂；2 系統往谷地頭不經末廣町。含候車與雪地步行先留 40 分鐘，並非指定班次。"
   },
   "kanemori-warehouse": {
     time: "11:15–12:15", duration: "約 1 小時",
@@ -1200,14 +1200,14 @@ const dayNineTimingDraft = {
 };
 const dayNineTimedStopIds = Object.keys(dayNineTimingDraft);
 const dayNineSchedule = [
-  ["09:30–10:10", "飯店出發 → 八幡坂", "La'gent Stay 函館站前出發，市電至末廣町後上坡；候車與雪地步行共留 40 分鐘。"],
+  ["09:30–10:10", "飯店出發 → 八幡坂", "步行到函館駅前，搭 5 系統往函館どつく前，到末廣町（末広町）下車後上坡；2 系統不經這站。候車與雪地步行共留 40 分鐘。"],
   ["10:10–11:00", "八幡坂拍照", "白天拍港景，沿人行步道慢走；天候差時縮短停留。"],
   ["11:00–12:15", "下坡 → 金森紅磚倉庫", "前 15 分鐘步行，11:15 起逛倉庫，優先看最想逛的店。"],
   ["12:15–13:15", "海灣周邊午餐", "餐廳未指定；先選 12/31 有營業的店，排隊過久就換店。"],
   ["13:15–14:15", "海灣採買／咖啡休息", "安排室內暖身與彈性緩衝；14:15 準時離開，留住下午上山時間。"],
   ["14:15–15:30", "前往山麓站、購票候車與上山", "14:45 抵達山麓站為目標，積雪時可改搭計程車；上山候車先留 45 分鐘。"],
   ["15:30–17:00", "函館山日景 → 夜景", "16:30–17:00 作為冬季夜景觀賞目標，並非精確日落預報；室內外交替取暖。"],
-  ["17:00–18:15", "排隊下山 → 函館站前", "先留約 45 分鐘下山排隊與搭纜車，再留 30 分鐘回站前；風雪或人潮會順延。"],
+  ["17:00–18:15", "排隊下山 → 函館站前", "搭纜車回山麓站，步行下坡到十字街電停，搭 2 或 5 系統往湯の川，在函館駅前下車、步行回飯店。先留約 45 分鐘下山、再留 30 分鐘回站前；積雪或候車較久就順延，也可改計程車。"],
   ["18:15–19:15", "站前晚餐", "先確認餐廳 12/31 營業與最後點餐時間，避免跨年晚間臨時找不到店。"],
   ["19:15–22:45", "回飯店休息", "補暖、充電、整理防滑鞋與保暖衣物，保留晚上的體力。"],
   ["22:45–23:40", "整裝與計程車前往神社", "目標 23:15 飯店出發；須先確認神社午夜開放與往返車輛，不把臨時叫車當保證。"],
@@ -1393,14 +1393,14 @@ const spotLogistics = {
   },
   "hokkaido-shrine": {
     hours: "境內全天開放；授與所常見 09:00-16:00",
-    access: "札幌地鐵圓山公園站步行約 15 分鐘"
+    access: "D3 主線以自駕前往。若自行搭車：薄野（すすきの）搭南北線往麻生，到大通轉東西線往宮の沢，在円山公園下車後步行約 15 分鐘；不是 JR 路線"
   },
   "sapporo-odori": {
     tickets: "公園散步、燈節與聖誕市集入場免費",
     ticketNotes: "市集飲食與購物另計。2026 大通燈節與聖誕市集都到 12/25，保留在 D2 12/24。",
     ticketUrl: "https://www.sapporo.travel/white-illumination/",
     hours: "公園全天可進入；活動檔期時間依主辦單位",
-    access: "地鐵大通站出站即達"
+    access: "APA 出發可步行至大通公園。若搭地下鐵：薄野（すすきの）搭南北線往麻生，下一站大通下車；回程搭往真駒內（真駒内）方向到薄野"
   },
   "daimaru-sapporo": {
     hours: "常見 10:00-20:00；餐廳樓層依店舖可能更晚",
@@ -1438,7 +1438,9 @@ const spotLogistics = {
     ticketNotes: "自行參觀免預約、不含試飲；試飲導覽需預約、全程日語，週一停辦（遇假日改週二）。D6 12/28 週一以自行參觀為主；開車者不能酒精試飲，年末營業另查當年度公告。",
     ticketUrl: "https://www.sapporobeer.jp/brewery/s_museum/kengaku/",
     hours: "自行參觀 11:00-18:00（最終入館 17:30）；週一停辦導覽，不是固定全館休館；12/31 休館，其他年末安排以公告為準",
-    access: "地址：札幌市東区北7条東9丁目1-1。地鐵東区役所前站步行約 10 分鐘；旁邊可接 Ario 札幌"
+    access: "地址：札幌市東区北7条東9丁目1-1。APA 出發：薄野（すすきの）搭南北線往麻生，到地下鐵さっぽろ，步行至札幌站北口 2 號乘車處，轉中央巴士 188 往サッポロビール園，下同名站即達。JR 備案：在 JR 札幌站轉往白石方向、確認停靠苗穂的普通列車，下一站苗穂下車，北口步行約 8 分鐘；不要搭不停苗穂的快速或特急。步行時間未含冬季緩衝",
+    infoUrl: "https://www.sapporobeer.jp/brewery/s_museum/access/",
+    checkedAt: "2026/10/30"
   },
   "ario-sapporo": {
     hours: "專門店/2F 美食街常見 10:00-21:00；1F 餐廳街常見 11:00-21:00",
@@ -1446,7 +1448,7 @@ const spotLogistics = {
   },
   "toriton-kita8": {
     hours: "常見 11:00-22:00（L.O. 21:30）；混雜時可能提前停止受付",
-    access: "地址：札幌市東区北8条東5丁目19-1。札幌啤酒博物館開車約 10 分鐘；不接受座位預約，排隊時間要抓寬"
+    access: "地址：札幌市東区北8条東5丁目19-1。D6 A 線從 Ario 札幌步行或搭計程車前往，不取車。用餐後可步行到東区役所前站，搭東豐線往福住，在大通下車，再步行進 Pole Town；地面步行、候車與站內移動請留雪天緩衝。不接受座位預約"
   },
   "samurai-cocono-susukino": {
     hours: "官方一般 11:00–23:00（L.O. 21:30）；2026 年末特別營業請另確認",
@@ -2751,7 +2753,7 @@ function getDrivingRouteUrlForStop(day, index, spotId) {
 }
 
 const hakodateTransitLegs = {
-  "8|lagent-hakodate-ekimae|goryokaku": "中午先寄飯店行李，再依租車合約加油還車；從函館駅前搭往湯の川方向市電至五稜郭公園前，下車後步行約 15–20 分到公園。試排含候車與雪地步行抓約 50 分，傍晚回飯店正式入住",
+  "8|lagent-hakodate-ekimae|goryokaku": "中午先寄飯店行李、加油，到已確認的函館站前門市還車；步行至函館駅前電停，搭 2 或 5 系統往湯の川，在五稜郭公園前下車，再步行約 15–20 分到公園。試排含候車與雪地步行抓約 50 分，傍晚回飯店正式入住",
   "8|hachimanzaka|goryokaku": "八幡坂沿步道下坡返回末廣町電停，搭往湯の川方向的市電到五稜郭公園前，再步行到五稜郭；冬季候車與雪地步行請留緩衝",
   "9|hachimanzaka|kanemori-warehouse": "從八幡坂沿步道下坡，步行前往金森倉庫；積雪或路面結冰時放慢腳步，必要時改搭市電或計程車",
   "8|goryokaku|lucky-pierrot-hakodate-station": "從五稜郭公園步行到五稜郭公園前電停，搭往函館駅前方向的市電，再步行到朝市對面的 Hotel New Ohte 2 樓用餐",
@@ -2762,8 +2764,8 @@ const hakodateTransitLegs = {
   "8|goryokaku|goryokaku-tower": "從五稜郭公園走回入口旁的五稜郭塔，依散步位置預留步行時間；17:50 停售展望票，請提早抵達",
   "8|goryokaku-tower|goryokaku": "下塔後步行進五稜郭公園散策，雪地步行留意防滑",
   "8|goryokaku-tower|lucky-pierrot-goryokaku": "從五稜郭塔步行約 1 分鐘到小丑漢堡五稜郭公園前店",
-  "8|lucky-pierrot-goryokaku|lagent-hakodate-ekimae": "用餐後步行到五稜郭公園前電停，搭往函館駅前方向的市電回飯店入住；大雪或提行李時可改搭計程車",
-  "8|goryokaku|lagent-hakodate-ekimae": "從五稜郭公園步行到五稜郭公園前站，搭往函館駅前方向的市電，回飯店辦理入住",
+  "8|lucky-pierrot-goryokaku|lagent-hakodate-ekimae": "用餐後步行到五稜郭公園前電停，搭 2 系統往谷地頭或 5 系統往函館どつく前，在函館駅前下車，步行回飯店入住；大雪時可改計程車",
+  "8|goryokaku|lagent-hakodate-ekimae": "從五稜郭公園步行到五稜郭公園前，搭 2 系統往谷地頭或 5 系統往函館どつく前，在函館駅前下車，步行回飯店辦理入住",
   "9|kanemori-warehouse|hakodate-mt": "由金森倉庫步行上坡到函館山纜車山麓站，積雪時可改搭計程車。D9 試排 14:15 離開海灣、14:45 到站；先確認 12/31 特別營業與風雪停駛狀況",
   "9|hakodate-mt|hakodate-gokoku-shrine": "先搭纜車下山，再回市區吃飯休息；午夜初詣前另前往護國神社，勿在山上等到跨年。神社靠近山麓站，深夜往返飯店先安排計程車；當年夜間開放需確認",
   "9|kanemori-warehouse|hakodate-gokoku-shrine": "從金森倉庫步行經元町坡道到函館護國神社；積雪時注意防滑，也可搭計程車",
@@ -2778,12 +2780,12 @@ const hakodateTransitLegs = {
 
 function getHakodateTransitInfo(day, index, spotId, dayStops) {
   if (index === 0 && day === 9 && spotId === "hachimanzaka") {
-    return "從 La'gent Stay 函館站前步行到函館駅前電停，搭往函館どつく前方向的市電到末廣町，再步行上坡前往八幡坂；雪地與候車請預留緩衝";
+    return "從 La'gent Stay 步行到函館駅前電停，搭 5 系統往函館どつく前，在末廣町（末広町）下車，再步行上坡至八幡坂；2 系統往谷地頭不經末廣町。雪地與候車請預留緩衝";
   }
 
   if (day === 8 && index === 0) {
     if (spotId === "lagent-hakodate-ekimae") {
-      return "從洞爺湖開車到函館站前 La'gent Stay，先寄行李，再加油還車；一般入住 15:00 起，試排於五稜郭行程後約 18:00 正式入住。還車門市與截止時間以租車合約為準";
+      return "從洞爺湖開車到函館站前 La'gent Stay，先寄行李、加油，再到已確認的函館站前門市還車；實際店址與截止時間依租車合約。一般入住 15:00 起，試排於五稜郭行程後約 18:00 正式入住";
     }
     if (spotId === "hachimanzaka") {
       return "從洞爺湖自駕抵達函館並還車，先寄放行李；由函館駅前搭往函館どつく前方向的市電到末廣町，再步行前往八幡坂。拍坂頂港景需上坡，雪地請慢走";
@@ -2825,9 +2827,10 @@ function getDriveInfoForStop(day, index, spotId) {
   if (day === 5 || day === 6) {
     const mode = getStopNavigationMode(day, index, spotId);
     const prefix = "A 線市區觀光｜同伴用車滑雪，這段不自駕。";
-    if (day === 5 && spotId === "moiwa-yama") return `A 線去程｜從 APA 步行到資生館小學校前，搭經西線6條方向的市電至ロープウェイ入口，再轉免費接駁到山麓站和朋友會合；含候車先留約 1 小時。看完夜景，全員搭朋友的車回 APA。`;
-    if (day === 6 && spotId === "sapporo-beer-museum") return `${prefix}試排從 APA 搭地鐵到札幌站，再由北口搭 188 巴士到サッポロビール園；班次不合可改計程車，主按鈕從目前位置查路線。`;
+    if (day === 5 && spotId === "moiwa-yama") return `A 線去程參考｜APA 步行到資生館小學校前（資生館小学校前），搭市電內回り、經西8丁目／西線6条方向，在ロープウェイ入口下車；步行約 1 分鐘至免費接駁站，搭至もいわ山ロープウェイ山麓駅會合，再搭纜車＋迷你纜車到山頂。含候車先留約 1 小時。看完夜景全員搭朋友的車回 APA。`;
+    if (day === 6 && spotId === "sapporo-beer-museum") return `${prefix}APA 出發參考：薄野（すすきの）搭南北線往麻生→地下鐵さっぽろ下車→步行至札幌站北口 2 號乘車處→轉 188 巴士往サッポロビール園→同名站下車。JR 備案：JR 札幌→苗穂，搭確認停靠苗穂的普通列車，苗穂北口步行約 8 分鐘；班次不合可改計程車。主按鈕從目前位置查路線。`;
     if (day === 6 && spotId === "toriton-kita8") return `${prefix}原試排從 Ario 步行前往北8条光星店，雪地先留約 30 分鐘；路況差或太冷可改計程車，搭車按鈕從目前位置查路線。`;
+    if (day === 6 && spotId === "kinotoya-bake-pole-town" && dayStops[index - 1] === "toriton-kita8") return `${prefix}Toriton 用餐後步行到東区役所前站，搭東豐線往福住→大通下車，再循 Pole Town 地下街標示步行到 KINOTOYA。含地面步行、候車與站內移動先留約 1 小時；積雪難走可直接搭計程車。`;
     if (mode === "walking") return `${prefix}${getKnownWalkingLeg(day, index, spotId) || "步行串接附近景點，雪地請留緩衝；走累可改計程車。"}`;
     return `${prefix}依目前位置搭地鐵／市電／巴士前往，班次不合或風雪大可改計程車；不需回 APA 取車或停車。`;
   }

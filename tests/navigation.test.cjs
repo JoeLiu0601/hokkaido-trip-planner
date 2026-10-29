@@ -12,9 +12,10 @@ const runtime = vm.runInNewContext(
   + section('const accommodations =', 'const storageKey =')
   + section('function getMapUrl(', 'function isDayOneTimingDraftApplicable(')
   + section('function getDrivingPlaceQuery(', 'const hakodateTransitLegs =')
+  + section('const hakodateTransitLegs =', 'function normalizeSyncCode(')
   + section('function getDayFiveReturnUrl()', 'function dayDepartureHtml(')
   + '\nfunction spotById(id) { return spots.find(spot => spot.id === id); }'
-  + '\n({ state, spotById, getStopNavigation, getDrivingRouteUrlForStop, getGroupRouteForDay, getDayFiveReturnUrl });',
+  + '\n({ state, spotById, getStopNavigation, getDrivingRouteUrlForStop, getGroupRouteForDay, getDayFiveReturnUrl, getDriveInfoForStop });',
   { state: { plan: {} } }
 );
 
@@ -116,4 +117,26 @@ test('D5 shared ride returns to APA using the current location', () => {
   assert.equal(url.searchParams.get('travelmode'), 'driving');
   assert.equal(url.searchParams.get('dir_action'), 'navigate');
   assert.equal(url.searchParams.has('origin'), false);
+});
+
+test('D6 return route follows Toriton only when it is the previous stop', () => {
+  runtime.state.plan[6] = ['toriton-kita8', 'kinotoya-bake-pole-town'];
+  const text = runtime.getDriveInfoForStop(6, 1, 'kinotoya-bake-pole-town');
+  assert.match(text, /東区役所前.*東豐線.*福住.*大通/);
+  runtime.state.plan[6] = ['ario-sapporo', 'kinotoya-bake-pole-town'];
+  assert.doesNotMatch(runtime.getDriveInfoForStop(6, 1, 'kinotoya-bake-pole-town'), /Toriton 用餐後/);
+});
+
+test('D5 transport keeps the shared ride after the outbound tram', () => {
+  runtime.state.plan[5] = ['unagi-nakajima', 'moiwa-yama'];
+  assert.match(runtime.getDriveInfoForStop(5, 1, 'moiwa-yama'), /資生館小学校前.*ロープウェイ入口.*接駁.*朋友的車回 APA/);
+});
+
+test('Hakodate tram branches and station return are explicit', () => {
+  runtime.state.plan[9] = ['hachimanzaka'];
+  assert.match(runtime.getDriveInfoForStop(9, 0, 'hachimanzaka'), /5 系統.*函館どつく前.*末廣町.*2 系統.*不經/);
+  runtime.state.plan[8] = ['lagent-hakodate-ekimae', 'goryokaku'];
+  assert.match(runtime.getDriveInfoForStop(8, 1, 'goryokaku'), /函館站前門市.*函館駅前.*2 或 5.*湯の川.*五稜郭公園前/);
+  runtime.state.plan[8] = ['lucky-pierrot-goryokaku', 'lagent-hakodate-ekimae'];
+  assert.match(runtime.getDriveInfoForStop(8, 1, 'lagent-hakodate-ekimae'), /2 系統.*谷地頭.*5 系統.*函館どつく前.*函館駅前/);
 });
