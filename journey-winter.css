@@ -5,8 +5,6 @@ body.winter-view-active {
   --accent: #735523; --accent-2: #345f6c; --accent-3: #356349;
   background: radial-gradient(circle at 12% 15%, #e4f0f1 0, transparent 38%), #f8f5ed;
 }
-.ledger-overview-entry { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; margin: 0 0 16px; padding: 8px 12px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; color: var(--text); font-size: .875rem; font-weight: 700; text-decoration: none; }
-.ledger-overview-entry span { color: var(--muted); font-size: .8rem; font-weight: 400; }
 .winter-view-active .shell { width: 100%; max-width: 760px; margin: 0 auto; padding: 16px 18px 40px; gap: 18px; }
 .winter-view-active .itinerary-panel { padding: 0; border: 0; box-shadow: none; background: transparent; }
 .winter-nav-bar { display: none; }
@@ -15,6 +13,9 @@ body.winter-view-active {
 .winter-nav-title:focus { outline: none; }
 .winter-nav-bar button { min-height: 44px; min-width: 48px; padding: 8px 2px; border: 0; color: var(--muted); background: transparent; font: inherit; font-size: .75rem; cursor: pointer; }
 .winter-nav-bar button:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; border-radius: 6px; }
+.winter-nav-actions { display: flex; flex-shrink: 0; align-items: center; gap: 2px; }
+.winter-nav-ledger { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; color: var(--text); background: var(--card); font-size: .78rem; font-weight: 700; white-space: nowrap; text-decoration: none; }
+.winter-nav-ledger:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
 .winter-nav-bar [data-planner-view="travel"] { display: none; }
 .winter-edit-active .winter-nav-bar [data-planner-view="travel"] { display: block; }
 .winter-edit-active .winter-nav-bar [data-planner-view="edit"] { display: none; }
@@ -185,7 +186,7 @@ body.winter-view-active[data-planner-theme="dark"] {
   background: radial-gradient(circle at 10% 12%, #254450 0, transparent 45%), #14252e;
 }
 .winter-view-active .winter-nav-bar { gap: 6px; }
-.winter-view-active .winter-nav-title { min-width: 0; font-size: .88rem; color: var(--text); }
+.winter-view-active .winter-nav-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; font-size: .88rem; color: var(--text); }
 .winter-view-active .winter-nav-bar button { font-size: .78rem; }
 .winter-view-active .day-navigation { background: var(--bg); }
 .winter-view-active .winter-heading p { color: var(--muted); font-size: .68rem; letter-spacing: .1em; }

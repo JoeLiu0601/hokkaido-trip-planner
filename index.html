@@ -10,7 +10,7 @@
     />
     <link rel="stylesheet" href="styles.css?v=20261029-group-switch" />
     <link rel="stylesheet" href="journey.css?v=20261026-hero-return" />
-    <link rel="stylesheet" href="journey-winter.css?v=20261030-ledger-mobile" />
+    <link rel="stylesheet" href="journey-winter.css?v=20261030-ledger-entry" />
   </head>
   <body class="winter-view-active" data-planner-theme="dark">
     <main class="shell">
@@ -91,8 +91,11 @@
             <div class="winter-nav-bar">
               <button type="button" data-planner-view="overview" aria-pressed="false">‹ 總覽</button>
               <p class="winter-nav-title" tabindex="-1">北海道冬日散步</p>
-              <button type="button" data-planner-view="edit" aria-pressed="false">編輯</button>
-              <button type="button" data-planner-view="travel" aria-pressed="false">旅途中</button>
+              <div class="winter-nav-actions">
+                <a class="winter-nav-ledger" id="planner-ledger-link" href="ledger.html" aria-label="四人分帳">分帳</a>
+                <button type="button" data-planner-view="edit" aria-pressed="false">編輯</button>
+                <button type="button" data-planner-view="travel" aria-pressed="false">旅途中</button>
+              </div>
             </div>
             <div class="view-switch" role="group" aria-label="行程檢視方式">
               <button type="button" data-planner-view="overview" aria-pressed="false"><span aria-hidden="true">🗺️</span>總覽</button>
@@ -248,6 +251,6 @@
     <script src="timing-drafts.js?v=20261030-transit-stations"></script>
     <script src="app.js?v=20261030-transit-stations"></script>
     <script src="journey-scenes.js?v=20261026-d9-titles"></script>
-    <script src="journey.js?v=20261030-ledger-mobile"></script>
+    <script src="journey.js?v=20261030-ledger-entry"></script>
   </body>
 </html>
