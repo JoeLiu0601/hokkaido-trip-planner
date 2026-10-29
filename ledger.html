@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ed">
+  <title>四人分帳｜北海道冬日散步</title>
+  <link rel="stylesheet" href="ledger.css?v=20261030-ledger-mobile">
+</head>
+<body>
+  <main class="ledger-shell">
+    <nav class="ledger-nav" aria-label="分帳導覽"><a href="./?view=overview">‹ 回行程</a><span>北海道冬日散步</span><button id="theme-toggle" type="button" aria-label="切換至深色模式">☾ 深色</button></nav>
+    <header class="ledger-hero">
+      <span class="ledger-eyebrow">OUR LITTLE TRAVEL WALLET</span>
+      <div class="hero-title"><div><h1>四個人的旅行帳</h1><p>先付沒關係，回頭慢慢算清楚。</p></div><span class="wallet-stamp" aria-hidden="true">¥</span></div>
+      <div class="storage-note"><span class="status-dot"></span> 本機預覽 · 記在目前裝置，尚未跨手機同步</div>
+    </header>
+    <div id="demo-banner" class="demo-banner" hidden><div><strong>正在試看範例</strong><p>金額與人名都是示範，不會寫進你的帳本。</p></div><button id="leave-demo" type="button">回我的帳本</button></div>
+    <p id="page-message" class="page-message" role="status" aria-live="polite" hidden></p>
+    <div class="ledger-currency" role="group" aria-label="帳本幣別"><button data-currency="JPY" aria-pressed="true" type="button">日圓 <small>JPY</small></button><button data-currency="TWD" aria-pressed="false" type="button">台幣 <small>TWD</small></button></div>
+    <section class="wallet-summary" aria-label="支出總覽"><div><span>這趟一起花了</span><strong id="total-spend">¥0</strong><p id="entry-count">還沒有支出</p></div><div class="summary-side"><span>待結清</span><strong id="transfer-count">0 筆</strong><small>還款不重複算支出</small></div></section>
+    <div class="wallet-tabs" role="group" aria-label="分帳頁面"><button data-tab="expenses" type="button" aria-pressed="true">支出明細</button><button data-tab="settlement" type="button" aria-pressed="false">誰給誰多少</button></div>
+    <section id="expenses-panel" aria-label="支出明細"><div class="section-heading"><h2>小帳，隨手記</h2><button id="add-expense" class="primary" type="button">＋ 記一筆</button></div><div id="entry-list"></div><button id="start-demo" class="demo-link" type="button">先用範例試算看看 ↗</button></section>
+    <section id="settlement-panel" aria-label="結算建議" hidden><div class="section-heading"><h2>這樣結清就好</h2><span class="subtle">依目前帳本計算</span></div><div id="balance-grid" class="balance-grid"></div><div id="transfer-list"></div><p class="footnote">這裡只記錄代墊與還款，不會實際轉帳。收到款項後，再記錄已還款。</p></section>
+    <details class="ledger-settings"><summary>旅伴與帳本設定</summary><form id="members-form"><p class="subtle">改成你們的名字，舊支出會一起更新顯示。</p><div id="member-fields" class="member-fields"></div><button type="submit">儲存名字</button></form><div class="backup-tools"><button id="export-ledger" type="button">匯出帳本備份</button><label class="file-button">匯入備份<input id="import-ledger" type="file" accept="application/json,.json"></label></div><p class="footnote">本機預覽只保存在這個瀏覽器。正式記帳請先匯出備份；匯入會取代目前帳本，操作後可復原。</p></details>
+    <div id="undo-bar" class="undo-bar" hidden><span id="undo-message"></span><button id="undo" type="button">復原</button></div>
+    <footer>12.23 — 01.01 · 把心思留給風景</footer>
+  </main>
+  <dialog id="entry-dialog" aria-labelledby="form-title">
+    <form id="entry-form" novalidate>
+      <div class="dialog-heading"><div><span class="ledger-eyebrow" id="form-eyebrow">SHARED MOMENTS</span><h2 id="form-title">記一筆支出</h2></div><button type="button" class="close-button" id="close-dialog" aria-label="關閉記帳表單">×</button></div>
+      <p id="repayment-note" class="form-hint" hidden>確認對方已實際收到這筆款項，再記錄還款。</p>
+      <label id="title-field">花在哪裡<input id="expense-title" name="title" maxlength="80" placeholder="例如：晚餐、計程車、纜車票" autocomplete="off"></label>
+      <div class="form-row"><label>金額<input id="expense-amount" name="amount" type="text" inputmode="decimal" placeholder="0" autocomplete="off" required></label><label>幣別<select id="expense-currency" name="currency"><option value="JPY">日圓 JPY</option><option value="TWD">台幣 TWD</option></select></label></div>
+      <div class="form-row"><label><span id="payer-label">誰先付</span><select id="expense-payer" name="payer"></select></label><label>日期（日本時間）<input id="expense-date" name="date" type="date" required></label></div>
+      <fieldset id="split-field"><legend>這筆由誰分？</legend><p class="form-hint">預設四人均分；沒參加的人取消勾選。</p><div id="participant-fields" class="participant-fields"></div><label class="custom-toggle"><input id="custom-split" type="checkbox"> 自訂每人金額</label><div id="custom-fields" class="custom-fields" hidden></div><p id="split-preview" class="split-preview" aria-live="polite"></p></fieldset>
+      <label id="recipient-field" hidden>誰收到還款<select id="repayment-recipient"></select></label>
+      <p id="form-error" class="form-error" role="alert" hidden></p>
+      <div class="dialog-actions"><button type="button" id="cancel-dialog">取消</button><button type="submit" id="save-entry" class="primary">儲存這筆</button></div>
+    </form>
+  </dialog>
+  <dialog id="import-dialog" aria-labelledby="import-title"><h2 id="import-title">匯入這本帳？</h2><p id="import-description"></p><p class="footnote">會取代目前帳本；匯入後可按復原。</p><div class="dialog-actions"><button type="button" id="cancel-import">取消</button><button type="button" id="confirm-import" class="primary">確認匯入</button></div></dialog>
+  <script src="ledger-core.js?v=20261030-ledger-mobile"></script>
+  <script src="ledger.js?v=20261030-ledger-mobile"></script>
+</body>
+</html>

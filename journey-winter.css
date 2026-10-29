@@ -5,6 +5,8 @@ body.winter-view-active {
   --accent: #735523; --accent-2: #345f6c; --accent-3: #356349;
   background: radial-gradient(circle at 12% 15%, #e4f0f1 0, transparent 38%), #f8f5ed;
 }
+.ledger-overview-entry { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; margin: 0 0 16px; padding: 8px 12px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; color: var(--text); font-size: .875rem; font-weight: 700; text-decoration: none; }
+.ledger-overview-entry span { color: var(--muted); font-size: .8rem; font-weight: 400; }
 .winter-view-active .shell { width: 100%; max-width: 760px; margin: 0 auto; padding: 16px 18px 40px; gap: 18px; }
 .winter-view-active .itinerary-panel { padding: 0; border: 0; box-shadow: none; background: transparent; }
 .winter-nav-bar { display: none; }

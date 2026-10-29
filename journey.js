@@ -500,6 +500,7 @@
     ];
     host.innerHTML = `
       <header class="winter-heading winter-overview-heading"><div><p>OUR HOKKAIDO JOURNAL</p><h2 id="journey-overview-title" tabindex="-1">北海道十日總覽</h2><span>12.23 — 01.01 · 雪景、熱湯，還有想一起走的路</span></div><div class="winter-date"><strong>10</strong><span>WINTER DAYS</span></div></header>
+      <a class="small-button ledger-overview-entry" href="ledger.html">四人分帳 <span>記代墊、看結算 ↗</span></a>
       ${groupRouteSwitchHtml()}
       <section class="journey-overview-map" aria-label="沿途城市索引">
         <div class="winter-map-topline"><span>沿途的冬日風景</span><span>點城市查看第一個相關日</span></div>
