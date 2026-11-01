@@ -1,5 +1,27 @@
 const spots = [
   {
+    id: "furano-kumagera",
+    name: "くまげら（富良野鄉土料理）",
+    area: "富良野",
+    type: "鄉土料理・餐食",
+    season: ["winter"],
+    time: "1–1.5h",
+    best: "和牛丼、山賊鍋（鹿／鴨／雞）、起司豆腐",
+    desc: "富良野鄉土料理老店，可選和牛丼，或四人分享鹿肉、鴨肉與雞肉的味噌山賊鍋、起司豆腐。作為精靈露臺後的晚餐候選，與唯我獨尊擇一；含候位與用餐先留 60–90 分鐘，點鍋物不要硬趕一小時內吃完。官網列 11:30–21:30（最後點餐 21:00）、週三休，有停車場。一般可預約，但年末年始有限制；12/24 是否可訂位及特別營業請先詢問。",
+    highlight: "D2 晚餐備選"
+  },
+  {
+    id: "furano-yuiga-doxon",
+    name: "唯我獨尊（唯我独尊咖哩）",
+    area: "富良野",
+    type: "咖哩・餐食",
+    season: ["winter"],
+    time: "1h",
+    best: "自製香腸、蛋包咖哩、濃厚香料咖哩",
+    desc: "富良野車站附近的咖哩老店，招牌是自製香腸咖哩與蛋包加香腸咖哩，口味偏濃厚。作為精靈露臺後的另一個晚餐候選，與くまげら擇一；含候位先抓約 1 小時，排隊久就調整回札幌時間。公布營業至 21:00（最後點餐 20:30），週一休（週一為國定假日則改休翌日）；有停車場、以現場候位為主，請備現金。12/24 晚間營業與最新規則行前再確認。",
+    highlight: "D2 晚餐備選"
+  },
+  {
     id: "kamifurano-marumasu",
     name: "焼肉 まるます（上富良野）",
     area: "上富良野",
@@ -1350,6 +1372,18 @@ const dayTenSchedule = [
 
 // 未個別標示日期的票券於 2026/10/6（Asia/Taipei）查核；金額為成人一般票價、日圓。
 const spotLogistics = {
+  "furano-kumagera": {
+    hours: "11:30–21:30（L.O. 21:00）；週三休；12/24 特別營業與年末預約限制先向店家確認",
+    access: "富良野市日の出町3-22；電話 0167-39-2345；有停車場，取車後再開回札幌",
+    infoUrl: "https://www.furano.ne.jp/kumagera/",
+    checkedAt: "2026/11/02"
+  },
+  "furano-yuiga-doxon": {
+    hours: "公布營業至 21:00（L.O. 20:30）；週一休（國定假日改休翌日）；12/24 晚間營業行前確認",
+    access: "富良野市日の出町11-8；電話 0167-23-4784；有停車場，以現場候位為主，請備現金",
+    infoUrl: "https://furanobussan.com/archives/122",
+    checkedAt: "2026/11/02"
+  },
   "kamifurano-marumasu": {
     hours: "午餐 11:00–14:30；晚餐 17:00–21:45；週日休，12/24 臨休行前確認",
     access: "上富良野町緑町2丁目1-17；電話 0167-45-3521；停車約 20 格、不收信用卡",
@@ -1917,6 +1951,8 @@ const dayDepartures = {
 };
 
 const drivingPlaceOverrides = {
+  "furano-kumagera": "くまげら 北海道富良野市日の出町3-22",
+  "furano-yuiga-doxon": "唯我独尊 北海道富良野市日の出町11-8",
   "kamifurano-marumasu": "焼肉 まるます 北海道上富良野町緑町2丁目1-17",
   "kamifurano-mansaku": "手打ちそば まん作 北海道上富良野町西町2丁目1",
   "biei-blue": "白金青い池 駐車場 美瑛町白金 北海道",
@@ -4431,9 +4467,10 @@ function renderDayAlternative() {
 
 const dayOptionalSpots = {
   2: {
-    title: "D2 上富良野午餐備選",
-    note: "日之出公園後可選一間用餐，再往富良野。先保留兩個候選，尚未選定餐廳；若改走札幌天候備案，這兩間就不適用。",
-    ids: ["kamifurano-marumasu", "kamifurano-mansaku"]
+    title: "D2 午餐與晚餐備選",
+    note: "午餐：日之出公園後在上富良野二選一；晚餐：精靈露臺後在富良野二選一，再開回札幌。先保留候選，尚未選定或預約；若改走札幌天候備案，這些餐廳就不適用。",
+    ids: ["kamifurano-marumasu", "kamifurano-mansaku", "furano-kumagera", "furano-yuiga-doxon"],
+    dinnerIds: ["furano-kumagera", "furano-yuiga-doxon"]
   },
   4: {
     title: "D4 登別溫泉街美食備選",
@@ -4507,12 +4544,13 @@ function renderDayOptions() {
       const stops = state.plan[day];
       let insertion = -1;
       if (day === 2) {
-        const parkIndex = stops.indexOf("hinode-park");
-        if (parkIndex >= 0) {
-          insertion = parkIndex + 1;
-          while (insertion < stops.length && dayOptionalSpots[day].ids.includes(stops[insertion])) insertion += 1;
+        const isDinner = options.dinnerIds.includes(id);
+        const anchorIndex = stops.indexOf(isDinner ? "ningle-terrace" : "hinode-park");
+        if (anchorIndex >= 0) {
+          insertion = anchorIndex + 1;
+          while (insertion < stops.length && options.ids.includes(stops[insertion]) && options.dinnerIds.includes(stops[insertion]) === isDinner) insertion += 1;
         } else {
-          insertion = stops.indexOf("ningle-terrace");
+          insertion = stops.indexOf(isDinner ? "apa-sapporo-susukino-ekinishi" : "ningle-terrace");
         }
       } else if (day === 4) {
         const streetIndex = stops.indexOf("noboribetsu-onsen-street");
