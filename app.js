@@ -1,5 +1,27 @@
 const spots = [
   {
+    id: "kamifurano-marumasu",
+    name: "焼肉 まるます（上富良野）",
+    area: "上富良野",
+    type: "燒肉・定食",
+    season: ["winter"],
+    time: "1–1.5h",
+    best: "豚サガリ、在地豬肉燒肉、炸豬排定食",
+    desc: "上富良野在地燒肉店，可吃名物豚サガリ（豬橫膈膜）、牛肉或炸豬排定食，作為日之出公園後的午餐候選，兩間擇一即可。午餐 11:00–14:30、週日休；觀光協會列午餐約 ¥980–2,300。有約 20 格停車位、不收信用卡，含候餐先留 75–90 分鐘；12/24 臨時休業與菜單價格行前再確認。",
+    highlight: "D2 午餐備選"
+  },
+  {
+    id: "kamifurano-mansaku",
+    name: "手打ちそば まん作（上富良野）",
+    area: "上富良野",
+    type: "蕎麥麵・餐食",
+    season: ["winter"],
+    time: "1h",
+    best: "北海道蕎麥、自家石磨製粉、手打蕎麥麵",
+    desc: "使用北海道蕎麥、自家石磨製粉的手打蕎麥麵店，作為日之出公園後的另一個午餐候選。預算約 ¥1,000–2,000；11:00–16:00（最後點餐 15:30），售完提早結束，週一、二休（國定假日例外）。不接受訂位、只收現金，滿座先在店內登記；若選這間可縮短公園停留，靠近 11:00 到店。停車約 8 格，滿位依店家指示停見晴台公園停車場，勿停路邊；12/24 臨休行前再確認。",
+    highlight: "D2 午餐備選"
+  },
+  {
     id: "new-chitose-airport",
     name: "新千歲機場",
     area: "新千歲",
@@ -297,14 +319,27 @@ const spots = [
     highlight: "夜色木屋"
   },
   {
+  "id": "otaru-tenguyama",
+  "name": "小樽天狗山夜景",
+  "area": "小樽",
+  "type": "夜景／纜車",
+  "season": [
+    "winter"
+  ],
+  "time": "2h",
+  "best": "山頂俯瞰小樽港與市街夜景",
+  "desc": "D3 童話十字路之後前往山麓站，再搭纜車上山。冬季不導航到山頂；強風可能停駛。夜景與運河都保留時，建議減少彈性神社。",
+  "highlight": "港町夜景"
+},
+  {
     id: "biei-blue",
-    name: "美瑛青池",
+    name: "白金青池（點燈備選）",
     area: "美瑛",
     type: "自然奇景",
     season: ["winter"],
-    time: "1.5h",
-    best: "藍色湖面、樹影、靜謐感",
-    desc: "很適合搭配富良野一起走，形成一條很完整的冬季景觀路線。",
+    time: "0.5h",
+    best: "冬季點燈、雪面與落葉松剪影",
+    desc: "D1 入住旭川後的彈性夜景選項。12 月點燈 16:30–21:00，冬季池面可能結冰覆雪；不是保證看得到藍色水面。原入住時間通常趕不上 17:00，晚去須重排晚餐與採買。",
     highlight: "藍色名景"
   },
   {
@@ -1096,89 +1131,154 @@ const flights = [
 ];
 
 const winterTemplate = {
-  1: ["new-chitose-airport", "nippon-rentacar-new-chitose", "premier-cabin-asahikawa", "aeon-mall-asahikawa-ekimae", "tokiwa-park", "kamikawa-shrine", "asahikawa-heiwa-dori"],
-  2: ["furano-field", "biei-shrine", "hinode-park", "ningle-terrace", "apa-sapporo-susukino-ekinishi", "sapporo-odori", "sapporo-susukino"],
-  3: ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "wakadori-naruto-honten", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
-  4: ["noboribetsu-valley", "noboribetsu-onsen-street", "tenkatsu-honten-muroran", "muroran-hakucho-bridge-view", "happiness-bell"],
-  5: ["nakajima-park", "unagi-nakajima", "moiwa-yama"],
-  6: ["sapporo-beer-museum", "ario-sapporo", "toriton-kita8", "kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka"],
-  7: ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view", "toya-kohan-tei"],
-  8: ["goryokaku", "lucky-pierrot-goryokaku", "lagent-hakodate-ekimae"],
-  9: ["hachimanzaka", "kanemori-warehouse", "hakodate-mt", "hakodate-gokoku-shrine"],
-  10: ["morning-market", "motomachi", "hakodate-station-airport-bus", "hakodate-airport"]
-};
-
-const legacyDayTwoBackup = ["sapporo-odori", "shiroi-koibito-park", "sapporo-susukino"];
+  "1": [
+    "new-chitose-airport",
+    "nippon-rentacar-new-chitose",
+    "premier-cabin-asahikawa",
+    "biei-blue",
+    "aeon-mall-asahikawa-ekimae",
+    "tokiwa-park",
+    "kamikawa-shrine",
+    "asahikawa-heiwa-dori"
+  ],
+  "2": [
+    "furano-field",
+    "biei-shrine",
+    "hinode-park",
+    "ningle-terrace",
+    "apa-sapporo-susukino-ekinishi"
+  ],
+  "3": [
+    "hokkaido-shrine",
+    "sapporo-fushimi-inari",
+    "teine-shrine",
+    "wakadori-naruto-honten",
+    "otaru-inari-shrine",
+    "taisho-glass",
+    "otaru-meruhen-crossing",
+    "otaru-tenguyama",
+    "otaru-canal"
+  ],
+  "4": [
+    "noboribetsu-valley",
+    "noboribetsu-onsen-street",
+    "tenkatsu-honten-muroran",
+    "muroran-hakucho-bridge-view",
+    "happiness-bell",
+    "moiwa-yama"
+  ],
+  "5": [
+    "nakajima-park",
+    "unagi-nakajima"
+  ],
+  "6": [
+    "sapporo-beer-museum",
+    "ario-sapporo",
+    "toriton-kita8",
+    "kinotoya-bake-pole-town",
+    "3coins-pole-town",
+    "ramen-haruka"
+  ],
+  "7": [
+    "toyako-lake",
+    "makkari-village",
+    "silo-observatory",
+    "konpira-crater-view",
+    "toya-kohan-tei"
+  ],
+  "8": [
+    "goryokaku",
+    "lucky-pierrot-goryokaku",
+    "lagent-hakodate-ekimae"
+  ],
+  "9": [
+    "hachimanzaka",
+    "kanemori-warehouse",
+    "hakodate-mt",
+    "hakodate-gokoku-shrine"
+  ],
+  "10": [
+    "morning-market",
+    "motomachi",
+    "hakodate-station-airport-bus",
+    "hakodate-airport"
+  ]
+};const legacyDayTwoBackup = ["sapporo-odori", "shiroi-koibito-park", "sapporo-susukino"];
 const previousDayTwoBackup = ["sunagawa-highway-oasis", "apa-sapporo-susukino-ekinishi", "shiroi-koibito-park", "sapporo-susukino"];
 const dayTwoBackup = ["sunagawa-highway-oasis", "apa-sapporo-susukino-ekinishi", "shiroi-koibito-park", "miyanomori-frances-church", "sapporo-susukino"];
 
 const winterProfile = {
   label: "12/23-1/1",
   blurb: "新千歲入境，旭川與富良野 1 天；札幌 6 天（含小樽）；洞爺湖 1 天，函館跨年 2 天",
-  route: "D1–D4、D7 自駕；D5–D6 分組，A 線步行搭車、B 線自駕滑雪。D8 函館站前還車後改步行搭車；D5 夜景後共乘回 APA。",
+  route: "D1–D4、D7 自駕；D5–D6 分組，A 線步行搭車、B 線自駕滑雪。D8 函館站前還車後改步行搭車；藻岩山夜景改 D4 自駕前往，D5 滑雪後另約市區晚餐。",
   style: "冬季限定"
 };
 
 const tripDates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29", "12/30", "12/31", "1/1"];
 
 const daySummaries = {
-  1: "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先試排約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。",
-  2: "從旭川走富良野、美瑛與上富良野，傍晚前往札幌。先到 APA 飯店入住，再逛大通與薄野；天候備案另列白色戀人公園與宮之森佛朗西斯教會。",
-  3: "上午安排札幌神社巡禮，手稻放在前往小樽途中，接著吃午餐、逛玻璃店與童話十字路，再看天黑後的運河。完整時間試排另列建議順序供 review。",
-  4: "從札幌前往登別，走地獄谷與溫泉街，再前往室蘭看白鳥大橋（祝津公園展望台）與地球岬的幸福之鐘。午餐可依當天喜好選登別溫泉街或室蘭天勝；登別閻魔炒麵、海鮮料理與喫茶田園甜點可參考下方備選。",
-  5: "白天 A 線市區觀光、B 線自駕滑雪；傍晚在藻岩山纜車山麓站會合，一起看夜景，再搭朋友的車回 APA，停好車後步行吃晚餐。",
-  6: "A 線市區觀光：搭車前往啤酒博物館、Ario 與 Toriton，下午搭車回市中心逛地下街；B 線同伴自行開車去滑雪，集合時間另約。",
-  7: "從札幌退房前往真狩村，經 SAIRO 展望台到洞爺湖，湖畔短逛後到 Toya Kohan Tei 入住；本次試排不安排火口，下午留給泡湯與休息。",
-  8: "從洞爺湖開車到函館，先到 La'gent Stay 寄行李，再加油還車；之後搭市電逛五稜郭公園、登塔，在塔旁的小丑漢堡用餐，傍晚回飯店正式入住。函館山維持 D9。",
-  9: "09:30 從 La'gent Stay 函館站前出發，白天逛八幡坂與金森，下午提早上函館山；晚餐後回飯店休息。護國神社午夜初詣僅在當年開放與深夜往返交通確認後安排。",
-  10: "09:15 起在飯店附近早餐，朝市僅在元旦有店營業時短逛；10:15 前退房寄行李，再搭市電逛元町。12:15 回飯店拿行李，目標 13:30 從函館站前搭機場巴士、14:10 前後進國際線航廈。JX861 18:00 起飛；2027 元旦巴士班次待確認。"
+  "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先試排約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住試排約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
+  "2": "旭川退房後經美瑛／上富良野，約 15:00 到精靈露臺，留到天黑看木屋燈景；約 18:30 在富良野吃完晚餐出發，約 22:00 到札幌 APA。也可提早離開、沿途補餐。大通與薄野僅留彈性備選，晚到不再硬逛。",
+  "3": "上午安排札幌神社巡禮，手稻放在前往小樽途中，接著吃午餐、逛玻璃店與童話十字路，再看天黑後的運河。完整時間試排另列建議順序供 review。 童話十字路後加入天狗山夜景，運河仍保留；四座神社全走再加天狗山會偏滿，優先刪減彈性神社。",
+  "4": "06:30 從 APA 出發，登別地獄谷與溫泉街後到室蘭；午餐選溫泉市場或天勝。約 15:00 從幸福之鐘／地球岬離開，冬季含休息與補餐抓 3 小時到藻岩山纜車山麓站，再搭纜車看夜景，約 21:15 回 APA。這是長日行程，天候差或疲累就略過夜景。",
+  "5": "藻岩山夜景已移到 D4。D5 A 線保留中島公園與鰻魚飯，下午休息或自由逛街；B 線自行開車滑雪，結束後另約市區晚餐，不再安排夜景纜車站會合。",
+  "6": "A 線市區觀光：搭車前往啤酒博物館、Ario 與 Toriton，下午搭車回市中心逛地下街；B 線同伴自行開車去滑雪，集合時間另約。",
+  "7": "從札幌退房前往真狩村，經 SAIRO 展望台到洞爺湖，湖畔短逛後到 Toya Kohan Tei 入住；本次試排不安排火口，下午留給泡湯與休息。",
+  "8": "從洞爺湖開車到函館，先到 La'gent Stay 寄行李，再加油還車；之後搭市電逛五稜郭公園、登塔，在塔旁的小丑漢堡用餐，傍晚回飯店正式入住。函館山維持 D9。",
+  "9": "09:30 從 La'gent Stay 函館站前出發，白天逛八幡坂與金森，下午提早上函館山；晚餐後回飯店休息。護國神社午夜初詣僅在當年開放與深夜往返交通確認後安排。",
+  "10": "09:15 起在飯店附近早餐，朝市僅在元旦有店營業時短逛；10:15 前退房寄行李，再搭市電逛元町。12:15 回飯店拿行李，目標 13:30 從函館站前搭機場巴士、14:10 前後進國際線航廈。JX861 18:00 起飛；2027 元旦巴士班次待確認。"
 };
-
 const dayOneTimingDraft = {
   "new-chitose-airport": {
-    time: "11:00–13:15",
-    duration: "入境約 75 分＋逛街約 1 小時",
-    note: "BR166 預計 11:00 抵達；11:00–12:15 入境、領行李，12:15–13:15 逛機場、買吃的。入境延誤就縮短逛街；取車預約時間請配合確認。"
+    "time": "11:00–13:15",
+    "duration": "入境約 75 分＋逛街約 1 小時",
+    "note": "BR166 預計 11:00 抵達；11:00–12:15 入境、領行李，12:15–13:15 逛機場、買吃的。入境延誤就縮短逛街；取車預約時間請配合確認。"
   },
   "nippon-rentacar-new-chitose": {
-    time: "13:15–14:15",
-    duration: "約 1 小時",
-    note: "先在機場櫃台報到，再搭接駁車取車、確認雪胎與操作。接駁單程約 10–15 分鐘，等車與手續另留時間。"
+    "time": "13:15–14:15",
+    "duration": "約 1 小時",
+    "note": "先在機場櫃台報到，再搭接駁車取車、確認雪胎與操作。接駁單程約 10–15 分鐘，等車與手續另留時間。"
   },
   "premier-cabin-asahikawa": {
-    time: "17:45–18:15",
-    duration: "約 30 分",
-    note: "14:15–17:45 先抓開車至旭川，含約 30 分鐘途中補餐與休息。抵達後停車、入住、放行李；下雪或塞車就順延。",
-    navigationMode: "driving"
+    "time": "17:45–18:15",
+    "duration": "約 30 分",
+    "note": "14:15–17:45 先抓開車至旭川，含約 30 分鐘途中補餐與休息。抵達後停車、入住、放行李；下雪或塞車就順延。",
+    "navigationMode": "driving"
   },
   "aeon-mall-asahikawa-ekimae": {
-    time: "18:15–19:15",
-    duration: "約 1 小時",
-    note: "步行到站前 AEON，先買雪靴、防滑鞋與保暖配件；時間含往返站前的步行緩衝。",
-    navigationMode: "walking"
+    "time": "18:15–19:15",
+    "duration": "約 1 小時",
+    "note": "步行到站前 AEON，先買雪靴、防滑鞋與保暖配件；時間含往返站前的步行緩衝。",
+    "navigationMode": "walking"
   },
   "tokiwa-park": {
-    time: "彈性 · 約 20–30 分鐘",
-    duration: "約 20–30 分",
-    note: "有精神、天候好再短暫散步，不必排在晚餐前；晚上天黑、路滑或太冷就略過。",
-    optional: true,
-    navigationMode: "walking"
+    "time": "彈性 · 約 20–30 分鐘",
+    "duration": "約 20–30 分",
+    "note": "有精神、天候好再短暫散步，不必排在晚餐前；晚上天黑、路滑或太冷就略過。",
+    "optional": true,
+    "navigationMode": "walking"
   },
   "kamikawa-shrine": {
-    time: "彈性 · 約 20–30 分鐘",
-    duration: "約 20–30 分",
-    note: "較早到旭川時才考慮。若要買御守，先確認授與所時間；傍晚後抵達就略過，不必為了這站再趕路。",
-    optional: true,
-    navigationMode: "driving"
+    "time": "彈性 · 約 20–30 分鐘",
+    "duration": "約 20–30 分",
+    "note": "較早到旭川時才考慮。若要買御守，先確認授與所時間；傍晚後抵達就略過，不必為了這站再趕路。",
+    "optional": true,
+    "navigationMode": "driving"
   },
   "asahikawa-heiwa-dori": {
-    time: "19:15–20:45",
-    duration: "約 1.5 小時",
-    note: "散步找晚餐，餐廳當天再決定；先確認最後點餐，排隊太久就換附近店。約 20:45 後回飯店泡湯、休息，戶外散步隨體力決定。",
-    navigationMode: "walking"
+    "time": "19:15–20:45",
+    "duration": "約 1.5 小時",
+    "note": "散步找晚餐，餐廳當天再決定；先確認最後點餐，排隊太久就換附近店。約 20:45 後回飯店泡湯、休息，戶外散步隨體力決定。",
+    "navigationMode": "walking"
+  },
+  "biei-blue": {
+    "time": "彈性支線 · 約 19:45–20:15",
+    "duration": "停留約 30 分＋往返開車約 3 小時",
+    "note": "可去可不去，安排在旭川入住後。官方 2026/12 點燈 16:30–21:00；原試排 18:15 才能離開飯店，雪天單程先抓 1.5 小時，約 19:45 抵達、20:15 折返、21:45 回飯店。通常趕不上 17:00；這條支線與原本採買／晚餐時段衝突，不可直接相加，需提早補餐或略過採買。能見度差、結冰或疲累就不去。",
+    "optional": true,
+    "navigationMode": "driving"
   }
-};
-const dayOneTimedStopIds = Object.keys(dayOneTimingDraft).filter((id) => !dayOneTimingDraft[id].optional);
+};const dayOneTimedStopIds = Object.keys(dayOneTimingDraft).filter((id) => !dayOneTimingDraft[id].optional);
 
 const dayNineTimingDraft = {
   hachimanzaka: {
@@ -1250,6 +1350,33 @@ const dayTenSchedule = [
 
 // 未個別標示日期的票券於 2026/10/6（Asia/Taipei）查核；金額為成人一般票價、日圓。
 const spotLogistics = {
+  "kamifurano-marumasu": {
+    hours: "午餐 11:00–14:30；晚餐 17:00–21:45；週日休，12/24 臨休行前確認",
+    access: "上富良野町緑町2丁目1-17；電話 0167-45-3521；停車約 20 格、不收信用卡",
+    infoUrl: "https://www.kamifurano.jp/archives/facility_item/3312/",
+    checkedAt: "2026/11/02"
+  },
+  "kamifurano-mansaku": {
+    hours: "11:00–16:00（L.O. 15:30），售完提早結束；週一、二休（國定假日例外），12/24 臨休行前確認",
+    access: "上富良野町西町2丁目1；電話 0167-45-6523；不接受訂位、只收現金；停車約 8 格，滿位依店家指示停見晴台公園停車場",
+    infoUrl: "https://r.goope.jp/mansaku0520/",
+    checkedAt: "2026/11/02"
+  },
+  "biei-blue": {
+  "tickets": "入場免費；普通車停車費 1,000 日圓",
+  "hours": "2026/10/22–2027/4/21 點燈；12 月 16:30–21:00，17:00 已亮燈",
+  "access": "導航白金青池停車場，停車後走已開放步道。旭川飯店往返冬季先抓 3 小時，另加停留；不是從機場直達青池的時程。",
+  "infoUrl": "https://www.biei-hokkaido.jp/ja/27188",
+  "checkedAt": "2026/11/2"
+},
+  "otaru-tenguyama": {
+  "tickets": "冬季纜車成人來回 2,000 日圓",
+  "hours": "2026/11/28–2027/3/28：上山 09:00–19:48、下山至 20:00；風雪可停駛，12/25 出發前確認",
+  "access": "自駕導航天狗山ロープウエイ山麓駅（小樽市最上2丁目16-15），山麓免費停車約 100 台；童話十字路取車後冬季含移動停車先抓 45 分，不開車上山頂。搭車備案：JR 小樽站前 4 號乘車處搭 9 系統天狗山線，到天狗山ロープウエイ下車，車程約 20 分、候車另計。",
+  "ticketUrl": "https://tenguyama.ckk.chuo-bus.co.jp/hours-and-fees/",
+  "infoUrl": "https://tenguyama.ckk.chuo-bus.co.jp/access/",
+  "checkedAt": "2026/11/2"
+},
   hachimanzaka: {
     hours: "戶外坂道，白天可拍港景；2026–2027 冬季燈飾檔期與時間待確認",
     access: "市電末廣町下車，官方列步行約 1 分鐘到八幡坂；拍攝坂頂港景仍需沿步道上坡。從函館站搭往函館どつく前方向的市電，雪地請預留步行緩衝",
@@ -1536,7 +1663,7 @@ const spotLogistics = {
     ticketNotes: "可現場購票，也提供網路前售票。冬季觀光道路封閉；先看天候與運行狀況，再決定是否購票上山。",
     ticketUrl: "https://mt-moiwa.jp/guide/",
     hours: "冬季（12–3 月）纜車 11:00–22:00，最後上山 21:30；迷你纜車 11:10–21:50，最後上山 21:40；12/31、1/1 休業，惡劣天候可能停駛",
-    access: "自駕請導航至纜車山麓站，冬季觀光道路封閉。搭市電在「ロープウェイ入口（纜車入口）」下車，步行約 1 分鐘到免費接駁乘車處，乘車約 2 分鐘抵達山麓站；約每 15 分鐘一班，冬季週末／假日 10:47 起、平日 17:17 起運行。D5 為週日，適用週末時間；實際班次出發前確認",
+    access: "自駕請導航至纜車山麓站，冬季觀光道路封閉。搭市電在「ロープウェイ入口（纜車入口）」下車，步行約 1 分鐘到免費接駁乘車處，乘車約 2 分鐘抵達山麓站；約每 15 分鐘一班，冬季週末／假日 10:47 起、平日 17:17 起運行。夜景已移至 D4 週六自駕前往山麓站；接駁僅作自行搭車備案，實際班次出發前確認",
     infoUrl: "https://mt-moiwa.jp/access/shuttlebus-tram/",
     checkedAt: "2026/10/11"
   },
@@ -1780,7 +1907,7 @@ const drivingStartHotels = {
 const dayDepartures = {
   2: { hotel: accommodations[0], name: "旭川 Premier Hotel-CABIN", time: "08:30", checkout: true },
   3: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "08:30" },
-  4: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "08:00" },
+  4: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "06:30" },
   5: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "10:00" },
   6: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "10:00" },
   7: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "08:30", checkout: true },
@@ -1790,6 +1917,10 @@ const dayDepartures = {
 };
 
 const drivingPlaceOverrides = {
+  "kamifurano-marumasu": "焼肉 まるます 北海道上富良野町緑町2丁目1-17",
+  "kamifurano-mansaku": "手打ちそば まん作 北海道上富良野町西町2丁目1",
+  "biei-blue": "白金青い池 駐車場 美瑛町白金 北海道",
+  "otaru-tenguyama": "小樽天狗山ロープウエイ 山麓駅 小樽市最上2丁目16-15",
   "kinkarou-ichijo-asahikawa": "炭火焼き肉 金花郎 一条本店 北海道旭川市1条通4丁目2043-2",
   "samurai-cocono-susukino": "Rojiura Curry SAMURAI. COCONO SUSUKINO 札幌市中央区南4条西4丁目1-1 3F",
   "kushidori-susukino-nishi5": "串鳥 すすきの西五丁目店 札幌市中央区南4条西5丁目10-1 つむぎビル2F",
@@ -1835,28 +1966,49 @@ const knownWalkingLegs = {
 // 分組檢視只影響顯示，原共編景點與完成進度不因切換而更動。
 const groupRouteLabels = { A: "A 市區觀光", B: "B 滑雪" };
 const skiRouteDays = {
-  5: {
-    title: "滑雪與夜景會合",
-    route: "APA → 藻岩山滑雪場 → 夜景纜車山麓站會合 → 一起看夜景 → 開車回 APA",
-    stages: [
-      ["早上 · 時間待定", "APA 出發、自駕去滑雪", "依課程與租具報到時間出發；先確認是北斜面或南斜面入口。"],
-      ["白天", "藻岩山滑雪場", "課程、租具與滑雪結束時間尚未確定，須預留歸還裝備、換裝與移車時間。"],
-      ["傍晚 · 暫以 15:00 試排", "夜景纜車山麓站會合", "結束滑雪後，另外開車到もいわ山ロープウェイ山麓駅；與 A 線會合再一起上山。會合時間待課程確認。"],
-      ["會合後", "一起看藻岩山夜景", "一起搭纜車與迷你纜車上山，看完夜景下回山麓站。風雪停駛時另約市區集合。"],
-      ["下山後", "全員搭車回 APA", "回山麓停車場取車，一起回飯店停車，再步行吃晚餐。"]
+  "5": {
+    "title": "滑雪日",
+    "route": "APA → 藻岩山滑雪場 → 回 APA／另約市區晚餐",
+    "stages": [
+      [
+        "早上 · 時間待定",
+        "APA 出發、自駕去滑雪",
+        "課程與租具報到時間待朋友確認；A 線在市區步行搭車。"
+      ],
+      [
+        "白天",
+        "藻岩山滑雪場",
+        "依當季營業、課程與租具安排，北／南斜面入口分別確認。"
+      ],
+      [
+        "結束後",
+        "回 APA、另約晚餐",
+        "先還裝備、換裝與停車。夜景已移 D4，D5 不需移車到夜景纜車山麓站會合。"
+      ]
     ]
   },
-  6: {
-    title: "滑雪日（待確認）",
-    route: "APA → 藻岩山滑雪場 → 開車回 APA；是否連滑兩天待確認",
-    stages: [
-      ["出發前", "確認是否繼續滑雪", "D6 是否滑雪、課程及出發時間未定；若一起逛市區，可切回 A 線查看原行程。"],
-      ["白天 · 條件式", "自行開車往返藻岩山滑雪場", "確認當季營業、報到入口與租具後出發；A 線留在市區搭車或步行。"],
-      ["結束後", "開車回 APA、另約晚餐", "先歸還裝備、回飯店停車，集合時間另約。D5 夜景不重複排在今天。"]
+  "6": {
+    "title": "滑雪日（待確認）",
+    "route": "APA → 藻岩山滑雪場 → 開車回 APA；是否連滑兩天待確認",
+    "stages": [
+      [
+        "出發前",
+        "確認是否繼續滑雪",
+        "D6 是否滑雪、課程及出發時間未定；若一起逛市區，可切回 A 線查看原行程。"
+      ],
+      [
+        "白天 · 條件式",
+        "自行開車往返藻岩山滑雪場",
+        "確認當季營業、報到入口與租具後出發；A 線留在市區搭車或步行。"
+      ],
+      [
+        "結束後",
+        "開車回 APA、另約晚餐",
+        "先歸還裝備、回飯店停車，集合時間另約。夜景已排 D4，不重複安排。"
+      ]
     ]
   }
 };
-
 function getGroupRouteForDay(day, group) {
   return group === "B" ? skiRouteDays[day] || null : null;
 }
@@ -1871,7 +2023,8 @@ const dayEightRoutingTemplateVersion = "2026-10-11-day8-hachimanzaka";
 const dayTwoEightRoutingTemplateVersion = "2026-10-11-day2-day8-routing";
 const dayNineHachimanzakaTemplateVersion = "2026-10-11-day9-hachimanzaka";
 previousPlanTemplateVersions.push(hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion, "2026-10-11-day5-nakajima");
-const currentPlanTemplateVersion = dayNineHachimanzakaTemplateVersion;
+previousPlanTemplateVersions.push(dayNineHachimanzakaTemplateVersion);
+const currentPlanTemplateVersion = "2026-11-02-night-review";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -2127,6 +2280,40 @@ function migrateDayFiveNakajima(plan) {
   return true;
 }
 
+function migrateNightReviewPlan(plan) {
+  let changed = false;
+  const addAfter = (day, anchor, id) => {
+    if (Object.values(plan).some(ids => ids.includes(id))) return;
+    const at = plan[day].indexOf(anchor);
+    if (at < 0) return;
+    plan[day].splice(at + 1, 0, id); changed = true;
+  };
+  addAfter(1, "premier-cabin-asahikawa", "biei-blue");
+  if (plan[2].includes("ningle-terrace")) {
+    const kept = plan[2].filter(id => !["sapporo-odori", "sapporo-susukino"].includes(id));
+    if (kept.length !== plan[2].length) { plan[2] = kept; changed = true; }
+  }
+  const formerDayThreeOrders = [
+    ["sapporo-fushimi-inari", "hokkaido-shrine", "otaru-inari-shrine", "teine-shrine", "wakadori-naruto-honten", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"],
+    ["hokkaido-shrine", "teine-shrine", "sapporo-fushimi-inari", "wakadori-naruto-honten", "otaru-inari-shrine", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing"]
+  ];
+  if (formerDayThreeOrders.some(ids => planStopsEqual(ids, plan[3]))) {
+    plan[3] = ["hokkaido-shrine", "sapporo-fushimi-inari", "teine-shrine", "wakadori-naruto-honten", "otaru-inari-shrine", "taisho-glass", "otaru-meruhen-crossing", "otaru-canal"];
+    changed = true;
+  }
+  addAfter(3, "otaru-meruhen-crossing", "otaru-tenguyama");
+  if (plan[3].includes("otaru-tenguyama") && plan[3].includes("otaru-canal")) {
+    const before = JSON.stringify(plan[3]);
+    plan[3] = plan[3].filter(id => id !== "otaru-canal");
+    const at = plan[3].indexOf("otaru-tenguyama"); plan[3].splice(at + 1, 0, "otaru-canal");
+    changed = changed || before !== JSON.stringify(plan[3]);
+  }
+  if (plan[5].includes("moiwa-yama")) { plan[5] = plan[5].filter(id => id !== "moiwa-yama"); changed = true; }
+  addAfter(4, "happiness-bell", "moiwa-yama");
+  if (!Object.values(plan).some(ids => ids.includes("moiwa-yama"))) { plan[4].push("moiwa-yama"); changed = true; }
+  return changed;
+}
+
 function loadPlan() {
   const snapshot = loadLocalSnapshot();
   const stored = snapshot ? JSON.stringify(snapshot.plan) : readLocalStorage(storageKey);
@@ -2154,12 +2341,13 @@ function loadPlan() {
         return !planStopsEqual(Array.isArray(parsed[day]) ? parsed[day] : [], plan[day]);
       });
       // The 9/30 template already had check-ins. Do not run older hotel/AEON insertion again.
-      const legacyChanged = ![hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion].includes(storedTemplateVersion) && migratePreviousTemplate(plan);
-      const optionsChanged = ![itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion].includes(storedTemplateVersion) && migrateHakodateOptions(plan);
-      const dayNineChanged = migrateDayNineHachimanzaka(plan);
-      const dayTwoChanged = migrateDayTwoChurchBackup(plan);
-      const dayFiveChanged = migrateDayFiveNakajima(plan);
-      const migrationChanged = legacyChanged || optionsChanged || dayNineChanged || dayTwoChanged || dayFiveChanged;
+      const legacyChanged = ![hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion, dayNineHachimanzakaTemplateVersion].includes(storedTemplateVersion) && migratePreviousTemplate(plan);
+      const optionsChanged = ![itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion, dayNineHachimanzakaTemplateVersion].includes(storedTemplateVersion) && migrateHakodateOptions(plan);
+      const dayNineChanged = storedTemplateVersion !== dayNineHachimanzakaTemplateVersion && migrateDayNineHachimanzaka(plan);
+      const dayTwoChanged = storedTemplateVersion !== dayNineHachimanzakaTemplateVersion && migrateDayTwoChurchBackup(plan);
+      const dayFiveChanged = storedTemplateVersion !== dayNineHachimanzakaTemplateVersion && migrateDayFiveNakajima(plan);
+      const nightChanged = migrateNightReviewPlan(plan);
+      const migrationChanged = legacyChanged || optionsChanged || dayNineChanged || dayTwoChanged || dayFiveChanged || nightChanged;
       loadedPlanNeedsSync = normalizedChanged || migrationChanged;
     }
 
@@ -2501,7 +2689,7 @@ function getStopNavigation(day, index, spot) {
     label: mode === "driving" ? "從目前位置開車導航" : mode === "walking" ? "步行導航" : "搭車路線",
     mode,
     note: day === 5 && spot.id === "moiwa-yama"
-      ? "去程市電＋免費接駁到纜車山麓站會合；看完夜景搭朋友的車回 APA。"
+      ? "夜景已排 D4；若自行加回 D5，去程可搭市電＋免費接駁，回程與集合需另排。"
       : day === 6 && spot.id === "kinotoya-bake-pole-town" && mode === "transit"
         ? "搭車回大通／薄野，再步行逛地下街；市區觀光組使用大眾運輸。" : ""
   };
@@ -2677,9 +2865,9 @@ function renderDayTimingDraft() {
   dom.dayTimingDraft.innerHTML = `
     <h3 id="day-timing-title">Day 1 時間試排</h3>
     <p>${isDayOneTimingDraftApplicable()
-      ? "下方時間皆為日本時間、初步估計。入住 → 買雪靴 → 晚餐是主要安排，兩個戶外點不必全去；若加入其他景點，請另留時間。"
+      ? "下方時間皆為日本時間、初步估計。入住 → 買雪靴 → 晚餐是主要安排，青池與其他戶外點不必全去；若加入其他景點，請另留時間。"
       : "主要站點已調整，原試排時間先隱藏，需依新順序重新估算。參考節奏：11:00 抵達、入境後逛機場約 1 小時、約 17:45 入住、18:15 採買、19:15 晚餐。"}</p>
-    <p>機場逛街與入境分開留時間；取車後開車含補餐、休息先抓 3.5 小時，風雪時可能更久。入住後以採買、吃飯為主，晚餐最後點餐與租車預約時間請先確認。</p>`;
+    <p>機場逛街與入境分開留時間；取車後開車含補餐、休息先抓 3.5 小時，風雪時可能更久。入住後原主線是採買與吃飯；若改走青池，須另留往返約 3 小時，不能沿用原採買／晚餐時段。</p>`;
 }
 
 function getAccommodationMapUrl(hotel) {
@@ -2711,10 +2899,10 @@ function dayDepartureHtml(day, group = "A") {
       <p>${skiRoute ? "依課程時間自行開車出發；滑雪場報到入口與當季營業需先確認。" : "白天以步行、地鐵／市電／巴士移動，累了可搭計程車。"}</p>
       <details class="split-ski-route"><summary>B 線 · 同伴自駕滑雪</summary>
         <p>${escapeHtml(skiRouteDays[day].route)}</p>
-        <p>北斜面、南斜面有不同入口，請依租具／課程報到處確認；滑雪場與夜景纜車山麓站不同。課程、出發與會合時間待確認。</p>
+        <p>北斜面、南斜面有不同入口，請依租具／課程報到處確認；滑雪場與夜景纜車山麓站不同。課程、出發與晚餐集合時間待確認。</p>
         <a class="small-button map-link" href="https://sapporo-moiwa.jp/access/" target="_blank" rel="noopener noreferrer">滑雪場入口與官方交通</a>
       </details>
-      ${day === 5 ? `<p><strong>傍晚會合：</strong>夜景纜車山麓站，會合時間待課程確認；下山後全員搭朋友的車回 APA。</p><a class="small-button map-link" href="${getDayFiveReturnUrl()}" target="_blank" rel="noopener noreferrer">回 APA 開車路線</a>` : ""}
+      <p>夜景改 D4；D5／D6 滑雪結束後另約市區晚餐。</p>
     </div>` : ""}
   </section>`;
 }
@@ -2827,7 +3015,7 @@ function getDriveInfoForStop(day, index, spotId) {
   if (day === 5 || day === 6) {
     const mode = getStopNavigationMode(day, index, spotId);
     const prefix = "A 線市區觀光｜同伴用車滑雪，這段不自駕。";
-    if (day === 5 && spotId === "moiwa-yama") return `A 線去程參考｜APA 步行到資生館小學校前（資生館小学校前），搭市電內回り、經西8丁目／西線6条方向，在ロープウェイ入口下車；步行約 1 分鐘至免費接駁站，搭至もいわ山ロープウェイ山麓駅會合，再搭纜車＋迷你纜車到山頂。含候車先留約 1 小時。看完夜景全員搭朋友的車回 APA。`;
+    if (day === 5 && spotId === "moiwa-yama") return `自行加回 D5 的搭車備案｜APA 步行到資生館小学校前，搭市電至ロープウェイ入口，再搭免費接駁至夜景纜車山麓站。夜景目前排 D4，回程與集合需另排，不預設朋友接送。`;
     if (day === 6 && spotId === "sapporo-beer-museum") return `${prefix}APA 出發參考：薄野（すすきの）搭南北線往麻生→地下鐵さっぽろ下車→步行至札幌站北口 2 號乘車處→轉 188 巴士往サッポロビール園→同名站下車。JR 備案：JR 札幌→苗穂，搭確認停靠苗穂的普通列車，苗穂北口步行約 8 分鐘；班次不合可改計程車。主按鈕從目前位置查路線。`;
     if (day === 6 && spotId === "toriton-kita8") return `${prefix}原試排從 Ario 步行前往北8条光星店，雪地先留約 30 分鐘；路況差或太冷可改計程車，搭車按鈕從目前位置查路線。`;
     if (day === 6 && spotId === "kinotoya-bake-pole-town" && dayStops[index - 1] === "toriton-kita8") return `${prefix}Toriton 用餐後步行到東区役所前站，搭東豐線往福住→大通下車，再循 Pole Town 地下街標示步行到 KINOTOYA。含地面步行、候車與站內移動先留約 1 小時；積雪難走可直接搭計程車。`;
@@ -3760,7 +3948,7 @@ function normalizePlanBackup(parsed) {
     || !days.some((day) => Object.hasOwn(rawPlan, day))
     || days.some((day) => Object.hasOwn(rawPlan, day)
       && (!Array.isArray(rawPlan[day]) || rawPlan[day].some((id) => typeof id !== "string")))) {
-    throw new Error("請選擇行程備份檔；分帳備份需在分帳頁匯入。");
+    throw new Error("請選擇有效的行程備份檔。");
   }
   if (parsed?.version !== undefined && ![1, 2].includes(parsed.version)) {
     throw new Error("這份行程備份的版本尚不支援。");
@@ -4242,6 +4430,11 @@ function renderDayAlternative() {
 }
 
 const dayOptionalSpots = {
+  2: {
+    title: "D2 上富良野午餐備選",
+    note: "日之出公園後可選一間用餐，再往富良野。先保留兩個候選，尚未選定餐廳；若改走札幌天候備案，這兩間就不適用。",
+    ids: ["kamifurano-marumasu", "kamifurano-mansaku"]
+  },
   4: {
     title: "D4 登別溫泉街美食備選",
     note: "可加入一間當地吃或甜點選擇；加入後會排在溫泉街之後、室蘭天勝之前。若改在登別吃正餐，可再調整天勝安排。12/26 年末營業與閻魔炒麵供應時間行前確認。",
@@ -4313,7 +4506,15 @@ function renderDayOptions() {
       if (state.plan[day].includes(id) || Object.keys(state.plan).some((key) => Number(key) !== day && state.plan[key].includes(id))) return;
       const stops = state.plan[day];
       let insertion = -1;
-      if (day === 4) {
+      if (day === 2) {
+        const parkIndex = stops.indexOf("hinode-park");
+        if (parkIndex >= 0) {
+          insertion = parkIndex + 1;
+          while (insertion < stops.length && dayOptionalSpots[day].ids.includes(stops[insertion])) insertion += 1;
+        } else {
+          insertion = stops.indexOf("ningle-terrace");
+        }
+      } else if (day === 4) {
         const streetIndex = stops.indexOf("noboribetsu-onsen-street");
         if (streetIndex >= 0) {
           insertion = streetIndex + 1;

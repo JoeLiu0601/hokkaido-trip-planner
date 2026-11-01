@@ -106,7 +106,7 @@ test('group B changes only the two split days and preserves the shared plan', ()
     if (day === 5 || day === 6) assert.ok(route?.stages.length);
     else assert.equal(route, null);
   }
-  assert.match(runtime.getGroupRouteForDay(5, 'B').route, /會合.*一起看夜景.*開車回 APA/);
+  assert.match(runtime.getGroupRouteForDay(5, 'B').route, /回 APA.*另約市區晚餐/);
   assert.match(runtime.getGroupRouteForDay(6, 'B').route, /待確認/);
   assert.equal(JSON.stringify(runtime.state.plan), original);
 });
@@ -127,9 +127,9 @@ test('D6 return route follows Toriton only when it is the previous stop', () => 
   assert.doesNotMatch(runtime.getDriveInfoForStop(6, 1, 'kinotoya-bake-pole-town'), /Toriton 用餐後/);
 });
 
-test('D5 transport keeps the shared ride after the outbound tram', () => {
+test('a manually restored D5 night visit does not promise the former shared ride', () => {
   runtime.state.plan[5] = ['unagi-nakajima', 'moiwa-yama'];
-  assert.match(runtime.getDriveInfoForStop(5, 1, 'moiwa-yama'), /資生館小学校前.*ロープウェイ入口.*接駁.*朋友的車回 APA/);
+  assert.match(runtime.getDriveInfoForStop(5, 1, 'moiwa-yama'), /資生館小学校前.*ロープウェイ入口.*接駁.*夜景目前排 D4.*回程與集合需另排/);
 });
 
 test('Hakodate tram branches and station return are explicit', () => {

@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
-const L = require('../ledger-core.js');
+const unrelatedBook = () => ({ version: 1, members: ['p1', 'p2', 'p3', 'p4'].map(id => ({ id, name: id })), entries: [] });
 const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 const section = (a, b) => source.slice(source.indexOf(a), source.indexOf(b));
 const plain = value => JSON.parse(JSON.stringify(value));
@@ -104,14 +104,14 @@ test('current and legacy itinerary backups preserve all ten days and meal notes'
 
 test('unrelated JSON, ledger backups and unsupported versions cannot become an empty itinerary', () => {
   const c = setup(), r = c.runtime;
-  for (const payload of [null, 1, 'hello', {}, [], L.empty(), { plan: { 1: 'wrong' } }, { plan: { 1: [1] } }, { version: 99, plan: c.state.plan }]) {
+  for (const payload of [null, 1, 'hello', {}, [], unrelatedBook(), { plan: { 1: 'wrong' } }, { plan: { 1: [1] } }, { version: 99, plan: c.state.plan }]) {
     assert.throws(() => r.normalizePlanBackup(payload));
   }
 });
 
 test('invalid file content leaves the current plan, meals and revision untouched', async () => {
   const c = setup(), beforePlan = c.state.plan, beforeMeals = c.state.mealPlan;
-  for (const content of ['{broken', JSON.stringify(L.empty())]) {
+  for (const content of ['{broken', JSON.stringify(unrelatedBook())]) {
     await c.runtime.importPlanFromFile({ size: 100, text: async () => content });
     assert.equal(c.state.plan, beforePlan); assert.equal(c.state.mealPlan, beforeMeals);
     assert.equal(c.state.editRevision, 0); assert.equal(c.renders(), 0);

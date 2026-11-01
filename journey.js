@@ -180,7 +180,7 @@
     const summaries = {
       "new-chitose-airport": "BR166 11:00 抵達，先入境、領行李，再留約 1 小時逛機場；13:15 左右前往租車櫃台。",
       "nippon-rentacar-new-chitose": "先在機場櫃台報到，再搭接駁車到營業所取車。",
-      "premier-cabin-asahikawa": "機場逛街、取車後約 14:15 出發往旭川，途中補餐、休息；約 17:45 入住放行李。",
+      "premier-cabin-asahikawa": "機場逛街、取車後約 14:15 出發往旭川，途中補餐、休息；約 17:45 入住放行李；青池另作可略過支線，通常趕不上 17:00。",
       "aeon-mall-asahikawa-ekimae": "步行到站前 AEON，先補雪靴、防滑鞋與保暖配件。",
       "asahikawa-heiwa-dori": "在站前商店街散步、找晚餐，吃完回飯店休息。",
       hachimanzaka: "飯店步行到函館駅前，搭 5 系統往函館どつく前→末廣町（末広町）下車，再上坡拍港景；2 系統不經這站。",
@@ -454,7 +454,7 @@
   function groupRouteSwitchHtml() {
     return `<section class="group-route-picker" aria-label="分組路線">
       <div class="group-route-switch" role="group" aria-label="選擇要查看的路線">${Object.entries(groupRouteLabels).map(([group, label]) => `<button type="button" data-group-route="${group}" aria-pressed="${selectedGroup === group}">${escapeHtml(label)}</button>`).join("")}</div>
-      <p>${selectedGroup === "A" ? "A 線白天市區觀光；D5 傍晚與滑雪組會合看夜景，搭朋友的車回 APA。" : "B 線自行開車滑雪；D5 傍晚會合看夜景，全員搭車回 APA。D6 是否繼續滑雪待確認。"} 其餘日期兩組共用。</p>
+      <p>${selectedGroup === "A" ? "A 線市區觀光；藻岩山夜景改 D4，D5 滑雪後另約市區晚餐。" : "B 線自行開車滑雪；結束後回 APA、另約晚餐，D6 是否繼續滑雪待確認。"} 其餘日期兩組共用。</p>
     </section>`;
   }
 
@@ -473,7 +473,7 @@
         <h3 id="ski-route-title">B 線 · ${escapeHtml(route.title)}</h3>
         <p class="day-schedule-route">${escapeHtml(route.route)}</p>
         <ol class="group-ski-stages">${route.stages.map(([time, title, note]) => `<li><p><strong>${escapeHtml(time)}</strong></p><h4>${escapeHtml(title)}</h4><p>${escapeHtml(note)}</p></li>`).join("")}</ol>
-        <div class="group-ski-actions">${day === 5 ? `<a class="small-button map-link" href="${escapeHtml(meetingUrl)}" target="_blank" rel="noopener noreferrer">前往夜景會合點 · 開車導航</a>` : ""}<a class="small-button map-link" href="https://sapporo-moiwa.jp/access/" target="_blank" rel="noopener noreferrer">滑雪場入口與官方交通</a></div>
+        <div class="group-ski-actions"><a class="small-button map-link" href="https://sapporo-moiwa.jp/access/" target="_blank" rel="noopener noreferrer">滑雪場入口與官方交通</a></div>
         <p>出發前確認當季營業、課程與租具報到入口；時間未定的項目不代表已預約。</p>
       </section>`;
   }
@@ -531,8 +531,8 @@
           <span class="journey-overview-card-head"><strong>Day ${day.day}</strong><span>${day.date}</span><span aria-hidden="true">↗</span></span>
           <span class="journey-overview-areas">${escapeHtml(day.areas.join(' → ') || '還沒有安排景點')}</span>
           <span class="journey-overview-stops">${day.groupRoute ? escapeHtml(day.groupRoute.route) : `${escapeHtml(day.places.slice(0,3).map(spot => spot.name).join(' · ') || '從行程編輯加入想去的地方。')}${day.places.length > 3 ? ` …另 ${day.places.length - 3} 站` : ''}`}</span>
-          ${day.day === 5 && !day.groupRoute ? '<span class="journey-overview-stops">傍晚與 B 線會合看夜景，搭朋友的車回 APA。</span>' : ''}
-          <span class="journey-overview-card-footer">${day.groupRoute ? `B 線 · ${day.day === 5 ? "傍晚會合／共乘回 APA" : "是否滑雪待確認"}` : `${day.places.length} 個點位${day.places.length !== day.mainPlaces.length ? ` · 含 ${day.places.length - day.mainPlaces.length} 個彈性選項` : ''}<span>已完成 ${day.done}/${day.mainPlaces.length}${day.skipped ? ` · 略過 ${day.skipped}` : ''}</span>`}</span>
+
+          <span class="journey-overview-card-footer">${day.groupRoute ? `B 線 · ${day.day === 5 ? "滑雪後另約晚餐" : "是否滑雪待確認"}` : `${day.places.length} 個點位${day.places.length !== day.mainPlaces.length ? ` · 含 ${day.places.length - day.mainPlaces.length} 個彈性選項` : ''}<span>已完成 ${day.done}/${day.mainPlaces.length}${day.skipped ? ` · 略過 ${day.skipped}` : ''}</span>`}</span>
         </button>`;
       }).join('')}</div>`;
   }
