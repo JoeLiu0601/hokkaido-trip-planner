@@ -3296,7 +3296,8 @@ function applyRemotePayload(payload) {
     state.focusId = state.plan[state.selectedDay][0] || spots[0].id;
   }
 
-  const savedIso = typeof payload?.updatedAt === "number" ? new Date(payload.updatedAt).toISOString() : new Date().toISOString();
+  const remoteTime = typeof payload?.updatedAt === "number" && Number.isFinite(payload.updatedAt) ? new Date(payload.updatedAt) : null;
+  const savedIso = remoteTime && !Number.isNaN(remoteTime.getTime()) ? remoteTime.toISOString() : new Date().toISOString();
   state.cloudPending = !hasRemoteMeals;
   cloud.syncedRevision = state.editRevision;
   cloud.hasSynced = true;
@@ -3752,6 +3753,24 @@ function normalizeImportedPlan(rawPlan) {
   return ensureRequiredStops(normalized);
 }
 
+function normalizePlanBackup(parsed) {
+  const rawPlan = parsed?.plan ?? parsed;
+  const days = Object.keys(winterTemplate);
+  if (!rawPlan || typeof rawPlan !== "object" || Array.isArray(rawPlan)
+    || !days.some((day) => Object.hasOwn(rawPlan, day))
+    || days.some((day) => Object.hasOwn(rawPlan, day)
+      && (!Array.isArray(rawPlan[day]) || rawPlan[day].some((id) => typeof id !== "string")))) {
+    throw new Error("請選擇行程備份檔；分帳備份需在分帳頁匯入。");
+  }
+  if (parsed?.version !== undefined && ![1, 2].includes(parsed.version)) {
+    throw new Error("這份行程備份的版本尚不支援。");
+  }
+  return {
+    plan: normalizeImportedPlan(rawPlan),
+    mealPlan: normalizeMealPlan(parsed?.mealPlan ?? rawPlan._meals ?? parsed?._meals ?? {})
+  };
+}
+
 function exportPlanAsJson() {
   const payload = {
     version: 2,
@@ -3777,13 +3796,18 @@ async function importPlanFromFile(file) {
     return;
   }
 
+  const before = { revision: state.editRevision, plan: state.plan, meals: state.mealPlan };
   try {
+    if (file.size > 2000000) throw new Error("行程備份檔請小於 2 MB。");
     const text = await file.text();
     const parsed = JSON.parse(text);
-    const importedPlan = normalizeImportedPlan(parsed?.plan ?? parsed);
+    const imported = normalizePlanBackup(parsed);
+    if (state.editRevision !== before.revision || state.plan !== before.plan || state.mealPlan !== before.meals) {
+      throw new Error("讀取備份時行程已有更新，請確認目前內容後再匯入。");
+    }
     dismissUndo();
-    state.plan = importedPlan;
-    state.mealPlan = normalizeMealPlan(parsed?.mealPlan ?? parsed?.plan?._meals ?? parsed?._meals ?? {});
+    state.plan = imported.plan;
+    state.mealPlan = imported.mealPlan;
 
     state.carModel = fixedCarModel;
 
@@ -3794,8 +3818,9 @@ async function importPlanFromFile(file) {
     recordChange("匯入行程", "由 JSON 匯入並覆蓋目前內容");
     markDirty();
     render();
-  } catch {
-    setUiMessage("匯入失敗：JSON 格式不正確", "warn");
+  } catch (error) {
+    const reason = error?.name === "SyntaxError" ? "檔案不是有效的行程備份。" : error?.message || "無法讀取備份檔，請重新選擇。";
+    setUiMessage(`匯入失敗：${reason}`, "warn");
   }
 }
 

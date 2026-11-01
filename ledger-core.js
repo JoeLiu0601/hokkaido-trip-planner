@@ -4,14 +4,15 @@
   else root.TripLedger = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
-  const currencies = { JPY: { label: '日圓', digits: 0 }, TWD: { label: '台幣', digits: 2 } };
+  const currencies = { JPY: { label: '日圓', digits: 0, max: 100000000000 }, TWD: { label: '台幣', digits: 2, max: 100000000000 } };
   function money(value, currency) {
+    if (typeof currency !== 'string' || !Object.hasOwn(currencies, currency)) throw Error('請選擇支援的幣別。');
     const digits = currencies[currency]?.digits;
     const text = String(value).trim();
-    if (digits === undefined || !(digits ? /^\d{1,9}(?:\.\d{1,2})?$/ : /^\d{1,9}$/).test(text)) throw Error(currency === 'JPY' ? '日圓請輸入整數金額。' : '金額最多保留兩位小數。');
+    if (!(digits ? /^\d{1,10}(?:\.\d{1,2})?$/ : /^\d{1,12}$/).test(text)) throw Error(currency === 'JPY' ? '日圓請輸入整數金額。' : '金額最多保留兩位小數。');
     const [whole, fraction = ''] = text.split('.');
     const amount = Number(whole) * (10 ** digits) + Number(fraction.padEnd(digits, '0'));
-    if (!Number.isSafeInteger(amount) || amount < 0) throw Error('請確認金額。');
+    if (!Number.isSafeInteger(amount) || amount < 0 || amount > currencies[currency].max) throw Error('金額超出帳本可記錄範圍。');
     return amount;
   }
   function amountText(amount, currency) { return (amount / (10 ** currencies[currency].digits)).toFixed(currencies[currency].digits); }
@@ -22,19 +23,19 @@
   function dateIsValid(value) {
     return typeof value === 'string' && /^20\d{2}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value)) && new Date(value).toISOString().slice(0, 10) === value;
   }
-  function validAmount(amount, positive = true) { return Number.isSafeInteger(amount) && amount >= (positive ? 1 : 0) && amount <= 100000000000; }
+  function validAmount(amount, currency, positive = true) { return Number.isSafeInteger(amount) && amount >= (positive ? 1 : 0) && amount <= currencies[currency].max; }
   function expense(input, members) {
     const ids = members.map(m => m.id);
     const selected = [...new Set(input.participants || [])];
     if (typeof input.title !== 'string' || !input.title.trim() || input.title.trim().length > 80) throw Error('請填寫項目，最多 80 個字。');
-    if (typeof input.currency !== 'string' || !Object.hasOwn(currencies, input.currency) || !validAmount(input.amount)) throw Error('請確認幣別，金額必須大於 0。');
+    if (typeof input.currency !== 'string' || !Object.hasOwn(currencies, input.currency) || !validAmount(input.amount, input.currency)) throw Error('請確認幣別，金額必須大於 0 且未超出帳本上限。');
     if (!dateIsValid(input.date)) throw Error('請選擇有效的日期。');
     if (!ids.includes(input.payer)) throw Error('請選擇付款人。');
     if (!selected.length || selected.some(id => !ids.includes(id))) throw Error('至少選一位分攤的人。');
     const shares = {};
     if (input.custom) {
       for (const id of selected) {
-        if (!validAmount(input.custom[id], false)) throw Error('請確認每人的分攤金額。');
+        if (!validAmount(input.custom[id], input.currency, false)) throw Error('請確認每人的分攤金額。');
         shares[id] = input.custom[id];
       }
       if (Object.values(shares).reduce((a, b) => a + b, 0) !== input.amount) throw Error('每人分攤加總必須等於總金額。');
@@ -47,7 +48,7 @@
   }
   function repayment(input, members) {
     const ids = members.map(m => m.id);
-    if (typeof input.currency !== 'string' || !Object.hasOwn(currencies, input.currency) || !validAmount(input.amount)) throw Error('請確認幣別，還款金額必須大於 0。');
+    if (typeof input.currency !== 'string' || !Object.hasOwn(currencies, input.currency) || !validAmount(input.amount, input.currency)) throw Error('請確認幣別，還款金額必須大於 0 且未超出帳本上限。');
     if (!ids.includes(input.payer) || !ids.includes(input.recipient) || input.payer === input.recipient) throw Error('付款人與收款人必須不同。');
     if (!dateIsValid(input.date)) throw Error('請選擇有效的日期。');
     return { id: input.id, kind: 'repayment', title: '還款', date: input.date, currency: input.currency, amount: input.amount, payer: input.payer, recipient: input.recipient };

@@ -177,7 +177,12 @@
   });
   function enterDemo() { demo = true; book = sample(); undoSnapshot = null; $('undo-bar').hidden = true; notice(''); render(); }
   $('start-demo').addEventListener('click', enterDemo);
-  $('leave-demo').addEventListener('click', () => { demo = false; undoSnapshot = null; $('undo-bar').hidden = true; notice(''); load(); render(); });
+  $('leave-demo').addEventListener('click', () => {
+    const url = new URL(location.href);
+    url.searchParams.delete('demo');
+    window.history.replaceState(null, '', url.pathname + url.search + url.hash);
+    demo = false; undoSnapshot = null; $('undo-bar').hidden = true; notice(''); load(); render();
+  });
   $('export-ledger').addEventListener('click', () => {
     const contents = blocked && lastStored ? lastStored : JSON.stringify(book, null, 2);
     const url = URL.createObjectURL(new Blob([contents], { type: 'application/json' }));
@@ -194,7 +199,10 @@
       pendingImport = L.validate(JSON.parse(await file.text()));
       $('import-description').textContent = `${pendingImport.members.map(m => m.name).join('、')}，共 ${pendingImport.entries.length} 筆紀錄。`;
       $('import-dialog').showModal();
-    } catch (e) { pendingImport = null; notice(`無法匯入：${e.message}`); }
+    } catch (e) {
+      pendingImport = null;
+      notice(e?.name === 'SyntaxError' ? '無法匯入：這不是有效的分帳備份檔，請選擇先前匯出的帳本。' : `無法匯入：${e.message}`);
+    }
   });
   $('cancel-import').addEventListener('click', () => { pendingImport = null; $('import-dialog').close(); });
   $('confirm-import').addEventListener('click', () => {
@@ -203,7 +211,7 @@
     catch (e) { notice(e.message); $('import-dialog').close(); }
   });
   window.addEventListener('storage', event => {
-    if (event.key !== key || demo) return;
+    if ((event.key !== key && event.key !== null) || demo) return;
     if ($('entry-dialog').open || $('import-dialog').open) { notice('另一分頁已更新帳本，請先關閉表單並重新整理。'); return; }
     undoSnapshot = null; $('undo-bar').hidden = true; load(); render();
     if (!blocked) notice('已載入另一分頁更新的帳本。');

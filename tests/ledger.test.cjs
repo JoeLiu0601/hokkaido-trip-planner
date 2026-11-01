@@ -51,6 +51,19 @@ test('different currencies never cancel or mix balances', () => {
   assert.deepEqual(L.balances(b, 'TWD'), { p1: -200000, p2: 600000, p3: -200000, p4: -200000 });
 });
 
+test('all amounts accepted by backups remain editable in the matching currency', () => {
+  for (const currency of ['JPY', 'TWD']) {
+    const max = L.currencies[currency].max;
+    const e = expense({ currency, amount: max });
+    assert.equal(L.money(L.amountText(book([e]).entries[0].amount, currency), currency), max);
+    assert.equal(L.money(currency === 'JPY' ? '1000000000' : '1000000000.00', currency), currency === 'JPY' ? 1000000000 : 100000000000);
+    assert.throws(() => L.money(L.amountText(max + 1, currency), currency));
+    assert.throws(() => book([{ ...e, amount: max + 1, shares: { p1: max + 1 } }]));
+    assert.throws(() => L.repayment({ id: 'too-large', currency, amount: max + 1, date: '2026-12-24', payer: 'p2', recipient: 'p1' }, members));
+  }
+  assert.throws(() => L.money('1', ['JPY']));
+});
+
 test('repaying the suggested transfers clears all four balances exactly', () => {
   const entries = [expense({ amount: 12000 }), expense({ id: 'taxi', amount: 2400, payer: 'p2', participants: ['p1', 'p2'] }), expense({ id: 'ski', amount: 11000, payer: 'p3', participants: ['p3', 'p4'] })];
   const b = book(entries);
