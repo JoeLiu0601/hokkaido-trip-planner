@@ -82,8 +82,24 @@ test('the previous night-review version migrates only D8 and preserves custom D5
   c.values.set(r.planTemplateVersionKey, '2026-11-02-night-review');
   c.values.set(r.storageKey, JSON.stringify(c.state.plan));
   const loaded = plain(r.loadPlan());
-  assert.equal(loaded[8][0], 'goryokaku-tower');
+  assert.ok(loaded[8].includes('goryokaku-tower'));
+  assert.ok(loaded[8].indexOf('lucky-pierrot-goryokaku') < loaded[8].indexOf('goryokaku-tower'));
   for (const day of [1, 2, 3, 4, 5, 6, 7, 9, 10]) assert.deepEqual(loaded[day], before[day]);
+});
+
+test('the published tower-priority snapshot is used ahead of stale legacy data', () => {
+  const c = setup(), r = c.runtime;
+  c.state.plan[6].reverse();
+  c.state.plan[8] = ['goryokaku-tower', 'lucky-pierrot-goryokaku', 'lagent-hakodate-ekimae'];
+  r.savePlan();
+  const snapshot = JSON.parse(c.values.get(r.localSnapshotKey));
+  snapshot.templateVersion = '2026-11-02-goryokaku-priority';
+  c.values.set(r.localSnapshotKey, JSON.stringify(snapshot));
+  c.values.set(r.storageKey, JSON.stringify(r.buildPlan()));
+  const loaded = plain(r.loadPlan());
+  assert.deepEqual(loaded[6], plain(c.state.plan[6]));
+  assert.ok(!loaded[8].includes('goryokaku'));
+  assert.ok(loaded[8].indexOf('lucky-pierrot-goryokaku') < loaded[8].indexOf('goryokaku-tower'));
 });
 
 test('invalid snapshot JSON falls back to valid legacy plan and meals without writing', () => {

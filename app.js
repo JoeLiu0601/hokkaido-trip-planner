@@ -493,7 +493,7 @@ const spots = [
     season: ["winter"],
     time: "1h",
     best: "星形城郭全景、雪景、室內展望台",
-    desc: "D8 優先安排，從室內展望台俯瞰五稜郭完整星形與函館市景。公園散步可依當天時間與天候略過，不影響登塔。預留約 45–60 分鐘（停留估計，排隊另計）。成人 ¥1,200；09:00–18:00，17:50 停售展望票，建議提早抵達。年末特別公告與冬季點燈日期請出發前再確認。",
+    desc: "D8 的重點是傍晚登塔看夜景，先排 15:30 到塔購票、16:00–17:30 觀景，約 16:30 後看入夜景色；這是觀景時段估計，非固定點燈時間。公園散步可略過，不影響登塔。成人 ¥1,200；官網目前列 09:00–18:00，17:50 停售展望票，勿排成晚餐後才來。2026–2027 五稜星之夢點燈及年末特別營業仍待官方確認。",
     highlight: "俯瞰完整星形"
   },
   {
@@ -1184,7 +1184,7 @@ const winterTemplate = {
   "4": [
     "noboribetsu-valley",
     "noboribetsu-onsen-street",
-    "tenkatsu-honten-muroran",
+    "noboribetsu-onsen-ichiba",
     "muroran-hakucho-bridge-view",
     "happiness-bell",
     "moiwa-yama"
@@ -1209,9 +1209,9 @@ const winterTemplate = {
     "toya-kohan-tei"
   ],
   "8": [
-    "goryokaku-tower",
     "lucky-pierrot-goryokaku",
     "goryokaku",
+    "goryokaku-tower",
     "lagent-hakodate-ekimae"
   ],
   "9": [
@@ -1243,11 +1243,11 @@ const daySummaries = {
   "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先試排約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住試排約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
   "2": "旭川退房後經美瑛／上富良野，約 15:00 到精靈露臺，留到天黑看木屋燈景；約 18:30 在富良野吃完晚餐出發，約 22:00 到札幌 APA。也可提早離開、沿途補餐。大通與薄野僅留彈性備選，晚到不再硬逛。",
   "3": "上午安排札幌神社巡禮，手稻放在前往小樽途中，接著吃午餐、逛玻璃店與童話十字路，再看天黑後的運河。完整時間試排另列建議順序供 review。 童話十字路後加入天狗山夜景，運河仍保留；四座神社全走再加天狗山會偏滿，優先刪減彈性神社。",
-  "4": "06:30 從 APA 出發，登別地獄谷與溫泉街後到室蘭；午餐選溫泉市場或天勝。約 15:00 從幸福之鐘／地球岬離開，冬季含休息與補餐抓 3 小時到藻岩山纜車山麓站，再搭纜車看夜景，約 21:15 回 APA。這是長日行程，天候差或疲累就略過夜景。",
+  "4": "06:30 從 APA 出發，登別地獄谷與溫泉街後就近午餐，先以溫泉市場為候選，天勝僅留備選。午餐後到室蘭兩處展望點，約 15:00 從幸福之鐘／地球岬離開，冬季含休息與補餐抓 3 小時到藻岩山山麓站，約 21:15 回 APA。這是長日行程，天候差或疲累就略過夜景。",
   "5": "四人一起行動，先保留中島公園與鰻魚飯，下午休息或自由逛街；白色戀人公園與後續路線仍待討論，尚未加入主線。藻岩山夜景排 D4。",
   "6": "A 線市區觀光：搭車前往啤酒博物館、Ario 與 Toriton，下午搭車回市中心逛地下街；B 線同伴自行開車去滑雪，集合時間另約。",
   "7": "07:30 從札幌 APA 退房出發，約 10:30 到真狩村，先看羊蹄山與休息，午餐後經 SAIRO 展望台到洞爺湖，15:15 左右入住 Toya Kohan Tei；不安排火口，下午留給泡湯與休息。車程為冬季估計。",
-  "8": "07:00 從洞爺湖出發，約 10:45 到 La'gent Stay 寄行李，再加油還車。以五稜郭塔為主，之後吃小丑漢堡，公園有餘裕才短逛，可直接略過；約 16:30 回飯店入住。湖畔亭早餐 07:00 開始，這版早餐自備。函館山維持 D9，車程為冬季估計。",
+  "8": "07:00 從洞爺湖出發，約 10:45 到函館寄行李、加油還車。先吃小丑漢堡，公園有餘裕才短逛；15:30 到五稜郭塔購票，16:00–17:30 看日景轉夜景，約 18:30 回飯店入住。湖畔亭早餐 07:00 開始，這版早餐自備；函館山維持 D9，車程與入夜時段為估計。",
   "9": "原主線 09:30 從 La'gent Stay 函館站前出發，八幡坂與金森後提早上函館山；晚餐後回飯店休息。若 D8 沒逛五稜郭公園，可視當天狀況選擇早上補逛，也可不補；採用需重估上午交通與出發時間，不影響下午上山優先。護國神社午夜初詣仍須確認開放與往返交通。",
   "10": "09:15 起在飯店附近早餐，朝市僅在元旦有店營業時短逛；10:15 前退房寄行李，再搭市電逛元町。12:15 回飯店拿行李，目標 13:30 從函館站前搭機場巴士、14:10 前後進國際線航廈。JX861 18:00 起飛；2027 元旦巴士班次待確認。"
 };
@@ -2043,7 +2043,8 @@ const dayNineHachimanzakaTemplateVersion = "2026-10-11-day9-hachimanzaka";
 previousPlanTemplateVersions.push(hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion, "2026-10-11-day5-nakajima");
 previousPlanTemplateVersions.push(dayNineHachimanzakaTemplateVersion);
 const nightReviewTemplateVersion = "2026-11-02-night-review";
-const currentPlanTemplateVersion = "2026-11-02-goryokaku-priority";
+const goryokakuPriorityTemplateVersion = "2026-11-02-goryokaku-priority";
+const currentPlanTemplateVersion = "2026-11-02-tower-night";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -2335,7 +2336,7 @@ function migrateNightReviewPlan(plan) {
 
 function migrateGoryokakuPriorityPlan(plan) {
   const stops = plan[8];
-  const coreIds = ["goryokaku-tower", "lucky-pierrot-goryokaku", "goryokaku", "lagent-hakodate-ekimae"];
+  const coreIds = ["lucky-pierrot-goryokaku", "goryokaku", "goryokaku-tower", "lagent-hakodate-ekimae"];
   if (!stops.includes("lucky-pierrot-goryokaku") || !stops.includes("lagent-hakodate-ekimae")
       || !stops.some(id => ["goryokaku", "goryokaku-tower"].includes(id))
       || stops.some(id => !coreIds.includes(id)) || new Set(stops).size !== stops.length) return false;
@@ -2343,6 +2344,13 @@ function migrateGoryokakuPriorityPlan(plan) {
   const ordered = coreIds.filter(id => id === "goryokaku-tower" || stops.includes(id));
   if (planStopsEqual(stops, ordered)) return false;
   plan[8] = ordered;
+  return true;
+}
+
+function migrateOnsenLunchPlan(plan) {
+  if (!plan[4].includes("tenkatsu-honten-muroran")) return false;
+  const hasMarket = Object.values(plan).some(ids => ids.includes("noboribetsu-onsen-ichiba"));
+  plan[4] = plan[4].flatMap(id => id === "tenkatsu-honten-muroran" ? (hasMarket ? [] : ["noboribetsu-onsen-ichiba"]) : [id]);
   return true;
 }
 
@@ -2355,7 +2363,7 @@ function loadPlan() {
 
   try {
     const storedTemplateVersion = snapshot?.templateVersion || readLocalStorage(planTemplateVersionKey);
-    if (![...previousPlanTemplateVersions, nightReviewTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
+    if (![...previousPlanTemplateVersions, nightReviewTemplateVersion, goryokakuPriorityTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
       return createDefaultPlan();
     }
 
@@ -2386,6 +2394,7 @@ function loadPlan() {
     if (storedTemplateVersion !== currentPlanTemplateVersion) {
       loadedPlanNeedsSave = true;
       loadedPlanNeedsSync = migrateGoryokakuPriorityPlan(plan) || loadedPlanNeedsSync;
+      loadedPlanNeedsSync = migrateOnsenLunchPlan(plan) || loadedPlanNeedsSync;
     }
     const beforeRequiredStops = JSON.stringify(plan);
     ensureRequiredStops(plan);
@@ -2408,7 +2417,7 @@ function loadLocalSnapshot() {
   try {
     const snapshot = JSON.parse(readLocalStorage(localSnapshotKey) || "null");
     return snapshot?.version === 1 && snapshot.plan && snapshot.mealPlan
-      && [...previousPlanTemplateVersions, currentPlanTemplateVersion].includes(snapshot.templateVersion)
+      && [...previousPlanTemplateVersions, nightReviewTemplateVersion, goryokakuPriorityTemplateVersion, currentPlanTemplateVersion].includes(snapshot.templateVersion)
       ? snapshot : null;
   } catch {
     return null;
@@ -2802,6 +2811,7 @@ function getDailyTimingDraft(day) {
 }
 
 function isDailyTimingDraftApplicable(day) {
+  if (day === 4 && state.plan[day]?.includes("tenkatsu-honten-muroran")) return false;
   const draft = getDailyTimingDraft(day);
   if (!draft) return false;
   const ranks = new Map(draft.stopGroups.flatMap((ids, rank) => ids.map((id) => [id, rank])));
@@ -4474,9 +4484,9 @@ const dayOptionalSpots = {
     dinnerIds: ["furano-kumagera", "furano-yuiga-doxon"]
   },
   4: {
-    title: "D4 登別溫泉街美食備選",
-    note: "可加入一間當地吃或甜點選擇；加入後會排在溫泉街之後、室蘭天勝之前。若改在登別吃正餐，可再調整天勝安排。12/26 年末營業與閻魔炒麵供應時間行前確認。",
-    ids: ["noboribetsu-onsen-ichiba", "noboribetsu-cafe-denen"]
+    title: "D4 午餐與溫泉街美食備選",
+    note: "主線優先在登別溫泉街吃午餐，約 11:00 開始用餐後再前往室蘭。溫泉市場只是候選、尚未預約；天勝只在當天特別想吃天丼時改選，選用後請移除溫泉市場，避免連排兩餐。12/26 營業與供餐行前確認。",
+    ids: ["noboribetsu-onsen-ichiba", "noboribetsu-cafe-denen", "tenkatsu-honten-muroran"]
   },
   9: {
     title: "D9 早上備選・五稜郭公園",
@@ -4566,7 +4576,9 @@ function renderDayOptions() {
         }
       } else if (day === 4) {
         const streetIndex = stops.indexOf("noboribetsu-onsen-street");
-        if (streetIndex >= 0) {
+        if (id === "tenkatsu-honten-muroran") {
+          insertion = stops.indexOf("muroran-hakucho-bridge-view");
+        } else if (streetIndex >= 0) {
           insertion = streetIndex + 1;
           while (insertion < stops.length && dayOptionalSpots[day].ids.includes(stops[insertion])) insertion += 1;
         } else {
