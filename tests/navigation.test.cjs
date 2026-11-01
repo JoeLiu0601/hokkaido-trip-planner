@@ -98,15 +98,15 @@ test('unplaced library or meal options do not claim a transport mode', () => {
   assert.equal(nav.mode, '');
 });
 
-test('group B changes only the two split days and preserves the shared plan', () => {
+test('group B changes only D6 and preserves the shared plan including D5', () => {
   const original = JSON.stringify(runtime.state.plan);
   for (let day = 1; day <= 10; day++) {
     assert.equal(runtime.getGroupRouteForDay(day, 'A'), null);
     const route = runtime.getGroupRouteForDay(day, 'B');
-    if (day === 5 || day === 6) assert.ok(route?.stages.length);
+    if (day === 6) assert.ok(route?.stages.length);
     else assert.equal(route, null);
   }
-  assert.match(runtime.getGroupRouteForDay(5, 'B').route, /回 APA.*另約市區晚餐/);
+  assert.equal(runtime.getGroupRouteForDay(5, 'B'), null);
   assert.match(runtime.getGroupRouteForDay(6, 'B').route, /待確認/);
   assert.equal(JSON.stringify(runtime.state.plan), original);
 });

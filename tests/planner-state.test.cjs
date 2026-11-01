@@ -73,6 +73,19 @@ test('current snapshots retain custom order and deliberately removed hotel or pa
   assert.deepEqual(plain(r.loadPlan()), plain(c.state.plan));
 });
 
+test('the previous night-review version migrates only D8 and preserves custom D5/D6 and removed stops', () => {
+  const c = setup(), r = c.runtime;
+  c.state.plan[1] = c.state.plan[1].filter(id => id !== 'biei-blue');
+  c.state.plan[5] = ['moiwa-yama']; c.state.plan[6].reverse();
+  c.state.plan[8] = ['goryokaku', 'lucky-pierrot-goryokaku', 'lagent-hakodate-ekimae'];
+  const before = plain(c.state.plan);
+  c.values.set(r.planTemplateVersionKey, '2026-11-02-night-review');
+  c.values.set(r.storageKey, JSON.stringify(c.state.plan));
+  const loaded = plain(r.loadPlan());
+  assert.equal(loaded[8][0], 'goryokaku-tower');
+  for (const day of [1, 2, 3, 4, 5, 6, 7, 9, 10]) assert.deepEqual(loaded[day], before[day]);
+});
+
 test('invalid snapshot JSON falls back to valid legacy plan and meals without writing', () => {
   const c = setup(), r = c.runtime;
   c.values.set(r.localSnapshotKey, '{broken');

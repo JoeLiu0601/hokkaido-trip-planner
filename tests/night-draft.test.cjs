@@ -6,7 +6,7 @@ const path = require('node:path');
 const root = path.join(__dirname, '..');
 const source = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const timing = fs.readFileSync(path.join(root, 'timing-drafts.js'), 'utf8');
-const runtime = vm.runInNewContext(timing + '\n' + source.slice(0, source.indexOf('const state =')) + '\n({buildPlan,migrateNightReviewPlan,dayOneTimingDraft,dailyTimingDrafts,dayDepartures,spots,drivingPlaceOverrides,skiRouteDays})', { window: {} });
+const runtime = vm.runInNewContext(timing + '\n' + source.slice(0, source.indexOf('const state =')) + '\n({buildPlan,migrateNightReviewPlan,migrateGoryokakuPriorityPlan,dayOneTimingDraft,dailyTimingDrafts,dayDepartures,spots,drivingPlaceOverrides,skiRouteDays})', { window: {} });
 
 test('D1 blue pond is optional immediately after the hotel and does not promise 17:00', () => {
   const plan = runtime.buildPlan();
@@ -35,7 +35,7 @@ test('D4 has the 06:30 departure and the single Moiwa visit; D5 has no meeting r
   assert.equal(runtime.dayDepartures[4].time, '06:30');
   assert.equal(plan[4][plan[4].indexOf('happiness-bell') + 1], 'moiwa-yama');
   assert.ok(!plan[5].includes('moiwa-yama'));
-  assert.doesNotMatch(runtime.skiRouteDays[5].route, /夜景|會合/);
+  assert.equal(runtime.skiRouteDays[5], undefined);
 });
 
 test('requested migration is repeatable without duplicates or changes to other days', () => {
@@ -52,7 +52,7 @@ test('requested migration is repeatable without duplicates or changes to other d
 
 test('revised timing rows have no backwards or overlapping fixed intervals', () => {
   const minutes = (h, m) => Number(h) * 60 + Number(m);
-  for (const day of [2, 3, 4, 5]) {
+  for (const day of [2, 3, 4, 5, 7, 8]) {
     let previous = 0;
     for (const row of runtime.dailyTimingDrafts[day].rows) {
       const m = /^(\d{2}):(\d{2})–(\d{2}):(\d{2})$/.exec(row[0]);
@@ -70,4 +70,33 @@ test('recognized former D3 orders follow the draft without replaying on custom e
   assert.ok(p[3].indexOf('sapporo-fushimi-inari') < p[3].indexOf('teine-shrine'));
   assert.ok(p[3].indexOf('otaru-meruhen-crossing') < p[3].indexOf('otaru-tenguyama'));
   assert.ok(p[3].indexOf('otaru-tenguyama') < p[3].indexOf('otaru-canal'));
+});
+
+test('D8 prioritizes the tower and remains valid without the optional park', () => {
+  const day = runtime.buildPlan()[8], draft = runtime.dailyTimingDrafts[8];
+  assert.equal(day[0], 'goryokaku-tower');
+  assert.ok(draft.requiredIds.includes('goryokaku-tower'));
+  assert.ok(!draft.requiredIds.includes('goryokaku'));
+  assert.ok(draft.optionalIds.includes('goryokaku'));
+  const withoutPark = day.filter(id => id !== 'goryokaku');
+  assert.ok(draft.requiredIds.every(id => withoutPark.includes(id)));
+  const ranks = new Map(draft.stopGroups.flatMap((ids, rank) => ids.map(id => [id, rank])));
+  assert.ok(withoutPark.every((id, i) => i === 0 || ranks.get(withoutPark[i - 1]) <= ranks.get(id)));
+  assert.equal(runtime.buildPlan()[9].includes('goryokaku'), false);
+});
+
+test('D8 migration adds the tower once and respects a removed or separately arranged park', () => {
+  const p = runtime.buildPlan();
+  p[8] = ['goryokaku', 'lucky-pierrot-goryokaku', 'lagent-hakodate-ekimae'];
+  const otherDays = JSON.stringify(Object.entries(p).filter(([day]) => day !== '8'));
+  assert.equal(runtime.migrateGoryokakuPriorityPlan(p), true);
+  assert.equal(p[8][0], 'goryokaku-tower');
+  assert.equal(runtime.migrateGoryokakuPriorityPlan(p), false);
+  assert.equal(JSON.stringify(Object.entries(p).filter(([day]) => day !== '8')), otherDays);
+  p[8] = p[8].filter(id => id !== 'goryokaku'); p[9].unshift('goryokaku');
+  runtime.migrateGoryokakuPriorityPlan(p);
+  assert.ok(!p[8].includes('goryokaku'));
+  const before = JSON.stringify(p); p[8].push('rokkatei-goryokaku');
+  assert.equal(runtime.migrateGoryokakuPriorityPlan(p), false);
+  p[8].pop(); assert.equal(JSON.stringify(p), before);
 });

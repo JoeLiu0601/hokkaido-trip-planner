@@ -454,7 +454,7 @@
   function groupRouteSwitchHtml() {
     return `<section class="group-route-picker" aria-label="分組路線">
       <div class="group-route-switch" role="group" aria-label="選擇要查看的路線">${Object.entries(groupRouteLabels).map(([group, label]) => `<button type="button" data-group-route="${group}" aria-pressed="${selectedGroup === group}">${escapeHtml(label)}</button>`).join("")}</div>
-      <p>${selectedGroup === "A" ? "A 線市區觀光；藻岩山夜景改 D4，D5 滑雪後另約市區晚餐。" : "B 線自行開車滑雪；結束後回 APA、另約晚餐，D6 是否繼續滑雪待確認。"} 其餘日期兩組共用。</p>
+      <p>${selectedGroup === "A" ? "D6 A 線市區觀光。" : "D6 B 線自行開車滑雪；結束後回 APA、另約晚餐。"} D5 四人一起行動；其餘日期共用。</p>
     </section>`;
   }
 
@@ -522,7 +522,7 @@
         </svg>
         <p class="journey-map-note">城市位置為插畫示意；日期依目前行程顯示。下方選一天，開始今天的散步。</p>
       </section>
-      <div class="winter-overview-caption"><h3>把十天，一頁頁收藏</h3><span>${selectedGroup === "B" ? "D5／D6 滑雪安排 · 其餘共用" : `${days.reduce((sum,day) => sum + day.places.length,0)} 個已排點位`}</span></div>
+      <div class="winter-overview-caption"><h3>把十天，一頁頁收藏</h3><span>${selectedGroup === "B" ? "D6 滑雪安排 · 其餘共用" : `${days.reduce((sum,day) => sum + day.places.length,0)} 個已排點位`}</span></div>
       <div class="journey-overview-days">${days.map(day => {
         const scene = scenes.days[day.day - 1];
         const theme = scene.theme === "forest" ? "mountain" : scene.theme;
@@ -532,7 +532,7 @@
           <span class="journey-overview-areas">${escapeHtml(day.areas.join(' → ') || '還沒有安排景點')}</span>
           <span class="journey-overview-stops">${day.groupRoute ? escapeHtml(day.groupRoute.route) : `${escapeHtml(day.places.slice(0,3).map(spot => spot.name).join(' · ') || '從行程編輯加入想去的地方。')}${day.places.length > 3 ? ` …另 ${day.places.length - 3} 站` : ''}`}</span>
 
-          <span class="journey-overview-card-footer">${day.groupRoute ? `B 線 · ${day.day === 5 ? "滑雪後另約晚餐" : "是否滑雪待確認"}` : `${day.places.length} 個點位${day.places.length !== day.mainPlaces.length ? ` · 含 ${day.places.length - day.mainPlaces.length} 個彈性選項` : ''}<span>已完成 ${day.done}/${day.mainPlaces.length}${day.skipped ? ` · 略過 ${day.skipped}` : ''}</span>`}</span>
+          <span class="journey-overview-card-footer">${day.groupRoute ? "B 線 · 自駕滑雪" : `${day.places.length} 個點位${day.places.length !== day.mainPlaces.length ? ` · 含 ${day.places.length - day.mainPlaces.length} 個彈性選項` : ''}<span>已完成 ${day.done}/${day.mainPlaces.length}${day.skipped ? ` · 略過 ${day.skipped}` : ''}</span>`}</span>
         </button>`;
       }).join('')}</div>`;
   }
@@ -586,7 +586,7 @@
     const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"][new Date(Date.UTC(2026, 11, 22 + state.selectedDay)).getUTCDay()];
     host.innerHTML = `
       <header class="winter-heading"><div><p>HOKKAIDO WINTER WALK</p><h2 id="journey-title" tabindex="-1">Day ${state.selectedDay} · ${scene.title}</h2><span>${escapeHtml(areas.join(" → ") || "今天的路線，等你來安排")}</span></div><div class="winter-date"><strong>${tripDates[state.selectedDay - 1].replace("/", ".")}</strong><span>${weekday} · 日本時間</span></div></header>
-      ${state.selectedDay === 5 || state.selectedDay === 6 ? groupRouteSwitchHtml() : ""}
+      ${getGroupRouteForDay(state.selectedDay, "B") ? groupRouteSwitchHtml() : ""}
       ${dayDepartureHtml(state.selectedDay)}
       <section class="journey-next-card winter-focus-card" aria-labelledby="journey-next-title"></section>
       <p class="journey-feedback" role="status" aria-live="polite" ${feedback ? "" : "hidden"}>${escapeHtml(feedback)}</p>

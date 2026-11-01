@@ -315,7 +315,7 @@ const spots = [
     season: ["winter"],
     time: "1.5h",
     best: "鰻重、ひつまぶし、Day 5 午餐",
-    desc: "位在中島公園站旁的鰻魚料理店，適合 Day 5 中午先吃鰻魚飯，休息後再前往藻岩山看傍晚夜景。午餐最後點餐為 14:00，建議先預約，12 月底營業時間仍要在出發前向店家確認。",
+    desc: "位在中島公園站旁的鰻魚料理店，適合 Day 5 四人一起散步後吃午餐。午餐最後點餐為 14:00，建議先預約，12 月底營業時間仍要在出發前向店家確認。",
     highlight: "Day5 鰻魚飯"
   },
   {
@@ -482,8 +482,8 @@ const spots = [
     season: ["winter"],
     time: "1h",
     best: "星形城郭、雪景、護城河散步",
-    desc: "沿星形城郭與護城河散步看雪景，公園散策免費。想從高處看完整星形，可另外加入五稜郭塔。2026–2027 冬季點燈日期仍需確認官方公告。",
-    highlight: "星形城郭散步"
+    desc: "沿城郭與護城河散步看雪景，公園免費，外圍步道一圈約 1.8 公里。冬季停留先估入口附近短逛 20–30 分鐘，繞外圈含拍照約 45–75 分鐘，依積雪與體力調整，不必走完整圈。D8 以五稜郭塔為主，公園有餘裕才逛；沒逛到可考慮 D9 早上補逛，也可以不補。D9 已還車，須另留市電往返時間；冬季點燈與步道開放依公告。",
+    highlight: "彈性散步・可略過"
   },
   {
     id: "goryokaku-tower",
@@ -493,7 +493,7 @@ const spots = [
     season: ["winter"],
     time: "1h",
     best: "星形城郭全景、雪景、室內展望台",
-    desc: "從室內展望台俯瞰五稜郭完整星形與函館市景，適合搭配公園散步，預留約 45–60 分鐘（停留估計，排隊另計）。成人 ¥1,200；09:00–18:00，17:50 停售展望票，建議提早抵達。年末特別公告與冬季點燈日期請出發前再確認。",
+    desc: "D8 優先安排，從室內展望台俯瞰五稜郭完整星形與函館市景。公園散步可依當天時間與天候略過，不影響登塔。預留約 45–60 分鐘（停留估計，排隊另計）。成人 ¥1,200；09:00–18:00，17:50 停售展望票，建議提早抵達。年末特別公告與冬季點燈日期請出發前再確認。",
     highlight: "俯瞰完整星形"
   },
   {
@@ -1209,8 +1209,9 @@ const winterTemplate = {
     "toya-kohan-tei"
   ],
   "8": [
-    "goryokaku",
+    "goryokaku-tower",
     "lucky-pierrot-goryokaku",
+    "goryokaku",
     "lagent-hakodate-ekimae"
   ],
   "9": [
@@ -1232,7 +1233,7 @@ const dayTwoBackup = ["sunagawa-highway-oasis", "apa-sapporo-susukino-ekinishi",
 const winterProfile = {
   label: "12/23-1/1",
   blurb: "新千歲入境，旭川與富良野 1 天；札幌 6 天（含小樽）；洞爺湖 1 天，函館跨年 2 天",
-  route: "D1–D4、D7 自駕；D5–D6 分組，A 線步行搭車、B 線自駕滑雪。D8 函館站前還車後改步行搭車；藻岩山夜景改 D4 自駕前往，D5 滑雪後另約市區晚餐。",
+  route: "D1–D4、D7 自駕；D5 四人一起行動，D6 分組，A 線步行搭車、B 線自駕滑雪。D8 函館站前還車後改步行搭車；藻岩山夜景排 D4。",
   style: "冬季限定"
 };
 
@@ -1243,11 +1244,11 @@ const daySummaries = {
   "2": "旭川退房後經美瑛／上富良野，約 15:00 到精靈露臺，留到天黑看木屋燈景；約 18:30 在富良野吃完晚餐出發，約 22:00 到札幌 APA。也可提早離開、沿途補餐。大通與薄野僅留彈性備選，晚到不再硬逛。",
   "3": "上午安排札幌神社巡禮，手稻放在前往小樽途中，接著吃午餐、逛玻璃店與童話十字路，再看天黑後的運河。完整時間試排另列建議順序供 review。 童話十字路後加入天狗山夜景，運河仍保留；四座神社全走再加天狗山會偏滿，優先刪減彈性神社。",
   "4": "06:30 從 APA 出發，登別地獄谷與溫泉街後到室蘭；午餐選溫泉市場或天勝。約 15:00 從幸福之鐘／地球岬離開，冬季含休息與補餐抓 3 小時到藻岩山纜車山麓站，再搭纜車看夜景，約 21:15 回 APA。這是長日行程，天候差或疲累就略過夜景。",
-  "5": "藻岩山夜景已移到 D4。D5 A 線保留中島公園與鰻魚飯，下午休息或自由逛街；B 線自行開車滑雪，結束後另約市區晚餐，不再安排夜景纜車站會合。",
+  "5": "四人一起行動，先保留中島公園與鰻魚飯，下午休息或自由逛街；白色戀人公園與後續路線仍待討論，尚未加入主線。藻岩山夜景排 D4。",
   "6": "A 線市區觀光：搭車前往啤酒博物館、Ario 與 Toriton，下午搭車回市中心逛地下街；B 線同伴自行開車去滑雪，集合時間另約。",
-  "7": "從札幌退房前往真狩村，經 SAIRO 展望台到洞爺湖，湖畔短逛後到 Toya Kohan Tei 入住；本次試排不安排火口，下午留給泡湯與休息。",
-  "8": "從洞爺湖開車到函館，先到 La'gent Stay 寄行李，再加油還車；之後搭市電逛五稜郭公園、登塔，在塔旁的小丑漢堡用餐，傍晚回飯店正式入住。函館山維持 D9。",
-  "9": "09:30 從 La'gent Stay 函館站前出發，白天逛八幡坂與金森，下午提早上函館山；晚餐後回飯店休息。護國神社午夜初詣僅在當年開放與深夜往返交通確認後安排。",
+  "7": "07:30 從札幌 APA 退房出發，約 10:30 到真狩村，先看羊蹄山與休息，午餐後經 SAIRO 展望台到洞爺湖，15:15 左右入住 Toya Kohan Tei；不安排火口，下午留給泡湯與休息。車程為冬季估計。",
+  "8": "07:00 從洞爺湖出發，約 10:45 到 La'gent Stay 寄行李，再加油還車。以五稜郭塔為主，之後吃小丑漢堡，公園有餘裕才短逛，可直接略過；約 16:30 回飯店入住。湖畔亭早餐 07:00 開始，這版早餐自備。函館山維持 D9，車程為冬季估計。",
+  "9": "原主線 09:30 從 La'gent Stay 函館站前出發，八幡坂與金森後提早上函館山；晚餐後回飯店休息。若 D8 沒逛五稜郭公園，可視當天狀況選擇早上補逛，也可不補；採用需重估上午交通與出發時間，不影響下午上山優先。護國神社午夜初詣仍須確認開放與往返交通。",
   "10": "09:15 起在飯店附近早餐，朝市僅在元旦有店營業時短逛；10:15 前退房寄行李，再搭市電逛元町。12:15 回飯店拿行李，目標 13:30 從函館站前搭機場巴士、14:10 前後進國際線航廈。JX861 18:00 起飛；2027 元旦巴士班次待確認。"
 };
 const dayOneTimingDraft = {
@@ -1782,7 +1783,9 @@ const spotLogistics = {
   },
   "goryokaku": {
     tickets: "公園散策免費；展望塔與公園內其他收費設施另計",
-    ticketNotes: "登塔票價與開放時間請查看獨立的「五稜郭塔」景點。",
+    ticketNotes: "D8 登塔優先，公園可略過；只看入口一帶不必繞完整圈。若改 D9 早上，請另計從函館站前搭市電往返的時間。",
+    infoUrl: "https://www.hakodate-jts-kosya.jp/park/goryokaku/scenery/",
+    checkedAt: "2026/11/02",
     hours: "外圍散策與園內區域開放時間不同，冬季以現場公告為準",
     access: "函館市電五稜郭公園前站下車後，步行至五稜郭公園約 18 分鐘；也可另查五稜郭塔前接駁巴士"
   },
@@ -1944,8 +1947,8 @@ const dayDepartures = {
   4: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "06:30" },
   5: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "10:00" },
   6: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "10:00" },
-  7: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "08:30", checkout: true },
-  8: { hotel: accommodations[2], name: "洞爺湖 湖畔亭", time: "08:30", checkout: true },
+  7: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "07:30", checkout: true },
+  8: { hotel: accommodations[2], name: "洞爺湖 湖畔亭", time: "07:00", checkout: true, note: "湖畔亭早餐 07:00 開始；這版 07:00 離開，早餐先自備，前晚完成退房確認與行李整理。" },
   9: { hotel: accommodations[3], name: "La’gent Stay 函館站前", time: "09:30" },
   10: { hotel: accommodations[3], name: "La’gent Stay 函館站前", time: "09:15", checkout: true, note: "先在飯店周邊吃早餐；10:15 前退房、寄行李，12:15 回來取行李。" }
 };
@@ -2002,27 +2005,6 @@ const knownWalkingLegs = {
 // 分組檢視只影響顯示，原共編景點與完成進度不因切換而更動。
 const groupRouteLabels = { A: "A 市區觀光", B: "B 滑雪" };
 const skiRouteDays = {
-  "5": {
-    "title": "滑雪日",
-    "route": "APA → 藻岩山滑雪場 → 回 APA／另約市區晚餐",
-    "stages": [
-      [
-        "早上 · 時間待定",
-        "APA 出發、自駕去滑雪",
-        "課程與租具報到時間待朋友確認；A 線在市區步行搭車。"
-      ],
-      [
-        "白天",
-        "藻岩山滑雪場",
-        "依當季營業、課程與租具安排，北／南斜面入口分別確認。"
-      ],
-      [
-        "結束後",
-        "回 APA、另約晚餐",
-        "先還裝備、換裝與停車。夜景已移 D4，D5 不需移車到夜景纜車山麓站會合。"
-      ]
-    ]
-  },
   "6": {
     "title": "滑雪日（待確認）",
     "route": "APA → 藻岩山滑雪場 → 開車回 APA；是否連滑兩天待確認",
@@ -2060,7 +2042,8 @@ const dayTwoEightRoutingTemplateVersion = "2026-10-11-day2-day8-routing";
 const dayNineHachimanzakaTemplateVersion = "2026-10-11-day9-hachimanzaka";
 previousPlanTemplateVersions.push(hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion, "2026-10-11-day5-nakajima");
 previousPlanTemplateVersions.push(dayNineHachimanzakaTemplateVersion);
-const currentPlanTemplateVersion = "2026-11-02-night-review";
+const nightReviewTemplateVersion = "2026-11-02-night-review";
+const currentPlanTemplateVersion = "2026-11-02-goryokaku-priority";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -2350,6 +2333,19 @@ function migrateNightReviewPlan(plan) {
   return changed;
 }
 
+function migrateGoryokakuPriorityPlan(plan) {
+  const stops = plan[8];
+  const coreIds = ["goryokaku-tower", "lucky-pierrot-goryokaku", "goryokaku", "lagent-hakodate-ekimae"];
+  if (!stops.includes("lucky-pierrot-goryokaku") || !stops.includes("lagent-hakodate-ekimae")
+      || !stops.some(id => ["goryokaku", "goryokaku-tower"].includes(id))
+      || stops.some(id => !coreIds.includes(id)) || new Set(stops).size !== stops.length) return false;
+  if (Object.entries(plan).some(([day, ids]) => Number(day) !== 8 && ids.includes("goryokaku-tower"))) return false;
+  const ordered = coreIds.filter(id => id === "goryokaku-tower" || stops.includes(id));
+  if (planStopsEqual(stops, ordered)) return false;
+  plan[8] = ordered;
+  return true;
+}
+
 function loadPlan() {
   const snapshot = loadLocalSnapshot();
   const stored = snapshot ? JSON.stringify(snapshot.plan) : readLocalStorage(storageKey);
@@ -2359,7 +2355,7 @@ function loadPlan() {
 
   try {
     const storedTemplateVersion = snapshot?.templateVersion || readLocalStorage(planTemplateVersionKey);
-    if (![...previousPlanTemplateVersions, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
+    if (![...previousPlanTemplateVersions, nightReviewTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
       return createDefaultPlan();
     }
 
@@ -2387,6 +2383,10 @@ function loadPlan() {
       loadedPlanNeedsSync = normalizedChanged || migrationChanged;
     }
 
+    if (storedTemplateVersion !== currentPlanTemplateVersion) {
+      loadedPlanNeedsSave = true;
+      loadedPlanNeedsSync = migrateGoryokakuPriorityPlan(plan) || loadedPlanNeedsSync;
+    }
     const beforeRequiredStops = JSON.stringify(plan);
     ensureRequiredStops(plan);
     loadedPlanNeedsSync = loadedPlanNeedsSync || beforeRequiredStops !== JSON.stringify(plan);
@@ -2842,7 +2842,7 @@ function timingDraftHtml(draft) {
 function dayNineTimingDraftHtml(headingId = "day-timing-title") {
   const applicable = isDayNineTimingDraftApplicable();
   return `<h3 id="${headingId}">Day 9 時間試排</h3>
-    <p>09:30 從 La'gent Stay 函館站前出發。下列皆為日本時間與冬季移動估算，包含午、晚餐及回飯店休息；餐廳尚未指定，市電時間也不是預約班次。</p>
+    <p>${state.plan[9]?.includes("goryokaku") ? "已選擇早上補逛五稜郭公園，需提早從飯店出發並重新估算上午；下方 09:30 原主線不含公園往返。" : "09:30 從 La'gent Stay 函館站前出發。"}下列皆為日本時間與冬季移動估算，包含午、晚餐及回飯店休息；餐廳尚未指定，市電時間也不是預約班次。</p>
     ${!applicable ? `<p><strong>主要景點順序已調整：</strong>下方原試排僅供參考，景點時間標籤已隱藏，需按新路線重新估算。</p>` : ""}
     <details class="day-schedule"><summary>查看完整試排（午餐／休息／跨年）</summary>
       <ol>${dayNineSchedule.map(([time, title, note]) => `<li><strong class="day-schedule-time">${escapeHtml(time)}</strong><span><b>${escapeHtml(title)}</b><small>${escapeHtml(note)}</small></span></li>`).join("")}</ol>
@@ -2918,6 +2918,7 @@ function dayDepartureHtml(day, group = "A") {
   const departure = dayDepartures[day];
   if (!departure) return "";
   const skiRoute = getGroupRouteForDay(day, group);
+  const needsParkMorning = day === 9 && state.plan[9]?.includes("goryokaku");
   const timingMatches = skiRoute || isDayTimingDraftApplicable(day);
   const note = departure.note || (departure.checkout
     ? "先吃早餐、退房並帶齊行李，再出發。"
@@ -2926,11 +2927,11 @@ function dayDepartureHtml(day, group = "A") {
     <div class="day-departure-copy">
       <p class="day-departure-label">今日出發點${departure.checkout ? " · 退房日" : " · 續住"}</p>
       <h3>${escapeHtml(departure.name)}</h3>
-      <p><strong>${skiRoute ? "待課程確認" : departure.time}</strong> ${day === 10 ? "開始當日行程" : "參考出發時間"} · 日本時間試排</p>
+      <p><strong>${skiRoute ? "待課程確認" : needsParkMorning ? "需提早出門、重估時間" : departure.time}</strong> ${day === 10 ? "開始當日行程" : "參考出發時間"} · 日本時間試排</p>
       <p>${escapeHtml(note)}${timingMatches ? "" : " 目前路線與原試排不同，出發時間需再確認。"}</p>
     </div>
     <a class="small-button map-link" href="${getAccommodationMapUrl(departure.hotel)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(departure.name)}，查看飯店地圖">飯店地圖</a>
-    ${day === 5 || day === 6 ? `<div class="split-routes">
+    ${skiRouteDays[day] ? `<div class="split-routes">
       <p><strong>${skiRoute ? "B 線 · 自駕滑雪" : "A 線 · 市區觀光"}</strong></p>
       <p>${skiRoute ? "依課程時間自行開車出發；滑雪場報到入口與當季營業需先確認。" : "白天以步行、地鐵／市電／巴士移動，累了可搭計程車。"}</p>
       <details class="split-ski-route"><summary>B 線 · 同伴自駕滑雪</summary>
@@ -2938,7 +2939,7 @@ function dayDepartureHtml(day, group = "A") {
         <p>北斜面、南斜面有不同入口，請依租具／課程報到處確認；滑雪場與夜景纜車山麓站不同。課程、出發與晚餐集合時間待確認。</p>
         <a class="small-button map-link" href="https://sapporo-moiwa.jp/access/" target="_blank" rel="noopener noreferrer">滑雪場入口與官方交通</a>
       </details>
-      <p>夜景改 D4；D5／D6 滑雪結束後另約市區晚餐。</p>
+      <p>夜景排 D4；D6 滑雪結束後另約市區晚餐。</p>
     </div>` : ""}
   </section>`;
 }
@@ -4477,6 +4478,12 @@ const dayOptionalSpots = {
     note: "可加入一間當地吃或甜點選擇；加入後會排在溫泉街之後、室蘭天勝之前。若改在登別吃正餐，可再調整天勝安排。12/26 年末營業與閻魔炒麵供應時間行前確認。",
     ids: ["noboribetsu-onsen-ichiba", "noboribetsu-cafe-denen"]
   },
+  9: {
+    title: "D9 早上備選・五稜郭公園",
+    note: "只在 D8 沒逛到、當天仍想去時採用，也可以不補。函館駅前搭市電 2 或 5 系統往湯の川，在五稜郭公園前下車，再步行約 15–20 分；回程搭往谷地頭／函館どつく前的市電回函館駅前。公園短逛約 20–30 分，含往返先留約 2–2.5 小時。需提早出門並重估八幡坂、金森時段，保留 14:45 抵函館山纜車山麓站的目標。按鈕會把 D8 的公園移到 D9 最前面，不重複安排。",
+    ids: ["goryokaku"],
+    moveFromDay: 8
+  },
   10: {
     title: "車站到機場巴士",
     timetable: {
@@ -4523,7 +4530,9 @@ function renderDayOptions() {
     const spot = spotById(id);
     const selected = state.plan[day].includes(id);
     const otherDay = Object.keys(state.plan).find((key) => Number(key) !== day && state.plan[key].includes(id));
+    const canMove = otherDay && Number(otherDay) === options.moveFromDay;
     let actionLabel = "加入當日行程";
+    if (canMove) actionLabel = "從 D8 移至 D9 早上";
     if (selected) actionLabel = "已在當日行程";
     return `<article class="day-option-card">
       <h3>${escapeHtml(spot.name)}</h3>
@@ -4532,7 +4541,7 @@ function renderDayOptions() {
       ${practicalOptionsHtml(spot)}
       ${otherDay ? `<p>目前已安排在 Day ${escapeHtml(otherDay)}。</p>` : ""}
       <div class="stop-quick-actions">
-        <button type="button" class="small-button" data-day-option="${id}" ${selected || otherDay ? "disabled" : ""}>${actionLabel}</button>
+        <button type="button" class="small-button" data-day-option="${id}" ${selected || (otherDay && !canMove) ? "disabled" : ""}>${actionLabel}</button>
         <a class="small-button map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">地圖</a>
       </div>
     </article>`;
@@ -4540,7 +4549,10 @@ function renderDayOptions() {
   panel.querySelectorAll("[data-day-option]").forEach((button) => {
     button.addEventListener("click", () => {
       const id = button.dataset.dayOption;
-      if (state.plan[day].includes(id) || Object.keys(state.plan).some((key) => Number(key) !== day && state.plan[key].includes(id))) return;
+      if (state.plan[day].includes(id)) return;
+      const otherDays = Object.keys(state.plan).filter(key => Number(key) !== day && state.plan[key].includes(id));
+      if (otherDays.some(key => Number(key) !== options.moveFromDay)) return;
+      for (const key of otherDays) state.plan[key] = state.plan[key].filter(spotId => spotId !== id);
       const stops = state.plan[day];
       let insertion = -1;
       if (day === 2) {
@@ -4560,12 +4572,14 @@ function renderDayOptions() {
         } else {
           insertion = stops.indexOf("tenkatsu-honten-muroran");
         }
+      } else if (day === 9) {
+        insertion = 0;
       } else if (day === 10) {
         const beforeId = id === "lucky-pierrot-hakodate-station" && stops.includes("hakodate-station-airport-bus") ? "hakodate-station-airport-bus" : "hakodate-airport";
         insertion = stops.indexOf(beforeId);
       }
       stops.splice(insertion < 0 ? stops.length : insertion, 0, id);
-      recordChange("加入當日備選", `Day ${day}：${spotById(id).name}`);
+      recordChange(otherDays.length ? "移動當日備選" : "加入當日備選", `${otherDays.length ? "Day " + otherDays.join("、") + " → " : ""}Day ${day}：${spotById(id).name}`);
       state.summaryMode = "day";
       markDirty();
       render();
