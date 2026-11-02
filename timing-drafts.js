@@ -2,7 +2,7 @@ const dailyTimingDrafts = {
   2: {
     intro: "08:30 從旭川飯店退房，上午行程保留緩衝；15:00 左右到精靈露臺，天黑看燈。17:30–18:30 富良野晚餐後直接回札幌，約 22:00 入住，車程皆為冬季估計。",
     route: "旭川 → 美瑛／上富良野 → 精靈露臺夜景 → 富良野晚餐或沿途補餐 → 札幌 APA",
-    stopGroups: [["biei-shrine"],["hinode-park"],["ningle-terrace"],["apa-sapporo-susukino-ekinishi"],["sapporo-odori"],["sapporo-susukino"]],
+    stopGroups: [["biei-shrine"],["hinode-park"],["kamifurano-marumasu","kamifurano-mansaku"],["ningle-terrace"],["furano-kumagera","furano-yuiga-doxon"],["apa-sapporo-susukino-ekinishi"],["sapporo-odori"],["sapporo-susukino"]],
     requiredIds: ["biei-shrine","ningle-terrace","apa-sapporo-susukino-ekinishi"],
     flexibleTimings: {"furano-field":{"time":"沿途白天彈性 · 約 10–15 分","duration":"約 10–15 分","optional":true,"note":"富良野雪原是區域景觀，沒有單一確定入口。只在已確認可停車、可進入的觀景處短停，不進農地，也不在雪地路肩停車；時間從公園或午餐緩衝調整。"}},
     rows: [
@@ -11,12 +11,13 @@ const dailyTimingDrafts = {
       ["09:30–10:00","美瑛神社","參拜、拍照約 30 分；御朱印與授與所是否開放依當日公告。",["biei-shrine"],"約 30 分"],
       ["10:00–10:40","開車：美瑛 → 上富良野","沿主要除雪道路前往日之出公園；不為找雪景繞入小路。"],
       ["10:40–11:10","日之出公園短逛","只走已開放且安全的區域；冬季不預設可開車上到夏季展望位置，路滑就略過。",["hinode-park"],"約 30 分"],
-      ["11:10–12:20","前往富良野、午餐","含約 30 分鐘車程與簡單午餐；餐廳當天再挑，排隊久就改快餐。"],
-      ["12:20–14:30","富良野午餐後休息／彈性時間","上午不必趕，保留午餐、咖啡與停車緩衝；日之出公園可略過。"],
+      ["11:10–11:30","開車到上富良野午餐店","日之出公園後在上富良野就近用餐，車程與停車先留約 20 分鐘；餐廳二選一，尚未選定。"],
+      ["11:30–13:00","上富良野午餐：まるます／まん作二選一","保留燒肉定食與手打蕎麥兩間候選，含候位先留 90 分鐘，只吃其中一間；排隊過久就調整午餐後休息。",["kamifurano-marumasu","kamifurano-mansaku"],"含候位約 1.5 小時"],
+      ["13:00–14:30","前往富良野、午餐後休息／彈性時間","含開車到富良野約 30 分鐘，剩餘時間留給咖啡、休息與停車緩衝；15:00 精靈露臺不變。"],
       ["14:30–15:00","開車到新富良野王子飯店、停車","走正式停車場與已開放步道。"],
       ["15:00–17:15","精靈露臺：白天轉夜間燈景","約 15:00 抵達，等天黑看木屋燈光。官方冬季 12:00–20:45；沒有承諾固定點燈分鐘。",["ningle-terrace"],"約 2 小時 15 分"],
       ["17:15–17:30","取車、前往富良野用餐","餐廳尚未指定，留意最後點餐。"],
-      ["17:30–18:30","富良野晚餐","約 18:00–19:00 吃完離開的試排；也可不在市區吃，直接出發沿途補餐。"],
+      ["17:30–18:30","富良野晚餐","くまげら／唯我獨尊二選一，約 18:00–19:00 吃完離開的試排；也可不在市區吃，直接出發沿途補餐。",["furano-kumagera","furano-yuiga-doxon"],"含候位約 1 小時"],
       ["18:30–22:00","開車：富良野 → 札幌 APA","夜間冬季含休息抓約 3.5 小時；沿途用餐則需計入全段，風雪會更晚。"],
       ["22:00–22:40","APA 入住、停車與休息","晚到時間請先通知飯店並核對訂房條款；今晚不再安排大通／薄野。",["apa-sapporo-susukino-ekinishi"],"約 40 分"]
     ],
@@ -54,43 +55,34 @@ const dailyTimingDrafts = {
     sources: [["北海道神宮公告","https://www.hokkaidojingu.or.jp/"],["大正硝子館","https://www.otaruglass.com/"],["天狗山冬季營業／票價","https://tenguyama.ckk.chuo-bus.co.jp/hours-and-fees/"],["天狗山山麓停車／交通","https://tenguyama.ckk.chuo-bus.co.jp/access/"]]
   },
   4: {
-    intro: "06:30 從 APA 出發，15:00 左右離開幸福之鐘／地球岬，回札幌途中直接到藻岩山山麓站看夜景；外出約十五小時，疲累或天候差可略過夜景。",
-    route: "APA → 登別地獄谷 → 溫泉街午餐 → 白鳥大橋（祝津公園展望台）→ 幸福之鐘（地球岬）→ 藻岩山夜景（視體力）→ APA",
+    intro: "藻岩山夜景是 D4 必去重點；白鳥大橋與幸福之鐘仍待決定，可略過。",
+    route: "APA → 登別地獄谷／溫泉街午餐 → 室蘭兩處待決定 → 藻岩山（必去）→ APA",
     stopGroups: [["noboribetsu-valley"],["noboribetsu-onsen-street","noboribetsu-onsen-ichiba","tenkatsu-honten-muroran"],["muroran-hakucho-bridge-view"],["happiness-bell"],["moiwa-yama"]],
-    requiredIds: ["noboribetsu-valley","muroran-hakucho-bridge-view","happiness-bell","moiwa-yama"],
-    optionalIds: ["noboribetsu-onsen-street","noboribetsu-onsen-ichiba","tenkatsu-honten-muroran"],
-    rows: [
-      ["06:00–06:30","早餐、清車積雪與準備","需前一晚準備簡單早餐，不能預設飯店早餐已開始供餐。"],
-      ["06:30–09:15","開車：APA → 登別地獄谷","含冬季行車與一次短休息先抓 2 小時 45 分，晨間低溫結冰、前段天色暗請留意。"],
-      ["09:15–10:15","登別地獄谷","只走開放、已處理積雪的步道。",["noboribetsu-valley"],"約 1 小時"],
-      ["10:15–11:00","登別溫泉街散步","店家陸續開門，先短逛、休息，不在午餐前吃太飽。",["noboribetsu-onsen-street"],"約 45 分"],
-      ["11:00–12:00","溫泉街午餐","先以溫泉市場為候選，其用餐區公布 11:00 開始營業；不指定必吃，依候位選有營業的店。天勝僅作改選備案，若改去室蘭用餐需重估這段。",["noboribetsu-onsen-ichiba","tenkatsu-honten-muroran"],"含候位約 1 小時"],
-      ["12:00–13:20","開車：登別溫泉街 → 祝津公園展望台","冬季含取車、停車與休息緩衝先留 80 分鐘，不為用餐另外繞停；風雪可能更久。"],
-      ["13:20–13:45","白鳥大橋（祝津公園展望台）","導航祝津公園展望台，風大或路滑就縮短。",["muroran-hakucho-bridge-view"],"約 25 分"],
-      ["13:45–14:25","開車、停車並步行到地球岬","預留雪地步行，幸福之鐘導航地球岬。"],
-      ["14:25–15:00","幸福之鐘／地球岬","白天看海，約 15:00 出發回札幌。",["happiness-bell"],"約 35 分"],
-      ["15:00–18:00","開車：室蘭 → 藻岩山山麓站","含短休息與簡單補餐先抓 3 小時；導航山麓站，不開冬季封閉的觀光道路。若延誤或累了，直接回 APA。"],
-      ["18:00–20:30","藻岩山夜景、纜車上下山","含買票、排隊與迷你纜車；約 19:00–19:45 看夜景，20:30 前後回山麓。冬季上山末班 21:30，強風可停駛。",["moiwa-yama"],"含候車約 2.5 小時"],
-      ["20:30–21:15","開車回 APA、停車","長日行車後回飯店休息；若未吃正餐，回飯店附近補餐。"]
-    ],
-    notes: ["06:30 出發能讓白天較從容，但加夜景後仍是約十五小時的長日；不要把看夜景變成必須完成的駕駛任務。","15:00 是室蘭出發目標，非保證到札幌時間；風雪、封路或駕駛疲累就直接回飯店。","午餐以溫泉街為主，天勝僅留備選；若候餐過久，縮短展望點停留，保留休息與安全行車時間。"],
-    sources: [["登別溫泉市場","https://noboribetsu-spa.jp/tw/spot/spot0169/"],["北海道道路資訊","https://info-road.hdb.hkd.mlit.go.jp/"],["藻岩山冬季營業／冬季道路封閉","https://mt-moiwa.jp/guide/"]]
+    requiredIds: ["noboribetsu-valley","moiwa-yama"],
+    optionalIds: ["noboribetsu-onsen-street","noboribetsu-onsen-ichiba","tenkatsu-honten-muroran","muroran-hakucho-bridge-view","happiness-bell"],
+    rows: [],
+    notes: [],
+    sources: [["登別溫泉市場","https://noboribetsu-spa.jp/tw/spot/spot0169/"],["北海道道路資訊","https://info-road.hdb.hkd.mlit.go.jp/"],["藻岩山營業／冬季道路封閉","https://mt-moiwa.jp/guide/"],["NEXCO 車程估算說明","https://www.driveplaza.com/dp/SearchQuick?startPlaceKana=札幌南&arrivePlaceKana=登別東"]]
   },
   5: {
-    intro: "D5 四人一起行動，先保留 10:00 從 APA 出發、中島公園與鰻魚飯後自由活動；白色戀人公園與後續路線仍待討論，尚未加入主線。藻岩山夜景排 D4。",
-    route: "APA → 中島公園 → 鰻魚飯 → 午後休息／自由逛街 → 晚餐 → APA",
-    stopGroups: [["nakajima-park"],["unagi-nakajima"]],
-    requiredIds: ["nakajima-park","unagi-nakajima"],
+    intro: "D5 白天分組：A 線 10:00 從 APA 出發，中島公園、鰻魚飯與市區休息後搭地鐵前往白色戀人公園。B 線同伴自駕滑雪，15:00 從藻岩山滑雪場離開，約 16:00 在公園入口會合，再一起看燈飾；逛完四人搭同伴的車回 APA。",
+    route: "A：APA → 中島公園 → 鰻魚飯 → 休息 → 地鐵宮之澤 → 白色戀人公園；B：滑雪場 15:00 出發 → 約 16:00 公園會合 → 一起開車回 APA",
+    stopGroups: [["nakajima-park"],["unagi-nakajima"],["shiroi-koibito-park"]],
+    requiredIds: ["nakajima-park","unagi-nakajima","shiroi-koibito-park"],
     rows: [
-      ["10:00–10:20","步行：APA → 中島公園","四人一起出門，先吃早餐，雪地步行抓約 20 分鐘。"],
+      ["10:00–10:20","A 線步行：APA → 中島公園","市區觀光組先吃早餐，雪地步行抓約 20 分鐘；同伴自行開車去滑雪。"],
       ["10:20–11:10","中島公園雪景散步","挑公園北側與已清雪步道走約 50 分；日本庭園冬季關閉，太冷就早點到室內。",["nakajima-park"],"約 50 分"],
       ["11:10–11:30","步行到うなぎ仲じま","往公園北側的 Hotel Mystays Premier Sapporo Park 2F，午餐前留約 20 分找路與候位。"],
       ["11:30–12:45","鰻魚飯午餐","先抓 75 分含點餐等候；座位與年末營業請行前確認。",["unagi-nakajima"],"約 75 分"],
-      ["12:45–18:00","回飯店休息／市區自由時間","自由採買、咖啡或休息；不需趕纜車與會合。"],
-      ["18:00–20:00","四人晚餐","依下午活動位置就近用餐，餐廳與實際時間待討論。"]
+      ["12:45–14:45","市區休息／咖啡與自由時間","先保留原本輕鬆的上午安排，下午不加遠處景點；14:45 左右準備出發去會合。"],
+      ["14:45–15:45","A 線地鐵：中島公園／薄野 → 大通 → 宮の沢","搭南北線往麻生至大通，轉東西線往宮の沢，在終點下車後步行到白色戀人公園。官方平常步行約 7 分，雪天抓 10–15 分；全段含候車、轉乘與找入口預留 1 小時。"],
+      ["15:45–16:00","園區入口等候、室內暖身","A 線先到 Welcome Gate 入口附近，與同伴即時聯絡。B 線另於 15:00 從滑雪場開車出發；此段為會合目標，不保證雪天車程。"],
+      ["16:00–18:00","白色戀人公園會合、看燈飾","同伴先停好車再到 Welcome Gate 入口；會合可延至 16:30。一起逛免費庭院、商店與拍照，當季點燈 16:00–19:00；不預設完整付費工廠參觀。",["shiroi-koibito-park"],"約 2 小時，含會合緩衝"],
+      ["18:00–19:00","四人搭同伴的車回 APA","不另排回程地鐵，先回飯店停車；含離場、雪天市區行車與停車先留約 1 小時。"],
+      ["19:00–20:00","飯店附近晚餐","餐廳與實際時間待討論，不再安排遠處景點。"]
     ],
-    notes: ["D5 不分 A／B 線；目前僅移除滑雪分組，白色戀人公園新路線尚未套用。"],
-    sources: [["中島公園","https://www.sapporo.travel/spot/facility/nakajima_park/"]]
+    notes: ["同伴約 15:00 從滑雪場開車離場，裝備於 D6 歸還。15:00–16:00 只作會合目標，冬季行車、停車與走到入口先預留 60–90 分鐘規劃緩衝，非即時導航估計；延誤可改 16:30 碰面。","燈飾庭院免費；付費區、咖啡及商店各有截止時間，要參觀工廠需提早到並另查最後入場，不把 19:00 當作所有設施關門時間。"],
+    sources: [["中島公園","https://www.sapporo.travel/spot/facility/nakajima_park/"],["白色戀人當季燈飾","https://www.shiroikoibitopark.jp/illumination/"],["公園交通與停車","https://www.shiroikoibitopark.jp/park-guide/access.html"],["滑雪場入口","https://sapporo-moiwa.jp/access/"]]
   },
   6: {
     intro: "A 線市區觀光：10:00 從 APA 出發，搭地鐵與巴士到啤酒博物館，步行串接 Ario；Toriton 可步行或搭計程車，下午搭車回市中心。B 線同伴自行開車滑雪，今天不需回飯店取車或停車。",
@@ -161,6 +153,84 @@ const dailyTimingDrafts = {
     sources: [["洞爺湖交通","https://www.toya-usu-geopark.org/access1"],["湖畔亭早餐時間","https://www.toya-kohantei.com/cuisine/"],["La'gent Stay 寄行李／入住","https://lagent.jp/hakodate-ekimae/faq/"],["五稜郭塔時間","https://www.goryokaku-tower.co.jp/price/"],["五稜郭公園外圍步道","https://www.hakodate-jts-kosya.jp/park/goryokaku/scenery/"],["函館市電","https://www.city.hakodate.hokkaido.jp/docs/2014012100939/"]]
   }
 };
+// Google Maps「立即出發」查閱於 2026/11/03；不是 12/26 路況預報。
+const dayFourDriveLegs = {
+  outbound: { label: "APA → 登別地獄谷停車場", from: "APAホテル札幌すすきの駅西", to: "登別地獄谷駐車場", minutes: 90, km: 109, buffer: 25 },
+  toBridge: { label: "登別 → 祝津公園展望台", from: "登別地獄谷駐車場", to: "祝津公園展望台 室蘭", minutes: 33, km: 35.5, buffer: 15 },
+  toCape: { label: "登別 → 地球岬停車場", from: "登別地獄谷駐車場", to: "地球岬駐車場", minutes: 38, km: 34, buffer: 15 },
+  bridgeCape: { label: "祝津公園 → 地球岬停車場", from: "祝津公園展望台 室蘭", to: "地球岬駐車場", minutes: 14, km: 8.5, buffer: 15 },
+  bridgeMoiwa: { label: "祝津公園 → 藻岩山山麓站", from: "祝津公園展望台 室蘭", to: "もいわ山ロープウェイ山麓駅", minutes: 108, km: 132, buffer: 30 },
+  capeMoiwa: { label: "地球岬 → 藻岩山山麓站", from: "地球岬駐車場", to: "もいわ山ロープウェイ山麓駅", minutes: 113, km: 129, buffer: 30 },
+  directMoiwa: { label: "登別 → 藻岩山山麓站（略過室蘭）", from: "登別地獄谷駐車場", to: "もいわ山ロープウェイ山麓駅", minutes: 90, km: 108, buffer: 30 },
+  hotel: { label: "藻岩山山麓站 → APA", from: "もいわ山ロープウェイ山麓駅", to: "APAホテル札幌すすきの駅西", minutes: 9, km: 3.8, buffer: 15 }
+};
+
+function dayFourTime(minutes) {
+  return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
+}
+
+function dayFourDriveMinutes(leg, factor) {
+  return Math.ceil((leg.minutes * factor + leg.buffer) / 5) * 5;
+}
+
+function calculateDayFourScenario(stops, factor = 1.5) {
+  const bridge = stops.includes("muroran-hakucho-bridge-view");
+  const cape = stops.includes("happiness-bell");
+  const rows = [["06:00–06:30", "早餐、清車積雪與準備", "前晚準備簡單早餐，06:30 從 APA 出發。"]];
+  const legIds = [];
+  let clock = 6 * 60 + 30;
+  let drivingMinutes = 0;
+  const add = (duration, title, note, ids, stay) => {
+    rows.push([`${dayFourTime(clock)}–${dayFourTime(clock + duration)}`, title, note, ids, stay]);
+    clock += duration;
+  };
+  const drive = key => {
+    const leg = dayFourDriveLegs[key];
+    const duration = dayFourDriveMinutes(leg, factor);
+    legIds.push(key); drivingMinutes += duration;
+    add(duration, `開車：${leg.label}`, `Google 11/03 即時參考 ${leg.minutes} 分、${leg.km} 公里；行車 ×${factor} 後另加 ${leg.buffer} 分取車、短休息／停車步行，再向上取整至 5 分鐘。這是規劃情境，不是當日路況保證。`);
+  };
+  drive("outbound");
+  add(60, "登別地獄谷", "走當日開放的步道，保留雪地步行時間。", ["noboribetsu-valley"], "約 1 小時");
+  add(45, "登別溫泉街散步／暖身", "先短逛，不在午餐前吃太飽。", ["noboribetsu-onsen-street"], "約 45 分");
+  if (clock < 11 * 60) add(11 * 60 - clock, "午餐前緩衝", "等供餐、暖身與休息。");
+  add(60, "溫泉街午餐", "先以溫泉市場為候選，依現場候位決定；若改吃室蘭天勝需另估路線。", ["noboribetsu-onsen-ichiba", "tenkatsu-honten-muroran"], "含候位約 1 小時");
+  if (bridge) {
+    drive("toBridge");
+    add(25, "白鳥大橋（祝津公園展望台）· 待決定", "可略過；藻岩山優先，時間落後就不繞室蘭。", ["muroran-hakucho-bridge-view"], "約 25 分");
+  }
+  if (cape) {
+    drive(bridge ? "bridgeCape" : "toCape");
+    add(30, "幸福之鐘／地球岬 · 待決定", "可略過，導航地球岬停車場，預留雪地步行。", ["happiness-bell"], "約 30 分");
+  }
+  drive(cape ? "capeMoiwa" : bridge ? "bridgeMoiwa" : "directMoiwa");
+  const moiwaArrival = clock;
+  if (clock < 16 * 60) add(16 * 60 - clock, "山麓周邊休息與暖身", "較早抵達就保留休息，16:00 再開始上山；若另回 APA 或繞行，須額外加入移動時間。");
+  add(150, "藻岩山夜景、纜車上下山（必去）", "含購票、排隊、轉乘、觀景與下山預留 2.5 小時。冬季纜車至 22:00、上山末班 21:30，迷你纜車至 21:50；停駛仍以官方營運為準。", ["moiwa-yama"], "含候車約 2.5 小時");
+  const moiwaFinish = clock;
+  drive("hotel");
+  return { rows, legIds, drivingMinutes, moiwaArrival, moiwaFinish, hotelArrival: clock, exceedsOperatingWindow: moiwaFinish > 21 * 60 + 50, bridge, cape };
+}
+
+function buildDayFourTimingDraft(stops) {
+  const normal = calculateDayFourScenario(stops, 1.5);
+  const conservative = calculateDayFourScenario(stops, 2);
+  const direct = calculateDayFourScenario([], 2);
+  const stopsLabel = normal.bridge && normal.cape ? "白鳥與幸福之鐘暫保留，兩處仍待決定" : normal.bridge ? "只保留白鳥大橋備選" : normal.cape ? "只保留幸福之鐘備選" : "略過室蘭兩處，午餐後直接回札幌";
+  return { ...dailyTimingDrafts[4],
+    intro: `藻岩山夜景必去；${stopsLabel}。本表以 11/03 Google 車程 ×1.5＋各段停車／休息緩衝試排；×2 情境約 ${dayFourTime(conservative.moiwaArrival)} 抵藻岩山山麓站，詳細依據可展開查看。`,
+    route: `APA → 登別地獄谷／溫泉街午餐${normal.bridge ? " → 白鳥大橋（待決定）" : ""}${normal.cape ? " → 幸福之鐘（待決定）" : ""} → 藻岩山（必去）→ APA`,
+    rows: normal.rows,
+    driveReview: { normal, conservative },
+    notes: [
+      `×2 是保守試算，不是雪季固定倍率或保證上限。若每段都按 ×2＋緩衝，目前路線約 ${dayFourTime(conservative.moiwaArrival)} 抵山麓，按相同觀景安排約 ${dayFourTime(conservative.moiwaFinish)} 完成下山。${conservative.exceedsOperatingWindow ? "這會超過迷你纜車 21:50 營業時間，不能直接照走；請優先刪減室蘭備選，保留藻岩山。" : "仍需依當天路況、排隊與運行調整。"}`,
+      `白鳥與幸福之鐘尚未替你刪除。若兩處都略過，即使以 ×2＋緩衝估算，也約 ${dayFourTime(direct.moiwaArrival)} 抵山麓、${dayFourTime(direct.hotelArrival)} 回 APA，藻岩山時間較充足。`,
+      "天勝僅是改選午餐備案；選用後隱藏不適用的固定時段。封路、暴風雪或纜車停駛不能靠倍率推算，出發前查道路與運行資訊。"
+    ]
+  };
+}
+dailyTimingDrafts[4] = buildDayFourTimingDraft(["muroran-hakucho-bridge-view", "happiness-bell"]);
+
 const dayTwoBackupTimingDraft = {
   intro: "天候備案獨立試排：08:30 從旭川退房，走道央道回札幌，下午白色戀人公園，宮之森教會僅在當晚對一般旅客開放時前往。嚴重風雪時以安全抵達札幌為主。",
   route: "旭川 → 砂川休息 → APA 寄行李 → 白色戀人公園 → 宮之森教會（確認開放才去）→ 薄野 → APA 入住",

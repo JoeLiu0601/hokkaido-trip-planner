@@ -8,9 +8,9 @@
       name="description"
       content="新千歲 → 旭川 → 札幌 → 洞爺湖 → 函館。10天北海道冬季行程規劃。"
     />
-    <link rel="stylesheet" href="styles.css?v=20261029-group-switch" />
-    <link rel="stylesheet" href="journey.css?v=20261026-hero-return" />
-    <link rel="stylesheet" href="journey-winter.css?v=20261102-remove-ledger" />
+    <link rel="stylesheet" href="styles.css?v=20261103-day-flights" />
+    <link rel="stylesheet" href="journey.css?v=20261103-day-flights" />
+    <link rel="stylesheet" href="journey-winter.css?v=20261103-date-nav" />
   </head>
   <body class="winter-view-active" data-planner-theme="dark">
     <main class="shell">
@@ -46,17 +46,6 @@
           </div>
         </div>
       </header>
-
-      <section class="flight-panel card" aria-labelledby="flight-panel-title">
-        <div class="flight-panel-heading">
-          <div>
-            <p class="panel-kicker">往返航班</p>
-            <h2 id="flight-panel-title">航班資訊</h2>
-          </div>
-          <p>起飛與抵達時間均為當地時間</p>
-        </div>
-        <div class="flight-grid" id="flight-grid"></div>
-      </section>
 
       <section class="toolbar card">
         <div class="toolbar-actions toolbar-actions-primary">
@@ -119,6 +108,7 @@
           </section>
           <section id="journey-view" class="journey-view" aria-label="旅途中行程" hidden></section>
           <div id="mobile-day-summary"></div>
+          <div id="day-flight"></div>
           <div id="day-departure"></div>
           <section id="day-timing-draft" class="day-timing-draft" aria-labelledby="day-timing-title" hidden></section>
           <details id="day-alternative-shell" class="day-alternative" hidden>
@@ -131,16 +121,6 @@
             <div id="day-options"></div>
           </details>
           <div class="itinerary-dropzone" id="itinerary-dropzone">拖曳行程到這裡移除</div>
-          <section class="meal-planner" aria-labelledby="meal-planner-title">
-            <div class="meal-planner-head">
-              <div>
-                <p class="panel-kicker">午餐與晚餐</p>
-                <h3 id="meal-planner-title">餐食安排</h3>
-              </div>
-              <strong id="meal-progress">0 / 2 已安排</strong>
-            </div>
-            <div class="meal-slots" id="meal-slots"></div>
-          </section>
         </section>
 
         <section class="panel card explore-panel">
@@ -247,9 +227,9 @@
 
     <!-- deploy-stamp: 2026-09-21T18:00:00+08:00 -->
     <script src="sync-config.js"></script>
-    <script src="timing-drafts.js?v=20261102-tower-night"></script>
-    <script src="app.js?v=20261102-tower-night"></script>
+    <script src="timing-drafts.js?v=20261103-d4-drive-review"></script>
+    <script src="app.js?v=20261103-date-nav"></script>
     <script src="journey-scenes.js?v=20261026-d9-titles"></script>
-    <script src="journey.js?v=20261102-day5-shared"></script>
+    <script src="journey.js?v=20261103-date-nav"></script>
   </body>
 </html>

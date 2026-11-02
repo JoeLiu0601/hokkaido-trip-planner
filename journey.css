@@ -31,9 +31,9 @@
 .travel-view-active .shell { display: flex; flex-direction: column; }
 .travel-view-active .shell > .hero { order: 0; }
 .travel-view-active .shell > .workspace { order: 1; width: 100%; }
-.travel-view-active .shell > .flight-panel { order: 2; }
 .travel-view-active .shell > .toolbar { order: 3; }
 .journey-view[hidden] { display: none; }
+.workspace.is-travel #day-flight { display: none; }
 .workspace.is-travel { grid-template-columns: minmax(0, 1fr); max-width: 960px; margin-inline: auto; }
 .workspace.is-travel .explore-panel,
 .workspace.is-travel .detail-panel,

@@ -76,19 +76,17 @@
     nextDays.disabled = dayTabs.scrollLeft + dayTabs.clientWidth >= dayTabs.scrollWidth - 2;
   }
   function refreshDayNavigation() {
-    window.requestAnimationFrame(() => {
-      const context = `${mode}|${state.selectedDay}`;
-      if (dayTabs && context !== dayNavContext) {
-        dayNavContext = context;
-        const active = dayTabs.querySelector(".day-tab.active");
-        if (active) {
-          const right = active.offsetLeft + active.offsetWidth;
-          if (active.offsetLeft < dayTabs.scrollLeft) dayTabs.scrollLeft = Math.max(0, active.offsetLeft - 4);
-          else if (right > dayTabs.scrollLeft + dayTabs.clientWidth) dayTabs.scrollLeft = right - dayTabs.clientWidth + 4;
-        }
+    const context = `${mode}|${state.selectedDay}|${dayTabs?.clientWidth || 0}`;
+    if (dayTabs && context !== dayNavContext) {
+      dayNavContext = context;
+      const active = dayTabs.querySelector(".day-tab.active");
+      if (active) {
+        const right = active.offsetLeft + active.offsetWidth;
+        if (active.offsetLeft < dayTabs.scrollLeft) dayTabs.scrollLeft = Math.max(0, active.offsetLeft - 4);
+        else if (right > dayTabs.scrollLeft + dayTabs.clientWidth) dayTabs.scrollLeft = right - dayTabs.clientWidth + 4;
       }
-      updateDayArrows();
-    });
+    }
+    updateDayArrows();
   }
   function scrollDates(direction) {
     if (!dayTabs) return;
@@ -97,7 +95,7 @@
   previousDays?.addEventListener("click", () => scrollDates(-1));
   nextDays?.addEventListener("click", () => scrollDates(1));
   dayTabs?.addEventListener("scroll", updateDayArrows, { passive: true });
-  window.addEventListener("resize", updateDayArrows);
+  window.addEventListener("resize", refreshDayNavigation);
   dayTabs?.addEventListener("pointerdown", (event) => {
     if (event.pointerType !== "mouse" || event.button !== 0) return;
     draggedDates = false;
@@ -428,7 +426,7 @@
           <summary data-preview-stop="${id}" data-preview-from="timeline">
             <span class="journey-stop-time">${escapeHtml(timingText(spot))}</span>
             <strong>${escapeHtml(spot.name)}</strong>
-            <span class="journey-stop-status">${status === "done" ? "已完成" : status === "skipped" ? "已略過" : id === nextId ? "下一站" : isOptional(id) ? "有空再去" : "待出發"}</span>
+            <span class="journey-stop-status">${status === "done" ? "已完成" : status === "skipped" ? "已略過" : state.selectedDay === 4 && ["muroran-hakucho-bridge-view", "happiness-bell"].includes(id) ? "待決定 · 可略過" : id === nextId ? "下一站" : isOptional(id) ? "有空再去" : "待出發"}</span>
           </summary>
           <div class="journey-stop-details">
             <p>${escapeHtml(spot.desc)}</p>
@@ -447,14 +445,26 @@
       </li>`;
   }
 
+  function timelineHtml(ids, nextId) {
+    const lunchIndex = getDayTwoLunchInsertionIndex(ids);
+    const lunchHtml = () => `<li class="journey-lunch-choice">${dayTwoLunchOptionsHtml()}</li>`;
+    return ids.map((id, index) => `${index === lunchIndex ? lunchHtml() : ""}${stopHtml(id, index, nextId)}`).join("")
+      + (lunchIndex === ids.length ? lunchHtml() : "");
+  }
+
   function japanClock() {
     return new Intl.DateTimeFormat("zh-TW", { timeZone: "Asia/Tokyo", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date());
   }
 
   function groupRouteSwitchHtml() {
+    const description = mode === "overview"
+      ? "D5、D6 白天分組；D5 約 16:00 白色戀人公園會合，逛完一起搭車回 APA；其餘日期共用。"
+      : state.selectedDay === 5
+        ? (selectedGroup === "A" ? "D5 A 線市區觀光，下午搭地鐵去白色戀人公園。" : "D5 B 線自駕滑雪，15:00 從滑雪場出發。") + " 約 16:00 公園入口會合，逛完一起搭車回 APA。"
+        : (selectedGroup === "A" ? "D6 A 線市區觀光。" : "D6 B 線自行開車滑雪；結束後回 APA、另約晚餐。");
     return `<section class="group-route-picker" aria-label="分組路線">
       <div class="group-route-switch" role="group" aria-label="選擇要查看的路線">${Object.entries(groupRouteLabels).map(([group, label]) => `<button type="button" data-group-route="${group}" aria-pressed="${selectedGroup === group}">${escapeHtml(label)}</button>`).join("")}</div>
-      <p>${selectedGroup === "A" ? "D6 A 線市區觀光。" : "D6 B 線自行開車滑雪；結束後回 APA、另約晚餐。"} D5 四人一起行動；其餘日期共用。</p>
+      <p>${escapeHtml(description)}</p>
     </section>`;
   }
 
@@ -464,8 +474,6 @@
     previewPosition = null;
     const day = state.selectedDay;
     const route = getGroupRouteForDay(day, selectedGroup);
-    const meetingQuery = getDrivingPlaceQuery(spotById("moiwa-yama"));
-    const meetingUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(meetingQuery)}&travelmode=driving&dir_action=navigate`;
     host.innerHTML = `<header class="winter-heading"><div><p>HOKKAIDO WINTER WALK</p><h2 id="journey-title" tabindex="-1">Day ${day} · ${escapeHtml(route.title)}</h2><span>B 滑雪 · 札幌</span></div><div class="winter-date"><strong>${tripDates[day - 1].replace("/", ".")}</strong><span>日本時間</span></div></header>
       ${groupRouteSwitchHtml()}
       ${dayDepartureHtml(day, "B")}
@@ -522,7 +530,7 @@
         </svg>
         <p class="journey-map-note">城市位置為插畫示意；日期依目前行程顯示。下方選一天，開始今天的散步。</p>
       </section>
-      <div class="winter-overview-caption"><h3>把十天，一頁頁收藏</h3><span>${selectedGroup === "B" ? "D6 滑雪安排 · 其餘共用" : `${days.reduce((sum,day) => sum + day.places.length,0)} 個已排點位`}</span></div>
+      <div class="winter-overview-caption"><h3>把十天，一頁頁收藏</h3><span>${selectedGroup === "B" ? "D5、D6 滑雪安排 · D5 傍晚會合" : `${days.reduce((sum,day) => sum + day.places.length,0)} 個已排點位`}</span></div>
       <div class="journey-overview-days">${days.map(day => {
         const scene = scenes.days[day.day - 1];
         const theme = scene.theme === "forest" ? "mountain" : scene.theme;
@@ -586,6 +594,7 @@
     const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"][new Date(Date.UTC(2026, 11, 22 + state.selectedDay)).getUTCDay()];
     host.innerHTML = `
       <header class="winter-heading"><div><p>HOKKAIDO WINTER WALK</p><h2 id="journey-title" tabindex="-1">Day ${state.selectedDay} · ${scene.title}</h2><span>${escapeHtml(areas.join(" → ") || "今天的路線，等你來安排")}</span></div><div class="winter-date"><strong>${tripDates[state.selectedDay - 1].replace("/", ".")}</strong><span>${weekday} · 日本時間</span></div></header>
+      ${dayFlightHtml(state.selectedDay, "journey")}
       ${getGroupRouteForDay(state.selectedDay, "B") ? groupRouteSwitchHtml() : ""}
       ${dayDepartureHtml(state.selectedDay)}
       <section class="journey-next-card winter-focus-card" aria-labelledby="journey-next-title"></section>
@@ -594,7 +603,7 @@
       <div class="winter-day-progress"><span>已完成 ${doneCount} / ${mainIds.length} 站${skippedCount ? ` · 略過 ${skippedCount}` : ""}</span><span>進度記在此裝置</span></div>
       ${mainIds.length ? `<div class="journey-progress-track" role="progressbar" aria-label="今日處理進度，含完成與略過" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percentage}"><span style="width:${percentage}%"></span></div><details class="winter-route-details" open><summary>今天的地圖與播放 <span>${mainIds.length} 站 · 可展開／收合</span></summary>${mapHtml(mainIds, nextId)}</details>` : ""}
       <div class="winter-pals-row" role="group" aria-label="選擇同行夥伴">${companions.map(pal => `<button type="button" data-companion="${pal.id}" aria-pressed="${activeCompanions.has(pal.id)}"><img src="${pal.src}" width="23" height="26" alt="" />${pal.name}</button>`).join("")}</div>
-      ${mainIds.length ? `<section class="journey-timeline-section"><h3>今天這樣走 <span>${isDayTimingDraftApplicable(state.selectedDay) ? "日本時間 · 初步試排" : "行程順序 · 停留時間參考"}</span></h3><ol class="journey-timeline">${mainIds.map((id, index) => stopHtml(id, index, nextId)).join("")}</ol></section>` : ""}
+      ${mainIds.length ? `<section class="journey-timeline-section"><h3>今天這樣走 <span>${isDayTimingDraftApplicable(state.selectedDay) ? "日本時間 · 初步試排" : "行程順序 · 停留時間參考"}</span></h3><ol class="journey-timeline">${timelineHtml(mainIds, nextId)}</ol></section>` : ""}
       ${optionalIds.length ? `<details class="journey-optional"><summary>有空再去 <span>${optionalIds.length} 個彈性選項</span></summary><p>隨體力與天候安排，晚到就留給下次。</p><ol class="journey-timeline">${optionalIds.map((id, index) => stopHtml(id, index, null)).join("")}</ol></details>` : ""}
       <p class="winter-footnote">北海道主題插畫，路線依目前排序，位置與距離非實際地圖。導航請點景點卡；風雪、排隊可能讓行程順延。</p>`;
 
@@ -605,6 +614,9 @@
     if (optional) optional.open = optionalOpen;
     const schedule = host.querySelector(".day-schedule");
     if (schedule) schedule.open = dayScheduleOpen;
+    if (state.selectedDay === 2) bindDayOptionButtons(host, 2, dayOptionalSpots[2]);
+    const flightPanel = host.querySelector(".day-flight-panel");
+    if (flightPanel) bindDisclosures(flightPanel);
     if (mainIds.length) paintPlayback();
     else host.querySelector(".journey-next-card").innerHTML = focusCardHtml(null);
   }

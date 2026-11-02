@@ -6,7 +6,7 @@ const path = require('node:path');
 const root = path.join(__dirname, '..');
 const source = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const timing = fs.readFileSync(path.join(root, 'timing-drafts.js'), 'utf8');
-const runtime = vm.runInNewContext(timing + '\n' + source.slice(0, source.indexOf('const state =')) + '\n({buildPlan,migrateNightReviewPlan,migrateGoryokakuPriorityPlan,migrateOnsenLunchPlan,dayOneTimingDraft,dailyTimingDrafts,dayDepartures,spots,drivingPlaceOverrides,skiRouteDays})', { window: {} });
+const runtime = vm.runInNewContext(timing + '\n' + source.slice(0, source.indexOf('const state =')) + '\n({buildPlan,migrateNightReviewPlan,migrateGoryokakuPriorityPlan,migrateOnsenLunchPlan,migrateDayFiveParkMeetingPlan,dayOneTimingDraft,dailyTimingDrafts,dayDepartures,spots,drivingPlaceOverrides,skiRouteDays})', { window: {} });
 
 test('D1 blue pond is optional immediately after the hotel and does not promise 17:00', () => {
   const plan = runtime.buildPlan();
@@ -30,12 +30,35 @@ test('D3 places Tenguyama after the crossroads and keeps the canal after it', ()
   assert.match(runtime.drivingPlaceOverrides['otaru-tenguyama'], /山麓駅/);
 });
 
-test('D4 has the 06:30 departure and the single Moiwa visit; D5 has no meeting route', () => {
+test('D4 retains the night ropeway and D5 reunites at Shiroi Koibito Park', () => {
   const plan = runtime.buildPlan();
   assert.equal(runtime.dayDepartures[4].time, '06:30');
   assert.equal(plan[4][plan[4].indexOf('happiness-bell') + 1], 'moiwa-yama');
   assert.ok(!plan[5].includes('moiwa-yama'));
-  assert.equal(runtime.skiRouteDays[5], undefined);
+  assert.equal(plan[5][plan[5].indexOf('unagi-nakajima') + 1], 'shiroi-koibito-park');
+  assert.match(runtime.skiRouteDays[5].route, /15:00.*16:00.*白色戀人/);
+  const row = runtime.dailyTimingDrafts[5].rows.find(row => row[3]?.includes('shiroi-koibito-park'));
+  assert.equal(row[0], '16:00–18:00');
+  assert.match(runtime.dailyTimingDrafts[5].rows.at(-2)[1], /同伴的車回 APA/);
+});
+
+test('D5 meeting migration moves only the requested park and is applied once', () => {
+  const p = runtime.buildPlan(), id = 'shiroi-koibito-park';
+  p[5] = ['nakajima-park', 'unagi-nakajima', 'sapporo-odori'];
+  p[2].push(id);
+  const untouched = JSON.stringify(p[6]);
+  assert.equal(runtime.migrateDayFiveParkMeetingPlan(p), true);
+  assert.deepEqual(Array.from(p[5]), ['nakajima-park', 'unagi-nakajima', id, 'sapporo-odori']);
+  assert.ok(!p[2].includes(id));
+  assert.equal(JSON.stringify(p[6]), untouched);
+  assert.equal(runtime.migrateDayFiveParkMeetingPlan(p), false);
+  p[5].reverse(); const reordered = JSON.stringify(p[5]);
+  assert.equal(runtime.migrateDayFiveParkMeetingPlan(p), false);
+  assert.equal(JSON.stringify(p[5]), reordered);
+  p[2].push(id);
+  assert.equal(runtime.migrateDayFiveParkMeetingPlan(p), true);
+  assert.equal(Object.values(p).flat().filter(stopId => stopId === id).length, 1);
+  assert.equal(JSON.stringify(p[5]), reordered);
 });
 
 test('requested migration is repeatable without duplicates or changes to other days', () => {

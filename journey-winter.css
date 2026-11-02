@@ -252,6 +252,23 @@ body.winter-view-active[data-planner-theme="dark"] {
 .winter-view-active .day-tabs.is-dragging * { cursor: grabbing; }
 .workspace.is-overview .day-tabs-controls { display: none; }
 
+/* One calm surface for the heading, dates and scrolling controls. */
+.winter-view-active .day-navigation { padding: 10px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); box-shadow: 0 4px 18px rgba(0,0,0,.08); }
+.winter-view-active .winter-nav-bar { min-height: 44px; gap: 8px; padding: 0 2px 6px; }
+.winter-view-active .winter-nav-bar button { padding-inline: 8px; border-radius: 10px; color: var(--text); }
+.winter-view-active .winter-nav-title { font-weight: 700; letter-spacing: .02em; }
+.winter-view-active .day-tabs-controls { gap: 8px; }
+.winter-view-active .day-tabs { gap: 8px; padding: 0; scroll-padding-inline: 2px; scroll-behavior: auto; }
+.winter-view-active .day-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-width: 76px; min-height: 48px; padding: 6px 10px; border-color: transparent; border-radius: 12px; background: var(--surface); }
+.winter-view-active .day-tab strong { font-size: .8rem; line-height: 1.2; }
+.winter-view-active .day-tab-date { display: block; color: var(--muted); font-size: .75rem; line-height: 1.2; }
+.winter-view-active .day-tab.active { border-color: #c8a868; background: var(--warm-surface); }
+.winter-view-active .day-tab.active .day-tab-date { color: #5c4926; }
+.winter-view-active .day-tabs-controls > button { min-height: 48px; border-color: transparent; border-radius: 12px; background: var(--surface); color: var(--text); font-size: 1.4rem; }
+.winter-view-active .day-tabs-controls > button:disabled { opacity: .4; }
+.workspace.is-overview .day-navigation .winter-nav-bar { padding-bottom: 0; }
+@media (max-width:640px) { .winter-view-active .day-navigation { padding: 8px; border-radius: 16px; } }
+
 /* Keep the original trip cover; only the phone travel view can collapse it. */
 .winter-view-active:not(.winter-edit-active) .shell { max-width: 1180px; }
 .winter-view-active .workspace.is-travel { max-width: 760px; }

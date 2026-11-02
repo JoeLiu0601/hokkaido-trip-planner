@@ -15,7 +15,7 @@ const runtime = vm.runInNewContext(
   + section('const hakodateTransitLegs =', 'function normalizeSyncCode(')
   + section('function getDayFiveReturnUrl()', 'function dayDepartureHtml(')
   + '\nfunction spotById(id) { return spots.find(spot => spot.id === id); }'
-  + '\n({ state, spotById, getStopNavigation, getDrivingRouteUrlForStop, getGroupRouteForDay, getDayFiveReturnUrl, getDriveInfoForStop });',
+  + '\n({ state, spotById, getStopNavigation, getDrivingRouteUrlForStop, getGroupRouteForDay, getDayFiveReturnUrl, getDayFiveMeetingUrl, getDriveInfoForStop });',
   { state: { plan: {} } }
 );
 
@@ -35,6 +35,7 @@ const cases = [
   ['D4 onsen street on foot', 4, ['noboribetsu-valley', 'noboribetsu-onsen-street'], 'walking'],
   ['D5 park from APA on foot', 5, ['nakajima-park'], 'walking'],
   ['D5 unagi on foot', 5, ['nakajima-park', 'unagi-nakajima'], 'walking'],
+  ['D5 park meeting reached by transit before the shared ride', 5, ['unagi-nakajima', 'shiroi-koibito-park'], 'transit'],
   ['D5 ropeway by transit without a car', 5, ['unagi-nakajima', 'moiwa-yama'], 'transit'],
   ['D5 ropeway first by transit', 5, ['moiwa-yama'], 'transit'],
   ['D5 reordered park is not an assumed walk from ropeway', 5, ['moiwa-yama', 'nakajima-park'], 'transit'],
@@ -98,17 +99,28 @@ test('unplaced library or meal options do not claim a transport mode', () => {
   assert.equal(nav.mode, '');
 });
 
-test('group B changes only D6 and preserves the shared plan including D5', () => {
+test('group B shows D5 and D6 without changing the shared sightseeing plan', () => {
   const original = JSON.stringify(runtime.state.plan);
   for (let day = 1; day <= 10; day++) {
     assert.equal(runtime.getGroupRouteForDay(day, 'A'), null);
     const route = runtime.getGroupRouteForDay(day, 'B');
-    if (day === 6) assert.ok(route?.stages.length);
+    if (day === 5 || day === 6) assert.ok(route?.stages.length);
     else assert.equal(route, null);
   }
-  assert.equal(runtime.getGroupRouteForDay(5, 'B'), null);
+  assert.match(runtime.getGroupRouteForDay(5, 'B').route, /15:00.*16:00.*白色戀人/);
   assert.match(runtime.getGroupRouteForDay(6, 'B').route, /待確認/);
   assert.equal(JSON.stringify(runtime.state.plan), original);
+});
+
+test('D5 ski group navigates to the park parking rather than the night ropeway', () => {
+  const url = new URL(runtime.getDayFiveMeetingUrl());
+  assert.match(url.searchParams.get('destination'), /白い恋人.*駐車場/);
+  assert.equal(url.searchParams.get('travelmode'), 'driving');
+  assert.equal(url.searchParams.get('dir_action'), 'navigate');
+  assert.equal(url.searchParams.has('origin'), false);
+  runtime.state.plan[5] = ['unagi-nakajima', 'shiroi-koibito-park'];
+  assert.match(runtime.getDriveInfoForStop(5, 1, 'shiroi-koibito-park'), /南北線.*大通.*東西線.*宮の沢/);
+  assert.match(runtime.getDriveInfoForStop(5, 1, 'shiroi-koibito-park'), /逛完搭他們的車回 APA/);
 });
 
 test('D5 shared ride returns to APA using the current location', () => {

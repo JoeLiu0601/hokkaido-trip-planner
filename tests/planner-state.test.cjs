@@ -73,7 +73,7 @@ test('current snapshots retain custom order and deliberately removed hotel or pa
   assert.deepEqual(plain(r.loadPlan()), plain(c.state.plan));
 });
 
-test('the previous night-review version migrates only D8 and preserves custom D5/D6 and removed stops', () => {
+test('the previous night-review version updates D8 and adds only the D5 meeting to custom plans', () => {
   const c = setup(), r = c.runtime;
   c.state.plan[1] = c.state.plan[1].filter(id => id !== 'biei-blue');
   c.state.plan[5] = ['moiwa-yama']; c.state.plan[6].reverse();
@@ -84,7 +84,28 @@ test('the previous night-review version migrates only D8 and preserves custom D5
   const loaded = plain(r.loadPlan());
   assert.ok(loaded[8].includes('goryokaku-tower'));
   assert.ok(loaded[8].indexOf('lucky-pierrot-goryokaku') < loaded[8].indexOf('goryokaku-tower'));
-  for (const day of [1, 2, 3, 4, 5, 6, 7, 9, 10]) assert.deepEqual(loaded[day], before[day]);
+  assert.deepEqual(loaded[5], [...before[5], 'shiroi-koibito-park']);
+  for (const day of [1, 2, 3, 4, 6, 7, 9, 10]) assert.deepEqual(loaded[day], before[day]);
+});
+
+test('tower-night snapshot gains D5 meeting without replaying D4 or D8 migrations', () => {
+  const c = setup(), r = c.runtime;
+  c.state.plan[5] = ['unagi-nakajima'];
+  c.state.plan[4] = ['tenkatsu-honten-muroran'];
+  c.state.plan[8] = ['lagent-hakodate-ekimae', 'lucky-pierrot-goryokaku', 'goryokaku-tower'];
+  c.state.plan[6].reverse();
+  r.savePlan();
+  const snapshot = JSON.parse(c.values.get(r.localSnapshotKey));
+  snapshot.templateVersion = '2026-11-02-tower-night';
+  c.values.set(r.localSnapshotKey, JSON.stringify(snapshot));
+  c.values.set(r.storageKey, JSON.stringify(r.buildPlan()));
+  const loaded = plain(r.loadPlan());
+  assert.deepEqual(loaded[5], ['unagi-nakajima', 'shiroi-koibito-park']);
+  for (const day of [1, 2, 3, 4, 6, 7, 8, 9, 10]) assert.deepEqual(loaded[day], plain(c.state.plan[day]));
+  c.state.plan = loaded; r.savePlan();
+  c.state.plan[5] = c.state.plan[5].filter(id => id !== 'shiroi-koibito-park');
+  r.savePlan();
+  assert.deepEqual(plain(r.loadPlan()[5]), ['unagi-nakajima']);
 });
 
 test('the published tower-priority snapshot is used ahead of stale legacy data', () => {

@@ -166,6 +166,9 @@ body {
 .day-option-card ul { padding-left: 22px; color: var(--muted); font-size: 0.88rem; line-height: 1.8; }
 .day-option-card .stop-quick-actions { margin-top: 12px; }
 .day-options-note { margin: 0 0 12px; }
+.inline-lunch-options { min-width: 0; margin: 0; }
+.lunch-candidate > summary { min-height: 44px; padding: 10px 0; color: var(--text); font-weight: 700; line-height: 1.6; cursor: pointer; overflow-wrap: anywhere; }
+.journey-lunch-choice { min-width: 0; list-style: none; margin: 12px 0 18px 35px; }
 .airport-bus-timetable { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 0.86rem; }
 .airport-bus-timetable th,
 .airport-bus-timetable td { padding: 9px 7px; border-bottom: 1px solid var(--line); text-align: left; }
@@ -736,6 +739,10 @@ select {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
+.day-flight-panel { min-width: 0; margin: 0 0 16px; padding: 16px; }
+.day-flight-panel .flight-grid { grid-template-columns: minmax(0, 1fr); }
+.day-flight-panel .flight-panel-heading h3 { margin: 0; font-size: 1.05rem; }
+#day-flight:empty { display: none; }
 
 .flight-card {
   min-width: 0;
