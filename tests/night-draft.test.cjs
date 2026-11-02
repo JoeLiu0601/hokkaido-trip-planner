@@ -23,6 +23,14 @@ test('D2 stays for evening lights then returns directly to the hotel', () => {
   assert.ok(!runtime.buildPlan()[2].includes('sapporo-odori'));
 });
 
+test('D7 default route follows its timing draft and omits the crater', () => {
+  const day = Array.from(runtime.buildPlan()[7]);
+  const draft = runtime.dailyTimingDrafts[7];
+  assert.deepEqual(day, Array.from(draft.requiredIds));
+  assert.deepEqual(day, Array.from(draft.stopGroups, ids => ids[0]));
+  assert.equal(runtime.dayDepartures[7].time, '07:30');
+});
+
 test('D3 places Tenguyama after the crossroads and keeps the canal after it', () => {
   const day = runtime.buildPlan()[3];
   assert.equal(day[day.indexOf('otaru-meruhen-crossing') + 1], 'otaru-tenguyama');

@@ -1203,10 +1203,9 @@ const winterTemplate = {
     "ramen-haruka"
   ],
   "7": [
-    "toyako-lake",
     "makkari-village",
     "silo-observatory",
-    "konpira-crater-view",
+    "toyako-lake",
     "toya-kohan-tei"
   ],
   "8": [
@@ -2057,7 +2056,8 @@ previousPlanTemplateVersions.push(dayNineHachimanzakaTemplateVersion);
 const nightReviewTemplateVersion = "2026-11-02-night-review";
 const goryokakuPriorityTemplateVersion = "2026-11-02-goryokaku-priority";
 const towerNightTemplateVersion = "2026-11-02-tower-night";
-const currentPlanTemplateVersion = "2026-11-03-day5-park-meeting";
+const dayFiveParkMeetingTemplateVersion = "2026-11-03-day5-park-meeting";
+const currentPlanTemplateVersion = "2026-11-03-day7-route";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -2385,6 +2385,14 @@ function migrateDayFiveParkMeetingPlan(plan) {
   return true;
 }
 
+function migrateDaySevenRoutePlan(plan) {
+  const formerOrder = ["toyako-lake", "makkari-village", "silo-observatory", "konpira-crater-view", "toya-kohan-tei"];
+  // Update the known old template without replacing a custom D7 itinerary.
+  if (!planStopsEqual(plan[7], formerOrder)) return false;
+  plan[7] = [...winterTemplate[7]];
+  return true;
+}
+
 function loadPlan() {
   const snapshot = loadLocalSnapshot();
   const stored = snapshot ? JSON.stringify(snapshot.plan) : readLocalStorage(storageKey);
@@ -2394,7 +2402,7 @@ function loadPlan() {
 
   try {
     const storedTemplateVersion = snapshot?.templateVersion || readLocalStorage(planTemplateVersionKey);
-    if (![...previousPlanTemplateVersions, nightReviewTemplateVersion, goryokakuPriorityTemplateVersion, towerNightTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
+    if (![...previousPlanTemplateVersions, nightReviewTemplateVersion, goryokakuPriorityTemplateVersion, towerNightTemplateVersion, dayFiveParkMeetingTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
       return createDefaultPlan();
     }
 
@@ -2422,13 +2430,17 @@ function loadPlan() {
       loadedPlanNeedsSync = normalizedChanged || migrationChanged;
     }
 
-    if (storedTemplateVersion !== currentPlanTemplateVersion) {
+    if (![dayFiveParkMeetingTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
       loadedPlanNeedsSave = true;
       if (storedTemplateVersion !== towerNightTemplateVersion) {
         loadedPlanNeedsSync = migrateGoryokakuPriorityPlan(plan) || loadedPlanNeedsSync;
         loadedPlanNeedsSync = migrateOnsenLunchPlan(plan) || loadedPlanNeedsSync;
       }
       loadedPlanNeedsSync = migrateDayFiveParkMeetingPlan(plan) || loadedPlanNeedsSync;
+    }
+    if (storedTemplateVersion !== currentPlanTemplateVersion) {
+      loadedPlanNeedsSave = true;
+      loadedPlanNeedsSync = migrateDaySevenRoutePlan(plan) || loadedPlanNeedsSync;
     }
     const beforeRequiredStops = JSON.stringify(plan);
     ensureRequiredStops(plan);
@@ -2451,7 +2463,7 @@ function loadLocalSnapshot() {
   try {
     const snapshot = JSON.parse(readLocalStorage(localSnapshotKey) || "null");
     return snapshot?.version === 1 && snapshot.plan && snapshot.mealPlan
-      && [...previousPlanTemplateVersions, nightReviewTemplateVersion, goryokakuPriorityTemplateVersion, towerNightTemplateVersion, currentPlanTemplateVersion].includes(snapshot.templateVersion)
+      && [...previousPlanTemplateVersions, nightReviewTemplateVersion, goryokakuPriorityTemplateVersion, towerNightTemplateVersion, dayFiveParkMeetingTemplateVersion, currentPlanTemplateVersion].includes(snapshot.templateVersion)
       ? snapshot : null;
   } catch {
     return null;

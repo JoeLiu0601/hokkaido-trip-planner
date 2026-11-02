@@ -73,6 +73,37 @@ test('current snapshots retain custom order and deliberately removed hotel or pa
   assert.deepEqual(plain(r.loadPlan()), plain(c.state.plan));
 });
 
+test('the previous meeting snapshot corrects only the old D7 route and persists it', () => {
+  const c = setup(), r = c.runtime;
+  c.state.plan[7] = ['toyako-lake', 'makkari-village', 'silo-observatory', 'konpira-crater-view', 'toya-kohan-tei'];
+  c.state.plan[4] = ['tenkatsu-honten-muroran'];
+  c.state.plan[5] = ['unagi-nakajima'];
+  c.state.plan[8].reverse();
+  const before = plain(c.state.plan);
+  r.savePlan();
+  const snapshot = JSON.parse(c.values.get(r.localSnapshotKey));
+  snapshot.templateVersion = '2026-11-03-day5-park-meeting';
+  c.values.set(r.localSnapshotKey, JSON.stringify(snapshot));
+  const loaded = plain(r.loadPlan());
+  assert.deepEqual(loaded[7], ['makkari-village', 'silo-observatory', 'toyako-lake', 'toya-kohan-tei']);
+  for (const day of [1, 2, 3, 4, 5, 6, 8, 9, 10]) assert.deepEqual(loaded[day], before[day]);
+  c.state.plan = loaded;
+  r.savePlan();
+  assert.deepEqual(plain(r.loadPlan()), loaded);
+});
+
+test('D7 migration preserves custom routes, empty days and unrelated meals', () => {
+  for (const custom of [[], ['makkari-village', 'toya-kohan-tei'], ['silo-observatory', 'makkari-village', 'toyako-lake', 'toya-kohan-tei']]) {
+    const c = setup(), r = c.runtime;
+    c.state.plan[7] = custom;
+    c.values.set(r.planTemplateVersionKey, '2026-11-03-day5-park-meeting');
+    c.values.set(r.storageKey, JSON.stringify(c.state.plan));
+    const meals = plain(c.state.mealPlan);
+    assert.deepEqual(plain(r.loadPlan()), plain(c.state.plan));
+    assert.deepEqual(plain(c.state.mealPlan), meals);
+  }
+});
+
 test('the previous night-review version updates D8 and adds only the D5 meeting to custom plans', () => {
   const c = setup(), r = c.runtime;
   c.state.plan[1] = c.state.plan[1].filter(id => id !== 'biei-blue');
