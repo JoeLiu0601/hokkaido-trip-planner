@@ -36,7 +36,6 @@
     { id: "piplup", name: "波加曼", src: "assets/piplup-travel-cutout.png" },
     { id: "mew", name: "夢幻", src: "assets/mew-travel-cutout.png" }
   ];
-  const activeCompanions = new Set(companions.map((pal) => pal.id));
   const winterStops = {
     "new-chitose-airport": { x: 64, y: 320, label: "機場抵達", lx: 12, ly: 350, width: 104 },
     "nippon-rentacar-new-chitose": { x: 146, y: 320, label: "接駁取車", lx: 122, ly: 350, width: 106 },
@@ -158,8 +157,9 @@
     return progress()[state.selectedDay]?.[id] || "pending";
   }
 
-  function isOptional(id) {
-    return state.selectedDay === 1 && dayOneTimingDraft[id]?.optional === true;
+  function isOptional(id, day = state.selectedDay) {
+    return (day === 1 && dayOneTimingDraft[id]?.optional === true)
+      || (day === 4 && dayFourOptionalStopIds.includes(id));
   }
 
   function durationText(spot) {
@@ -202,20 +202,16 @@
     return { ...nav, label: nav.label === "地圖" ? "開啟地圖" : nav.label };
   }
 
-  function selectedCompanions() {
-    return companions.filter((pal) => activeCompanions.has(pal.id));
-  }
-
   function companionGroupTransform(x, y) {
     const width = 32;
-    const count = selectedCompanions().length;
+    const count = companions.length;
     const groupWidth = count * width + (count - 1) * 6;
     const left = Math.max(8, Math.min(380 - groupWidth - 8, x - groupWidth / 2));
     return `translate(${left} ${y - 78})`;
   }
 
   function mapCompanionsHtml() {
-    const pals = selectedCompanions();
+    const pals = companions;
     const point = activeMapPoint(0);
     const width = 32;
     const height = 40;
@@ -314,7 +310,7 @@
     if (!position) return;
     const actualNext = playback.stops.find((stop) => statusFor(stop.id) === "pending")?.id;
     const cardId = previewPosition === null ? actualNext : position.id;
-    const cardKey = `${cardId}|${previewPosition === null}|${[...activeCompanions].join(",")}`;
+    const cardKey = `${cardId}|${previewPosition === null}`;
     if (focusedCardKey !== cardKey) {
       focusedCardKey = cardKey;
       host.querySelector(".journey-next-card").innerHTML = focusCardHtml(cardId);
@@ -426,7 +422,7 @@
           <summary data-preview-stop="${id}" data-preview-from="timeline">
             <span class="journey-stop-time">${escapeHtml(timingText(spot))}</span>
             <strong>${escapeHtml(spot.name)}</strong>
-            <span class="journey-stop-status">${status === "done" ? "已完成" : status === "skipped" ? "已略過" : state.selectedDay === 4 && ["muroran-hakucho-bridge-view", "happiness-bell"].includes(id) ? "待決定 · 可略過" : id === nextId ? "下一站" : isOptional(id) ? "有空再去" : "待出發"}</span>
+            <span class="journey-stop-status">${status === "done" ? "已完成" : status === "skipped" ? "已略過" : id === nextId ? "下一站" : isOptional(id) ? "有空再去" : "待出發"}</span>
           </summary>
           <div class="journey-stop-details">
             <p>${escapeHtml(spot.desc)}</p>
@@ -491,7 +487,7 @@
     const days = tripDates.map((date, index) => {
       const day = index + 1;
       const places = (state.plan[day] || []).map(spotById).filter(Boolean);
-      const mainPlaces = places.filter(spot => !(day === 1 && dayOneTimingDraft[spot.id]?.optional));
+      const mainPlaces = places.filter(spot => !isOptional(spot.id, day));
       const areas = [...new Set(places.map(spot => spot.area).filter(Boolean))];
       const done = mainPlaces.filter(spot => progress()[day]?.[spot.id] === "done").length;
       const skipped = mainPlaces.filter(spot => progress()[day]?.[spot.id] === "skipped").length;
@@ -575,7 +571,7 @@
     const dayScheduleOpen = host.querySelector(".day-schedule")?.open ?? false;
     const ids = (state.plan[state.selectedDay] || []).filter((id) => spotById(id));
     const mainIds = ids.filter((id) => !isOptional(id));
-    const optionalIds = ids.filter(isOptional);
+    const optionalIds = ids.filter(id => isOptional(id));
     const newPlaybackContext = `${context}|${mainIds.join(",")}|${isDayOneTimingDraftApplicable()}`;
     if (newPlaybackContext !== playbackContext) {
       pausePlayback();
@@ -602,7 +598,6 @@
       ${state.selectedDay >= 2 && mainIds.length ? `<section class="day-timing-draft daily-timing-draft" aria-labelledby="journey-day-timing-title">${getDayTimingDraftHtml(state.selectedDay, "journey-day-timing-title")}</section>` : ""}
       <div class="winter-day-progress"><span>已完成 ${doneCount} / ${mainIds.length} 站${skippedCount ? ` · 略過 ${skippedCount}` : ""}</span><span>進度記在此裝置</span></div>
       ${mainIds.length ? `<div class="journey-progress-track" role="progressbar" aria-label="今日處理進度，含完成與略過" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percentage}"><span style="width:${percentage}%"></span></div><details class="winter-route-details" open><summary>今天的地圖與播放 <span>${mainIds.length} 站 · 可展開／收合</span></summary>${mapHtml(mainIds, nextId)}</details>` : ""}
-      <div class="winter-pals-row" role="group" aria-label="選擇同行夥伴">${companions.map(pal => `<button type="button" data-companion="${pal.id}" aria-pressed="${activeCompanions.has(pal.id)}"><img src="${pal.src}" width="23" height="26" alt="" />${pal.name}</button>`).join("")}</div>
       ${mainIds.length ? `<section class="journey-timeline-section"><h3>今天這樣走 <span>${isDayTimingDraftApplicable(state.selectedDay) ? "日本時間 · 初步試排" : "行程順序 · 停留時間參考"}</span></h3><ol class="journey-timeline">${timelineHtml(mainIds, nextId)}</ol></section>` : ""}
       ${optionalIds.length ? `<details class="journey-optional"><summary>有空再去 <span>${optionalIds.length} 個彈性選項</span></summary><p>隨體力與天候安排，晚到就留給下次。</p><ol class="journey-timeline">${optionalIds.map((id, index) => stopHtml(id, index, null)).join("")}</ol></details>` : ""}
       <p class="winter-footnote">北海道主題插畫，路線依目前排序，位置與距離非實際地圖。導航請點景點卡；風雪、排隊可能讓行程順延。</p>`;
@@ -699,15 +694,6 @@
       pausePlayback();
       previewPosition = null;
       paintPlayback();
-      return;
-    }
-    const companion = target.closest("[data-companion]");
-    if (companion) {
-      const id = companion.dataset.companion;
-      if (activeCompanions.has(id)) { if (activeCompanions.size > 1) activeCompanions.delete(id); }
-      else activeCompanions.add(id);
-      renderJourney();
-      host.querySelector(`[data-companion="${id}"]`)?.focus({ preventScroll: true });
       return;
     }
     const button = event.target.closest("[data-journey-status]");

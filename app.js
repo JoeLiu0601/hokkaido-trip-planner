@@ -324,9 +324,9 @@ const spots = [
     area: "富良野",
     type: "自然風景",
     season: ["winter"],
-    time: "2.5h",
+    time: "沿途彈性短停",
     best: "雪原、農場、慢旅行",
-    desc: "冬天的富良野不是花海，而是大片安靜的雪景，非常適合慢慢拍。",
+    desc: "富良野沿途的區域雪景，沒有單一指定入口。D2 改列沿途備註，僅在確認可停車、可進入的觀景處彈性短停，不進農地或停在雪地路肩。",
     highlight: "白色風景"
   },
   {
@@ -1164,7 +1164,6 @@ const winterTemplate = {
     "asahikawa-heiwa-dori"
   ],
   "2": [
-    "furano-field",
     "biei-shrine",
     "hinode-park",
     "ningle-terrace",
@@ -1239,12 +1238,13 @@ const winterProfile = {
 
 const tripDates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29", "12/30", "12/31", "1/1"];
 const dayTwoLunchIds = ["kamifurano-marumasu", "kamifurano-mansaku"];
+const dayFourOptionalStopIds = ["muroran-hakucho-bridge-view", "happiness-bell"];
 
 const daySummaries = {
   "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先試排約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住試排約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
-  "2": "旭川退房後經美瑛／上富良野，約 15:00 到精靈露臺，留到天黑看木屋燈景；約 18:30 在富良野吃完晚餐出發，約 22:00 到札幌 APA。也可提早離開、沿途補餐。大通與薄野僅留彈性備選，晚到不再硬逛。",
+  "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景；富良野雪原改為沿途欣賞的備註，不另排固定站點。約 18:30 在富良野吃完晚餐出發，約 22:00 到札幌 APA。也可提早離開、沿途補餐。大通與薄野僅留彈性備選，晚到不再硬逛。",
   "3": "上午安排札幌神社巡禮，手稻放在前往小樽途中，接著吃午餐、逛玻璃店與童話十字路，再看天黑後的運河。完整時間試排另列建議順序供 review。 童話十字路後加入天狗山夜景，運河仍保留；四座神社全走再加天狗山會偏滿，優先刪減彈性神社。",
-  "4": "06:30 從 APA 出發，登別地獄谷與溫泉街午餐後前往藻岩山夜景，藻岩山是必去重點。白鳥大橋與幸福之鐘仍待決定、可略過，尚未自動刪除。已用 11/03 Google 地圖逐段核對，分開試算 ×1.5／×2 加停車休息緩衝；兩點都去的 ×2 情境約 20:05 才到山麓，兩點皆略過約 16:10，可保留夜景時間。",
+  "4": "06:30 從 APA 出發，主線是登別地獄谷、溫泉街午餐與藻岩山夜景。白鳥大橋、幸福之鐘列為有空再去，建議最多挑一處；路況不佳就午餐後直接前往藻岩山。完整試排包含清單中的室蘭備選，實際略過可提早抵達。已用 11/03 Google 地圖逐段核對，分開試算 ×1.5／×2 加停車休息緩衝；兩點都去的 ×2 情境約 20:05 才到山麓，兩點皆略過約 16:10，可保留夜景時間。",
   "5": "白天分組：A 線中島公園、鰻魚飯與市區休息後搭地鐵到白色戀人公園；B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA；雪天與停車先留至 16:30 的會合緩衝。藻岩山夜景維持 D4。",
   "6": "A 線市區觀光：搭車前往啤酒博物館、Ario 與 Toriton，下午搭車回市中心逛地下街；B 線同伴自行開車去滑雪，集合時間另約。",
   "7": "07:30 從札幌 APA 退房出發，約 10:30 到真狩村，先看羊蹄山與休息，午餐後經 SAIRO 展望台到洞爺湖，15:15 左右入住 Toya Kohan Tei；不安排火口，下午留給泡湯與休息。車程為冬季估計。",
@@ -2057,7 +2057,8 @@ const nightReviewTemplateVersion = "2026-11-02-night-review";
 const goryokakuPriorityTemplateVersion = "2026-11-02-goryokaku-priority";
 const towerNightTemplateVersion = "2026-11-02-tower-night";
 const dayFiveParkMeetingTemplateVersion = "2026-11-03-day5-park-meeting";
-const currentPlanTemplateVersion = "2026-11-03-day7-route";
+const daySevenRouteTemplateVersion = "2026-11-03-day7-route";
+const currentPlanTemplateVersion = "2026-11-03-day2-scenery-note";
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -2393,6 +2394,12 @@ function migrateDaySevenRoutePlan(plan) {
   return true;
 }
 
+function migrateDayTwoSceneryPlan(plan) {
+  if (!Array.isArray(plan[2]) || !plan[2].includes("furano-field")) return false;
+  plan[2] = plan[2].filter(id => id !== "furano-field");
+  return true;
+}
+
 function loadPlan() {
   const snapshot = loadLocalSnapshot();
   const stored = snapshot ? JSON.stringify(snapshot.plan) : readLocalStorage(storageKey);
@@ -2402,7 +2409,7 @@ function loadPlan() {
 
   try {
     const storedTemplateVersion = snapshot?.templateVersion || readLocalStorage(planTemplateVersionKey);
-    if (![...previousPlanTemplateVersions, nightReviewTemplateVersion, goryokakuPriorityTemplateVersion, towerNightTemplateVersion, dayFiveParkMeetingTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
+    if (![...previousPlanTemplateVersions, nightReviewTemplateVersion, goryokakuPriorityTemplateVersion, towerNightTemplateVersion, dayFiveParkMeetingTemplateVersion, daySevenRouteTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
       return createDefaultPlan();
     }
 
@@ -2430,7 +2437,7 @@ function loadPlan() {
       loadedPlanNeedsSync = normalizedChanged || migrationChanged;
     }
 
-    if (![dayFiveParkMeetingTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
+    if (![dayFiveParkMeetingTemplateVersion, daySevenRouteTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
       loadedPlanNeedsSave = true;
       if (storedTemplateVersion !== towerNightTemplateVersion) {
         loadedPlanNeedsSync = migrateGoryokakuPriorityPlan(plan) || loadedPlanNeedsSync;
@@ -2438,9 +2445,13 @@ function loadPlan() {
       }
       loadedPlanNeedsSync = migrateDayFiveParkMeetingPlan(plan) || loadedPlanNeedsSync;
     }
-    if (storedTemplateVersion !== currentPlanTemplateVersion) {
+    if (![daySevenRouteTemplateVersion, currentPlanTemplateVersion].includes(storedTemplateVersion)) {
       loadedPlanNeedsSave = true;
       loadedPlanNeedsSync = migrateDaySevenRoutePlan(plan) || loadedPlanNeedsSync;
+    }
+    if (storedTemplateVersion !== currentPlanTemplateVersion) {
+      loadedPlanNeedsSave = true;
+      loadedPlanNeedsSync = migrateDayTwoSceneryPlan(plan) || loadedPlanNeedsSync;
     }
     const beforeRequiredStops = JSON.stringify(plan);
     ensureRequiredStops(plan);
@@ -2463,7 +2474,7 @@ function loadLocalSnapshot() {
   try {
     const snapshot = JSON.parse(readLocalStorage(localSnapshotKey) || "null");
     return snapshot?.version === 1 && snapshot.plan && snapshot.mealPlan
-      && [...previousPlanTemplateVersions, nightReviewTemplateVersion, goryokakuPriorityTemplateVersion, towerNightTemplateVersion, dayFiveParkMeetingTemplateVersion, currentPlanTemplateVersion].includes(snapshot.templateVersion)
+      && [...previousPlanTemplateVersions, nightReviewTemplateVersion, goryokakuPriorityTemplateVersion, towerNightTemplateVersion, dayFiveParkMeetingTemplateVersion, daySevenRouteTemplateVersion, currentPlanTemplateVersion].includes(snapshot.templateVersion)
       ? snapshot : null;
   } catch {
     return null;
@@ -2884,14 +2895,15 @@ function getTimingDraftForStop(day, spotId) {
   if (draft.flexibleTimings?.[spotId]) return draft.flexibleTimings[spotId];
   if (draft.timingOverrides?.[spotId]) return draft.timingOverrides[spotId];
   const row = draft.rows.find((item) => item[3]?.includes(spotId));
-  if (row) return { time: row[0], note: row[2], duration: row[4], optional: draft.optionalIds?.includes(spotId) || false };
+  if (row) return { time: row[0], note: row[2], duration: row[4], optional: draft.optionalIds?.includes(spotId) || false,
+    optionalLabel: day === 4 && dayFourOptionalStopIds.includes(spotId) ? "有空再去" : "" };
   return null;
 }
 
 function timingDraftHtml(draft) {
   return draft ? `
     <div class="stop-timing${draft.optional ? " stop-timing-optional" : ""}">
-      <p><strong>${escapeHtml(draft.time)}</strong><span>${draft.optional ? "可略過" : "預估"}</span></p>
+      <p><strong>${escapeHtml(draft.time)}</strong><span>${draft.optional ? escapeHtml(draft.optionalLabel || "可略過") : "預估"}</span></p>
       <p class="stop-timing-note">${escapeHtml(draft.note)}</p>
     </div>` : "";
 }

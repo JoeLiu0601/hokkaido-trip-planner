@@ -11,9 +11,9 @@ const section = (a, b) => source.slice(source.indexOf(a), source.indexOf(b));
 function setup() {
   const state = { plan: {} };
   const r = vm.runInNewContext(timing + '\n' + source.slice(0, source.indexOf('const state ='))
-    + section('function getDailyTimingDraft(', 'function getTimingDraftForStop(')
-    + '\n({buildPlan,dayFourDriveLegs,dayFourDriveMinutes,calculateDayFourScenario,buildDayFourTimingDraft,getDailyTimingDraft,isDailyTimingDraftApplicable})',
-  { window: {}, state });
+    + section('function getDailyTimingDraft(', 'function dayNineTimingDraftHtml(')
+    + '\n({buildPlan,dayFourDriveLegs,dayFourDriveMinutes,calculateDayFourScenario,buildDayFourTimingDraft,getDailyTimingDraft,isDailyTimingDraftApplicable,getTimingDraftForStop,timingDraftHtml,dayFourOptionalStopIds,dayOneTimingDraft})',
+  { window: {}, state, escapeHtml: value => String(value) });
   state.plan = r.buildPlan();
   return { r, state };
 }
@@ -25,6 +25,37 @@ test('D4 rounds scaled driving plus a separate fixed buffer upward to five minut
   assert.equal(r.dayFourDriveMinutes(r.dayFourDriveLegs.capeMoiwa, 1.5), 200);
   assert.equal(r.dayFourDriveMinutes(r.dayFourDriveLegs.capeMoiwa, 2), 260);
   assert.equal(r.dayFourDriveMinutes(r.dayFourDriveLegs.directMoiwa, 2), 210);
+});
+
+test('only D4 lookouts join the existing optional group and stay out of main progress', () => {
+  const { r, state } = setup();
+  state.selectedDay = 4;
+  const journey = fs.readFileSync(path.join(root, 'journey.js'), 'utf8');
+  const isOptional = vm.runInNewContext(journey.slice(journey.indexOf('  function isOptional('), journey.indexOf('  function durationText(')) + '\nisOptional',
+    { state, dayOneTimingDraft: r.dayOneTimingDraft, dayFourOptionalStopIds: r.dayFourOptionalStopIds });
+  const before = JSON.stringify(state.plan);
+  assert.deepEqual(Array.from(state.plan[4]).filter(id => isOptional(id)), Array.from(r.dayFourOptionalStopIds));
+  const main = state.plan[4].filter(id => !isOptional(id));
+  assert.ok(main.includes('noboribetsu-valley'));
+  assert.ok(main.includes('moiwa-yama'));
+  for (const day of [2, 3, 5, 6, 7, 8, 9, 10]) {
+    assert.equal(state.plan[day].some(id => isOptional(id, day)), false);
+  }
+  assert.equal(isOptional('biei-blue', 1), true);
+  assert.equal(isOptional('happiness-bell', 3), false);
+  assert.equal(JSON.stringify(state.plan), before);
+});
+
+test('D4 edit cards and the full schedule clearly label the optional detours', () => {
+  const { r } = setup();
+  for (const id of r.dayFourOptionalStopIds) {
+    const timing = r.getTimingDraftForStop(4, id);
+    assert.equal(timing.optional, true);
+    assert.match(r.timingDraftHtml(timing), /有空再去/);
+  }
+  const moiwa = r.getTimingDraftForStop(4, 'moiwa-yama');
+  assert.equal(moiwa.optional, false);
+  assert.match(r.getDailyTimingDraft(4).intro, /完整試排包含.*室蘭備選/);
 });
 
 test('D4 twofold scenarios expose the late full route and compare all optional-point choices', () => {

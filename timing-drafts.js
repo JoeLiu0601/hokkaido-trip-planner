@@ -21,7 +21,7 @@ const dailyTimingDrafts = {
       ["18:30–22:00","開車：富良野 → 札幌 APA","夜間冬季含休息抓約 3.5 小時；沿途用餐則需計入全段，風雪會更晚。"],
       ["22:00–22:40","APA 入住、停車與休息","晚到時間請先通知飯店並核對訂房條款；今晚不再安排大通／薄野。",["apa-sapporo-susukino-ekinishi"],"約 40 分"]
     ],
-    notes: ["留在富良野吃到 19:00 才出發，則約 22:30–23:00 抵飯店，風雪可能更晚。","沿途補餐版：17:15 左右離開精靈露臺，餐食與休息一併計入約 4 小時車程緩衝，約 21:15 後到 APA；服務區餐廳營業需事先確認。","大通與薄野仍留在選項，不代表今晚要走完。12/24 市集有結束時間，這版無法保證趕上。"],
+    notes: ["富良野雪原改為沿途雪景備註，不另排固定停靠點；只在確認可停車、可進入的觀景處彈性短停，不進農地或停在雪地路肩。","留在富良野吃到 19:00 才出發，則約 22:30–23:00 抵飯店，風雪可能更晚。","沿途補餐版：17:15 左右離開精靈露臺，餐食與休息一併計入約 4 小時車程緩衝，約 21:15 後到 APA；服務區餐廳營業需事先確認。","大通與薄野仍留在選項，不代表今晚要走完。12/24 市集有結束時間，這版無法保證趕上。"],
     sources: [["精靈露臺冬季時間","https://www.princehotels.com/shinfurano/facilities/ningle-terrace-shop/"],["札幌燈飾活動","https://www.sapporo.travel/white-illumination/"]],
     optionalIds: ["hinode-park","sapporo-odori","sapporo-susukino"]
   },
@@ -55,8 +55,8 @@ const dailyTimingDrafts = {
     sources: [["北海道神宮公告","https://www.hokkaidojingu.or.jp/"],["大正硝子館","https://www.otaruglass.com/"],["天狗山冬季營業／票價","https://tenguyama.ckk.chuo-bus.co.jp/hours-and-fees/"],["天狗山山麓停車／交通","https://tenguyama.ckk.chuo-bus.co.jp/access/"]]
   },
   4: {
-    intro: "藻岩山夜景是 D4 必去重點；白鳥大橋與幸福之鐘仍待決定，可略過。",
-    route: "APA → 登別地獄谷／溫泉街午餐 → 室蘭兩處待決定 → 藻岩山（必去）→ APA",
+    intro: "藻岩山夜景是 D4 必去重點；白鳥大橋與幸福之鐘有空再去，建議最多挑一處。",
+    route: "APA → 登別地獄谷／溫泉街午餐 → 室蘭備選（有空再去）→ 藻岩山（必去）→ APA",
     stopGroups: [["noboribetsu-valley"],["noboribetsu-onsen-street","noboribetsu-onsen-ichiba","tenkatsu-honten-muroran"],["muroran-hakucho-bridge-view"],["happiness-bell"],["moiwa-yama"]],
     requiredIds: ["noboribetsu-valley","moiwa-yama"],
     optionalIds: ["noboribetsu-onsen-street","noboribetsu-onsen-ichiba","tenkatsu-honten-muroran","muroran-hakucho-bridge-view","happiness-bell"],
@@ -197,11 +197,11 @@ function calculateDayFourScenario(stops, factor = 1.5) {
   add(60, "溫泉街午餐", "先以溫泉市場為候選，依現場候位決定；若改吃室蘭天勝需另估路線。", ["noboribetsu-onsen-ichiba", "tenkatsu-honten-muroran"], "含候位約 1 小時");
   if (bridge) {
     drive("toBridge");
-    add(25, "白鳥大橋（祝津公園展望台）· 待決定", "可略過；藻岩山優先，時間落後就不繞室蘭。", ["muroran-hakucho-bridge-view"], "約 25 分");
+    add(25, "白鳥大橋（祝津公園展望台）· 有空再去", "有空再去；藻岩山優先，時間落後就不繞室蘭。", ["muroran-hakucho-bridge-view"], "約 25 分");
   }
   if (cape) {
     drive(bridge ? "bridgeCape" : "toCape");
-    add(30, "幸福之鐘／地球岬 · 待決定", "可略過，導航地球岬停車場，預留雪地步行。", ["happiness-bell"], "約 30 分");
+    add(30, "幸福之鐘／地球岬 · 有空再去", "有空再去，導航地球岬停車場，預留雪地步行；路滑或時間不足就直接往藻岩山。", ["happiness-bell"], "約 30 分");
   }
   drive(cape ? "capeMoiwa" : bridge ? "bridgeMoiwa" : "directMoiwa");
   const moiwaArrival = clock;
@@ -216,10 +216,10 @@ function buildDayFourTimingDraft(stops) {
   const normal = calculateDayFourScenario(stops, 1.5);
   const conservative = calculateDayFourScenario(stops, 2);
   const direct = calculateDayFourScenario([], 2);
-  const stopsLabel = normal.bridge && normal.cape ? "白鳥與幸福之鐘暫保留，兩處仍待決定" : normal.bridge ? "只保留白鳥大橋備選" : normal.cape ? "只保留幸福之鐘備選" : "略過室蘭兩處，午餐後直接回札幌";
+  const stopsLabel = normal.bridge && normal.cape ? "白鳥與幸福之鐘有空再去，建議最多挑一處" : normal.bridge ? "白鳥大橋有空再去" : normal.cape ? "幸福之鐘有空再去" : "略過室蘭兩處，午餐後直接回札幌";
   return { ...dailyTimingDrafts[4],
-    intro: `藻岩山夜景必去；${stopsLabel}。本表以 11/03 Google 車程 ×1.5＋各段停車／休息緩衝試排；×2 情境約 ${dayFourTime(conservative.moiwaArrival)} 抵藻岩山山麓站，詳細依據可展開查看。`,
-    route: `APA → 登別地獄谷／溫泉街午餐${normal.bridge ? " → 白鳥大橋（待決定）" : ""}${normal.cape ? " → 幸福之鐘（待決定）" : ""} → 藻岩山（必去）→ APA`,
+    intro: `藻岩山夜景必去；${stopsLabel}。${normal.bridge || normal.cape ? "完整試排包含目前清單中的室蘭備選，略過可提早抵達。" : ""}本表以 11/03 Google 車程 ×1.5＋各段停車／休息緩衝試排；×2 情境約 ${dayFourTime(conservative.moiwaArrival)} 抵藻岩山山麓站，詳細依據可展開查看。`,
+    route: `APA → 登別地獄谷／溫泉街午餐${normal.bridge ? " → 白鳥大橋（有空再去）" : ""}${normal.cape ? " → 幸福之鐘（有空再去）" : ""} → 藻岩山（必去）→ APA`,
     rows: normal.rows,
     driveReview: { normal, conservative },
     notes: [

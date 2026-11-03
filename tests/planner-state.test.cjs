@@ -73,6 +73,34 @@ test('current snapshots retain custom order and deliberately removed hotel or pa
   assert.deepEqual(plain(r.loadPlan()), plain(c.state.plan));
 });
 
+test('the previous D7 snapshot removes only the D2 scenery stop and saves the result', () => {
+  const c = setup(), r = c.runtime;
+  c.state.plan[2] = ['furano-field', 'biei-shrine', 'hinode-park', 'kamifurano-mansaku', 'ningle-terrace', 'furano-kumagera', 'apa-sapporo-susukino-ekinishi'];
+  c.state.plan[4] = ['tenkatsu-honten-muroran'];
+  c.state.plan[5] = ['unagi-nakajima'];
+  c.state.plan[7] = ['toyako-lake', 'makkari-village', 'silo-observatory', 'konpira-crater-view', 'toya-kohan-tei'];
+  const before = plain(c.state.plan);
+  r.savePlan();
+  const snapshot = JSON.parse(c.values.get(r.localSnapshotKey));
+  snapshot.templateVersion = '2026-11-03-day7-route';
+  c.values.set(r.localSnapshotKey, JSON.stringify(snapshot));
+  const loaded = plain(r.loadPlan());
+  assert.deepEqual(loaded[2], before[2].filter(id => id !== 'furano-field'));
+  for (const day of [1, 3, 4, 5, 6, 7, 8, 9, 10]) assert.deepEqual(loaded[day], before[day]);
+  c.state.plan = loaded;
+  r.savePlan();
+  assert.deepEqual(plain(r.loadPlan()), loaded);
+});
+
+test('D2 scenery migration preserves a custom order and does not move scenery on another day', () => {
+  const c = setup(), r = c.runtime;
+  c.state.plan[2].reverse();
+  c.state.plan[1].push('furano-field');
+  c.values.set(r.planTemplateVersionKey, '2026-11-03-day7-route');
+  c.values.set(r.storageKey, JSON.stringify(c.state.plan));
+  assert.deepEqual(plain(r.loadPlan()), plain(c.state.plan));
+});
+
 test('the previous meeting snapshot corrects only the old D7 route and persists it', () => {
   const c = setup(), r = c.runtime;
   c.state.plan[7] = ['toyako-lake', 'makkari-village', 'silo-observatory', 'konpira-crater-view', 'toya-kohan-tei'];

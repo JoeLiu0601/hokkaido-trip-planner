@@ -21,6 +21,9 @@ test('D2 stays for evening lights then returns directly to the hotel', () => {
   assert.equal(d.rows.find(row => row[3]?.includes('ningle-terrace'))[0], '15:00–17:15');
   assert.equal(d.rows.find(row => row[3]?.includes('apa-sapporo-susukino-ekinishi'))[0], '22:00–22:40');
   assert.ok(!runtime.buildPlan()[2].includes('sapporo-odori'));
+  assert.ok(!runtime.buildPlan()[2].includes('furano-field'));
+  assert.equal(runtime.buildPlan()[2][0], 'biei-shrine');
+  assert.match(d.notes.join(' '), /富良野雪原.*沿途雪景備註/);
 });
 
 test('D7 default route follows its timing draft and omits the crater', () => {
