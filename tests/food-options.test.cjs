@@ -37,6 +37,30 @@ test('D2 candidates follow Hinode, fall back before lunch/terrace and stay out o
   assert.equal(f(['hinode-park']), -1);
 });
 
+test('D6 optional purchases stay near their anchors, avoid duplicates and preserve other days', () => {
+  const c = setup();
+  const before = JSON.stringify(c.state.plan);
+  c.state.selectedDay = 6;
+  function choose(id) {
+    let click;
+    const button = { dataset: { dayOption: id }, addEventListener(event, callback) { click = callback; } };
+    c.runtime.bindDayOptionButtons({ querySelectorAll: () => [button] }, 6, c.runtime.dayOptionalSpots[6]);
+    click();
+  }
+  choose('rokkatei-ario-sapporo');
+  choose('donki-tanukikoji');
+  choose('sandria-honten');
+  choose('donki-tanukikoji');
+  const stops = c.state.plan[6];
+  assert.equal(stops[stops.indexOf('ario-sapporo') + 1], 'rokkatei-ario-sapporo');
+  assert.equal(stops[stops.indexOf('3coins-pole-town') + 1], 'donki-tanukikoji');
+  assert.equal(stops.filter(id => id === 'donki-tanukikoji').length, 1);
+  assert.equal(c.edits(), 3);
+  const after = JSON.parse(JSON.stringify(c.state.plan));
+  after[6] = JSON.parse(before)[6];
+  assert.equal(JSON.stringify(after), before);
+});
+
 test('choosing then changing lunch keeps one restaurant after Hinode and preserves stored meals', () => {
   const c = setup(), meals = JSON.stringify(c.state.mealPlan), d6 = JSON.stringify(c.state.plan[6]);
   c.choose('kamifurano-marumasu');

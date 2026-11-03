@@ -44,6 +44,7 @@
 .workspace.is-travel #itinerary-list,
 .workspace.is-travel #itinerary-dropzone,
 .workspace.is-travel .meal-planner { display: none; }
+.workspace.is-travel:not(.is-overview) #day-options-shell[data-day="6"]:not([hidden]) { display: block; }
 .workspace.is-travel .itinerary-panel > .panel-head { display: none; }
 .journey-view { min-width: 0; }
 .journey-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin: 4px 0 14px; }

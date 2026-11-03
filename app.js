@@ -588,17 +588,39 @@ const spots = [
   },
   {
     id: "donki-tanukikoji",
-    name: "唐吉訶德 狸小路店",
+    name: "MEGA 唐吉訶德 札幌狸小路本店",
     area: "札幌",
     type: "購物中心",
     season: ["winter"],
     time: "1h",
     best: "藥妝、零食、伴手禮、狸小路",
-    desc: "位在狸小路商店街中心，從大通、Pole Town 與薄野都能步行串接。適合晚上採買藥妝、零食與伴手禮，不需要特地開車前往。",
+    desc: "狸小路的 24 小時大型採買店，從大通、Pole Town 與薄野可步行串接。建議 D6 逛狸小路時預留 60–90 分鐘，含結帳與退稅緩衝，買完回 APA 整理；不必另外繞去函館店。醫藥品須在合資格人員在勤時購買。",
     highlight: "狸小路採買"
   },
 
   // 札幌美食
+  {
+    id: "sandria-honten",
+    name: "サンドリア本店（24 小時三明治）",
+    area: "札幌",
+    type: "外帶美食",
+    season: ["winter"],
+    time: "20–30 分鐘",
+    best: "雙蛋三明治、外帶早餐、宵夜",
+    desc: "札幌老字號外帶三明治店，雙蛋三明治是人氣口味。一般 24 小時營業，適合札幌住宿期間當早餐或宵夜備選，不必特地排一餐。札幌官方觀光頁列 12/31–1/2 休息；今年年末安排仍請行前確認。",
+    highlight: "早餐／宵夜備選"
+  },
+  {
+    id: "rokkatei-ario-sapporo",
+    name: "六花亭 Ario 札幌店（伴手禮）",
+    area: "札幌",
+    type: "甜點",
+    season: ["winter"],
+    time: "20–30 分鐘",
+    best: "奶油葡萄夾心餅、草莓巧克力、伴手禮",
+    desc: "位在 Ario 札幌 1F，可利用 D6 原本的商場停留順便採買，不必再跑札幌本店。想買六花亭可優先在這裡處理；D8 五稜郭店保留為有空才去的甜點休息備選。此店一般 10:00–21:00，年末特別營業另確認。",
+    highlight: "D6 商場內順買"
+  },
   {
     id: "sapporo-ramen-yokocho",
     name: "札幌拉麵橫丁（味噌拉麵）",
@@ -673,7 +695,7 @@ const spots = [
     season: ["winter"],
     time: "2h",
     best: "商場、餐廳、超市、親子設施",
-    desc: "位在札幌啤酒博物館旁的大型商場，冬天很適合當作室內逛街、補給和用餐備案。JR 苗穗站北口步行約 3 分鐘。",
+    desc: "位在札幌啤酒博物館旁的大型商場，冬天很適合當作室內逛街、補給和用餐備案。JR 苗穗站北口步行約 3 分鐘。D6 可在 1F 六花亭順買伴手禮，商場停留內先留 20–30 分鐘即可，不必另跑一家。",
     highlight: "博物館旁商場"
   },
   {
@@ -1565,8 +1587,24 @@ const spotLogistics = {
     access: "JR 札幌站直結，下雪天移動最省力"
   },
   "donki-tanukikoji": {
-    hours: "營業時間與年末年始安排請以店鋪公告為準",
-    access: "地址：札幌市中央区南3条西4丁目12-1。狸小路商店街內，從大通、Pole Town、薄野皆可步行串接"
+    hours: "一般 24 小時營業、無固定店休；醫藥品僅在合資格人員在勤時販售，年末及退稅服務時間另確認",
+    access: "地址：札幌市中央区南3条西4丁目12-1。導航請選 MEGAドン・キホーテ札幌狸小路本店，從大通、Pole Town、薄野可步行串接；不需特地開車",
+    infoUrl: "https://www.donki.com/store/shop_detail.php?shop_id=555",
+    checkedAt: "2026/11/04"
+  },
+  "sandria-honten": {
+    hours: "本店一般 24 小時；官方觀光頁列 12/31–1/2 休息，2026–2027 年末特別營業待確認",
+    access: "地址：札幌市中央区南8条西9丁目758-14。APA 薄野站西出發可步行，雪天依現場路況預留時間；外帶專門店，不是屯田店。官網公告已停止預約、預留及配送，現場購買",
+    infoUrl: "https://www.s-sandwich.com/",
+    foodUrl: "https://www.sapporo.travel/gourmet/shop/sandria/",
+    foodUrlLabel: "札幌官方觀光：地址與年末店休",
+    checkedAt: "2026/11/04"
+  },
+  "rokkatei-ario-sapporo": {
+    hours: "Ario 店舖頁列 10:00–21:00；年末特別營業另確認",
+    access: "Ario 札幌 1F：札幌市東区北7条東9丁目2-20。與 D6 Ario 行程同一商場，館內步行即可，不用另外搭車",
+    infoUrl: "https://sapporo.ario.jp/shop/1100000112/",
+    checkedAt: "2026/11/04"
   },
   "shiroi-koibito-park": {
     tickets: "庭院與購物免費；付費參觀成人 ¥1,200",
@@ -1930,6 +1968,9 @@ const dayDepartures = {
 };
 
 const drivingPlaceOverrides = {
+  "sandria-honten": "サンドリア本店 札幌市中央区南8条西9丁目758-14",
+  "rokkatei-ario-sapporo": "六花亭 アリオ札幌店 札幌市東区北7条東9丁目2-20 1F",
+  "donki-tanukikoji": "MEGAドン・キホーテ札幌狸小路本店 札幌市中央区南3条西4丁目12-1",
   "furano-kumagera": "くまげら 北海道富良野市日の出町3-22",
   "furano-yuiga-doxon": "唯我独尊 北海道富良野市日の出町11-8",
   "kamifurano-marumasu": "焼肉 まるます 北海道上富良野町緑町2丁目1-17",
@@ -2791,10 +2832,12 @@ function getStopNavigationMode(day, index, spotId) {
   }
   const previous = stops[index - 1];
   if (day === 5 || day === 6) {
+    if ([previous, spotId].every(id => ["ario-sapporo", "rokkatei-ario-sapporo"].includes(id))) return "walking";
     if (getKnownWalkingLeg(day, index, spotId)) return "walking";
     if (day === 5 && ["nakajima-park", "unagi-nakajima"].includes(spotId)
       && (index === 0 || ["nakajima-park", "unagi-nakajima"].includes(previous))) return "walking";
     const downtown = ["kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka", "sapporo-susukino", "sapporo-odori", "apa-sapporo-susukino-ekinishi", "samurai-cocono-susukino", "kushidori-susukino-nishi5"];
+    downtown.push("donki-tanukikoji", "sandria-honten");
     if (day === 6 && downtown.includes(spotId) && (index === 0 || downtown.includes(previous))) return "walking";
     return "transit";
   }
@@ -4557,6 +4600,11 @@ const dayOptionalSpots = {
     note: "在登別溫泉街、閻魔堂附近吃午餐，約 11:00 開始用餐；溫泉市場、喫茶田園是候選，依當天想吃的口味與候位決定，尚未預約。12/26 營業與供餐行前確認。",
     ids: ["noboribetsu-onsen-ichiba", "noboribetsu-cafe-denen"]
   },
+  6: {
+    title: "D6 採買與輕食備選",
+    note: "有空再選，不必全部加入。六花亭可在原本 Ario 停留內順買；唐吉訶德接狸小路採買，三明治可當早餐或宵夜。正式加入後請依當天體力調整其他停留，原試排不會自動多出購物時間。",
+    ids: ["rokkatei-ario-sapporo", "donki-tanukikoji", "sandria-honten"]
+  },
   9: {
     title: "D9 早上備選・五稜郭公園",
     note: "只在 D8 沒逛到、當天仍想去時採用，也可以不補。函館駅前搭市電 2 或 5 系統往湯の川，在五稜郭公園前下車，再步行約 15–20 分；回程搭往谷地頭／函館どつく前的市電回函館駅前。公園短逛約 20–30 分，含往返先留約 2–2.5 小時。需提早出門並重估八幡坂、金森時段，保留 14:45 抵函館山纜車山麓站的目標。按鈕會把 D8 的公園移到 D9 最前面，不重複安排。",
@@ -4708,6 +4756,10 @@ function bindDayOptionButtons(panel, day, options) {
           const valleyIndex = stops.indexOf("noboribetsu-valley");
           insertion = valleyIndex >= 0 ? valleyIndex + 1 : stops.findIndex(spotId => [...dayFourOptionalStopIds, "moiwa-yama"].includes(spotId));
         }
+      } else if (day === 6) {
+        const anchor = id === "rokkatei-ario-sapporo" ? "ario-sapporo" : id === "donki-tanukikoji" ? "3coins-pole-town" : null;
+        const anchorIndex = anchor ? stops.indexOf(anchor) : -1;
+        insertion = anchorIndex >= 0 ? anchorIndex + 1 : stops.indexOf("apa-sapporo-susukino-ekinishi");
       } else if (day === 9) {
         insertion = 0;
       } else if (day === 10) {
@@ -5008,6 +5060,7 @@ const shoppingSpotIds = new Set([
   "donki-tanukikoji",
   "ario-sapporo",
   "3coins-pole-town",
+  "rokkatei-ario-sapporo",
   "marui-imai-hakodate",
   "share-star-hakodate",
   "kiralis-hakodate",
