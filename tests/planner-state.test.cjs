@@ -64,6 +64,43 @@ test('a failed legacy-key write does not invalidate the saved complete snapshot'
   assert.notEqual(c.store.getItem(r.storageKey), JSON.stringify(c.state.plan));
 });
 
+test('a saved former D2 church backup drops the park without changing D5 or other days', () => {
+  for (const includeChurch of [true, false]) {
+    const c = setup(), r = c.runtime;
+    c.state.plan[2] = ['sunagawa-highway-oasis', 'apa-sapporo-susukino-ekinishi', 'shiroi-koibito-park', 'miyanomori-frances-church', 'sapporo-susukino'];
+    if (!includeChurch) c.state.plan[2] = c.state.plan[2].filter(id => id !== 'miyanomori-frances-church');
+    c.state.cloudPending = false;
+    const before = plain(c.state.plan);
+    r.savePlan();
+    const loaded = plain(r.loadPlan());
+    assert.deepEqual(loaded[2], before[2].filter(id => id !== 'shiroi-koibito-park'));
+    for (let day = 1; day <= 10; day++) if (day !== 2) assert.deepEqual(loaded[day], before[day]);
+    assert.equal(r.loadCloudPending(), true);
+    c.state.plan = loaded;
+    r.savePlan();
+    assert.deepEqual(plain(r.loadPlan()), loaded);
+  }
+});
+
+test('removed restaurants are cleared from current snapshots and queued for synchronization', () => {
+  const c = setup(), r = c.runtime, removed = 'tenkatsu-honten-muroran';
+  c.state.plan[4].splice(1, 0, removed);
+  c.state.plan[8].push(removed);
+  c.state.cloudPending = false;
+  const before = plain(c.state.plan);
+  r.savePlan();
+  assert.equal(r.loadCloudPending(), false);
+  const loaded = plain(r.loadPlan());
+  for (let day = 1; day <= 10; day++) assert.deepEqual(loaded[day], before[day].filter(id => id !== removed));
+  assert.equal(r.loadCloudPending(), true);
+  c.state.plan = loaded;
+  c.state.cloudPending = r.loadCloudPending();
+  r.savePlan();
+  const snapshot = JSON.parse(c.values.get(r.localSnapshotKey));
+  assert.equal(Object.values(snapshot.plan).flat().includes(removed), false);
+  assert.deepEqual(plain(r.loadPlan()), loaded);
+});
+
 test('current snapshots retain custom order and deliberately removed hotel or park stops', () => {
   const c = setup(), r = c.runtime;
   c.state.plan[2] = c.state.plan[2].filter(id => id !== 'apa-sapporo-susukino-ekinishi');
@@ -76,7 +113,7 @@ test('current snapshots retain custom order and deliberately removed hotel or pa
 test('the previous D7 snapshot removes only the D2 scenery stop and saves the result', () => {
   const c = setup(), r = c.runtime;
   c.state.plan[2] = ['furano-field', 'biei-shrine', 'hinode-park', 'kamifurano-mansaku', 'ningle-terrace', 'furano-kumagera', 'apa-sapporo-susukino-ekinishi'];
-  c.state.plan[4] = ['tenkatsu-honten-muroran'];
+  c.state.plan[4] = ['noboribetsu-cafe-denen'];
   c.state.plan[5] = ['unagi-nakajima'];
   c.state.plan[7] = ['toyako-lake', 'makkari-village', 'silo-observatory', 'konpira-crater-view', 'toya-kohan-tei'];
   const before = plain(c.state.plan);
@@ -92,19 +129,21 @@ test('the previous D7 snapshot removes only the D2 scenery stop and saves the re
   assert.deepEqual(plain(r.loadPlan()), loaded);
 });
 
-test('D2 scenery migration preserves a custom order and does not move scenery on another day', () => {
+test('retired scenery is removed from another day without reordering the remaining stops', () => {
   const c = setup(), r = c.runtime;
   c.state.plan[2].reverse();
   c.state.plan[1].push('furano-field');
   c.values.set(r.planTemplateVersionKey, '2026-11-03-day7-route');
   c.values.set(r.storageKey, JSON.stringify(c.state.plan));
-  assert.deepEqual(plain(r.loadPlan()), plain(c.state.plan));
+  const expected = plain(c.state.plan);
+  expected[1] = expected[1].filter(id => id !== 'furano-field');
+  assert.deepEqual(plain(r.loadPlan()), expected);
 });
 
 test('the previous meeting snapshot corrects only the old D7 route and persists it', () => {
   const c = setup(), r = c.runtime;
   c.state.plan[7] = ['toyako-lake', 'makkari-village', 'silo-observatory', 'konpira-crater-view', 'toya-kohan-tei'];
-  c.state.plan[4] = ['tenkatsu-honten-muroran'];
+  c.state.plan[4] = ['noboribetsu-cafe-denen'];
   c.state.plan[5] = ['unagi-nakajima'];
   c.state.plan[8].reverse();
   const before = plain(c.state.plan);
@@ -150,7 +189,7 @@ test('the previous night-review version updates D8 and adds only the D5 meeting 
 test('tower-night snapshot gains D5 meeting without replaying D4 or D8 migrations', () => {
   const c = setup(), r = c.runtime;
   c.state.plan[5] = ['unagi-nakajima'];
-  c.state.plan[4] = ['tenkatsu-honten-muroran'];
+  c.state.plan[4] = ['noboribetsu-cafe-denen'];
   c.state.plan[8] = ['lagent-hakodate-ekimae', 'lucky-pierrot-goryokaku', 'goryokaku-tower'];
   c.state.plan[6].reverse();
   r.savePlan();

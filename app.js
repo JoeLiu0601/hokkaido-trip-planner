@@ -319,17 +319,6 @@ const spots = [
     highlight: "Day5 鰻魚飯"
   },
   {
-    id: "furano-field",
-    name: "富良野雪原",
-    area: "富良野",
-    type: "自然風景",
-    season: ["winter"],
-    time: "沿途彈性短停",
-    best: "雪原、農場、慢旅行",
-    desc: "富良野沿途的區域雪景，沒有單一指定入口。D2 改列沿途備註，僅在確認可停車、可進入的觀景處彈性短停，不進農地或停在雪地路肩。",
-    highlight: "白色風景"
-  },
-  {
     id: "ningle-terrace",
     name: "精靈露臺",
     area: "富良野",
@@ -416,13 +405,13 @@ const spots = [
     season: ["winter"],
     time: "1h",
     best: "閻魔堂、鬼像、伴手禮、小吃、溫泉街散步",
-    desc: "地獄谷入口旁的溫泉商店街，餐廳、甜點與伴手禮店集中。走完地獄谷後可順路看閻魔堂與街上的鬼像，停留約 45-60 分鐘；想吃温泉市場海鮮或登別閻魔炒麵可少量品嘗，把正餐留給室蘭天勝本店。",
+    desc: "地獄谷入口旁的溫泉商店街，餐廳、甜點與伴手禮店集中。走完地獄谷後可順路看閻魔堂與街上的鬼像，散步約 45-60 分鐘，再於附近吃午餐；溫泉市場、喫茶田園保留為用餐候選，依當天想吃的口味決定。",
     highlight: "Day4 散步小吃"
   },
   {
     id: "noboribetsu-onsen-ichiba",
     name: "溫泉市場（海鮮／閻魔炒麵）",
-    area: "登別溫泉",
+    area: "登別",
     type: "在地美食",
     season: ["winter"],
     time: "0.5–1h",
@@ -433,7 +422,7 @@ const spots = [
   {
     id: "noboribetsu-cafe-denen",
     name: "喫茶田園（閻魔炒麵／蛋包飯）",
-    area: "登別溫泉",
+    area: "登別",
     type: "咖啡・洋食",
     season: ["winter"],
     time: "0.5–1h",
@@ -955,17 +944,6 @@ const spots = [
     highlight: "短停拍照"
   },
   {
-    id: "tenkatsu-honten-muroran",
-    name: "天勝本店（天丼）",
-    area: "室蘭",
-    type: "天丼",
-    season: ["winter"],
-    time: "1h",
-    best: "老字號天丼、蝦天婦羅、室蘭午餐",
-    desc: "室蘭站附近的大正時代老字號，以醬汁浸潤的蝦天丼聞名。熱門時段可能提早售完，且常見只收現金，適合放在室蘭展望行程的午餐時段。",
-    highlight: "室蘭老字號"
-  },
-  {
     id: "makkari-village",
     name: "真狩村",
     area: "二世谷",
@@ -1050,7 +1028,7 @@ const spots = [
     season: ["winter"],
     time: "0.5–1h",
     best: "D2 晚間備選、宮の森フランセス教会、庭園燈飾",
-    desc: "Day 2 天候備案（Plan B）中的夜間安排，接在白色戀人公園後，再到薄野吃飯。過往燈飾為 17:00–20:00、免費；2026/12/24 開放、點燈與聖誕活動尚未核實。婚禮或包場可能限制入場，請先電話確認能否一般參觀；若不開放或時間不足，可略過教會直接前往薄野。",
+    desc: "Day 2 天候備案（Plan B）中的夜間安排，先在 APA 入住休息，確認開放後再前往，之後回薄野吃飯。過往燈飾為 17:00–20:00、免費；2026/12/24 開放、點燈與聖誕活動尚未核實。婚禮或包場可能限制入場，請先電話確認能否一般參觀；若不開放或時間不足，可略過教會直接前往薄野。",
     highlight: "D2 夜間備案"
   },
   {
@@ -1227,7 +1205,8 @@ const winterTemplate = {
   ]
 };const legacyDayTwoBackup = ["sapporo-odori", "shiroi-koibito-park", "sapporo-susukino"];
 const previousDayTwoBackup = ["sunagawa-highway-oasis", "apa-sapporo-susukino-ekinishi", "shiroi-koibito-park", "sapporo-susukino"];
-const dayTwoBackup = ["sunagawa-highway-oasis", "apa-sapporo-susukino-ekinishi", "shiroi-koibito-park", "miyanomori-frances-church", "sapporo-susukino"];
+const formerDayTwoChurchBackup = ["sunagawa-highway-oasis", "apa-sapporo-susukino-ekinishi", "shiroi-koibito-park", "miyanomori-frances-church", "sapporo-susukino"];
+const dayTwoBackup = ["sunagawa-highway-oasis", "apa-sapporo-susukino-ekinishi", "miyanomori-frances-church", "sapporo-susukino"];
 
 const winterProfile = {
   label: "12/23-1/1",
@@ -1242,7 +1221,7 @@ const dayFourOptionalStopIds = ["muroran-hakucho-bridge-view", "happiness-bell"]
 
 const daySummaries = {
   "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先試排約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住試排約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
-  "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景；富良野雪原改為沿途欣賞的備註，不另排固定站點。約 18:30 在富良野吃完晚餐出發，約 22:00 到札幌 APA。也可提早離開、沿途補餐。大通與薄野僅留彈性備選，晚到不再硬逛。",
+  "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景。約 18:30 在富良野吃完晚餐出發，約 22:00 到札幌 APA。也可提早離開、沿途補餐。大通與薄野僅留彈性備選，晚到不再硬逛。",
   "3": "上午安排札幌神社巡禮，手稻放在前往小樽途中，接著吃午餐、逛玻璃店與童話十字路，再看天黑後的運河。完整時間試排另列建議順序供 review。 童話十字路後加入天狗山夜景，運河仍保留；四座神社全走再加天狗山會偏滿，優先刪減彈性神社。",
   "4": "06:30 從 APA 出發，主線是登別地獄谷、溫泉街午餐與藻岩山夜景。白鳥大橋、幸福之鐘列為有空再去，建議最多挑一處；路況不佳就午餐後直接前往藻岩山。完整試排包含清單中的室蘭備選，實際略過可提早抵達。已用 11/03 Google 地圖逐段核對，分開試算 ×1.5／×2 加停車休息緩衝；兩點都去的 ×2 情境約 20:05 才到山麓，兩點皆略過約 16:10，可保留夜景時間。",
   "5": "白天分組：A 線中島公園、鰻魚飯與市區休息後搭地鐵到白色戀人公園；B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA；雪天與停車先留至 16:30 的會合緩衝。藻岩山夜景維持 D4。",
@@ -1761,10 +1740,6 @@ const spotLogistics = {
     infoUrl: "https://www.city.muroran.lg.jp/content/?content=1559",
     checkedAt: "2026/10/12"
   },
-  "tenkatsu-honten-muroran": {
-    hours: "常見平日 11:00-18:00、週末及假日 11:00-18:30；週四休息，售完可能提早結束",
-    access: "地址：室蘭市中央町2丁目3-16。JR 室蘭站步行約 2-3 分鐘；店前無停車位，可使用附近指定停車場，常見僅收現金"
-  },
   "makkari-village": {
     hours: "鄉村景觀點全天可停留；冬季請以除雪道路為主",
     access: "從二世谷/洞爺湖方向自駕順路，適合挑安全停車點拍羊蹄山"
@@ -1983,7 +1958,7 @@ const drivingPlaceOverrides = {
 
 const unspecifiedDrivingStops = new Set([
   "asahikawa-heiwa-dori", "sapporo-odori", "sapporo-susukino", "otaru-canal",
-  "otaru-sakaimachi", "otaru-meruhen-crossing", "furano-field", "yotei-mountain",
+  "otaru-sakaimachi", "otaru-meruhen-crossing", "yotei-mountain",
   "toyako-lake", "noboribetsu-onsen-street", "soup-curry", "sapporo-ramen-yokocho",
   "kinotoya-bake-pole-town", "3coins-pole-town",
   "makkari-village", "konpira-crater-view", "motomachi", "seicomart-hot-chef"
@@ -2419,13 +2394,15 @@ function loadPlan() {
       accumulator[day] = Array.isArray(parsed[day]) ? parsed[day].filter((id) => spotById(id)) : [];
       return accumulator;
     }, {});
+    const normalizedChanged = Object.keys(winterTemplate).some((key) => {
+      const day = Number(key);
+      return !planStopsEqual(Array.isArray(parsed[day]) ? parsed[day] : [], plan[day]);
+    });
+    loadedPlanNeedsSave = loadedPlanNeedsSave || normalizedChanged;
+    loadedPlanNeedsSync = loadedPlanNeedsSync || normalizedChanged;
 
     if (previousPlanTemplateVersions.includes(storedTemplateVersion)) {
       loadedPlanNeedsSave = true;
-      const normalizedChanged = Object.keys(winterTemplate).some((key) => {
-        const day = Number(key);
-        return !planStopsEqual(Array.isArray(parsed[day]) ? parsed[day] : [], plan[day]);
-      });
       // The 9/30 template already had check-ins. Do not run older hotel/AEON insertion again.
       const legacyChanged = ![hotelCheckInTemplateVersion, itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion, dayNineHachimanzakaTemplateVersion].includes(storedTemplateVersion) && migratePreviousTemplate(plan);
       const optionsChanged = ![itineraryOptionsTemplateVersion, dayEightRoutingTemplateVersion, dayTwoEightRoutingTemplateVersion, dayNineHachimanzakaTemplateVersion].includes(storedTemplateVersion) && migrateHakodateOptions(plan);
@@ -2452,6 +2429,11 @@ function loadPlan() {
     if (storedTemplateVersion !== currentPlanTemplateVersion) {
       loadedPlanNeedsSave = true;
       loadedPlanNeedsSync = migrateDayTwoSceneryPlan(plan) || loadedPlanNeedsSync;
+    }
+    if ([formerDayTwoChurchBackup, previousDayTwoBackup].some(ids => planStopsEqual(plan[2], ids))) {
+      plan[2] = plan[2].filter(id => id !== "shiroi-koibito-park");
+      loadedPlanNeedsSave = true;
+      loadedPlanNeedsSync = true;
     }
     const beforeRequiredStops = JSON.stringify(plan);
     ensureRequiredStops(plan);
@@ -2862,13 +2844,13 @@ function isDayTenTimingDraftApplicable() {
 function getDailyTimingDraft(day) {
   const stops = state.plan[day] || [];
   if (day === 4) return buildDayFourTimingDraft(stops);
-  const hasFuranoRoute = stops.some((id) => ["biei-shrine", "hinode-park", "ningle-terrace", "furano-field"].includes(id));
-  if (day === 2 && !hasFuranoRoute && stops.includes("shiroi-koibito-park")) return dayTwoBackupTimingDraft;
+  const hasFuranoRoute = stops.some((id) => ["biei-shrine", "hinode-park", "ningle-terrace"].includes(id));
+  if (day === 2 && !hasFuranoRoute && stops.includes("apa-sapporo-susukino-ekinishi")
+    && stops.some(id => ["sunagawa-highway-oasis", "miyanomori-frances-church", "sapporo-susukino"].includes(id))) return dayTwoBackupTimingDraft;
   return dailyTimingDrafts[day] || null;
 }
 
 function isDailyTimingDraftApplicable(day) {
-  if (day === 4 && state.plan[day]?.includes("tenkatsu-honten-muroran")) return false;
   if (day === 2 && [dayTwoLunchIds, ["furano-kumagera", "furano-yuiga-doxon"]].some(ids => ids.filter(id => state.plan[day]?.includes(id)).length > 1)) return false;
   const draft = getDailyTimingDraft(day);
   if (!draft) return false;
@@ -4529,7 +4511,7 @@ function renderDayAlternative() {
       <button type="button" class="small-button" data-alternative="A" aria-pressed="${!backup}">原行程</button>
       <button type="button" class="small-button" data-alternative="B" aria-pressed="${backup}">Plan B · 札幌景點版</button>
     </div>
-    <p>${backup ? "假設不幸遇到火山活動或道路管制，導致美瑛、富良野支線無法通行，就切換 Plan B：從旭川出發，途中在砂川 Highway Oasis 休息補給，抵達札幌先到 APA 飯店入住，再前往白色戀人公園、宮之森佛朗西斯教會，最後到薄野吃飯。" : "保留美瑛、富良野的安排，再前往札幌；若曾套用備案，這裡會還原切換前的景點順序。"}</p>
+    <p>${backup ? "假設不幸遇到火山活動或道路管制，導致美瑛、富良野支線無法通行，就切換 Plan B：從旭川出發，途中在砂川 Highway Oasis 休息補給，抵達札幌先到 APA 飯店寄放行李、入住休息；晚間確認宮之森佛朗西斯教會開放後再前往，最後到薄野吃飯。" : "保留美瑛、富良野的安排，再前往札幌；若曾套用備案，這裡會還原切換前的景點順序。"}</p>
     <p class="alternative-route">${ids.map((id) => escapeHtml(spotById(id).name)).join(" → ") || "尚未安排景點"}</p>
     ${backup ? `<p>宮之森教會 2026/12/24 點燈與一般參觀仍待確認；婚禮或包場可能不開放，先電話確認。若時間不足或不能入場，略過教會直接到薄野。</p>` : ""}
     <p>遇封路或不適合開車時，先留在安全地點確認交通狀況。切換後請重新確認用餐地點與營業時間。</p>
@@ -4572,8 +4554,8 @@ const dayOptionalSpots = {
   },
   4: {
     title: "D4 午餐與溫泉街美食備選",
-    note: "主線優先在登別溫泉街吃午餐，約 11:00 開始用餐後再前往室蘭。溫泉市場只是候選、尚未預約；天勝只在當天特別想吃天丼時改選，選用後請移除溫泉市場，避免連排兩餐。12/26 營業與供餐行前確認。",
-    ids: ["noboribetsu-onsen-ichiba", "noboribetsu-cafe-denen", "tenkatsu-honten-muroran"]
+    note: "在登別溫泉街、閻魔堂附近吃午餐，約 11:00 開始用餐；溫泉市場、喫茶田園是候選，依當天想吃的口味與候位決定，尚未預約。12/26 營業與供餐行前確認。",
+    ids: ["noboribetsu-onsen-ichiba", "noboribetsu-cafe-denen"]
   },
   9: {
     title: "D9 早上備選・五稜郭公園",
@@ -4705,13 +4687,12 @@ function bindDayOptionButtons(panel, day, options) {
         }
       } else if (day === 4) {
         const streetIndex = stops.indexOf("noboribetsu-onsen-street");
-        if (id === "tenkatsu-honten-muroran") {
-          insertion = stops.indexOf("muroran-hakucho-bridge-view");
-        } else if (streetIndex >= 0) {
+        if (streetIndex >= 0) {
           insertion = streetIndex + 1;
           while (insertion < stops.length && dayOptionalSpots[day].ids.includes(stops[insertion])) insertion += 1;
         } else {
-          insertion = stops.indexOf("tenkatsu-honten-muroran");
+          const valleyIndex = stops.indexOf("noboribetsu-valley");
+          insertion = valleyIndex >= 0 ? valleyIndex + 1 : stops.findIndex(spotId => [...dayFourOptionalStopIds, "moiwa-yama"].includes(spotId));
         }
       } else if (day === 9) {
         insertion = 0;
@@ -5263,7 +5244,7 @@ function renderSummary() {
     dom.focusTitle.textContent = `Day ${day} · ${tripDates[day - 1]}`;
     dom.focusDesc.textContent = daySpots.length
       ? (day === 2 && isDayTwoBackup()
-          ? "Plan B：假設美瑛、富良野方向因火山活動或道路管制無法通行，從旭川出發，途中在砂川 Highway Oasis 休息補給。抵達札幌先到 APA 飯店入住，再走白色戀人公園、宮之森佛朗西斯教會，最後到薄野吃飯；教會當晚開放需先確認。"
+          ? "Plan B：假設美瑛、富良野方向因火山活動或道路管制無法通行，從旭川出發，途中在砂川 Highway Oasis 休息補給。抵達札幌先到 APA 飯店寄放行李、入住休息，確認宮之森佛朗西斯教會開放後再前往，最後到薄野吃飯。"
           : JSON.stringify(state.plan[day]) === JSON.stringify(winterTemplate[day])
             ? daySummaries[day]
             : `從${dayBaseAreas[day]}出發，安排${dayAreas.join("、")}共 ${daySpots.length} 個點位，包含${[...new Set(daySpots.map((spot) => spot.type))].slice(0, 3).join("、")}。`)

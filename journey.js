@@ -218,15 +218,32 @@
     return `<g data-pals-marker class="journey-pals-marker" transform="${companionGroupTransform(point.x, point.y)}" aria-hidden="true">${pals.map((pal, index) => `<g data-map-companion="${pal.id}" transform="translate(${index * (width + 6)} 0)"><g class="journey-pal-motion motion-${pal.id}"><image class="journey-pal-${pal.id}" href="${pal.src}" width="${width}" height="${height}" preserveAspectRatio="xMidYMid meet" /></g></g>`).join("")}</g>`;
   }
 
+  function playbackOrigin(ids) {
+    const departure = dayDepartures[state.selectedDay];
+    if (!departure || !ids.length) return null;
+    return { id: `day-${state.selectedDay}-departure`, name: departure.name,
+      shortName: departure.hotel.note, type: "飯店出發", departure };
+  }
+
+  function playbackSpot(id) {
+    return id === playback?.origin?.id ? playback.origin : spotById(id);
+  }
+
+  function nextPlaybackStop() {
+    return playback?.stops.find(stop => !stop.origin && statusFor(stop.id) === "pending");
+  }
+
   function createPlayback(ids) {
+    const origin = playbackOrigin(ids);
     const timed = state.selectedDay === 1 && isDayOneTimingDraftApplicable()
       && ids.every((id) => /^\d{2}:\d{2}–\d{2}:\d{2}$/.test(dayOneTimingDraft[id]?.time || ""));
     const stops = ids.map((id, index) => {
       const time = timed && /^(\d{2}):(\d{2})–(\d{2}):(\d{2})$/.exec(dayOneTimingDraft[id]?.time || "");
       return time ? { id, start: Number(time[1]) * 60 + Number(time[2]), end: Number(time[3]) * 60 + Number(time[4]) }
-        : { id, start: index * 100, end: index * 100 };
+        : { id, start: (index + (origin ? 1 : 0)) * 100, end: (index + (origin ? 1 : 0)) * 100 };
     });
-    return { stops, timed, winter: state.selectedDay === 1 && ids.length > 0 && ids.every((id) => winterStops[id]), min: stops[0]?.start || 0, max: Math.max((stops.at(-1)?.end || 0), (stops[0]?.start || 0) + 1) };
+    if (origin) stops.unshift({ id: origin.id, start: 0, end: 0, origin: true });
+    return { stops, origin, timed, winter: state.selectedDay === 1 && ids.length > 0 && ids.every((id) => winterStops[id]), min: stops[0]?.start || 0, max: Math.max((stops.at(-1)?.end || 0), (stops[0]?.start || 0) + 1) };
   }
 
   function timeLabel(value) {
@@ -235,11 +252,12 @@
 
   function playbackPosition() {
     if (!playback?.stops.length) return null;
-    const actualNext = playback.stops.find((stop) => statusFor(stop.id) === "pending");
-    const position = Math.max(playback.min, Math.min(playback.max, previewPosition ?? actualNext?.start ?? playback.max));
+    const actualNext = nextPlaybackStop();
+    const initialPosition = playback.origin && actualNext === playback.stops[1] ? playback.min : actualNext?.start;
+    const position = Math.max(playback.min, Math.min(playback.max, previewPosition ?? initialPosition ?? playback.max));
     if (!playback.timed) {
       const index = Math.min(playback.stops.length - 1, Math.floor(position / 100));
-      return { position, id: playback.stops[index].id, from: index, to: Math.min(index + 1, playback.stops.length - 1), fraction: (position % 100) / 100, moving: false, label: `第 ${index + 1} 站` };
+      return { position, id: playback.stops[index].id, from: index, to: Math.min(index + 1, playback.stops.length - 1), fraction: (position % 100) / 100, moving: false, label: playback.stops[index].origin ? "出發點" : `第 ${index + (playback.origin ? 0 : 1)} 站` };
     }
     for (let index = 0; index < playback.stops.length; index += 1) {
       const stop = playback.stops[index];
@@ -275,6 +293,14 @@
   }
 
   function winterFocusCardHtml(id) {
+    if (id && id === playback?.origin?.id) {
+      const origin = playback.origin;
+      return `<div class="winter-focus-top"><span class="winter-focus-eyebrow">今天從這裡出發</span><span>${escapeHtml(origin.departure.time)} · 日本時間試排</span></div>
+        <h3 id="journey-next-title" tabindex="-1">${escapeHtml(origin.name)}</h3>
+        <p class="winter-focus-summary">${escapeHtml(origin.departure.note || (origin.departure.checkout ? "退房、帶齊行李後，前往今天第一站。" : "從飯店出發，遊覽後回同一間飯店休息。"))}</p>
+        <div class="winter-focus-actions"><a href="${escapeHtml(getAccommodationMapUrl(origin.departure.hotel))}" target="_blank" rel="noopener noreferrer">↗ 飯店地圖</a></div>
+        <button type="button" class="winter-return" data-player-return>↶ 回到實際進度</button>`;
+    }
     const spot = spotById(id);
     if (!spot) {
       const hasMainStops = Boolean(playback?.stops.length);
@@ -308,7 +334,7 @@
     if (mode !== "travel" || host.hidden) return;
     const position = playbackPosition();
     if (!position) return;
-    const actualNext = playback.stops.find((stop) => statusFor(stop.id) === "pending")?.id;
+    const actualNext = nextPlaybackStop()?.id;
     const cardId = previewPosition === null ? actualNext : position.id;
     const cardKey = `${cardId}|${previewPosition === null}`;
     if (focusedCardKey !== cardKey) {
@@ -328,12 +354,12 @@
     const label = host.querySelector("[data-player-time]");
     if (label) label.textContent = position.label;
     const caption = host.querySelector("[data-player-caption]");
-    if (caption) caption.textContent = `${position.moving ? "前往 " : ""}${spotById(position.id).name}`;
+    if (caption) caption.textContent = `${position.moving ? "前往 " : ""}${playbackSpot(position.id).name}`;
     const slider = host.querySelector("[data-player-slider]");
     const percent = (position.position - playback.min) / (playback.max - playback.min) * 100;
     if (slider) {
       slider.value = String(position.position);
-      slider.setAttribute("aria-valuetext", `${position.label} ${position.moving ? "前往" : ""}${spotById(position.id).name}`);
+      slider.setAttribute("aria-valuetext", `${position.label} ${position.moving ? "前往" : ""}${playbackSpot(position.id).name}`);
       slider.style.setProperty("--playback-fill", `${percent}%`);
     }
     const trail = host.querySelector(".journey-map-trail");
@@ -367,8 +393,9 @@
 
   function mapHtml(ids, nextId) {
     if (!ids.length) return "";
-    const { points, segments, path } = routeGeometry(ids);
-    const height = playback.winter ? 394 : Math.ceil(ids.length / 2) * 150 + 120;
+    const mapIds = playback.stops.map(stop => stop.id);
+    const { points, segments, path } = routeGeometry(mapIds);
+    const height = playback.winter ? 394 : Math.ceil(mapIds.length / 2) * 150 + 120;
     const background = playback.winter
       ? `<image href="assets/day1-winter-scene.svg?v=20261026-contrast" width="380" height="394" aria-hidden="true" />`
       : scenes.background(state.selectedDay, height);
@@ -387,16 +414,18 @@
         ${segments.map((segment, index) => `<path d="${segment.d}" data-route-segment="${index}" fill="none" stroke="none" />`).join("")}
         ${playback.winter ? mapCompanionsHtml() : ""}
         ${points.map((point, index) => {
-          const spot = spotById(point.id);
-          const status = statusFor(point.id);
-          const draft = getTimingDraftForStop(state.selectedDay, point.id);
-          const prefix = draft && playback.timed ? draft.time.slice(0,5) : `${index + 1} ·`;
-          const name = point.label || shortNames[point.id] || Array.from(spot.name).slice(0, 6).join("") + (Array.from(spot.name).length > 6 ? "…" : "");
+          const origin = point.id === playback.origin?.id;
+          const spot = playbackSpot(point.id);
+          const status = origin ? "departure" : statusFor(point.id);
+          const draft = origin ? null : getTimingDraftForStop(state.selectedDay, point.id);
+          const stopNumber = index + (playback.origin ? 0 : 1);
+          const prefix = origin ? "出發 ·" : draft && playback.timed ? draft.time.slice(0,5) : `${stopNumber} ·`;
+          const name = origin ? spot.shortName : point.label || shortNames[point.id] || Array.from(spot.name).slice(0, 6).join("") + (Array.from(spot.name).length > 6 ? "…" : "");
           return `<a href="#journey-next-title" role="button" data-preview-stop="${point.id}" aria-label="預覽${escapeHtml(spot.name)}">
-            ${!playback.winter ? scenes.icon(scenes.spotIcon(spot), point.x, point.y - 27, .48) : ""}
+            ${!playback.winter ? scenes.icon(origin ? "city" : scenes.spotIcon(spot), point.x, point.y - 27, .48) : ""}
             <rect class="journey-map-hit-area" x="${point.x - 32}" y="${point.y - 32}" width="64" height="64" rx="22" />
             <g data-map-stop="${point.id}" class="journey-map-stop winter-stop ${point.id === nextId ? "is-next" : ""} is-${status}">
-              <circle cx="${point.x}" cy="${point.y}" r="12" /><text x="${point.x}" y="${point.y + 4}" text-anchor="middle" class="winter-stop-number">${status === "done" ? "✓" : status === "skipped" ? "↷" : index + 1}</text>
+              <circle cx="${point.x}" cy="${point.y}" r="12" /><text x="${point.x}" y="${point.y + 4}" text-anchor="middle" class="winter-stop-number">${origin ? "起" : status === "done" ? "✓" : status === "skipped" ? "↷" : stopNumber}</text>
               <rect x="${point.lx}" y="${point.ly}" width="${point.width}" height="28" rx="14" />
               <text x="${point.lx + point.width / 2}" y="${point.ly + 18}" text-anchor="middle" class="winter-stop-label${playback.winter ? " is-day-one" : ""}">${prefix} ${escapeHtml(name)}</text>
             </g></a>`;
@@ -597,7 +626,7 @@
       <p class="journey-feedback" role="status" aria-live="polite" ${feedback ? "" : "hidden"}>${escapeHtml(feedback)}</p>
       ${state.selectedDay >= 2 && mainIds.length ? `<section class="day-timing-draft daily-timing-draft" aria-labelledby="journey-day-timing-title">${getDayTimingDraftHtml(state.selectedDay, "journey-day-timing-title")}</section>` : ""}
       <div class="winter-day-progress"><span>已完成 ${doneCount} / ${mainIds.length} 站${skippedCount ? ` · 略過 ${skippedCount}` : ""}</span><span>進度記在此裝置</span></div>
-      ${mainIds.length ? `<div class="journey-progress-track" role="progressbar" aria-label="今日處理進度，含完成與略過" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percentage}"><span style="width:${percentage}%"></span></div><details class="winter-route-details" open><summary>今天的地圖與播放 <span>${mainIds.length} 站 · 可展開／收合</span></summary>${mapHtml(mainIds, nextId)}</details>` : ""}
+      ${mainIds.length ? `<div class="journey-progress-track" role="progressbar" aria-label="今日處理進度，含完成與略過" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percentage}"><span style="width:${percentage}%"></span></div><details class="winter-route-details" open><summary>今天的地圖與播放 <span>${playback.origin ? "出發點＋" : ""}${mainIds.length} 站 · 可展開／收合</span></summary>${mapHtml(mainIds, nextId)}</details>` : ""}
       ${mainIds.length ? `<section class="journey-timeline-section"><h3>今天這樣走 <span>${isDayTimingDraftApplicable(state.selectedDay) ? "日本時間 · 初步試排" : "行程順序 · 停留時間參考"}</span></h3><ol class="journey-timeline">${timelineHtml(mainIds, nextId)}</ol></section>` : ""}
       ${optionalIds.length ? `<details class="journey-optional"><summary>有空再去 <span>${optionalIds.length} 個彈性選項</span></summary><p>隨體力與天候安排，晚到就留給下次。</p><ol class="journey-timeline">${optionalIds.map((id, index) => stopHtml(id, index, null)).join("")}</ol></details>` : ""}
       <p class="winter-footnote">北海道主題插畫，路線依目前排序，位置與距離非實際地圖。導航請點景點卡；風雪、排隊可能讓行程順延。</p>`;
