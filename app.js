@@ -587,14 +587,14 @@ const spots = [
     highlight: "車站正上方"
   },
   {
-    id: "apa-sogo",
-    name: "SOGO 札幌店（LOFT 同棟）",
+    id: "apa-sogo", // 保留既有 ID，讓已儲存行程也能取得修正後資料。
+    name: "LOFT モユク札幌店（moyuk 3F）",
     area: "札幌",
-    type: "百貨公司",
+    type: "生活雜貨",
     season: ["winter"],
     time: "1.5h",
     best: "文具、雜貨、生活選品",
-    desc: "SOGO 與 LOFT 同棟，LOFT 樓層的北海道限定雜貨很適合挑伴手禮，順遊大通非常方便。",
+    desc: "位在 moyuk SAPPORO 3F 的 LOFT，適合挑文具、生活雜貨與小禮物，可接狸小路或 Pole Town 逛街。一般 10:00–21:00，退稅受理 10:00–20:30；年末營業以當年度公告為準。先列為有空再逛，不另占必去景點時間。",
     highlight: "雜貨控必逛"
   },
   {
@@ -1583,6 +1583,12 @@ const spotLogistics = {
     infoUrl: "https://shop.pokemon.co.jp/ja/shop/pokemoncenter-sapporo/",
     checkedAt: "2026/11/04"
   },
+  "apa-sogo": {
+    hours: "一般 10:00–21:00；退稅受理 10:00–20:30，年末特別營業另確認",
+    access: "地址：札幌市中央区南2条西3丁目20 moyuk SAPPORO 3F。大通站步行約 3 分鐘、薄野站約 5 分鐘、市電狸小路站約 1 分鐘；可與 Pole Town、狸小路一起逛",
+    infoUrl: "https://www.loft.co.jp/shop_list/detail.php?shop_id=277OSCOLABO",
+    checkedAt: "2026/11/04"
+  },
   "daimaru-sapporo": {
     hours: "常見 10:00-20:00；餐廳樓層依店舖可能更晚",
     access: "JR 札幌站直結，適合和 Stellar Place、東急百貨串遊"
@@ -1985,6 +1991,7 @@ const dayDepartures = {
 };
 
 const drivingPlaceOverrides = {
+  "apa-sogo": "モユク札幌ロフト 札幌市中央区南2条西3丁目20 モユクサッポロ3階",
   "pokemon-center-sapporo": "ポケモンセンターサッポロ 大丸札幌店 8F 札幌市中央区北5条西4丁目7",
   "sandria-honten": "サンドリア本店 札幌市中央区南8条西9丁目758-14",
   "rokkatei-ario-sapporo": "六花亭 アリオ札幌店 札幌市東区北7条東9丁目2-20 1F",
