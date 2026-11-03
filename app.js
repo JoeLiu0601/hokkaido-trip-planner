@@ -521,6 +521,17 @@ const spots = [
 
   // 札幌百貨
   {
+    id: "pokemon-center-sapporo",
+    name: "寶可夢中心札幌（大丸 8F）",
+    area: "札幌",
+    type: "購物中心",
+    season: ["winter"],
+    time: "1h",
+    best: "寶可夢周邊、玩偶、札幌必逛",
+    desc: "已確認想去的寶可夢專賣店，位在札幌站直結的大丸札幌店 8F，可和大丸、Stellar Place 一起逛。一般營業時間 10:00–20:00，先留約 1 小時挑選周邊；年末特別營業、熱門商品販售與入場規則依官方公告，日期尚待安排。",
+    highlight: "必逛・日期待安排"
+  },
+  {
     id: "daimaru-sapporo",
     name: "大丸札幌店",
     area: "札幌",
@@ -1566,6 +1577,12 @@ const spotLogistics = {
     hours: "公園全天可進入；活動檔期時間依主辦單位",
     access: "APA 出發可步行至大通公園。若搭地下鐵：薄野（すすきの）搭南北線往麻生，下一站大通下車；回程搭往真駒內（真駒内）方向到薄野"
   },
+  "pokemon-center-sapporo": {
+    hours: "一般 10:00–20:00；年末特別營業與臨時調整依官方公告",
+    access: "地址：札幌市中央区北5条西4丁目7 大丸札幌店 8F。JR 札幌站／地下鐵さっぽろ站直結；從薄野可搭南北線往麻生，在さっぽろ下車，再依大丸指標前往 8F",
+    infoUrl: "https://shop.pokemon.co.jp/ja/shop/pokemoncenter-sapporo/",
+    checkedAt: "2026/11/04"
+  },
   "daimaru-sapporo": {
     hours: "常見 10:00-20:00；餐廳樓層依店舖可能更晚",
     access: "JR 札幌站直結，適合和 Stellar Place、東急百貨串遊"
@@ -1968,6 +1985,7 @@ const dayDepartures = {
 };
 
 const drivingPlaceOverrides = {
+  "pokemon-center-sapporo": "ポケモンセンターサッポロ 大丸札幌店 8F 札幌市中央区北5条西4丁目7",
   "sandria-honten": "サンドリア本店 札幌市中央区南8条西9丁目758-14",
   "rokkatei-ario-sapporo": "六花亭 アリオ札幌店 札幌市東区北7条東9丁目2-20 1F",
   "donki-tanukikoji": "MEGAドン・キホーテ札幌狸小路本店 札幌市中央区南3条西4丁目12-1",
@@ -5045,6 +5063,7 @@ const spotAreas = [
 ];
 
 const shoppingSpotIds = new Set([
+  "pokemon-center-sapporo",
   "asahikawa-heiwa-dori",
   "aeon-mall-asahikawa-ekimae",
   "feeeal-asahikawa",
