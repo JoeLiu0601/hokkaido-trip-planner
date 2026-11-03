@@ -472,9 +472,11 @@
 
   function timelineHtml(ids, nextId) {
     const lunchIndex = getDayTwoLunchInsertionIndex(ids);
+    const dinnerIndex = getDayTwoDinnerInsertionIndex(ids);
     const lunchHtml = () => `<li class="journey-lunch-choice">${dayTwoLunchOptionsHtml()}</li>`;
-    return ids.map((id, index) => `${index === lunchIndex ? lunchHtml() : ""}${stopHtml(id, index, nextId)}`).join("")
-      + (lunchIndex === ids.length ? lunchHtml() : "");
+    const dinnerHtml = () => `<li class="journey-lunch-choice">${dayTwoDinnerOptionsHtml()}</li>`;
+    return ids.map((id, index) => `${index === lunchIndex ? lunchHtml() : ""}${index === dinnerIndex ? dinnerHtml() : ""}${stopHtml(id, index, nextId)}`).join("")
+      + (lunchIndex === ids.length ? lunchHtml() : "") + (dinnerIndex === ids.length ? dinnerHtml() : "");
   }
 
   function japanClock() {

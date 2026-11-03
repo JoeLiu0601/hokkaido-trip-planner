@@ -1222,7 +1222,7 @@ const dayFourOptionalStopIds = ["muroran-hakucho-bridge-view", "happiness-bell"]
 const daySummaries = {
   "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先試排約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住試排約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
   "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景。約 18:30 在富良野吃完晚餐出發，約 22:00 到札幌 APA。也可提早離開、沿途補餐。大通與薄野僅留彈性備選，晚到不再硬逛。",
-  "3": "上午安排札幌神社巡禮，手稻放在前往小樽途中，接著吃午餐、逛玻璃店與童話十字路，再看天黑後的運河。完整時間試排另列建議順序供 review。 童話十字路後加入天狗山夜景，運河仍保留；四座神社全走再加天狗山會偏滿，優先刪減彈性神社。",
+  "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。手稻放在前往小樽途中，接著吃午餐、逛玻璃店與童話十字路，再看天狗山與運河夜景。四座神社全走仍會偏滿，優先刪減彈性神社；晚餐時段與天狗山先後仍待決定。",
   "4": "06:30 從 APA 出發，主線是登別地獄谷、溫泉街午餐與藻岩山夜景。白鳥大橋、幸福之鐘列為有空再去，建議最多挑一處；路況不佳就午餐後直接前往藻岩山。完整試排包含清單中的室蘭備選，實際略過可提早抵達。已用 11/03 Google 地圖逐段核對，分開試算 ×1.5／×2 加停車休息緩衝；兩點都去的 ×2 情境約 20:05 才到山麓，兩點皆略過約 16:10，可保留夜景時間。",
   "5": "白天分組：A 線中島公園、鰻魚飯與市區休息後搭地鐵到白色戀人公園；B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA；雪天與停車先留至 16:30 的會合緩衝。藻岩山夜景維持 D4。",
   "6": "A 線市區觀光：搭車前往啤酒博物館、Ario 與 Toriton，下午搭車回市中心逛地下街；B 線同伴自行開車去滑雪，集合時間另約。",
@@ -1919,7 +1919,7 @@ const drivingStartHotels = {
 // 固定住宿出發點獨立呈現，不加入景點排序或共編行程。
 const dayDepartures = {
   2: { hotel: accommodations[0], name: "旭川 Premier Hotel-CABIN", time: "08:30", checkout: true },
-  3: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "08:30" },
+  3: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "07:45" },
   4: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "06:30" },
   5: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "10:00" },
   6: { hotel: accommodations[1], name: "札幌 APA 薄野站西", time: "10:00" },
@@ -4606,11 +4606,25 @@ function getDayTwoLunchInsertionIndex(ids) {
 }
 
 function dayTwoLunchOptionsHtml() {
-  const selectedIds = dayTwoLunchIds.filter(id => state.plan[2].includes(id));
-  return `<section class="day-alternative inline-lunch-options" aria-label="上富良野午餐二選一">
-    <h3>上富良野午餐 · 二選一</h3>
-    <p>日之出公園後就近吃午餐，先留約 11:30–13:00。兩間都保留參考，和同伴討論後擇一；尚未預約。</p>
-    ${dayTwoLunchIds.map(id => {
+  return dayTwoMealOptionsHtml(dayTwoLunchIds, "上富良野午餐", "日之出公園後就近吃午餐，先留約 11:30–13:00。兩間都保留參考，和同伴討論後擇一；尚未預約。", "午餐");
+}
+
+function getDayTwoDinnerInsertionIndex(ids) {
+  if (state.selectedDay !== 2) return -1;
+  const terrace = ids.indexOf("ningle-terrace");
+  return terrace >= 0 ? terrace + 1 : -1;
+}
+
+function dayTwoDinnerOptionsHtml() {
+  return dayTwoMealOptionsHtml(dayOptionalSpots[2].dinnerIds, "富良野晚餐", "精靈露臺後再選晚餐：くまげら鄉土料理／唯我獨尊咖哩二選一。兩間都留著當天參考，約 17:30–18:30 用餐後回札幌；尚未預約，候位較久請調整離開時間。", "晚餐");
+}
+
+function dayTwoMealOptionsHtml(ids, title, note, meal) {
+  const selectedIds = ids.filter(id => state.plan[2].includes(id));
+  return `<section class="day-alternative inline-lunch-options" aria-label="${title}二選一">
+    <h3>${title} · 二選一</h3>
+    <p>${note}</p>
+    ${ids.map(id => {
       const spot = spotById(id);
       const selected = selectedIds.includes(id) && selectedIds.length === 1;
       const otherDay = Object.keys(state.plan).find(day => Number(day) !== 2 && state.plan[day].includes(id));
@@ -4619,7 +4633,7 @@ function dayTwoLunchOptionsHtml() {
         <p>${escapeHtml(spot.best)}</p><p>${escapeHtml(spot.desc)}</p>
         ${practicalOptionsHtml(spot)}
         ${otherDay ? `<p>目前已安排在 Day ${escapeHtml(otherDay)}。</p>` : ""}
-        <div class="group-ski-actions"><button type="button" class="small-button" data-day-option="${id}" ${selected || otherDay ? "disabled" : ""}>${selected ? "已選這間午餐" : selectedIds.length ? "改選這間午餐" : "選這間午餐"}</button><a class="small-button map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">地圖</a></div>
+        <div class="group-ski-actions"><button type="button" class="small-button" data-day-option="${id}" ${selected || otherDay ? "disabled" : ""}>${selected ? `已選這間${meal}` : selectedIds.length ? `改選這間${meal}` : `選這間${meal}`}</button><a class="small-button map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">地圖</a></div>
       </details>`;
     }).join("")}
   </section>`;
@@ -4630,8 +4644,8 @@ function renderDayOptions() {
   const panel = document.getElementById("day-options");
   const day = state.selectedDay;
   const options = dayOptionalSpots[day];
-  shell.hidden = !options;
-  if (!options) return;
+  shell.hidden = !options || day === 2;
+  if (!options || day === 2) return;
   // Each day's accordion starts closed when changing days.
   if (shell.dataset.day !== String(day)) shell.open = false;
   shell.dataset.day = String(day);
@@ -4761,6 +4775,7 @@ function renderDayTabs() {
 function renderItinerary() {
   const ids = state.plan[state.selectedDay];
   const lunchIndex = getDayTwoLunchInsertionIndex(ids);
+  const dinnerIndex = getDayTwoDinnerInsertionIndex(ids);
   dom.dayDeparture.innerHTML = dayDepartureHtml(state.selectedDay);
   window.HOKKAIDO_JOURNEY?.render();
   renderDayTimingDraft();
@@ -4786,7 +4801,7 @@ function renderItinerary() {
         const key = `stop-${state.selectedDay}-${spot.id}`;
         const detailsOpen = disclosureIsOpen(`${key}-details`);
         const adjustOpen = disclosureIsOpen(`${key}-adjust`);
-        return `${index === lunchIndex ? dayTwoLunchOptionsHtml() : ""}
+        return `${index === lunchIndex ? dayTwoLunchOptionsHtml() : ""}${index === dinnerIndex ? dayTwoDinnerOptionsHtml() : ""}
           <article class="stop-card" data-index="${index}" data-spot-id="${spot.id}">
             ${timingDraftHtml(timingDraft)}
             <div class="stop-top">
@@ -4822,7 +4837,7 @@ function renderItinerary() {
                 <button class="small-button" data-remove="${spot.id}">移除</button>
               </div>
             </div>
-          </article>${index === ids.length - 1 && lunchIndex === ids.length ? dayTwoLunchOptionsHtml() : ""}
+          </article>${index === ids.length - 1 && lunchIndex === ids.length ? dayTwoLunchOptionsHtml() : ""}${index === ids.length - 1 && dinnerIndex === ids.length ? dayTwoDinnerOptionsHtml() : ""}
         `;
       })
       .join("");

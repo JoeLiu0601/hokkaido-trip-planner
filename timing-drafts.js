@@ -25,15 +25,15 @@ const dailyTimingDrafts = {
     optionalIds: ["hinode-park","sapporo-odori","sapporo-susukino"]
   },
   3: {
-    intro: "08:30 從 APA 出發，童話十字路之後加入天狗山夜景，之後再回運河；四座神社全留會很滿，至少略過一至兩座彈性神社較從容。",
+    intro: "07:45 從 APA 出發，以 08:45 前抵達北海道神宮為目標，第一段含冬季行車、停車與步行先留 1 小時，並非保證車程。童話十字路之後加入天狗山夜景，之後再回運河；四座神社全留會很滿，至少略過一至兩座彈性神社較從容。",
     route: "APA → 神宮／彈性神社 → 小樽午餐 → 大正硝子 → 童話十字路 → 天狗山夜景 → 運河 → APA",
     stopGroups: [["hokkaido-shrine"],["sapporo-fushimi-inari"],["teine-shrine"],["wakadori-naruto-honten"],["otaru-inari-shrine"],["taisho-glass"],["otaru-meruhen-crossing"],["otaru-tenguyama"],["otaru-canal"]],
     requiredIds: ["hokkaido-shrine","wakadori-naruto-honten","taisho-glass","otaru-meruhen-crossing","otaru-canal","otaru-tenguyama"],
     optionalIds: ["sapporo-fushimi-inari","teine-shrine","otaru-inari-shrine"],
     rows: [
-      ["08:30–09:00","開車：APA → 北海道神宮","早餐先吃好，市區行車與停車抓約 30 分。"],
-      ["09:00–09:50","北海道神宮","主要必去點，留參拜、拍照與步行約 50 分；御守、御朱印依社務所當日開放。",["hokkaido-shrine"],"約 50 分"],
-      ["09:50–10:10","開車至札幌伏見稻荷","先完成札幌市內兩座，再向西走，避免從手稻折返札幌。"],
+      ["07:45–08:45","開車：APA → 北海道神宮","早餐、清車積雪先完成；冬季行車、停車與步行先留 1 小時，以 9 點前抵達為目標，風雪時仍會延長。"],
+      ["08:45–09:35","北海道神宮","主要必去點，留參拜、拍照與步行約 50 分；御守、御朱印依社務所當日開放。",["hokkaido-shrine"],"約 50 分"],
+      ["09:35–10:10","開車至札幌伏見稻荷、移動緩衝","先完成札幌市內兩座，再向西走，避免從手稻折返札幌。預留冬季移動與停車緩衝，彈性神社仍可略過。"],
       ["10:10–10:30","札幌伏見稻荷神社","短暫參拜約 20 分；停車／坡道不安全就略過。",["sapporo-fushimi-inari"],"約 20 分"],
       ["10:30–11:15","開車至手稻神社","含市區路口、冬季行車與找車位預留約 45 分。"],
       ["11:15–11:40","手稻神社","前往小樽途中短停；若上午已落後，可直接前往小樽。",["teine-shrine"],"約 25 分"],
