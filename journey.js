@@ -551,7 +551,7 @@
               <g class="winter-city-label${selected ? ' is-selected' : ''}"><rect x="${city.x - 63}" y="${city.y + 10}" width="126" height="36" rx="12"/><text x="${city.x}" y="${city.y + 26}" text-anchor="middle">${city.name}</text><text class="winter-city-days" x="${city.x}" y="${city.y + 39}" text-anchor="middle">${related.length ? 'D' + related.map(day => day.day).join(' · D') : '旅程風景'}</text></g>
             ${first ? '</a>' : '</g>'}`;
           }).join('')}
-          <g class="journey-pals-marker" aria-hidden="true">${selectedCompanions().map((pal,index) => `<image href="${pal.src}" x="${14 + index * 37}" y="36" width="32" height="40"/>`).join('')}</g>
+          <g class="journey-pals-marker" aria-hidden="true">${companions.map((pal,index) => `<image href="${pal.src}" x="${14 + index * 37}" y="36" width="32" height="40"/>`).join('')}</g>
         </svg>
         <p class="journey-map-note">城市位置為插畫示意；日期依目前行程顯示。下方選一天，開始今天的散步。</p>
       </section>

@@ -6,6 +6,7 @@ const vm = require('node:vm');
 const root = path.join(__dirname, '..');
 const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const journey = fs.readFileSync(path.join(root, 'journey.js'), 'utf8');
+const sceneSource = fs.readFileSync(path.join(root, 'journey-scenes.js'), 'utf8');
 const section = (source, a, b) => source.slice(source.indexOf(a), source.indexOf(b));
 const plain = value => JSON.parse(JSON.stringify(value));
 
@@ -13,21 +14,41 @@ function setup() {
   const state = { selectedDay: 2 }, statuses = {};
   const runtime = vm.runInNewContext(
     app.slice(0, app.indexOf('const state ='))
+    + sceneSource + '\nconst scenes = window.HOKKAIDO_SCENES; let selectedGroup = "A";'
+    + section(app, 'function spotById(', 'function getSpotLogistics(')
     + section(app, 'function getAccommodationMapUrl(', 'function getDayFiveReturnUrl(')
+    + section(journey, '  const companions =', '  const winterStops =')
     + section(journey, '  const winterStops =', '  const speeds =')
-    + '\nlet playback = null, previewPosition = null;'
+    + '\nlet playback = null, previewPosition = null, playing = false, previousFrameTime = null, animationFrame = null;'
     + section(journey, '  function playbackOrigin(', '  function timeLabel(')
     + section(journey, '  function timeLabel(', '  function winterFocusCardHtml(')
     + section(journey, '  function winterFocusCardHtml(', '  function focusCardHtml(')
+    + section(journey, '  function isOptional(', '  function durationText(')
+    + section(journey, '  function renderOverview(', '  function setMode(')
     + '\n({buildPlan, dayDepartures, dayOneTimingDraft, nextPlaybackStop, playbackPosition, routeGeometry,'
     + 'start(day, ids) { state.selectedDay = day; playback = createPlayback(ids); previewPosition = null; return playback; },'
-    + 'preview(value) { previewPosition = value; }, originCard() { return winterFocusCardHtml(playback.origin.id); }})',
+    + 'preview(value) { previewPosition = value; }, originCard() { return winterFocusCardHtml(playback.origin.id); },'
+    + 'overview(group) { selectedGroup = group; renderOverview(); return host.innerHTML; }})',
     { state, statuses, window: {}, statusFor: id => statuses[id] || 'pending',
-      isDayOneTimingDraftApplicable: () => true, escapeHtml: value => String(value) }
+      isDayOneTimingDraftApplicable: () => true, escapeHtml: value => String(value),
+      host: { innerHTML: '', classList: { remove() {} } }, progress: () => ({}), groupRouteSwitchHtml: () => '' }
   );
   state.plan = runtime.buildPlan();
   return { r: runtime, state, statuses };
 }
+
+test('the full overview renders ten days and all three companions for both route groups', () => {
+  const { r } = setup();
+  for (const group of ['A', 'B']) {
+    const html = r.overview(group);
+    assert.match(html, /北海道十日總覽/);
+    assert.equal((html.match(/<button[^>]*class="journey-overview-card(?:\s|")/g) || []).length, 10);
+    for (const pal of ['pikachu', 'piplup', 'mew']) {
+      assert.equal((html.match(new RegExp(`assets/${pal}-travel-cutout\\.png`, 'g')) || []).length, 1);
+    }
+    assert.doesNotMatch(html, /data-companion=/);
+  }
+});
 
 test('D2–D10 prepend the configured departure only to playback, retaining itinerary stops', () => {
   const { r, state } = setup(), before = JSON.stringify(state.plan);
