@@ -55,7 +55,7 @@ test('D4 edit cards and the full schedule clearly label the optional detours', (
   }
   const moiwa = r.getTimingDraftForStop(4, 'moiwa-yama');
   assert.equal(moiwa.optional, false);
-  assert.match(r.getDailyTimingDraft(4).intro, /完整試排包含.*室蘭備選/);
+  assert.match(r.getDailyTimingDraft(4).intro, /完整規劃包含.*室蘭備選/);
 });
 
 test('D4 twofold scenarios expose the late full route and compare all optional-point choices', () => {

@@ -294,12 +294,51 @@ body.winter-view-active[data-planner-theme="dark"] {
   .winter-view-active .hero .lede { font-size: .88rem; line-height: 1.8; }
   .winter-view-active .hero .metric { padding: 12px; }
   .winter-view-active .hero .metric strong { font-size: 1.15rem; }
-  .winter-travel-active .hero-mobile-tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; color: #dbe7ed; font-size: .82rem; }
+  .winter-view-active:not(.winter-edit-active) .hero-mobile-tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; color: #dbe7ed; font-size: .82rem; }
   .hero-mobile-tools button { min-height: 44px; padding: 7px 10px; border: 1px solid #a8c0cc; border-radius: 10px; color: #f5f8fa; background: #203844; font: inherit; font-size: .8rem; cursor: pointer; }
   .hero-mobile-tools button:focus-visible { outline: 2px solid #f2d399; outline-offset: 3px; }
-  .winter-travel-active .hero:not(.is-expanded) .eyebrow,
-  .winter-travel-active .hero:not(.is-expanded) .lede,
-  .winter-travel-active .hero:not(.is-expanded) .hero-metrics { display: none; }
+  .winter-view-active:not(.winter-edit-active) .hero:not(.is-expanded) .eyebrow,
+  .winter-view-active:not(.winter-edit-active) .hero:not(.is-expanded) .lede,
+  .winter-view-active:not(.winter-edit-active) .hero:not(.is-expanded) .hero-metrics { display: none; }
   .winter-travel-active .shell > .hero:not(.is-expanded) { padding: 16px 18px 12px; gap: 0; }
-  .winter-travel-active .hero:not(.is-expanded) h1 { font-size: 1.6rem; line-height: 1.25; }
+  .winter-view-active:not(.winter-edit-active) .hero:not(.is-expanded) h1 { font-size: 1.6rem; line-height: 1.25; }
 }
+
+/* Formal mobile reading view: routes first, optional tools on demand. */
+.planner-menu { position: relative; }
+.planner-menu > summary { display: flex; align-items: center; justify-content: center; gap: 6px; min-width: 60px; min-height: 44px; padding: 6px 8px; border-radius: 10px; color: var(--text); font-size: .82rem; font-weight: 700; cursor: pointer; list-style: none; }
+.planner-menu > summary::-webkit-details-marker { display: none; }
+.planner-menu[open] > summary { background: var(--surface); }
+.planner-menu-panel { position: absolute; right: 0; top: calc(100% + 8px); z-index: 50; width: 180px; padding: 6px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); box-shadow: 0 10px 28px rgba(0,0,0,.18); }
+.winter-view-active .planner-menu-panel button,.planner-menu-panel a { display: flex; align-items: center; width: 100%; min-height: 48px; padding: 10px 12px; color: var(--text); background: transparent; border: 0; border-radius: 8px; text-align: left; font: inherit; font-size: .88rem; text-decoration: none; cursor: pointer; }
+.planner-menu-panel a:hover,.winter-view-active .planner-menu-panel button:hover { background: var(--surface); }
+.planner-menu summary:focus-visible,.planner-menu-panel a:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.winter-view-active .formal-overview-days { grid-template-columns: 1fr; gap: 8px; margin-top: 14px; }
+.winter-view-active .formal-overview-days .journey-overview-card { display: grid; grid-template-columns: 54px minmax(0,1fr) 16px; align-items: center; gap: 12px; padding: 14px; border-color: var(--line); background: var(--paper); min-height: 92px; border-radius: 16px; }
+.winter-view-active .formal-overview-days .journey-overview-card.is-selected { border-color: var(--accent); }
+.formal-day-badge { display: grid; gap: 4px; text-align: center; border-radius: 12px; background: var(--surface); padding: 10px 4px; }
+.formal-day-badge strong { font-size: 1.08rem; color: var(--text); }
+.formal-day-badge > span { font-size: .74rem; color: var(--muted); }
+.formal-day-summary { display: grid; gap: 6px; min-width: 0; }
+.formal-day-summary > strong { color: var(--text); font-size: .98rem; }
+.formal-day-summary > span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: var(--muted); font-size: .78rem; line-height: 1.6; }
+.formal-day-arrow { font-size: 1.4rem; color: var(--muted); }
+.formal-overview-map,.formal-departure { border: 1px solid var(--line); border-radius: 14px; margin: 16px 0; background: var(--paper); }
+.formal-overview-map > summary,.formal-departure > summary { min-height: 48px; padding: 14px; color: var(--text); font-weight: 600; font-size: .85rem; cursor: pointer; overflow-wrap: anywhere; }
+.formal-overview-map .journey-overview-map { margin: 0 10px 10px; }
+.formal-departure .day-departure { margin: 0 12px 12px; }
+.formal-stop-actions { display: flex; gap: 8px; margin-top: 16px; }
+.formal-stop-actions button { min-height: 46px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font: inherit; font-size: .83rem; cursor: pointer; color: var(--text); background: var(--surface); }
+.formal-stop-actions button:first-child { flex: 1; color: #302710; background: #f2d699; border-color: #c7a868; font-weight: 700; }
+.winter-focus-card .winter-focus-summary { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.winter-view-active .journey-timeline-section > h3 { font-size: 1rem; }
+.winter-view-active .journey-timeline-section > h3 > span { font-size: .72rem; }
+.winter-view-active .winter-route-details { border: 1px solid var(--line); border-radius: 14px; background: var(--paper); margin: 16px 0; padding: 0 12px; }
+.winter-view-active .winter-route-details > summary { font-size: .85rem; }
+@media (max-width: 640px) {
+  .winter-view-active .winter-nav-title { font-size: .83rem; }
+  .winter-view-active .formal-overview-days .journey-overview-card { grid-template-columns: 48px minmax(0,1fr) 12px; gap: 10px; padding: 12px; }
+  .formal-stop-actions button { padding-inline: 10px; }
+}
+
+.inline-lunch-options > summary { min-height: 48px; display: flex; align-items: center; font-size: .86rem; }

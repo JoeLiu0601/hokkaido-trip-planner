@@ -25,13 +25,22 @@ function setup() {
     + section(journey, '  function winterFocusCardHtml(', '  function focusCardHtml(')
     + section(journey, '  function isOptional(', '  function durationText(')
     + section(journey, '  function renderOverview(', '  function setMode(')
+    + '\nlet mode = "travel", progressContext = "", playbackContext = "", feedback = "", focusedCardKey = "";'
+    + section(journey, '  function renderJourney()', '  switchButtons.forEach((button) => button.addEventListener')
     + '\n({buildPlan, dayDepartures, dayOneTimingDraft, nextPlaybackStop, playbackPosition, routeGeometry,'
     + 'start(day, ids) { state.selectedDay = day; playback = createPlayback(ids); previewPosition = null; return playback; },'
     + 'preview(value) { previewPosition = value; }, originCard() { return winterFocusCardHtml(playback.origin.id); },'
-    + 'overview(group) { selectedGroup = group; renderOverview(); return host.innerHTML; }})',
+    + 'overview(group) { selectedGroup = group; renderOverview(); return host.innerHTML; },'
+    + 'travel(day) { state.selectedDay = day; renderJourney(); return host.innerHTML; }})',
     { state, statuses, window: {}, statusFor: id => statuses[id] || 'pending',
       isDayOneTimingDraftApplicable: () => true, escapeHtml: value => String(value),
-      host: { innerHTML: '', classList: { remove() {} } }, progress: () => ({}), groupRouteSwitchHtml: () => '' }
+      host: { innerHTML: '', classList: { remove() {} }, setAttribute() {}, querySelectorAll: () => [], querySelector: selector => selector === '.journey-next-card' ? { innerHTML: '' } : null },
+      workspace: { classList: { toggle() {} } }, document: { body: { classList: { toggle() {}, add() {} } } },
+      switchButtons: [], refreshDayNavigation() {}, progressKey: () => 'test-trip', paintPlayback() {},
+      dayFlightHtml: () => '', dayDepartureHtml: () => '', timelineHtml: ids => ids.join(','),
+      mapHtml: () => '', stopHtml: id => id, focusCardHtml: () => '', dayOptionalSpots: { 2: {} },
+      bindDisclosures() {}, bindDayOptionButtons() {}, getDayTimingDraftHtml() { throw new Error('Trial section must not render'); },
+      progress: () => ({}), groupRouteSwitchHtml: () => '' }
   );
   state.plan = runtime.buildPlan();
   return { r: runtime, state, statuses };
@@ -48,6 +57,21 @@ test('the full overview renders ten days and all three companions for both route
     }
     assert.doesNotMatch(html, /data-companion=/);
   }
+});
+
+test('formal daily views render every day without trial blocks and keep tools collapsed', () => {
+  const { r, state } = setup();
+  const before = JSON.stringify(state.plan);
+  for (let day = 1; day <= 10; day++) {
+    const html = r.travel(day);
+    assert.match(html, /今天這樣走/);
+    assert.doesNotMatch(html, /journey-day-timing-title|初步試排/);
+    assert.match(html, /<details class="winter-route-details">/);
+    assert.ok(html.indexOf('journey-timeline-section') < html.indexOf('winter-route-details'));
+  }
+  assert.equal(JSON.stringify(state.plan), before);
+  state.plan[2] = [];
+  assert.doesNotThrow(() => r.travel(2));
 });
 
 test('D2–D10 prepend the configured departure only to playback, retaining itinerary stops', () => {

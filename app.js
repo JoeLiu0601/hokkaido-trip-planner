@@ -1253,10 +1253,10 @@ const dayTwoLunchIds = ["kamifurano-marumasu", "kamifurano-mansaku"];
 const dayFourOptionalStopIds = ["muroran-hakucho-bridge-view", "happiness-bell"];
 
 const daySummaries = {
-  "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先試排約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住試排約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
+  "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先規劃約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住規劃約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
   "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景。約 18:30 在富良野吃完晚餐出發，約 22:00 到札幌 APA。也可提早離開、沿途補餐。大通與薄野僅留彈性備選，晚到不再硬逛。",
   "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。手稻放在前往小樽途中，接著吃午餐、逛玻璃店與童話十字路，再看天狗山與運河夜景。四座神社全走仍會偏滿，優先刪減彈性神社；晚餐時段與天狗山先後仍待決定。",
-  "4": "06:30 從 APA 出發，主線是登別地獄谷、溫泉街午餐與藻岩山夜景。白鳥大橋、幸福之鐘列為有空再去，建議最多挑一處；路況不佳就午餐後直接前往藻岩山。完整試排包含清單中的室蘭備選，實際略過可提早抵達。已用 11/03 Google 地圖逐段核對，分開試算 ×1.5／×2 加停車休息緩衝；兩點都去的 ×2 情境約 20:05 才到山麓，兩點皆略過約 16:10，可保留夜景時間。",
+  "4": "06:30 從 APA 出發，主線是登別地獄谷、溫泉街午餐與藻岩山夜景。白鳥大橋、幸福之鐘列為有空再去，建議最多挑一處；路況不佳就午餐後直接前往藻岩山。完整規劃包含清單中的室蘭備選，實際略過可提早抵達。已用 11/03 Google 地圖逐段核對，分開試算 ×1.5／×2 加停車休息緩衝；兩點都去的 ×2 情境約 20:05 才到山麓，兩點皆略過約 16:10，可保留夜景時間。",
   "5": "白天分組：A 線中島公園、鰻魚飯與市區休息後搭地鐵到白色戀人公園；B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA；雪天與停車先留至 16:30 的會合緩衝。藻岩山夜景維持 D4。",
   "6": "A 線市區觀光：搭車前往啤酒博物館、Ario 與 Toriton，下午搭車回市中心逛地下街；B 線同伴自行開車去滑雪，集合時間另約。",
   "7": "07:30 從札幌 APA 退房出發，約 10:30 到真狩村，先看羊蹄山與休息，午餐後經 SAIRO 展望台到洞爺湖，15:15 左右入住 Toya Kohan Tei；不安排火口，下午留給泡湯與休息。車程為冬季估計。",
@@ -1310,7 +1310,7 @@ const dayOneTimingDraft = {
   "biei-blue": {
     "time": "彈性支線 · 約 19:45–20:15",
     "duration": "停留約 30 分＋往返開車約 3 小時",
-    "note": "可去可不去，安排在旭川入住後。官方 2026/12 點燈 16:30–21:00；原試排 18:15 才能離開飯店，雪天單程先抓 1.5 小時，約 19:45 抵達、20:15 折返、21:45 回飯店。通常趕不上 17:00；這條支線與原本採買／晚餐時段衝突，不可直接相加，需提早補餐或略過採買。能見度差、結冰或疲累就不去。",
+    "note": "可去可不去，安排在旭川入住後。官方 2026/12 點燈 16:30–21:00；原規劃 18:15 才能離開飯店，雪天單程先抓 1.5 小時，約 19:45 抵達、20:15 折返、21:45 回飯店。通常趕不上 17:00；這條支線與原本採買／晚餐時段衝突，不可直接相加，需提早補餐或略過採買。能見度差、結冰或疲累就不去。",
     "optional": true,
     "navigationMode": "driving"
   }
@@ -1331,7 +1331,7 @@ const dayNineTimingDraft = {
   },
   "hakodate-gokoku-shrine": {
     time: "23:40–翌日00:30", duration: "約 50 分（待確認）",
-    note: "18:15–19:15 站前晚餐，19:15–22:45 回飯店休息。22:45 起整裝，目標 23:15 搭預先確認的計程車，23:40 到神社；午夜開放及回程車未確認前，此段僅為條件式試排。翌日 00:30–01:10 預留回飯店；不要預設市電仍在運行。"
+    note: "18:15–19:15 站前晚餐，19:15–22:45 回飯店休息。22:45 起整裝，目標 23:15 搭預先確認的計程車，23:40 到神社；午夜開放及回程車未確認前，此段僅為條件式規劃。翌日 00:30–01:10 預留回飯店；不要預設市電仍在運行。"
   }
 };
 const dayNineTimedStopIds = Object.keys(dayNineTimingDraft);
@@ -1471,7 +1471,7 @@ const spotLogistics = {
   },
   "new-chitose-airport": {
     hours: "機場主體約 06:00-23:00（航班時段可能更早/更晚）",
-    access: "取車後走道央道往旭川；D1 試排為冬季行車、服務區午餐與休息合計留約 3.5 小時，風雪時可能更久"
+    access: "取車後走道央道往旭川；D1 規劃為冬季行車、服務區午餐與休息合計留約 3.5 小時，風雪時可能更久"
   },
   "nippon-rentacar-new-chitose": {
     hours: "官方公告 2026/11/1–12/30 為 07:00–21:00；2026/12/31–2027/1/1 為 07:00–20:00",
@@ -1848,7 +1848,7 @@ const spotLogistics = {
     ticketNotes: "可現場購票或官網預購；官方網路票有效期為購買起 90 天。先確認天候、是否停駛與 12/31 特別末班，再購票上山。",
     ticketUrl: "https://334.co.jp/ropeway/advance-ticket/",
     hours: "官方一般冬季營運 10:00–21:00、上行末班 20:30；2026/12/31 特別營業尚未確認，請以當年公告與天候運行為準",
-    access: "Day 9 試排目標 14:45 到纜車山麓站，預留購票與排隊時間；風雪停駛時改排市區，不預設能開車上山"
+    access: "Day 9 規劃目標 14:45 到纜車山麓站，預留購票與排隊時間；風雪停駛時改排市區，不預設能開車上山"
   },
   "marui-imai-hakodate": {
     hours: "常見 10:00-18:30；跨年與元旦通常縮短或休館，請以年末年始公告為準",
@@ -2960,10 +2960,10 @@ function timingDraftHtml(draft) {
 
 function dayNineTimingDraftHtml(headingId = "day-timing-title") {
   const applicable = isDayNineTimingDraftApplicable();
-  return `<h3 id="${headingId}">Day 9 時間試排</h3>
+  return `<h3 id="${headingId}">Day 9 時間規劃</h3>
     <p>${state.plan[9]?.includes("goryokaku") ? "已選擇早上補逛五稜郭公園，需提早從飯店出發並重新估算上午；下方 09:30 原主線不含公園往返。" : "09:30 從 La'gent Stay 函館站前出發。"}下列皆為日本時間與冬季移動估算，包含午、晚餐及回飯店休息；餐廳尚未指定，市電時間也不是預約班次。</p>
-    ${!applicable ? `<p><strong>主要景點順序已調整：</strong>下方原試排僅供參考，景點時間標籤已隱藏，需按新路線重新估算。</p>` : ""}
-    <details class="day-schedule"><summary>查看完整試排（午餐／休息／跨年）</summary>
+    ${!applicable ? `<p><strong>主要景點順序已調整：</strong>下方原規劃僅供參考，景點時間標籤已隱藏，需按新路線重新估算。</p>` : ""}
+    <details class="day-schedule"><summary>查看完整規劃（午餐／休息／跨年）</summary>
       <ol>${dayNineSchedule.map(([time, title, note]) => `<li><strong class="day-schedule-time">${escapeHtml(time)}</strong><span><b>${escapeHtml(title)}</b><small>${escapeHtml(note)}</small></span></li>`).join("")}</ol>
     </details>
     <p>護國神社 2026/12/31 午夜開放及深夜往返車輛尚未確認。若無法確認或天候不佳，飯店休息後就在站前跨年；請勿預設午夜有市電。</p>
@@ -2972,10 +2972,10 @@ function dayNineTimingDraftHtml(headingId = "day-timing-title") {
 
 function dayTenTimingDraftHtml(headingId = "day-timing-title") {
   const applicable = isDayTenTimingDraftApplicable();
-  return `<h3 id="${headingId}">Day 10 回程時間試排</h3>
+  return `<h3 id="${headingId}">Day 10 回程時間規劃</h3>
     <p><strong>關鍵時間：</strong>13:10 到函館站前 11 號乘車處；目標 13:30 搭帝產巴士，14:10 前後到國際線 1F。JX861 18:00 起飛，星宇函館櫃檯一般 15:30 開始、17:00 截止報到。13:30 巴士是舊跨年時刻參考，元旦正式班次未確認。</p>
-    ${!applicable ? `<p><strong>景點順序已調整：</strong>下方原試排僅供參考，景點時間標籤已隱藏；請先按新路線重估，仍要保留機場報到時間。</p>` : ""}
-    <details class="day-schedule"><summary>查看完整試排與搭車路線</summary>
+    ${!applicable ? `<p><strong>景點順序已調整：</strong>下方原規劃僅供參考，景點時間標籤已隱藏；請先按新路線重估，仍要保留機場報到時間。</p>` : ""}
+    <details class="day-schedule"><summary>查看完整規劃與搭車路線</summary>
       <ol>${dayTenSchedule.map(([time, title, note]) => `<li><strong class="day-schedule-time">${escapeHtml(time)}</strong><span><b>${escapeHtml(title)}</b><small>${escapeHtml(note)}</small></span></li>`).join("")}</ol>
     </details>
     <p>若巴士班次不符或無法上車，立即改搭計程車；最晚 14:00 離開函館市區，目標 15:00 前到機場。風雪時再提早，不把 17:00 報到截止當成抵達目標。</p>
@@ -3008,11 +3008,11 @@ function dailyTimingDraftHtml(day, headingId = "day-timing-title") {
   const draft = getDailyTimingDraft(day);
   if (!draft) return "";
   const applicable = isDailyTimingDraftApplicable(day);
-  return `<h3 id="${headingId}">Day ${day} 時間試排${draft === dayTwoBackupTimingDraft ? " · 天候備案" : ""}</h3>
+  return `<h3 id="${headingId}">Day ${day} 時間規劃${draft === dayTwoBackupTimingDraft ? " · 天候備案" : ""}</h3>
     <p>${escapeHtml(draft.intro)}</p>
-    <p class="day-schedule-route"><strong>試排路線：</strong>${escapeHtml(draft.route)}</p>
-    ${!applicable ? `<p class="day-schedule-warning"><strong>本表採建議順序：</strong>目前景點卡的內容或排序與試排不同，景點上的時間先隱藏。請 review 下方完整時間與路線，再決定如何調整景點。</p>` : ""}
-    <details class="day-schedule"><summary>查看完整試排與移動路線</summary>
+    <p class="day-schedule-route"><strong>規劃路線：</strong>${escapeHtml(draft.route)}</p>
+    ${!applicable ? `<p class="day-schedule-warning"><strong>本表採建議順序：</strong>目前景點卡的內容或排序與規劃不同，景點上的時間先隱藏。請 review 下方完整時間與路線，再決定如何調整景點。</p>` : ""}
+    <details class="day-schedule"><summary>查看完整規劃與移動路線</summary>
       <p>以下皆為日本時間與冬季估算，已留用餐、候車／停車與休息；不是預約班次，遇風雪或候位需調整。</p>
       <ol>${draft.rows.map(([time, title, note]) => `<li><strong class="day-schedule-time">${escapeHtml(time)}</strong><span><b>${escapeHtml(title)}</b><small>${escapeHtml(note)}</small></span></li>`).join("")}</ol>
     </details>
@@ -3028,24 +3028,8 @@ function getDayTimingDraftHtml(day, headingId = "day-timing-title") {
 }
 
 function renderDayTimingDraft() {
-  dom.dayTimingDraft.hidden = !state.plan[state.selectedDay]?.length;
-  if (dom.dayTimingDraft.hidden) {
-    dom.dayTimingDraft.innerHTML = "";
-    return;
-  }
-  if (state.selectedDay !== 1) {
-    const open = dom.dayTimingDraft.querySelector(".day-schedule")?.open ?? false;
-    dom.dayTimingDraft.innerHTML = getDayTimingDraftHtml(state.selectedDay);
-    const schedule = dom.dayTimingDraft.querySelector(".day-schedule");
-    if (schedule) schedule.open = open;
-    return;
-  }
-  dom.dayTimingDraft.innerHTML = `
-    <h3 id="day-timing-title">Day 1 時間試排</h3>
-    <p>${isDayOneTimingDraftApplicable()
-      ? "下方時間皆為日本時間、初步估計。入住 → 買雪靴 → 晚餐是主要安排，青池與其他戶外點不必全去；若加入其他景點，請另留時間。"
-      : "主要站點已調整，原試排時間先隱藏，需依新順序重新估算。參考節奏：11:00 抵達、入境後逛機場約 1 小時、約 17:45 入住、18:15 採買、19:15 晚餐。"}</p>
-    <p>機場逛街與入境分開留時間；取車後開車含補餐、休息先抓 3.5 小時，風雪時可能更久。入住後原主線是採買與吃飯；若改走青池，須另留往返約 3 小時，不能沿用原採買／晚餐時段。</p>`;
+  dom.dayTimingDraft.hidden = true;
+  dom.dayTimingDraft.innerHTML = "";
 }
 
 function getAccommodationMapUrl(hotel) {
@@ -3073,8 +3057,8 @@ function dayDepartureHtml(day, group = "A") {
     <div class="day-departure-copy">
       <p class="day-departure-label">今日出發點${departure.checkout ? " · 退房日" : " · 續住"}</p>
       <h3>${escapeHtml(departure.name)}</h3>
-      <p><strong>${skiRoute ? "待課程確認" : needsParkMorning ? "需提早出門、重估時間" : departure.time}</strong> ${day === 10 ? "開始當日行程" : "參考出發時間"} · 日本時間試排</p>
-      <p>${escapeHtml(note)}${timingMatches ? "" : " 目前路線與原試排不同，出發時間需再確認。"}</p>
+      <p><strong>${skiRoute ? "待課程確認" : needsParkMorning ? "需提早出門、重估時間" : departure.time}</strong> ${day === 10 ? "開始當日行程" : "參考出發時間"} · 日本時間</p>
+      <p>${escapeHtml(note)}${timingMatches ? "" : " 目前路線與原規劃不同，出發時間需再確認。"}</p>
     </div>
     <a class="small-button map-link" href="${getAccommodationMapUrl(departure.hotel)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(departure.name)}，查看飯店地圖">飯店地圖</a>
     ${skiRouteDays[day] ? `<div class="split-routes">
@@ -3124,7 +3108,7 @@ function getDrivingRouteUrlForStop(day, index, spotId) {
 }
 
 const hakodateTransitLegs = {
-  "8|lagent-hakodate-ekimae|goryokaku": "中午先寄飯店行李、加油，到已確認的函館站前門市還車；步行至函館駅前電停，搭 2 或 5 系統往湯の川，在五稜郭公園前下車，再步行約 15–20 分到公園。試排含候車與雪地步行抓約 50 分，傍晚回飯店正式入住",
+  "8|lagent-hakodate-ekimae|goryokaku": "中午先寄飯店行李、加油，到已確認的函館站前門市還車；步行至函館駅前電停，搭 2 或 5 系統往湯の川，在五稜郭公園前下車，再步行約 15–20 分到公園。規劃含候車與雪地步行抓約 50 分，傍晚回飯店正式入住",
   "8|hachimanzaka|goryokaku": "八幡坂沿步道下坡返回末廣町電停，搭往湯の川方向的市電到五稜郭公園前，再步行到五稜郭；冬季候車與雪地步行請留緩衝",
   "9|hachimanzaka|kanemori-warehouse": "從八幡坂沿步道下坡，步行前往金森倉庫；積雪或路面結冰時放慢腳步，必要時改搭市電或計程車",
   "8|goryokaku|lucky-pierrot-hakodate-station": "從五稜郭公園步行到五稜郭公園前電停，搭往函館駅前方向的市電，再步行到朝市對面的 Hotel New Ohte 2 樓用餐",
@@ -3137,7 +3121,7 @@ const hakodateTransitLegs = {
   "8|goryokaku-tower|lucky-pierrot-goryokaku": "從五稜郭塔步行約 1 分鐘到小丑漢堡五稜郭公園前店",
   "8|lucky-pierrot-goryokaku|lagent-hakodate-ekimae": "用餐後步行到五稜郭公園前電停，搭 2 系統往谷地頭或 5 系統往函館どつく前，在函館駅前下車，步行回飯店入住；大雪時可改計程車",
   "8|goryokaku|lagent-hakodate-ekimae": "從五稜郭公園步行到五稜郭公園前，搭 2 系統往谷地頭或 5 系統往函館どつく前，在函館駅前下車，步行回飯店辦理入住",
-  "9|kanemori-warehouse|hakodate-mt": "由金森倉庫步行上坡到函館山纜車山麓站，積雪時可改搭計程車。D9 試排 14:15 離開海灣、14:45 到站；先確認 12/31 特別營業與風雪停駛狀況",
+  "9|kanemori-warehouse|hakodate-mt": "由金森倉庫步行上坡到函館山纜車山麓站，積雪時可改搭計程車。D9 規劃 14:15 離開海灣、14:45 到站；先確認 12/31 特別營業與風雪停駛狀況",
   "9|hakodate-mt|hakodate-gokoku-shrine": "先搭纜車下山，再回市區吃飯休息；午夜初詣前另前往護國神社，勿在山上等到跨年。神社靠近山麓站，深夜往返飯店先安排計程車；當年夜間開放需確認",
   "9|kanemori-warehouse|hakodate-gokoku-shrine": "從金森倉庫步行經元町坡道到函館護國神社；積雪時注意防滑，也可搭計程車",
   "9|hakodate-gokoku-shrine|hakodate-mt": "從函館護國神社步行到函館山纜車山麓站，再搭纜車上山；跨年當天先確認末班",
@@ -3156,7 +3140,7 @@ function getHakodateTransitInfo(day, index, spotId, dayStops) {
 
   if (day === 8 && index === 0) {
     if (spotId === "lagent-hakodate-ekimae") {
-      return "從洞爺湖開車到函館站前 La'gent Stay，先寄行李、加油，再到已確認的函館站前門市還車；實際店址與截止時間依租車合約。一般入住 15:00 起，試排於五稜郭行程後約 18:00 正式入住";
+      return "從洞爺湖開車到函館站前 La'gent Stay，先寄行李、加油，再到已確認的函館站前門市還車；實際店址與截止時間依租車合約。一般入住 15:00 起，規劃於五稜郭行程後約 18:00 正式入住";
     }
     if (spotId === "hachimanzaka") {
       return "從洞爺湖自駕抵達函館並還車，先寄放行李；由函館駅前搭往函館どつく前方向的市電到末廣町，再步行前往八幡坂。拍坂頂港景需上坡，雪地請慢走";
@@ -3201,7 +3185,7 @@ function getDriveInfoForStop(day, index, spotId) {
     if (day === 5 && spotId === "shiroi-koibito-park") return `${prefix}中島公園站搭南北線往麻生→大通，轉東西線往宮の沢→終點下車，步行約 7 分（雪天抓 10–15 分）。若從薄野出發，同樣搭南北線至大通轉車。約 16:00 在園區 Welcome Gate 入口與同伴會合，逛完搭他們的車回 APA；同伴 15:00 從藻岩山滑雪場開車出發，雪天會合可延至 16:30。`;
     if (day === 5 && spotId === "moiwa-yama") return `自行加回 D5 的搭車備案｜APA 步行到資生館小学校前，搭市電至ロープウェイ入口，再搭免費接駁至夜景纜車山麓站。夜景目前排 D4，回程與集合需另排，不預設朋友接送。`;
     if (day === 6 && spotId === "sapporo-beer-museum") return `${prefix}APA 出發參考：薄野（すすきの）搭南北線往麻生→地下鐵さっぽろ下車→步行至札幌站北口 2 號乘車處→轉 188 巴士往サッポロビール園→同名站下車。JR 備案：JR 札幌→苗穂，搭確認停靠苗穂的普通列車，苗穂北口步行約 8 分鐘；班次不合可改計程車。主按鈕從目前位置查路線。`;
-    if (day === 6 && spotId === "toriton-kita8") return `${prefix}原試排從 Ario 步行前往北8条光星店，雪地先留約 30 分鐘；路況差或太冷可改計程車，搭車按鈕從目前位置查路線。`;
+    if (day === 6 && spotId === "toriton-kita8") return `${prefix}原規劃從 Ario 步行前往北8条光星店，雪地先留約 30 分鐘；路況差或太冷可改計程車，搭車按鈕從目前位置查路線。`;
     if (day === 6 && spotId === "kinotoya-bake-pole-town" && dayStops[index - 1] === "toriton-kita8") return `${prefix}Toriton 用餐後步行到東区役所前站，搭東豐線往福住→大通下車，再循 Pole Town 地下街標示步行到 KINOTOYA。含地面步行、候車與站內移動先留約 1 小時；積雪難走可直接搭計程車。`;
     if (mode === "walking") return `${prefix}${getKnownWalkingLeg(day, index, spotId) || "步行串接附近景點，雪地請留緩衝；走累可改計程車。"}`;
     return `${prefix}依目前位置搭地鐵／市電／巴士前往，班次不合或風雪大可改計程車；不需回 APA 取車或停車。`;
@@ -4627,7 +4611,7 @@ const dayOptionalSpots = {
   },
   6: {
     title: "D6 採買與輕食備選",
-    note: "有空再選，不必全部加入。六花亭可在原本 Ario 停留內順買；唐吉訶德接狸小路採買，三明治可當早餐或宵夜。正式加入後請依當天體力調整其他停留，原試排不會自動多出購物時間。",
+    note: "有空再選，不必全部加入。六花亭可在原本 Ario 停留內順買；唐吉訶德接狸小路採買，三明治可當早餐或宵夜。正式加入後請依當天體力調整其他停留，原規劃不會自動多出購物時間。",
     ids: ["rokkatei-ario-sapporo", "donki-tanukikoji", "sandria-honten"]
   },
   9: {
@@ -4694,8 +4678,8 @@ function dayTwoDinnerOptionsHtml() {
 
 function dayTwoMealOptionsHtml(ids, title, note, meal) {
   const selectedIds = ids.filter(id => state.plan[2].includes(id));
-  return `<section class="day-alternative inline-lunch-options" aria-label="${title}二選一">
-    <h3>${title} · 二選一</h3>
+  return `<details class="day-alternative inline-lunch-options" aria-label="${title}二選一">
+    <summary>${title} · ${selectedIds.length === 1 ? escapeHtml(spotById(selectedIds[0]).name) : "選餐廳"}</summary>
     <p>${note}</p>
     ${ids.map(id => {
       const spot = spotById(id);
@@ -4709,7 +4693,7 @@ function dayTwoMealOptionsHtml(ids, title, note, meal) {
         <div class="group-ski-actions"><button type="button" class="small-button" data-day-option="${id}" ${selected || otherDay ? "disabled" : ""}>${selected ? `已選這間${meal}` : selectedIds.length ? `改選這間${meal}` : `選這間${meal}`}</button><a class="small-button map-link" href="${getMapUrl(spot)}" target="_blank" rel="noopener noreferrer">地圖</a></div>
       </details>`;
     }).join("")}
-  </section>`;
+  </details>`;
 }
 
 function renderDayOptions() {
@@ -5551,7 +5535,7 @@ function renderPrintReport() {
                   <div class="print-stop-copy">
                     <h3>${escapeHtml(spot.name)}</h3>
                     <p>${escapeHtml(spot.area)} · ${escapeHtml(spot.type)} · ${escapeHtml(timingDraft?.duration || spot.time)}</p>
-                    ${timingDraft ? `<small>日本時間試排：${escapeHtml(timingDraft.time)}（${timingDraft.optional ? "彈性選項" : "預估"}） · ${escapeHtml(timingDraft.note)}</small>` : ""}
+                    ${timingDraft ? `<small>日本時間：${escapeHtml(timingDraft.time)}（${timingDraft.optional ? "彈性選項" : "預估"}） · ${escapeHtml(timingDraft.note)}</small>` : ""}
                     ${ticketSummary ? `<small>票券：${escapeHtml(ticketSummary)}</small>` : ""}
                     <small>${escapeHtml(getDriveInfoForStop(day, spotIndex, spot.id))}</small>
                   </div>

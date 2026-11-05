@@ -16,7 +16,7 @@ const dailyTimingDrafts = {
       ["14:30–15:00","開車到新富良野王子飯店、停車","走正式停車場與已開放步道。"],
       ["15:00–17:15","精靈露臺：白天轉夜間燈景","約 15:00 抵達，等天黑看木屋燈光。官方冬季 12:00–20:45；沒有承諾固定點燈分鐘。",["ningle-terrace"],"約 2 小時 15 分"],
       ["17:15–17:30","取車、前往富良野用餐","餐廳尚未指定，留意最後點餐。"],
-      ["17:30–18:30","富良野晚餐","くまげら／唯我獨尊二選一，約 18:00–19:00 吃完離開的試排；也可不在市區吃，直接出發沿途補餐。",["furano-kumagera","furano-yuiga-doxon"],"含候位約 1 小時"],
+      ["17:30–18:30","富良野晚餐","くまげら／唯我獨尊二選一，約 18:00–19:00 吃完離開的規劃；也可不在市區吃，直接出發沿途補餐。",["furano-kumagera","furano-yuiga-doxon"],"含候位約 1 小時"],
       ["18:30–22:00","開車：富良野 → 札幌 APA","夜間冬季含休息抓約 3.5 小時；沿途用餐則需計入全段，風雪會更晚。"],
       ["22:00–22:40","APA 入住、停車與休息","晚到時間請先通知飯店並核對訂房條款；今晚不再安排大通／薄野。",["apa-sapporo-susukino-ekinishi"],"約 40 分"]
     ],
@@ -94,7 +94,7 @@ const dailyTimingDrafts = {
       ["11:00–12:00","札幌啤酒博物館自行參觀","D6 是週一，不排週一停辦的導覽；若有自行參觀後的付費試飲需求，另留時間。當年度年末營業仍需再查。",["sapporo-beer-museum"],"約 1 小時"],
       ["12:00–13:30","Ario 購物、休息","與博物館相鄰，步行串接；肚子餓可少量點心，留胃口給稍後壽司。",["ario-sapporo"],"約 1.5 小時"],
       ["13:30–14:00","步行／計程車至 Toriton","雪地步行先留約 30 分鐘；太冷或路面不好就搭計程車。到店先取號，無座位預約，實際候位另計。"],
-      ["14:00–15:30","Toriton 迴轉壽司午餐","離峰試排仍留 90 分含候位；若要等超過 1 小時，可改鄰近餐廳，或刪減後面的購物時間。",["toriton-kita8"],"含候位約 1.5 小時"],
+      ["14:00–15:30","Toriton 迴轉壽司午餐","離峰規劃仍留 90 分含候位；若要等超過 1 小時，可改鄰近餐廳，或刪減後面的購物時間。",["toriton-kita8"],"含候位約 1.5 小時"],
       ["15:30–16:30","東豐線：東区役所前 → 大通","Toriton 步行到東区役所前站，搭地下鐵東豐線往福住，在大通下車，再循 Pole Town 標示步行往 KINOTOYA。含地面步行、候車與站內移動先留 1 小時；雪地難走或購物袋多可改計程車。"],
       ["16:30–17:00","Pole Town、KINOTOYA 甜點","進地下街後步行；壽司吃飽了就外帶或略過甜點。",["kinotoya-bake-pole-town"],"約 30 分"],
       ["17:00–17:40","3COINS Pole Town","在同一地下街逛約 40 分，購物不必趕，想加逛可用後面的自由時間。",["3coins-pole-town"],"約 40 分"],
@@ -102,7 +102,7 @@ const dailyTimingDrafts = {
       ["18:30–19:45","札幌拉麵悠晚餐","從 Pole Town／APA 步行到薄野拉麵橫丁；約 75 分含候位，排隊太久或售完就改附近拉麵店。",["ramen-haruka"],"含候位約 75 分"],
       ["19:45–20:15","步行回 APA","今晚整理採買品與行李，方便明天退房出發洞爺湖。"]
     ],
-    notes: ["午餐時間先試排 14:00；若你習慣準時吃，可縮短 Ario，提早到 Toriton 取號，其他購物往後移。","去程 JR 備案：地下鐵さっぽろ步行轉 JR 札幌，搭往白石方向且停靠苗穂的普通列車，下一站苗穂下車，北口步行約 8 分鐘到博物館（雪天另留緩衝）；快速／特急可能不停，先看停靠站。地鐵與 JR 需分別進出閘門。","12/28 的年末特別營業、交通班次與餐廳候位不是已確認預約，當天以實際營運和排隊調整。"],
+    notes: ["午餐時間先規劃 14:00；若你習慣準時吃，可縮短 Ario，提早到 Toriton 取號，其他購物往後移。","去程 JR 備案：地下鐵さっぽろ步行轉 JR 札幌，搭往白石方向且停靠苗穂的普通列車，下一站苗穂下車，北口步行約 8 分鐘到博物館（雪天另留緩衝）；快速／特急可能不停，先看停靠站。地鐵與 JR 需分別進出閘門。","12/28 的年末特別營業、交通班次與餐廳候位不是已確認預約，當天以實際營運和排隊調整。"],
     sources: [["啤酒博物館利用案內","https://www.sapporobeer.jp/brewery/s_museum/kengaku/"],["博物館巴士／JR 交通","https://www.sapporobeer.jp/brewery/s_museum/access/"],["JR 北海道路線與時刻查詢","https://jrhokkaidonorikae.com/map/map.php"],["札幌地下鐵站內圖","https://www.city.sapporo.jp/st/subway/ekikonaizu/ekikonaizu.html"],["Ario 札幌","https://sapporo.ario.jp/"],["拉麵悠店家資訊","https://www.ramenharuka.com/maps"]]
   },
   7: {
@@ -217,7 +217,7 @@ function buildDayFourTimingDraft(stops) {
   const direct = calculateDayFourScenario([], 2);
   const stopsLabel = normal.bridge && normal.cape ? "白鳥與幸福之鐘有空再去，建議最多挑一處" : normal.bridge ? "白鳥大橋有空再去" : normal.cape ? "幸福之鐘有空再去" : "略過室蘭兩處，午餐後直接回札幌";
   return { ...dailyTimingDrafts[4],
-    intro: `藻岩山夜景必去；${stopsLabel}。${normal.bridge || normal.cape ? "完整試排包含目前清單中的室蘭備選，略過可提早抵達。" : ""}本表以 11/03 Google 車程 ×1.5＋各段停車／休息緩衝試排；×2 情境約 ${dayFourTime(conservative.moiwaArrival)} 抵藻岩山山麓站，詳細依據可展開查看。`,
+    intro: `藻岩山夜景必去；${stopsLabel}。${normal.bridge || normal.cape ? "完整規劃包含目前清單中的室蘭備選，略過可提早抵達。" : ""}本表以 11/03 Google 車程 ×1.5＋各段停車／休息緩衝規劃；×2 情境約 ${dayFourTime(conservative.moiwaArrival)} 抵藻岩山山麓站，詳細依據可展開查看。`,
     route: `APA → 登別地獄谷／溫泉街午餐${normal.bridge ? " → 白鳥大橋（有空再去）" : ""}${normal.cape ? " → 幸福之鐘（有空再去）" : ""} → 藻岩山（必去）→ APA`,
     rows: normal.rows,
     driveReview: { normal, conservative },
@@ -231,7 +231,7 @@ function buildDayFourTimingDraft(stops) {
 dailyTimingDrafts[4] = buildDayFourTimingDraft(["muroran-hakucho-bridge-view", "happiness-bell"]);
 
 const dayTwoBackupTimingDraft = {
-  intro: "天候備案獨立試排：08:30 從旭川退房，走道央道回札幌，下午先在 APA 入住休息，宮之森教會僅在當晚對一般旅客開放時前往。嚴重風雪時以安全抵達札幌為主。",
+  intro: "天候備案獨立規劃：08:30 從旭川退房，走道央道回札幌，下午先在 APA 入住休息，宮之森教會僅在當晚對一般旅客開放時前往。嚴重風雪時以安全抵達札幌為主。",
   route: "旭川 → 砂川休息 → APA 寄行李、入住休息 → 宮之森教會（確認開放才去）→ 薄野 → APA 休息",
   stopGroups: [["sunagawa-highway-oasis"], ["apa-sapporo-susukino-ekinishi"], ["miyanomori-frances-church"], ["sapporo-susukino"]],
   requiredIds: ["apa-sapporo-susukino-ekinishi", "sapporo-susukino"],
