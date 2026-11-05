@@ -61,6 +61,7 @@
   let selectedGroup = readLocalStorage(groupRouteKey) === "B" ? "B" : "A";
   let mode = validModes.includes(requestedView) ? requestedView : validModes.includes(savedView) ? savedView : "overview";
   let feedback = "";
+  let undoProgress = null;
   let progressContext = "";
   const dayTabs = document.getElementById("day-tabs");
   const previousDays = document.getElementById("day-tabs-prev");
@@ -515,6 +516,25 @@
 
   function renderOverview() {
     pausePlayback();
+    function highlights(places) {
+      const route = places.filter(spot => !["入住飯店", "取車"].includes(spot.type));
+      const pool = route.length ? route : places;
+      if (pool.length <= 3) return pool;
+      const featured = new Set(["otaru-tenguyama", "otaru-canal", "moiwa-yama", "goryokaku-tower", "hakodate-mt", "pokemon-center-sapporo", "ningle-terrace", "shiroi-koibito-park"]);
+      const chosen = new Set([pool[0].id]);
+      pool.filter(spot => featured.has(spot.id)).slice(0, 2).forEach(spot => chosen.add(spot.id));
+      if (chosen.size < 3) chosen.add(pool[pool.length - 1].id);
+      if (chosen.size < 3) chosen.add(pool[Math.floor((pool.length - 1) / 2)].id);
+      return pool.filter(spot => chosen.has(spot.id));
+    }
+    const shortNames = {
+      "sapporo-beer-museum": "啤酒博物館", "toriton-kita8": "Toriton 壽司", "ramen-haruka": "拉麵悠",
+      "otaru-tenguyama": "天狗山", "otaru-canal": "小樽運河", "hokkaido-shrine": "北海道神宮",
+      "shiroi-koibito-park": "白色戀人公園", "moiwa-yama": "藻岩山夜景", "pokemon-center-sapporo": "寶可夢中心",
+      "goryokaku-tower": "五稜郭塔", "lucky-pierrot-goryokaku": "小丑漢堡", "hakodate-mt": "函館山",
+      "hakodate-station-airport-bus": "機場巴士", "new-chitose-airport": "新千歲機場", "hakodate-airport": "函館機場",
+      "aeon-mall-asahikawa-ekimae": "站前 AEON", "asahikawa-heiwa-dori": "平和通買物公園"
+    };
     const days = tripDates.map((date, index) => {
       const day = index + 1;
       const places = (state.plan[day] || []).map(spotById).filter(Boolean);
@@ -559,9 +579,10 @@
       ${groupRouteSwitchHtml()}
       <div class="journey-overview-days formal-overview-days">${days.map(day => {
         const scene = scenes.days[day.day - 1];
+        const featured = highlights(day.mainPlaces);
         return `<button type="button" class="journey-overview-card${day.day === state.selectedDay ? ' is-selected' : ''}" data-overview-day="${day.day}" aria-label="查看 Day ${day.day} ${day.date} 的行程">
           <span class="formal-day-badge"><strong>D${day.day}</strong><span>${day.date}</span></span>
-          <span class="formal-day-summary"><strong>${escapeHtml(day.groupRoute?.title || scene.title)}</strong><span>${escapeHtml(day.groupRoute ? day.groupRoute.route : day.mainPlaces.slice(0,3).map(spot => spot.name).join(' → ') || '尚未安排')}${!day.groupRoute && day.mainPlaces.length > 3 ? ` …另 ${day.mainPlaces.length - 3} 站` : ''}</span></span>
+          <span class="formal-day-summary"><strong>${escapeHtml(day.groupRoute?.title || scene.title)}</strong><span>${escapeHtml(day.groupRoute ? day.groupRoute.route : featured.map(spot => shortNames[spot.id] || spot.name.replace(/（.*?）|\(.*?\)/g, '')).join(' → ') || '尚未安排')}${!day.groupRoute && day.mainPlaces.length > featured.length ? ` · 另 ${day.mainPlaces.length - featured.length} 站` : ''}</span></span>
           <span class="formal-day-arrow" aria-hidden="true">›</span>
         </button>`;
       }).join('')}</div>
@@ -590,7 +611,7 @@
     if (getGroupRouteForDay(state.selectedDay, selectedGroup)) { renderSkiDay(); return; }
 
     const context = `${progressKey()}|${state.selectedDay}`;
-    if (progressContext !== context) feedback = "";
+    if (progressContext !== context) { feedback = ""; undoProgress = null; }
     const sameDay = progressContext === context;
     progressContext = context;
     const openDetails = new Set(Array.from(host.querySelectorAll("details[data-journey-details][open]")).map((item) => item.dataset.journeyDetails));
@@ -618,9 +639,9 @@
       <header class="winter-heading"><div><p>HOKKAIDO WINTER WALK</p><h2 id="journey-title" tabindex="-1">Day ${state.selectedDay} · ${scene.title}</h2><span>${escapeHtml(areas.join(" → ") || "今天的路線，等你來安排")}</span></div><div class="winter-date"><strong>${tripDates[state.selectedDay - 1].replace("/", ".")}</strong><span>${weekday} · 日本時間</span></div></header>
       ${dayFlightHtml(state.selectedDay, "journey")}
       ${getGroupRouteForDay(state.selectedDay, "B") ? groupRouteSwitchHtml() : ""}
-      ${dayDepartures[state.selectedDay] ? `<details class="formal-departure"><summary>出發：${escapeHtml(dayDepartures[state.selectedDay].name)}</summary>${dayDepartureHtml(state.selectedDay)}</details>` : ""}
       <section class="journey-next-card winter-focus-card" aria-labelledby="journey-next-title"></section>
-      <p class="journey-feedback" role="status" aria-live="polite" ${feedback ? "" : "hidden"}>${escapeHtml(feedback)}</p>
+      <div class="journey-feedback" role="status" aria-live="polite" ${feedback ? "" : "hidden"}><span>${escapeHtml(feedback)}</span>${undoProgress ? `<button type="button" class="small-button" data-journey-undo>復原剛才操作</button>` : ""}</div>
+      ${dayDepartures[state.selectedDay] ? `<details class="formal-departure"><summary>出發：${escapeHtml(dayDepartures[state.selectedDay].name)}</summary>${dayDepartureHtml(state.selectedDay)}</details>` : ""}
       <div class="winter-day-progress"><span>已完成 ${doneCount} / ${mainIds.length} 站${skippedCount ? ` · 略過 ${skippedCount}` : ""}</span><span>共 ${mainIds.length} 站</span></div>
       ${mainIds.length ? `<section class="journey-timeline-section"><h3>今天這樣走 <span>依序前往 · 時間為預估</span></h3><ol class="journey-timeline">${timelineHtml(mainIds, nextId)}</ol></section>` : ""}
       ${mainIds.length ? `<details class="winter-route-details"><summary>路線地圖與播放 <span>點開查看</span></summary>${mapHtml(mainIds, nextId)}</details>` : ""}
@@ -733,15 +754,18 @@
       paintPlayback();
       return;
     }
-    const button = event.target.closest("[data-journey-status]");
-    if (!button) return;
-    const id = button.dataset.journeyId;
-    const status = button.dataset.journeyStatus;
+    const undo = target.closest("[data-journey-undo]") ? undoProgress : null;
+    const button = target.closest("[data-journey-status]");
+    if (!button && !undo) return;
+    if (undo && (undo.day !== state.selectedDay || undo.key !== progressKey())) return;
+    const id = undo ? undo.id : button.dataset.journeyId;
+    const status = undo ? undo.status : button.dataset.journeyStatus;
     if (!(state.plan[state.selectedDay] || []).includes(id) || !["pending", "done", "skipped"].includes(status)) return;
     pausePlayback();
     previewPosition = null;
     const saved = progress();
     saved[state.selectedDay] ||= {};
+    undoProgress = undo ? null : { day: state.selectedDay, key: progressKey(), id, status: saved[state.selectedDay][id] || "pending" };
     if (status === "pending") delete saved[state.selectedDay][id];
     else saved[state.selectedDay][id] = status;
     feedback = `「${spotById(id).name}」${status === "done" ? "已完成" : status === "skipped" ? "已略過" : "已改回待出發"}。`;

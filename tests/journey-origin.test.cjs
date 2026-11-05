@@ -25,7 +25,7 @@ function setup() {
     + section(journey, '  function winterFocusCardHtml(', '  function focusCardHtml(')
     + section(journey, '  function isOptional(', '  function durationText(')
     + section(journey, '  function renderOverview(', '  function setMode(')
-    + '\nlet mode = "travel", progressContext = "", playbackContext = "", feedback = "", focusedCardKey = "";'
+    + '\nlet mode = "travel", progressContext = "", playbackContext = "", feedback = "", focusedCardKey = "", undoProgress = null;'
     + section(journey, '  function renderJourney()', '  switchButtons.forEach((button) => button.addEventListener')
     + '\n({buildPlan, dayDepartures, dayOneTimingDraft, nextPlaybackStop, playbackPosition, routeGeometry,'
     + 'start(day, ids) { state.selectedDay = day; playback = createPlayback(ids); previewPosition = null; return playback; },'
@@ -72,6 +72,15 @@ test('formal daily views render every day without trial blocks and keep tools co
   assert.equal(JSON.stringify(state.plan), before);
   state.plan[2] = [];
   assert.doesNotThrow(() => r.travel(2));
+});
+
+test('overview highlights the planned night views and never adds a removed destination', () => {
+  const { r, state } = setup();
+  const card = html => html.split('aria-label="查看 Day 3 ')[1].split('</button>')[0];
+  assert.match(card(r.overview('A')), /天狗山/);
+  assert.match(card(r.overview('A')), /小樽運河/);
+  state.plan[3] = state.plan[3].filter(id => id !== 'otaru-tenguyama');
+  assert.doesNotMatch(card(r.overview('A')), /天狗山/);
 });
 
 test('D2–D10 prepend the configured departure only to playback, retaining itinerary stops', () => {

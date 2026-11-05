@@ -1,3 +1,4 @@
+html { scroll-behavior: auto; }
 body.winter-view-active {
   color-scheme: light;
   --bg: #f8f5ed; --bg-soft: #f2eee3; --card: #fffdf8; --card-strong: #eee9db;
@@ -342,3 +343,14 @@ body.winter-view-active[data-planner-theme="dark"] {
 }
 
 .inline-lunch-options > summary { min-height: 48px; display: flex; align-items: center; font-size: .86rem; }
+
+/* Keep navigation on the first phone screen; retain the full cover on overview. */
+.journey-feedback:not([hidden]) { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.journey-feedback [data-journey-undo] { min-height: 44px; padding: 8px 12px; text-decoration: underline; color: var(--text); }
+@media (max-width:640px) {
+  .winter-travel-active .shell > .hero:not(.is-expanded) { min-height: 0; padding: 10px 14px; margin-bottom: 0; }
+  .winter-travel-active .hero:not(.is-expanded) .hero-copy { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .winter-travel-active .hero:not(.is-expanded) h1 { font-size: 1.12rem; margin: 0; }
+  .winter-travel-active .hero:not(.is-expanded) .hero-mobile-tools { margin: 0; }
+  .winter-travel-active .hero:not(.is-expanded) .hero-mobile-tools > span { display: none; }
+}

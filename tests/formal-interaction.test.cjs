@@ -44,3 +44,42 @@ test('More closes when tapping outside, following settings or pressing Escape', 
   assert.equal(menu.open, false);
   assert.equal(focused, true);
 });
+
+test('Undo restores the previous progress and refuses a different day or trip', () => {
+  let click;
+  const saved = {};
+  const state = { selectedDay: 1, plan: { 1: ['stop'], 2: ['other'] } };
+  let tripKey = 'trip-a';
+  const sandbox = {
+    state, undoProgress: null, previewPosition: null, feedback: '',
+    host: { addEventListener(type, handler) { click = handler; }, querySelector: () => null },
+    pausePlayback() {}, progress: () => saved, progressKey: () => tripKey,
+    spotById: () => ({ name: '測試站' }), renderJourney() {},
+    window: { localStorage: { setItem() {} } }
+  };
+  vm.runInNewContext(section('  host.addEventListener("click", (event) => {', '  host.addEventListener("input",'), sandbox);
+  function action(status) {
+    click({ target: { closest: selector => selector === '[data-journey-status]' ? { dataset: { journeyId: 'stop', journeyStatus: status } } : null } });
+  }
+  function undo() {
+    click({ target: { closest: selector => selector === '[data-journey-undo]' ? {} : null } });
+  }
+  action('done');
+  assert.equal(saved[1].stop, 'done');
+  state.selectedDay = 2;
+  undo();
+  assert.equal(saved[1].stop, 'done');
+  state.selectedDay = 1;
+  tripKey = 'trip-b';
+  undo();
+  assert.equal(saved[1].stop, 'done');
+  tripKey = 'trip-a';
+  undo();
+  assert.equal(saved[1].stop, undefined);
+  assert.equal(sandbox.undoProgress, null);
+  action('done');
+  action('skipped');
+  assert.equal(saved[1].stop, 'skipped');
+  undo();
+  assert.equal(saved[1].stop, 'done');
+});
