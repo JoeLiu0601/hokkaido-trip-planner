@@ -4735,7 +4735,7 @@ function dayThreeLunchOptionsHtml() {
 function dayTwoMealOptionsHtml(ids, title, note, meal, day = 2) {
   const selectedIds = ids.filter(id => state.plan[day].includes(id));
   return `<details class="day-alternative inline-lunch-options" aria-label="${title}二選一">
-    <summary>${title} · ${selectedIds.length === 1 ? escapeHtml(spotById(selectedIds[0]).name) : "選餐廳"}</summary>
+    <summary>${title} · 二選一 · ${selectedIds.length === 1 ? escapeHtml(spotById(selectedIds[0]).name) : "選餐廳"}</summary>
     <p>${note}</p>
     ${ids.map(id => {
       const spot = spotById(id);
