@@ -8,6 +8,15 @@ const source = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const timing = fs.readFileSync(path.join(root, 'timing-drafts.js'), 'utf8');
 const runtime = vm.runInNewContext(timing + '\n' + source.slice(0, source.indexOf('const state =')) + '\n({buildPlan,migrateNightReviewPlan,migrateGoryokakuPriorityPlan,migrateOnsenLunchPlan,migrateDayFiveParkMeetingPlan,dayOneTimingDraft,dailyTimingDrafts,dayDepartures,spots,drivingPlaceOverrides,skiRouteDays})', { window: {} });
 
+test('D3 keeps LeTAO between the glass shop and the crossing, before the mountain', () => {
+  const ids = runtime.buildPlan()[3];
+  const index = ids.indexOf('letao-otaru-honten');
+  assert.equal(ids[index - 1], 'taisho-glass');
+  assert.equal(ids[index + 1], 'otaru-meruhen-crossing');
+  assert.ok(index < ids.indexOf('otaru-tenguyama'));
+  assert.equal(runtime.dailyTimingDrafts[3].rows.filter(row => row[3]?.includes('letao-otaru-honten')).length, 1);
+});
+
 test('D1 blue pond is optional immediately after the hotel and does not promise 17:00', () => {
   const plan = runtime.buildPlan();
   assert.equal(plan[1][plan[1].indexOf('premier-cabin-asahikawa') + 1], 'biei-blue');
@@ -139,18 +148,19 @@ test('D8 migration adds the tower once and respects a removed or separately arra
   p[8].pop(); assert.equal(JSON.stringify(p), before);
 });
 
-test('D4 switches the former Tenkatsu stop to onsen lunch without duplicates or changes to other days', () => {
+test('D4 uses one onsen-street lunch area and migrates old Tenkatsu without duplicating it', () => {
   const p = runtime.buildPlan();
-  const market = 'noboribetsu-onsen-ichiba', tenkatsu = 'tenkatsu-honten-muroran';
-  assert.equal(p[4][p[4].indexOf('noboribetsu-onsen-street') + 1], market);
-  p[4] = p[4].map(id => id === market ? tenkatsu : id);
+  const street = 'noboribetsu-onsen-street', tenkatsu = 'tenkatsu-honten-muroran';
+  assert.equal(p[4].includes('noboribetsu-onsen-ichiba'), false);
+  assert.equal(p[4].filter(id => id === street).length, 1);
+  p[4].splice(p[4].indexOf(street) + 1, 0, tenkatsu);
   const others = JSON.stringify(Object.entries(p).filter(([day]) => day !== '4'));
   assert.equal(runtime.migrateOnsenLunchPlan(p), true);
-  assert.equal(p[4].filter(id => id === market).length, 1);
+  assert.equal(p[4].filter(id => id === street).length, 1);
   assert.ok(!p[4].includes(tenkatsu));
   assert.equal(runtime.migrateOnsenLunchPlan(p), false);
   assert.equal(JSON.stringify(Object.entries(p).filter(([day]) => day !== '4')), others);
-  p[4] = p[4].map(id => id === market ? tenkatsu : id); p[5].push(market);
+  p[4] = p[4].map(id => id === street ? tenkatsu : id); p[5].push(street);
   runtime.migrateOnsenLunchPlan(p);
-  assert.ok(!p[4].includes(market)); assert.ok(p[5].includes(market));
+  assert.ok(!p[4].includes(street)); assert.ok(p[5].includes(street));
 });

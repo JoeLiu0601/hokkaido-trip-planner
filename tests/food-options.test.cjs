@@ -15,13 +15,13 @@ function setup() {
     + section('const dayOptionalSpots =', 'function renderDayTabs()')
     + section('function getDailyTimingDraft(', 'function getTimingDraftForStop(')
     + section('function spotById(', 'function getSpotLogistics(')
-    + '\n({ buildPlan, getDayTwoLunchInsertionIndex, getDayTwoDinnerInsertionIndex, bindDayOptionButtons, dayOptionalSpots, isDailyTimingDraftApplicable })',
+    + '\n({ buildPlan, getDayTwoLunchInsertionIndex, getDayTwoDinnerInsertionIndex, getDayThreeLunchInsertionIndex, bindDayOptionButtons, dayOptionalSpots, isDailyTimingDraftApplicable })',
   { window: {}, state, markDirty() { edits++; }, render() {}, recordChange() {} });
   state.plan = runtime.buildPlan();
-  function choose(id) {
+  function choose(id, day = 2) {
     let click;
     const button = { dataset: { dayOption: id }, addEventListener(event, callback) { click = callback; } };
-    runtime.bindDayOptionButtons({ querySelectorAll: () => [button] }, 2, runtime.dayOptionalSpots[2]);
+    runtime.bindDayOptionButtons({ querySelectorAll: () => [button] }, day, runtime.dayOptionalSpots[day]);
     click();
   }
   return { state, runtime, choose, edits: () => edits };
@@ -35,6 +35,39 @@ test('D2 candidates follow Hinode, fall back before lunch/terrace and stay out o
   assert.equal(f(['shiroi-koibito-park', 'sapporo-susukino']), -1);
   c.state.selectedDay = 3;
   assert.equal(f(['hinode-park']), -1);
+});
+
+test('D3 lunch replaces Naruto in place, restores it on change and leaves other days untouched', () => {
+  const c = setup();
+  c.state.selectedDay = 3;
+  const original = Array.from(c.state.plan[3]);
+  const otherDays = JSON.stringify(Object.fromEntries(Object.entries(c.state.plan).filter(([day]) => day !== '3')));
+  const lunch = original.indexOf('wakadori-naruto-honten');
+  assert.equal(c.runtime.getDayThreeLunchInsertionIndex(original), lunch);
+  assert.equal(c.runtime.isDailyTimingDraftApplicable(3), true);
+  c.choose('otaru-takeda', 3);
+  assert.equal(c.state.plan[3][lunch], 'otaru-takeda');
+  assert.equal(c.state.plan[3].includes('wakadori-naruto-honten'), false);
+  assert.equal(c.runtime.isDailyTimingDraftApplicable(3), false);
+  c.choose('otaru-takeda', 3);
+  assert.equal(c.edits(), 1);
+  c.choose('wakadori-naruto-honten', 3);
+  assert.deepEqual(Array.from(c.state.plan[3]), original);
+  assert.equal(c.runtime.isDailyTimingDraftApplicable(3), true);
+  assert.equal(JSON.stringify(Object.fromEntries(Object.entries(c.state.plan).filter(([day]) => day !== '3'))), otherDays);
+});
+
+test('D3 lunch refuses cross-day duplicates and ignores clicks after switching days', () => {
+  const c = setup();
+  c.state.selectedDay = 3;
+  c.state.plan[6].push('otaru-takeda');
+  const before = JSON.stringify(c.state.plan);
+  c.choose('otaru-takeda', 3);
+  assert.equal(JSON.stringify(c.state.plan), before);
+  c.state.plan[6].pop();
+  c.state.selectedDay = 2;
+  c.choose('otaru-takeda', 3);
+  assert.equal(c.edits(), 0);
 });
 
 test('D6 optional purchases stay near their anchors, avoid duplicates and preserve other days', () => {

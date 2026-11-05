@@ -26,8 +26,8 @@ const dailyTimingDrafts = {
   },
   3: {
     intro: "07:45 從 APA 出發，以 08:45 前抵達北海道神宮為目標，第一段含冬季行車、停車與步行先留 1 小時，並非保證車程。童話十字路之後加入天狗山夜景，之後再回運河；四座神社全留會很滿，至少略過一至兩座彈性神社較從容。",
-    route: "APA → 神宮／彈性神社 → 小樽午餐 → 大正硝子 → 童話十字路 → 天狗山夜景 → 運河 → APA",
-    stopGroups: [["hokkaido-shrine"],["sapporo-fushimi-inari"],["teine-shrine"],["wakadori-naruto-honten"],["otaru-inari-shrine"],["taisho-glass"],["otaru-meruhen-crossing"],["otaru-tenguyama"],["otaru-canal"]],
+    route: "APA → 神宮／彈性神社 → 小樽午餐 → 大正硝子 → LeTAO 本店 → 童話十字路 → 天狗山夜景 → 運河 → APA",
+    stopGroups: [["hokkaido-shrine"],["sapporo-fushimi-inari"],["teine-shrine"],["wakadori-naruto-honten"],["otaru-inari-shrine"],["taisho-glass"],["letao-otaru-honten"],["otaru-meruhen-crossing"],["otaru-tenguyama"],["otaru-canal"]],
     requiredIds: ["hokkaido-shrine","wakadori-naruto-honten","taisho-glass","otaru-meruhen-crossing","otaru-canal","otaru-tenguyama"],
     optionalIds: ["sapporo-fushimi-inari","teine-shrine","otaru-inari-shrine"],
     rows: [
@@ -42,7 +42,8 @@ const dailyTimingDrafts = {
       ["13:30–14:20","小樽稻荷神社與往返","開車約 20–25 分後參拜約 20–25 分；遇坡道積雪、授與所休息或已落後，就略過。",["otaru-inari-shrine"],"含移動約 50 分"],
       ["14:20–14:45","移車至運河／堺町周邊停車場","確認可停到傍晚，接下來商店街與運河以步行串接，保留取車路程。"],
       ["14:45–15:25","大正硝子館","先逛店；這版不含製作體驗。若預約體驗，需另留時間並減少神社。",["taisho-glass"],"約 40 分"],
-      ["15:25–16:10","步行堺町通、童話十字路","商店散步、拍照、短暫暖身；不為了逛完每間店延誤運河。",["otaru-meruhen-crossing"],"含沿途步行約 45 分"],
+      ["15:25–15:55","LeTAO 小樽本店","必逛點放在上山前，先留約 30 分鐘採買；咖啡廳另留候位與用餐時間。",["letao-otaru-honten"],"先留約 30 分"],
+      ["15:55–16:10","童話十字路","LeTAO 本店就在路口旁，短拍後準備取車上天狗山。",["otaru-meruhen-crossing"],"約 15 分"],
       ["16:10–16:55","取車、開車到天狗山山麓站","含走回停車場、冬季行車與停車抓 45 分；不是從十字路直接步行上山。"],
       ["16:55–18:25","天狗山夜景與纜車往返","含購票候車、上下山與看景抓 90 分。冬季上山末班 19:48、下山 20:00；遇強風停駛就回市區。",["otaru-tenguyama"],"約 90 分"],
       ["18:25–19:10","開車回運河周邊停車","重新停車並走到運河，若餓先簡單補餐。"],
@@ -58,7 +59,7 @@ const dailyTimingDrafts = {
     route: "APA → 登別地獄谷／溫泉街午餐 → 室蘭備選（有空再去）→ 藻岩山（必去）→ APA",
     stopGroups: [["noboribetsu-valley"],["noboribetsu-onsen-street","noboribetsu-onsen-ichiba"],["muroran-hakucho-bridge-view"],["happiness-bell"],["moiwa-yama"]],
     requiredIds: ["noboribetsu-valley","moiwa-yama"],
-    optionalIds: ["noboribetsu-onsen-street","noboribetsu-onsen-ichiba","muroran-hakucho-bridge-view","happiness-bell"],
+    optionalIds: ["noboribetsu-onsen-ichiba","muroran-hakucho-bridge-view","happiness-bell"],
     rows: [],
     notes: [],
     sources: [["登別溫泉市場","https://noboribetsu-spa.jp/tw/spot/spot0169/"],["北海道道路資訊","https://info-road.hdb.hkd.mlit.go.jp/"],["藻岩山營業／冬季道路封閉","https://mt-moiwa.jp/guide/"],["NEXCO 車程估算說明","https://www.driveplaza.com/dp/SearchQuick?startPlaceKana=札幌南&arrivePlaceKana=登別東"]]
@@ -216,10 +217,18 @@ function buildDayFourTimingDraft(stops) {
   const conservative = calculateDayFourScenario(stops, 2);
   const direct = calculateDayFourScenario([], 2);
   const stopsLabel = normal.bridge && normal.cape ? "白鳥與幸福之鐘有空再去，建議最多挑一處" : normal.bridge ? "白鳥大橋有空再去" : normal.cape ? "幸福之鐘有空再去" : "略過室蘭兩處，午餐後直接回札幌";
+  const rows = normal.rows.map(row => [...row]);
+  const streetIndex = rows.findIndex(row => row[3]?.includes("noboribetsu-onsen-street"));
+  const lunchIndex = rows.findIndex(row => row[3]?.includes("noboribetsu-onsen-ichiba"));
+  if (streetIndex >= 0 && lunchIndex >= streetIndex) {
+    const start = rows[streetIndex][0].split("–")[0];
+    const end = rows[lunchIndex][0].split("–")[1];
+    rows.splice(streetIndex, lunchIndex - streetIndex + 1, [`${start}–${end}`, "登別溫泉街散步・午餐自選", "在閻魔堂附近散步、看店家後決定午餐，不指定溫泉市場或其他餐廳；含等供餐與用餐緩衝。", ["noboribetsu-onsen-street"], "含散步與午餐約 1.5–2 小時"]);
+  }
   return { ...dailyTimingDrafts[4],
     intro: `藻岩山夜景必去；${stopsLabel}。${normal.bridge || normal.cape ? "完整規劃包含目前清單中的室蘭備選，略過可提早抵達。" : ""}本表以 11/03 Google 車程 ×1.5＋各段停車／休息緩衝規劃；×2 情境約 ${dayFourTime(conservative.moiwaArrival)} 抵藻岩山山麓站，詳細依據可展開查看。`,
     route: `APA → 登別地獄谷／溫泉街午餐${normal.bridge ? " → 白鳥大橋（有空再去）" : ""}${normal.cape ? " → 幸福之鐘（有空再去）" : ""} → 藻岩山（必去）→ APA`,
-    rows: normal.rows,
+    rows,
     driveReview: { normal, conservative },
     notes: [
       `×2 是保守試算，不是雪季固定倍率或保證上限。若每段都按 ×2＋緩衝，目前路線約 ${dayFourTime(conservative.moiwaArrival)} 抵山麓，按相同觀景安排約 ${dayFourTime(conservative.moiwaFinish)} 完成下山。${conservative.exceedsOperatingWindow ? "這會超過迷你纜車 21:50 營業時間，不能直接照走；請優先刪減室蘭備選，保留藻岩山。" : "仍需依當天路況、排隊與運行調整。"}`,

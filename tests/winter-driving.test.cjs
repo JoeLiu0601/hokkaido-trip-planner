@@ -27,6 +27,17 @@ test('D4 rounds scaled driving plus a separate fixed buffer upward to five minut
   assert.equal(r.dayFourDriveMinutes(r.dayFourDriveLegs.directMoiwa, 2), 210);
 });
 
+test('D4 displays a single flexible lunch area while preserving its driving buffers', () => {
+  const { r, state } = setup();
+  const draft = r.getDailyTimingDraft(4);
+  const area = draft.rows.filter(row => row[3]?.includes('noboribetsu-onsen-street'));
+  assert.equal(area.length, 1);
+  assert.match(area[0][1], /午餐自選/);
+  assert.equal(draft.rows.some(row => row[3]?.includes('noboribetsu-onsen-ichiba')), false);
+  assert.equal(state.plan[4].includes('noboribetsu-onsen-ichiba'), false);
+  assert.equal(draft.driveReview.normal.moiwaArrival, r.calculateDayFourScenario(state.plan[4], 1.5).moiwaArrival);
+});
+
 test('only D4 lookouts join the existing optional group and stay out of main progress', () => {
   const { r, state } = setup();
   state.selectedDay = 4;

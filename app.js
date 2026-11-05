@@ -399,14 +399,14 @@ const spots = [
   },
   {
     id: "noboribetsu-onsen-street",
-    name: "登別溫泉街",
+    name: "登別溫泉街散步・午餐自選",
     area: "登別",
-    type: "溫泉街散步",
+    type: "溫泉街・午餐區域",
     season: ["winter"],
-    time: "1h",
+    time: "1.5–2h",
     best: "閻魔堂、鬼像、伴手禮、小吃、溫泉街散步",
-    desc: "地獄谷入口旁的溫泉商店街，餐廳、甜點與伴手禮店集中。走完地獄谷後可順路看閻魔堂與街上的鬼像，散步約 45-60 分鐘，再於附近吃午餐；溫泉市場、喫茶田園保留為用餐候選，依當天想吃的口味決定。",
-    highlight: "Day4 散步小吃"
+    desc: "走完地獄谷後，到閻魔堂附近的登別溫泉街散步、找午餐，店家依當天口味、營業與候位決定。溫泉市場是一家店，喫茶田園也是候選，不代表整區只有這兩間；可挑海鮮、閻魔炒麵、咖啡簡餐或小吃。主行程只保留這個區域，不指定餐廳，先留約 1.5–2 小時含散步與午餐。",
+    highlight: "D4 午餐當天決定"
   },
   {
     id: "noboribetsu-onsen-ichiba",
@@ -922,6 +922,17 @@ const spots = [
     highlight: "小樽玻璃"
   },
   {
+    id: "letao-otaru-honten",
+    name: "LeTAO 小樽本店（必逛）",
+    area: "小樽",
+    type: "甜點・購物",
+    season: ["winter"],
+    time: "30–45 分鐘",
+    best: "雙層乳酪蛋糕、伴手禮、童話十字路旁",
+    desc: "確定要逛的 LeTAO 本店，位在童話十字路、音樂盒堂對面。安排在大正硝子之後、上天狗山之前，先留約 30–45 分鐘選蛋糕與伴手禮；若要坐咖啡廳，另留候位與用餐時間。一般商店及咖啡廳 09:00–18:00，咖啡廳最後點餐 17:30，混雜可能提早截止；12/25 特別營業依官方公告。",
+    highlight: "D3 必逛・上山前逛"
+  },
+  {
     id: "otaru-meruhen-crossing",
     name: "小樽童話十字路",
     area: "小樽",
@@ -933,6 +944,17 @@ const spots = [
     highlight: "小樽收尾點"
   },
   {
+    id: "otaru-takeda",
+    name: "武田鮮魚店・味処たけだ（整蟹／海鮮）",
+    area: "小樽",
+    type: "海鮮・餐食",
+    season: ["winter"],
+    time: "1.5–2h",
+    best: "整隻螃蟹四人分食、刺身、海鮮丼",
+    desc: "三角市場內的海鮮午餐候選，想四人分食整隻螃蟹、再搭刺身或海鮮丼可優先詢問。市場官方列有活帝王蟹、雪蟹與毛蟹；當天能否代客料理、是否需預留、整隻含料理總價與 12/25 營業請先向店家確認。整蟹餐先留 1.5–2 小時，候位另計，不沿用若雞的一小時午餐安排。",
+    highlight: "D3 整蟹午餐候選"
+  },
+  {
     id: "wakadori-naruto-honten",
     name: "若鶏時代 なると 本店（炸半雞）",
     area: "小樽",
@@ -941,7 +963,7 @@ const spots = [
     time: "1h",
     best: "若鶏半身揚げ、炸雞、午餐",
     desc: "小樽老字號炸雞名店，招牌是外皮酥脆、份量很有存在感的若鶏半身揚げ。離小樽站不遠，適合排在小樽神社與運河散步之間當午餐。",
-    highlight: "小樽必吃炸雞"
+    highlight: "D3 炸半雞午餐候選"
   },
   {
     id: "popura-farm-otaru",
@@ -1187,6 +1209,7 @@ const winterTemplate = {
     "wakadori-naruto-honten",
     "otaru-inari-shrine",
     "taisho-glass",
+    "letao-otaru-honten",
     "otaru-meruhen-crossing",
     "otaru-tenguyama",
     "otaru-canal"
@@ -1194,7 +1217,6 @@ const winterTemplate = {
   "4": [
     "noboribetsu-valley",
     "noboribetsu-onsen-street",
-    "noboribetsu-onsen-ichiba",
     "muroran-hakucho-bridge-view",
     "happiness-bell",
     "moiwa-yama"
@@ -1250,12 +1272,13 @@ const winterProfile = {
 
 const tripDates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29", "12/30", "12/31", "1/1"];
 const dayTwoLunchIds = ["kamifurano-marumasu", "kamifurano-mansaku"];
+const dayThreeLunchIds = ["wakadori-naruto-honten", "otaru-takeda"];
 const dayFourOptionalStopIds = ["muroran-hakucho-bridge-view", "happiness-bell"];
 
 const daySummaries = {
   "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先規劃約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住規劃約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
   "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景。約 18:30 在富良野吃完晚餐出發，約 22:00 到札幌 APA。也可提早離開、沿途補餐。大通與薄野僅留彈性備選，晚到不再硬逛。",
-  "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。手稻放在前往小樽途中，接著吃午餐、逛玻璃店與童話十字路，再看天狗山與運河夜景。四座神社全走仍會偏滿，優先刪減彈性神社；晚餐時段與天狗山先後仍待決定。",
+  "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。手稻放在前往小樽途中，午餐若雞／武田二選一；大正硝子後逛必去的 LeTAO 本店與童話十字路，再上天狗山、看運河。四座神社全走仍會偏滿，優先刪減彈性神社；晚餐先考慮上天狗山前吃，餐廳與時間尚未決定。",
   "4": "06:30 從 APA 出發，主線是登別地獄谷、溫泉街午餐與藻岩山夜景。白鳥大橋、幸福之鐘列為有空再去，建議最多挑一處；路況不佳就午餐後直接前往藻岩山。完整規劃包含清單中的室蘭備選，實際略過可提早抵達。已用 11/03 Google 地圖逐段核對，分開試算 ×1.5／×2 加停車休息緩衝；兩點都去的 ×2 情境約 20:05 才到山麓，兩點皆略過約 16:10，可保留夜景時間。",
   "5": "白天分組：A 線中島公園、鰻魚飯與市區休息後搭地鐵到白色戀人公園；B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA；雪天與停車先留至 16:30 的會合緩衝。藻岩山夜景維持 D4。",
   "6": "A 線市區觀光：搭車前往啤酒博物館、Ario 與 Toriton，下午搭車回市中心逛地下街；B 線同伴自行開車去滑雪，集合時間另約。",
@@ -1722,9 +1745,23 @@ const spotLogistics = {
     hours: "本店常見 09:00-19:00；各分店與體驗時段不同",
     access: "小樽運河與堺町通可步行串遊，體驗的報名方式依課程不同"
   },
+  "letao-otaru-honten": {
+    hours: "一般商店 09:00–18:00；咖啡廳 09:00–18:00、L.O.17:30，混雜可能提早截止；無固定店休，季節與年末調整另查",
+    access: "地址：小樽市堺町7-16，童話十字路、音樂盒堂對面。堺町逛街段步行串接即可。自駕可查官方特約「紅葉園小樽入船第一駐車場」（入船1-1-30），購物停車折抵依官網與現場規則，不預設免費。若想預約咖啡廳，官網列僅平日可詢問、不受理當日及週末假日預約；客服 0120-314-521 可協助轉接，尚未訂位",
+    infoUrl: "https://www.letao-brand.jp/shop/letao/",
+    checkedAt: "2026/11/06"
+  },
   "otaru-meruhen-crossing": {
     hours: "街區全天可走；周邊商店多為白天到傍晚",
     access: "堺町通南端，從南小樽站或小樽運河皆可步行串遊"
+  },
+  "otaru-takeda": {
+    hours: "小樽觀光協會列食堂 07:00–16:00、元旦休；12/25 及年末特別營業另確認，鮮魚店與食堂時間不同",
+    access: "地址：小樽市稲穂3丁目10-16 三角市場內。導航請選味処たけだ，JR 小樽站步行約 1 分鐘；自駕先停周邊合法付費停車場，再步行入市場。電話 0134-22-9652；先詢問四人整蟹料理、總價、等待時間與預約可否，尚未訂位",
+    infoUrl: "https://otaru.gr.jp/shop/otaru-takeda",
+    foodUrl: "https://www.otaru-sankaku.com/shop12.html",
+    foodUrlLabel: "三角市場官方：活蟹與鮮魚店介紹",
+    checkedAt: "2026/11/06"
   },
   "wakadori-naruto-honten": {
     hours: "常見 11:00-21:00（L.O. 20:30）；定休日不定休，元旦常見休息",
@@ -1991,6 +2028,9 @@ const dayDepartures = {
 };
 
 const drivingPlaceOverrides = {
+  "noboribetsu-onsen-street": "閻魔堂 北海道登別市登別温泉町",
+  "letao-otaru-honten": "ルタオ本店 小樽市堺町7-16",
+  "otaru-takeda": "味処たけだ 小樽市稲穂3丁目10-16 三角市場",
   "apa-sogo": "モユク札幌ロフト 札幌市中央区南2条西3丁目20 モユクサッポロ3階",
   "pokemon-center-sapporo": "ポケモンセンターサッポロ 大丸札幌店 8F 札幌市中央区北5条西4丁目7",
   "sandria-honten": "サンドリア本店 札幌市中央区南8条西9丁目758-14",
@@ -2404,8 +2444,8 @@ function migrateGoryokakuPriorityPlan(plan) {
 
 function migrateOnsenLunchPlan(plan) {
   if (!plan[4].includes("tenkatsu-honten-muroran")) return false;
-  const hasMarket = Object.values(plan).some(ids => ids.includes("noboribetsu-onsen-ichiba"));
-  plan[4] = plan[4].flatMap(id => id === "tenkatsu-honten-muroran" ? (hasMarket ? [] : ["noboribetsu-onsen-ichiba"]) : [id]);
+  const hasStreet = Object.values(plan).some(ids => ids.includes("noboribetsu-onsen-street"));
+  plan[4] = plan[4].flatMap(id => id === "tenkatsu-honten-muroran" ? (hasStreet ? [] : ["noboribetsu-onsen-street"]) : [id]);
   return true;
 }
 
@@ -2881,7 +2921,7 @@ function getStopNavigationMode(day, index, spotId) {
   if (getKnownWalkingLeg(day, index, spotId)) return "walking";
   if (day === 2 && ["sapporo-odori", "sapporo-susukino"].includes(spotId)
     && ["apa-sapporo-susukino-ekinishi", "sapporo-odori"].includes(previous)) return "walking";
-  const otaruWalk = ["otaru-canal", "taisho-glass", "otaru-meruhen-crossing", "otaru-sakaimachi"];
+  const otaruWalk = ["letao-otaru-honten", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing", "otaru-sakaimachi"];
   if (otaruWalk.includes(previous) && otaruWalk.includes(spotId)) return "walking";
   return "driving";
 }
@@ -4598,6 +4638,10 @@ function renderDayAlternative() {
 }
 
 const dayOptionalSpots = {
+  3: {
+    title: "D3 小樽午餐二選一",
+    ids: dayThreeLunchIds
+  },
   2: {
     title: "D2 晚餐備選",
     note: "精靈露臺後在富良野二選一，再開回札幌。先保留候選，尚未選定或預約；若改走札幌天候備案，這些餐廳就不適用。午餐兩間候選接在日之出公園後。",
@@ -4606,7 +4650,7 @@ const dayOptionalSpots = {
   },
   4: {
     title: "D4 午餐與溫泉街美食備選",
-    note: "在登別溫泉街、閻魔堂附近吃午餐，約 11:00 開始用餐；溫泉市場、喫茶田園是候選，依當天想吃的口味與候位決定，尚未預約。12/26 營業與供餐行前確認。",
+    note: "主行程只排閻魔堂附近的溫泉街區域，午餐當天決定。以下店家供查資料與地圖，不必事先選定；12/26 營業與供餐行前確認。",
     ids: ["noboribetsu-onsen-ichiba", "noboribetsu-cafe-denen"]
   },
   6: {
@@ -4676,15 +4720,27 @@ function dayTwoDinnerOptionsHtml() {
   return dayTwoMealOptionsHtml(dayOptionalSpots[2].dinnerIds, "富良野晚餐", "精靈露臺後再選晚餐：くまげら鄉土料理／唯我獨尊咖哩二選一。兩間都留著當天參考，約 17:30–18:30 用餐後回札幌；尚未預約，候位較久請調整離開時間。", "晚餐");
 }
 
-function dayTwoMealOptionsHtml(ids, title, note, meal) {
-  const selectedIds = ids.filter(id => state.plan[2].includes(id));
+function getDayThreeLunchInsertionIndex(ids) {
+  if (state.selectedDay !== 3 || !ids.some(id => spotById(id)?.area === "小樽")) return -1;
+  const lunch = ids.findIndex(id => dayThreeLunchIds.includes(id));
+  if (lunch >= 0) return lunch;
+  const anchor = ids.findIndex(id => ["otaru-inari-shrine", "taisho-glass", "otaru-meruhen-crossing", "otaru-tenguyama", "otaru-canal"].includes(id));
+  return anchor >= 0 ? anchor : ids.length;
+}
+
+function dayThreeLunchOptionsHtml() {
+  return dayTwoMealOptionsHtml(dayThreeLunchIds, "小樽午餐", "若雞炸半雞／武田鮮魚店整蟹海鮮二選一。想吃整隻蟹四人分食可先詢問武田，先留 1.5–2 小時、候位另計；尚未預約。改選整蟹餐後，當日時間需依用餐與候位重新安排。", "午餐", 3);
+}
+
+function dayTwoMealOptionsHtml(ids, title, note, meal, day = 2) {
+  const selectedIds = ids.filter(id => state.plan[day].includes(id));
   return `<details class="day-alternative inline-lunch-options" aria-label="${title}二選一">
     <summary>${title} · ${selectedIds.length === 1 ? escapeHtml(spotById(selectedIds[0]).name) : "選餐廳"}</summary>
     <p>${note}</p>
     ${ids.map(id => {
       const spot = spotById(id);
       const selected = selectedIds.includes(id) && selectedIds.length === 1;
-      const otherDay = Object.keys(state.plan).find(day => Number(day) !== 2 && state.plan[day].includes(id));
+      const otherDay = Object.keys(state.plan).find(key => Number(key) !== day && state.plan[key].includes(id));
       return `<details class="day-option-card lunch-candidate">
         <summary>${escapeHtml(spot.name)}${selected ? " · 已選" : ""}</summary>
         <p>${escapeHtml(spot.best)}</p><p>${escapeHtml(spot.desc)}</p>
@@ -4701,8 +4757,8 @@ function renderDayOptions() {
   const panel = document.getElementById("day-options");
   const day = state.selectedDay;
   const options = dayOptionalSpots[day];
-  shell.hidden = !options || day === 2;
-  if (!options || day === 2) return;
+  shell.hidden = !options || day === 2 || day === 3;
+  if (!options || day === 2 || day === 3) return;
   // Each day's accordion starts closed when changing days.
   if (shell.dataset.day !== String(day)) shell.open = false;
   shell.dataset.day = String(day);
@@ -4739,11 +4795,12 @@ function bindDayOptionButtons(panel, day, options) {
     button.addEventListener("click", () => {
       const id = button.dataset.dayOption;
       if (state.selectedDay !== day || !options.ids.includes(id)) return;
-      const choiceIds = day === 2 ? (options.dinnerIds.includes(id) ? options.dinnerIds : dayTwoLunchIds) : [];
+      const choiceIds = day === 3 ? dayThreeLunchIds : day === 2 ? (options.dinnerIds.includes(id) ? options.dinnerIds : dayTwoLunchIds) : [];
       if (state.plan[day].includes(id) && (!choiceIds.length || choiceIds.filter(spotId => state.plan[day].includes(spotId)).length === 1)) return;
       const otherDays = Object.keys(state.plan).filter(key => Number(key) !== day && state.plan[key].includes(id));
       if (otherDays.some(key => Number(key) !== options.moveFromDay)) return;
       for (const key of otherDays) state.plan[key] = state.plan[key].filter(spotId => spotId !== id);
+      const oldLunchIndex = day === 3 ? state.plan[day].findIndex(spotId => choiceIds.includes(spotId)) : -1;
       if (choiceIds.length) state.plan[day] = state.plan[day].filter(spotId => !choiceIds.includes(spotId));
       const stops = state.plan[day];
       let insertion = -1;
@@ -4756,6 +4813,8 @@ function bindDayOptionButtons(panel, day, options) {
         } else {
           insertion = stops.indexOf(isDinner ? "apa-sapporo-susukino-ekinishi" : "ningle-terrace");
         }
+      } else if (day === 3) {
+        insertion = oldLunchIndex >= 0 ? oldLunchIndex : getDayThreeLunchInsertionIndex(stops);
       } else if (day === 4) {
         const streetIndex = stops.indexOf("noboribetsu-onsen-street");
         if (streetIndex >= 0) {
@@ -4835,7 +4894,8 @@ function renderDayTabs() {
 
 function renderItinerary() {
   const ids = state.plan[state.selectedDay];
-  const lunchIndex = getDayTwoLunchInsertionIndex(ids);
+  const lunchIndex = state.selectedDay === 3 ? getDayThreeLunchInsertionIndex(ids) : getDayTwoLunchInsertionIndex(ids);
+  const lunchOptionsHtml = () => state.selectedDay === 3 ? dayThreeLunchOptionsHtml() : dayTwoLunchOptionsHtml();
   const dinnerIndex = getDayTwoDinnerInsertionIndex(ids);
   dom.dayDeparture.innerHTML = dayDepartureHtml(state.selectedDay);
   window.HOKKAIDO_JOURNEY?.render();
@@ -4862,7 +4922,7 @@ function renderItinerary() {
         const key = `stop-${state.selectedDay}-${spot.id}`;
         const detailsOpen = disclosureIsOpen(`${key}-details`);
         const adjustOpen = disclosureIsOpen(`${key}-adjust`);
-        return `${index === lunchIndex ? dayTwoLunchOptionsHtml() : ""}${index === dinnerIndex ? dayTwoDinnerOptionsHtml() : ""}
+        return `${index === lunchIndex ? lunchOptionsHtml() : ""}${index === dinnerIndex ? dayTwoDinnerOptionsHtml() : ""}
           <article class="stop-card" data-index="${index}" data-spot-id="${spot.id}">
             ${timingDraftHtml(timingDraft)}
             <div class="stop-top">
@@ -4898,7 +4958,7 @@ function renderItinerary() {
                 <button class="small-button" data-remove="${spot.id}">移除</button>
               </div>
             </div>
-          </article>${index === ids.length - 1 && lunchIndex === ids.length ? dayTwoLunchOptionsHtml() : ""}${index === ids.length - 1 && dinnerIndex === ids.length ? dayTwoDinnerOptionsHtml() : ""}
+          </article>${index === ids.length - 1 && lunchIndex === ids.length ? lunchOptionsHtml() : ""}${index === ids.length - 1 && dinnerIndex === ids.length ? dayTwoDinnerOptionsHtml() : ""}
         `;
       })
       .join("");
@@ -4929,7 +4989,7 @@ function renderItinerary() {
   });
 
   bindPlacePanels(dom.itineraryList);
-  if (state.selectedDay === 2) bindDayOptionButtons(dom.itineraryList, 2, dayOptionalSpots[2]);
+  if ([2, 3].includes(state.selectedDay)) bindDayOptionButtons(dom.itineraryList, state.selectedDay, dayOptionalSpots[state.selectedDay]);
 
   dom.itineraryList.querySelectorAll(".stop-card").forEach((card) => {
     const handle = card.querySelector(".drag-handle[draggable='true']");
@@ -5054,6 +5114,7 @@ const spotAreas = [
 ];
 
 const shoppingSpotIds = new Set([
+  "letao-otaru-honten",
   "pokemon-center-sapporo",
   "asahikawa-heiwa-dori",
   "aeon-mall-asahikawa-ekimae",

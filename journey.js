@@ -472,9 +472,9 @@
   }
 
   function timelineHtml(ids, nextId) {
-    const lunchIndex = getDayTwoLunchInsertionIndex(ids);
+    const lunchIndex = state.selectedDay === 3 ? getDayThreeLunchInsertionIndex(ids) : getDayTwoLunchInsertionIndex(ids);
     const dinnerIndex = getDayTwoDinnerInsertionIndex(ids);
-    const lunchHtml = () => `<li class="journey-lunch-choice">${dayTwoLunchOptionsHtml()}</li>`;
+    const lunchHtml = () => `<li class="journey-lunch-choice">${state.selectedDay === 3 ? dayThreeLunchOptionsHtml() : dayTwoLunchOptionsHtml()}</li>`;
     const dinnerHtml = () => `<li class="journey-lunch-choice">${dayTwoDinnerOptionsHtml()}</li>`;
     return ids.map((id, index) => `${index === lunchIndex ? lunchHtml() : ""}${index === dinnerIndex ? dinnerHtml() : ""}${stopHtml(id, index, nextId)}`).join("")
       + (lunchIndex === ids.length ? lunchHtml() : "") + (dinnerIndex === ids.length ? dinnerHtml() : "");
@@ -653,7 +653,7 @@
     if (map?.matches("details")) map.open = mapOpen;
     const optional = host.querySelector(".journey-optional");
     if (optional) optional.open = optionalOpen;
-    if (state.selectedDay === 2) bindDayOptionButtons(host, 2, dayOptionalSpots[2]);
+    if ([2, 3].includes(state.selectedDay)) bindDayOptionButtons(host, state.selectedDay, dayOptionalSpots[state.selectedDay]);
     const flightPanel = host.querySelector(".day-flight-panel");
     if (flightPanel) bindDisclosures(flightPanel);
     if (mainIds.length) paintPlayback();
