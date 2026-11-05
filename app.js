@@ -5128,10 +5128,12 @@ function renderSpotAreaTabs() {
   }
 
   dom.spotAreaTabs.innerHTML = spotAreas
+    .map(area => ({ ...area, count: getAreaCount(area.id) }))
+    .sort((a, b) => Number(b.id === "all") - Number(a.id === "all") || b.count - a.count)
     .map((area) => `
       <button class="spot-category-tab ${state.spotArea === area.id ? "active" : ""}" data-area="${escapeHtml(area.id)}" type="button">
         <span>${escapeHtml(area.label)}</span>
-        <strong>${getAreaCount(area.id)}</strong>
+        <strong>${area.count}</strong>
       </button>
     `)
     .join("");
@@ -5153,10 +5155,12 @@ function renderSpotCategoryTabs() {
   }
 
   dom.spotCategoryTabs.innerHTML = spotCategories
+    .map(category => ({ ...category, count: getCategoryCount(category.id) }))
+    .sort((a, b) => Number(b.id === "all") - Number(a.id === "all") || b.count - a.count)
     .map((category) => `
       <button class="spot-category-tab ${state.spotCategory === category.id ? "active" : ""}" data-category="${category.id}" type="button">
         <span>${category.label}</span>
-        <strong>${getCategoryCount(category.id)}</strong>
+        <strong>${category.count}</strong>
       </button>
     `)
     .join("");
