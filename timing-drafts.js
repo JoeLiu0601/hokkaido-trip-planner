@@ -85,26 +85,26 @@ const dailyTimingDrafts = {
     sources: [["中島公園","https://www.sapporo.travel/spot/facility/nakajima_park/"],["白色戀人當季燈飾","https://www.shiroikoibitopark.jp/illumination/"],["公園交通與停車","https://www.shiroikoibitopark.jp/park-guide/access.html"],["滑雪場入口","https://sapporo-moiwa.jp/access/"]]
   },
   6: {
-    intro: "A 線市區觀光：10:00 從 APA 出發，搭地鐵與巴士到啤酒博物館，步行串接 Ario；Toriton 可步行或搭計程車，下午搭車回市中心。B 線同伴自行開車滑雪，今天不需回飯店取車或停車。",
-    route: "APA → 地鐵／188 巴士 → 啤酒博物館 → Ario → Toriton 北8条光星店 → 搭車回市中心 → Pole Town／3COINS → 拉麵悠 → APA",
+    intro: "A 線無車：10:00 從 APA 步行到豊水すすきの，搭東豐線直達東区役所前，再步行到啤酒博物館；Ario 與 Toriton 以步行串接，下午東豐線回大通。B 線同伴自行開車滑雪。搭車卡已列方向、出口及現行平日參考班次。",
+    route: "APA → 豊水すすきの H09 → 東豐線往栄町 → 東区役所前 H05 → 啤酒博物館 → Ario → Toriton → 東区役所前 H05 → 東豐線往福住 → 大通 H08 → Pole Town／3COINS → 拉麵悠 → 步行回 APA",
     stopGroups: [["sapporo-beer-museum"],["ario-sapporo"],["toriton-kita8"],["kinotoya-bake-pole-town"],["3coins-pole-town"],["ramen-haruka"]],
     requiredIds: ["sapporo-beer-museum","ario-sapporo","toriton-kita8","kinotoya-bake-pole-town","3coins-pole-town","ramen-haruka"],
     rows: [
-      ["09:15–10:00","早餐、準備出門","午餐安排較晚，早餐先吃飽；確認巴士班次，車由同伴開去滑雪。"],
-      ["10:00–11:00","地鐵＋巴士：APA → 啤酒博物館","步行到薄野站，搭南北線往麻生方向到札幌站，北口 2 號乘車處搭 188 巴士至サッポロビール園。含轉乘先留 1 小時，班次不合就提早出發或改計程車，不保證剛好 11:00 到。"],
+      ["09:15–10:00","早餐、準備出門","午餐安排較晚，早餐先吃飽；車由同伴開去滑雪，今天搭東豐線與步行。"],
+      ["10:00–11:00","東豐線直達：APA → 啤酒博物館","APA 步行 15–20 分鐘到豊水すすきの H09 的 2 號入口，進站另留 5 分鐘；目標搭現行平日 10:29 往栄町，4 站約 8 分鐘到東区役所前 H05，4 號出口再走 15–20 分鐘到博物館。下一班 10:37、10:44 可銜接；時刻是現行參考，12/28 年末調整尚未確認。"],
       ["11:00–12:00","札幌啤酒博物館自行參觀","D6 是週一，不排週一停辦的導覽；若有自行參觀後的付費試飲需求，另留時間。當年度年末營業仍需再查。",["sapporo-beer-museum"],"約 1 小時"],
       ["12:00–13:30","Ario 購物、休息","與博物館相鄰，步行串接；肚子餓可少量點心，留胃口給稍後壽司。",["ario-sapporo"],"約 1.5 小時"],
       ["13:30–14:00","步行／計程車至 Toriton","雪地步行先留約 30 分鐘；太冷或路面不好就搭計程車。到店先取號，無座位預約，實際候位另計。"],
       ["14:00–15:30","Toriton 迴轉壽司午餐","離峰規劃仍留 90 分含候位；若要等超過 1 小時，可改鄰近餐廳，或刪減後面的購物時間。",["toriton-kita8"],"含候位約 1.5 小時"],
-      ["15:30–16:30","東豐線：東区役所前 → 大通","Toriton 步行到東区役所前站，搭地下鐵東豐線往福住，在大通下車，再循 Pole Town 標示步行往 KINOTOYA。含地面步行、候車與站內移動先留 1 小時；雪地難走或購物袋多可改計程車。"],
+      ["15:30–16:30","東豐線：東区役所前 H05 → 大通 H08","Toriton 雪地步行 15–20 分鐘到東区役所前站 4 號入口，進站另留 5 分鐘；先抓現行平日 15:57 往福住，錯過接 16:05。3 站約 6 分鐘到大通 H08，再循南北線／すすきの／Pole Town 指標走 10–15 分鐘到 KINOTOYA；這段全程規劃 1 小時。"],
       ["16:30–17:00","Pole Town、KINOTOYA 甜點","進地下街後步行；壽司吃飽了就外帶或略過甜點。",["kinotoya-bake-pole-town"],"約 30 分"],
       ["17:00–17:40","3COINS Pole Town","在同一地下街逛約 40 分，購物不必趕，想加逛可用後面的自由時間。",["3coins-pole-town"],"約 40 分"],
       ["17:40–18:30","自由逛街／回飯店休息","保留食慾與體力，晚餐前不再硬塞景點。"],
       ["18:30–19:45","札幌拉麵悠晚餐","從 Pole Town／APA 步行到薄野拉麵橫丁；約 75 分含候位，排隊太久或售完就改附近拉麵店。",["ramen-haruka"],"含候位約 75 分"],
       ["19:45–20:15","步行回 APA","今晚整理採買品與行李，方便明天退房出發洞爺湖。"]
     ],
-    notes: ["午餐時間先規劃 14:00；若你習慣準時吃，可縮短 Ario，提早到 Toriton 取號，其他購物往後移。","去程 JR 備案：地下鐵さっぽろ步行轉 JR 札幌，搭往白石方向且停靠苗穂的普通列車，下一站苗穂下車，北口步行約 8 分鐘到博物館（雪天另留緩衝）；快速／特急可能不停，先看停靠站。地鐵與 JR 需分別進出閘門。","12/28 的年末特別營業、交通班次與餐廳候位不是已確認預約，當天以實際營運和排隊調整。"],
-    sources: [["啤酒博物館利用案內","https://www.sapporobeer.jp/brewery/s_museum/kengaku/"],["博物館巴士／JR 交通","https://www.sapporobeer.jp/brewery/s_museum/access/"],["JR 北海道路線與時刻查詢","https://jrhokkaidonorikae.com/map/map.php"],["札幌地下鐵站內圖","https://www.city.sapporo.jp/st/subway/ekikonaizu/ekikonaizu.html"],["Ario 札幌","https://sapporo.ario.jp/"],["拉麵悠店家資訊","https://www.ramenharuka.com/maps"]]
+    notes: ["午餐時間先規劃 14:00；若你習慣準時吃，可縮短 Ario，提早到 Toriton 取號，其他購物往後移。","去回程都搭東豐線，不需轉巴士或 JR。步行估時為雪地規劃緩衝，不是官方步行保證；進地下街後以站內指標為準。","2026/11/6 查核札幌市交通局現行平日班表；12/28 週一的年末臨時調整、景點營業與餐廳候位仍未確認。錯過班次就搭同方向下一班。"],
+    sources: [["豊水すすきの官方時刻表","https://www.city.sapporo.jp/st/time/documents/09sui.pdf"],["東区役所前官方時刻表","https://www.city.sapporo.jp/st/time/documents/05hiku.pdf"],["東豐線官方站間時間","https://www.city.sapporo.jp/st/subway/jikan_kyori/jikan_kyori.html"],["博物館官方交通","https://www.sapporobeer.jp/brewery/s_museum/access/"],["札幌地下鐵站內圖","https://www.city.sapporo.jp/st/subway/ekikonaizu/ekikonaizu.html"],["Ario 札幌","https://sapporo.ario.jp/"],["拉麵悠店家資訊","https://www.ramenharuka.com/maps"]]
   },
   7: {
     intro: "07:30 從 APA 退房出發，冬季含休息先抓約 3 小時，約 10:30 到真狩村。提早抵達的時間留給羊蹄山短拍與休息，午餐仍排 11:30；經 SAIRO 展望台到洞爺湖，15:15 左右入住湖畔亭，不排火口。",

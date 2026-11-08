@@ -438,7 +438,7 @@ const spots = [
     season: ["winter"],
     time: "1.5h",
     best: "海鮮丼、早餐、在地味、元旦需確認",
-    desc: "一般早上排這裡很順，但 Day 10 是元旦：2027/1/1 正式營業資訊尚未公告，前一年度函館官方年末年始表曾將 1/1 列為休業。不要把早餐完全押在這裡；若一定想逛，優先考慮移到 Day 9 早上，或準備飯店早餐備案。",
+    desc: "Day 10 是元旦，朝市各店自行決定年末營業，不能保證整區照常開門；目前未確認 2027/1/1 各店名單。09:15 有開才短逛，沒開就留在飯店吃已含餐／事先確認可加購的早餐，或吃前晚備好的輕食，休息整理行李。09:45 開始退房準備，10:15 前退房寄放行李，不為找店影響機場交通。",
     highlight: "元旦高風險"
   },
   {
@@ -1377,7 +1377,7 @@ const dayNineSchedule = [
 const dayTenTimingDraft = {
   "morning-market": {
     time: "09:15–09:45（有營業才去）", duration: "最多約 30 分",
-    note: "從 La'gent Stay 函館站前步行到朝市。元旦各店可能休息；確認有店營業才短逛，否則在飯店或站前早餐。09:45 回飯店整理行李。"
+    note: "09:15 朝市有店營業才短逛；沒開就採飯店早餐／前晚備妥輕食，09:15–09:45 休息整理。飯店一般早餐 06:00–10:00、09:30 最後入場；是否含餐、能否加購及元旦安排請事先確認。09:45 開始退房準備，10:15 前退房寄行李。"
   },
   motomachi: {
     time: "10:45–11:45", duration: "約 1 小時",
@@ -1394,7 +1394,7 @@ const dayTenTimingDraft = {
 };
 const dayTenRequiredStopIds = ["motomachi", "hakodate-station-airport-bus", "hakodate-airport"];
 const dayTenSchedule = [
-  ["09:15–09:45", "早餐／朝市有開才短逛", "飯店步行可到朝市；元旦營業未確認，不為朝市延誤退房。"],
+  ["09:15–09:45", "朝市有開才短逛／飯店休息整理", "早餐先於 08:30–09:15 吃完：飯店已含餐或確認可加購才用餐，否則前晚備輕食。朝市沒開就留飯店休息，09:45 開始退房準備，不另跑遠處景點。"],
   ["09:45–10:15", "回飯店退房、寄行李", "La'gent Stay 一般 11:00 前退房，官方可寄放當日領回的行李；護照與貴重物品隨身帶。"],
   ["10:15–10:45", "函館駅前 → 十字街 → 元町", "飯店步行到函館駅前電停；搭市電 2 系統往谷地頭或 5 系統往函館どつく前，十字街下車後步行上坡。此段含候車與雪地步行。"],
   ["10:45–11:45", "元町散步", "只挑想看的街區，11:45 開始下坡；若天候差或團員疲累，就在站前休息。"],
@@ -1664,9 +1664,9 @@ const spotLogistics = {
     ticketNotes: "自行參觀免預約、不含試飲；試飲導覽需預約、全程日語，週一停辦（遇假日改週二）。D6 12/28 週一以自行參觀為主；開車者不能酒精試飲，年末營業另查當年度公告。",
     ticketUrl: "https://www.sapporobeer.jp/brewery/s_museum/kengaku/",
     hours: "自行參觀 11:00-18:00（最終入館 17:30）；週一停辦導覽，不是固定全館休館；12/31 休館，其他年末安排以公告為準",
-    access: "地址：札幌市東区北7条東9丁目1-1。APA 出發：薄野（すすきの）搭南北線往麻生，到地下鐵さっぽろ，步行至札幌站北口 2 號乘車處，轉中央巴士 188 往サッポロビール園，下同名站即達。JR 備案：在 JR 札幌站轉往白石方向、確認停靠苗穂的普通列車，下一站苗穂下車，北口步行約 8 分鐘；不要搭不停苗穂的快速或特急。步行時間未含冬季緩衝",
+    access: "地址：札幌市東区北7条東9丁目1-1。D6 無車：APA 步行至豊水すすきの H09，搭東豐線往栄町，東区役所前 H05 下車，4 號出口步行前往；不用轉巴士。官方站外步行約 10 分鐘，雪地先留 15–20 分鐘。對應行程卡可展開逐段導航及現行平日參考班次",
     infoUrl: "https://www.sapporobeer.jp/brewery/s_museum/access/",
-    checkedAt: "2026/10/30"
+    checkedAt: "2026/11/6"
   },
   "ario-sapporo": {
     hours: "專門店/2F 美食街常見 10:00-21:00；1F 餐廳街常見 11:00-21:00",
@@ -1934,8 +1934,10 @@ const spotLogistics = {
     access: "地址：函館市戶倉町30-1。市電到湯の川後離店仍有一段路，計程車較直接；本版主行程已改用 D8 五稜郭公園前店"
   },
   "morning-market": {
-    hours: "冬季一般約 06:00 至 14:00 後（各店不同）；2027/1/1 尚未公告，前一年度函館官方年末年始表將元旦列為休業",
-    access: "地址：函館市若松町9-19。函館站步行約 1-2 分鐘，適合和站內伴手禮店一起安排"
+    hours: "1–4 月一般約 06:00 至 14:00 後（各店不同）；2027/1/1 各店營業尚未確認，不把過往年份公告當成當天保證",
+    access: "地址：函館市若松町9-19。函館站步行約 1-2 分鐘。D10 朝市未開時改飯店早餐／前晚備餐、休息整理；10:15 前退房寄行李，機場巴士安排維持原規劃",
+    infoUrl: "https://www.hakodate-asaichi.com/",
+    checkedAt: "2026/11/8"
   },
   "kanemori-warehouse": {
     hours: "多數店家常見 09:30-19:00；跨年與元旦通常縮短營業，請以當年度公告為準",
@@ -2782,6 +2784,8 @@ function inlineSpotDetailsHtml(spot, day, index) {
     ${logistics?.access ? `<p><strong>交通建議：</strong>${escapeHtml(logistics.access)}</p>` : ""}
     ${practicalOptionsHtml(spot)}
     <p>${escapeHtml(transport)}</p>
+    ${daySixTransportHtml(day, index, spot.id)}
+    ${dayTenMorningBackupHtml(day, spot.id)}
     ${plannedDrivingRouteHtml(day, index, spot.id)}
     <p class="inline-detail-note">票價、營業時間與交通班次，請以官方最新公告為準。</p>
   `;
@@ -2867,16 +2871,107 @@ function getDayOneNavigationMode(spotId) {
     || (["ginneko-asahikawa", "jiyuken-asahikawa", "feeeal-asahikawa", "kinkarou-ichijo-asahikawa"].includes(spotId) ? "walking" : "");
 }
 
+function getDaySixTransport(day, index, spotId) {
+  const stops = state.plan[day] || [];
+  if (day !== 6 || index < 0 || stops[index] !== spotId) return null;
+  const previous = stops[index - 1];
+  const walk = (text, label, destination) => ({ text, label, destination, mode: "walking" });
+  const rail = (text, origin, destination) => ({ text, label: "② 查看這段地鐵路線", origin, destination, mode: "transit" });
+  const eastOffice = "東区役所前駅 4番出入口 札幌";
+  const hosui = "豊水すすきの駅 2番出入口 札幌";
+  const museum = "サッポロビール博物館 札幌市東区北7条東9丁目1-1";
+  const toriton = "回転寿しトリトン 北8条光星店 札幌市東区北8条東5丁目19-1";
+  const walkingGuide = (summary, steps) => ({ summary, steps });
+  if (spotId === "sapporo-beer-museum" && (index === 0 || previous === "apa-sapporo-susukino-ekinishi")) {
+    return {
+      summary: "東豐線往栄町｜豊水すすきの H09 → 東区役所前 H05",
+      boarding: { label: "走到豊水すすきの站", destination: hosui },
+      steps: [
+        walk("10:00 從 APA 出發，沿南4条往東走到豊水すすきの站 2 號入口；雪地步行先抓 15–20 分鐘，進站另留約 5 分鐘。這是東豐線 H09，不是南北線薄野站 N08。", "① 走到上車站・2 號入口", hosui),
+        rail("搭東豐線往「栄町 Sakaemachi」，4 站、車上約 8 分鐘，到「東区役所前 H05」下車；全程不用轉車。目標搭 10:29，錯過可搭下一班。", "豊水すすきの駅 札幌", "東区役所前駅 札幌"),
+        walk("從東区役所前站 4 號出口出站，步行到啤酒博物館。官方平常約 10 分鐘，雪地規劃 15–20 分鐘；以 11:00 開館入場為目標。", "③ 下車後走到啤酒博物館", museum)
+      ],
+      timetable: [["10 時", "07 · 14 · 22 · 29 · 37 · 44 · 52 · 59"], ["11 時", "07 · 14 · 22 · 29 · 37 · 44 · 52 · 59"]],
+      timetableTitle: "豊水すすきの出發・往栄町",
+      timetableUrl: "https://www.city.sapporo.jp/st/time/documents/09sui.pdf",
+      sourceUrl: "https://www.sapporobeer.jp/brewery/s_museum/access/"
+    };
+  }
+  if (spotId === "ario-sapporo" && previous === "sapporo-beer-museum") {
+    return walkingGuide("步行約 5–10 分鐘｜啤酒博物館 → Ario", [walk("Ario 就在博物館旁，步行進商場即可；不用等巴士。所列時間已留冬季慢行餘裕。", "步行到 Ario 札幌", "アリオ札幌 札幌市東区北7条東9丁目2-20")]);
+  }
+  if (spotId === "rokkatei-ario-sapporo" && previous === "ario-sapporo") {
+    return walkingGuide("館內步行｜Ario 1F 六花亭", [{ text: "六花亭在 Ario 札幌 1F，依商場樓層指標前往，不用搭車。" }]);
+  }
+  if (spotId === "toriton-kita8" && ["ario-sapporo", "rokkatei-ario-sapporo"].includes(previous)) {
+    return walkingGuide("步行約 20–30 分鐘｜Ario → Toriton 北8条光星店", [walk("離開 Ario 往西到北8条東5丁目；雪地步行先留 20–30 分鐘。這段直接走，不排巴士；路面結冰難走時可改計程車。到店先取號。", "步行到 Toriton 北8条光星店", toriton)]);
+  }
+  if (["kinotoya-bake-pole-town", "3coins-pole-town"].includes(spotId) && previous === "toriton-kita8") {
+    const destination = spotId === "kinotoya-bake-pole-town" ? "KINOTOYA BAKE ポールタウン店 札幌" : "3COINS 札幌ポールタウン店";
+    return {
+      summary: "東豐線往福住｜東区役所前 H05 → 大通 H08",
+      boarding: { label: "走到東区役所前站", destination: eastOffice },
+      steps: [
+        walk("15:30 左右吃完，步行到東区役所前站 4 號入口；雪地先留 15–20 分鐘，進站另留約 5 分鐘。", "① 走到上車站・4 號入口", eastOffice),
+        rail("搭東豐線往「福住 Fukuzumi」，3 站、車上約 6 分鐘，在「大通 H08」下車。若 15:30 離店，可先抓 15:57 這班，錯過接 16:05。", "東区役所前駅 札幌", "大通駅 東豊線 札幌"),
+        { text: "大通出閘後循「南北線／すすきの／ポールタウン」指標走到 Pole Town，再找店家；不用上地面。站內加地下街先留 10–15 分鐘，室內以指標為準，地圖可能無法精準定位。", label: "③ 查看地下街店家位置", destination, mapOnly: true }
+      ],
+      timetable: [["15 時", "05 · 12 · 20 · 27 · 35 · 42 · 50 · 57"], ["16 時", "05 · 12 · 20 · 27 · 35 · 40 · 46 · 51 · 56"]],
+      timetableTitle: "東区役所前出發・往福住",
+      timetableUrl: "https://www.city.sapporo.jp/st/time/documents/05hiku.pdf",
+      sourceUrl: "https://www.city.sapporo.jp/st/subway/jikan_kyori/jikan_kyori.html"
+    };
+  }
+  if (spotId === "3coins-pole-town" && previous === "kinotoya-bake-pole-town") {
+    return walkingGuide("地下街步行約 5–10 分鐘｜KINOTOYA → 3COINS", [{ text: "兩間店都在 Pole Town，沿地下街店家指標步行即可，不用再搭地鐵。" }]);
+  }
+  if (spotId === "ramen-haruka" && ["3coins-pole-town", "donki-tanukikoji"].includes(previous)) {
+    const approach = previous === "donki-tanukikoji" ? "從狸小路唐吉訶德往南走到南5条西3丁目的元祖拉麵橫丁" : "從 Pole Town 南端循「すすきの」標示到地面，再走到南5条西3丁目的元祖拉麵橫丁";
+    const steps = [walk(`${approach}；雪地先留約 10–15 分鐘，不用搭車。`, "步行到拉麵悠", "札幌らーめん悠 南5条西3丁目 元祖ラーメン横丁")];
+    if (index === stops.length - 1) steps.push(walk("吃完步行回 APA 薄野站西；雪地先留約 15–20 分鐘。若飯前先回 APA 休息，晚餐出門也可用上面的步行導航。", "晚餐後步行回 APA", "アパホテル 札幌すすきの駅西 札幌市中央区南4条西7丁目"));
+    return walkingGuide(`步行至拉麵橫丁${index === stops.length - 1 ? "｜晚餐後步行回 APA" : ""}`, steps);
+  }
+  return null;
+}
+
+function daySixStepUrl(step) {
+  if (!step.destination) return "";
+  if (step.mapOnly) return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(step.destination)}`;
+  return `https://www.google.com/maps/dir/?api=1&${step.origin ? `origin=${encodeURIComponent(step.origin)}&` : ""}destination=${encodeURIComponent(step.destination)}&travelmode=${step.mode}${step.mode === "walking" ? "&dir_action=navigate" : ""}`;
+}
+
+function daySixTransportHtml(day, index, spotId) {
+  const guide = getDaySixTransport(day, index, spotId);
+  if (!guide) return "";
+  return `<details class="day-six-transport"><summary>${escapeHtml(guide.summary)}<span>查看${guide.boarding ? "搭車步驟與班次" : "步行方式"}</span></summary>
+    <ol>${guide.steps.map(step => `<li><p>${escapeHtml(step.text)}</p>${step.destination ? `<a class="small-button map-link" href="${escapeHtml(daySixStepUrl(step))}" target="_blank" rel="noopener noreferrer">${escapeHtml(step.label)}</a>` : ""}</li>`).join("")}</ol>
+    ${guide.timetable ? `<div class="day-six-timetable"><strong>${escapeHtml(guide.timetableTitle)}</strong><p>現行平日參考班次・白天多為約 7–8 分一班</p><dl>${guide.timetable.map(([hour, minutes]) => `<div><dt>${escapeHtml(hour)}</dt><dd>${escapeHtml(minutes)}</dd></div>`).join("")}</dl><p>2026/11/6 查核官方現行班表；D6 12/28（週一）年末臨時調整尚未確認，並非即時到站資訊。時間對不上就搭同方向下一班，不必追車。</p><a class="small-button map-link" href="${guide.timetableUrl}" target="_blank" rel="noopener noreferrer">官方完整時刻表</a><a class="small-button map-link" href="${guide.sourceUrl}" target="_blank" rel="noopener noreferrer">官方交通說明</a></div>` : ""}
+  </details>`;
+}
+
+function dayTenMorningBackupHtml(day, spotId) {
+  if (day !== 10 || spotId !== "morning-market") return "";
+  return `<details class="day-six-transport day-ten-morning-backup"><summary>元旦朝市沒開？查看替代安排</summary>
+    <ol><li><p><strong>08:30–09:15｜先吃早餐</strong><br>La’gent Stay 2F 飯店早餐一般 06:00–10:00，09:30 最後入場；已含早餐或事先確認可加購才採用，元旦安排另確認。未訂早餐就前晚備好輕食。</p></li>
+    <li><p><strong>09:15–09:45｜飯店休息、整理行李</strong><br>朝市有店開才短逛；沒開直接休息，不臨時跑遠處找早餐或景點。</p></li>
+    <li><p><strong>09:45–10:15｜退房、寄放行李</strong><br>天氣好、體力足再依原安排逛元町外觀；風雪大或前晚跨年較累，就略過元町、留在站前。</p></li></ol>
+    <div class="day-six-timetable"><p>後段時間不往後延：12:15 取行李、13:10 前到站前巴士乘車處。13:30 班次仍為待確認的參考；不符、客滿或延誤就改計程車。</p><a class="small-button map-link" href="https://lagent.jp/hakodate-ekimae/faq/" target="_blank" rel="noopener noreferrer">飯店早餐／退房官方資訊</a></div>
+  </details>`;
+}
+
 function getStopNavigation(day, index, spot) {
   const mode = getStopNavigationMode(day, index, spot.id);
   const destination = mode === "driving" ? getDrivingPlaceQuery(spot)
     : drivingPlaceOverrides[spot.id] || `${spot.name} ${spot.area} 北海道`;
   if (!mode || !destination) return { url: getMapUrl(spot), label: "搜尋地點", mode: "" };
+  const boarding = getDaySixTransport(day, index, spot.id)?.boarding;
   // 不指定 origin，交由地圖 App 使用裝置目前位置；規劃用起點只放在細節。
   return {
     url: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=${mode}${mode === "transit" ? "" : "&dir_action=navigate"}`,
     label: mode === "driving" ? "從目前位置開車導航" : mode === "walking" ? "步行導航" : "搭車路線",
     mode,
+    boardingUrl: boarding ? daySixStepUrl({ ...boarding, mode: "walking" }) : "",
+    boardingLabel: boarding?.label || "",
     note: day === 5 && spot.id === "moiwa-yama"
       ? "夜景已排 D4；若自行加回 D5，去程可搭市電＋免費接駁，回程與集合需另排。"
       : day === 6 && spot.id === "kinotoya-bake-pole-town" && mode === "transit"
@@ -2897,6 +2992,7 @@ function getStopNavigationMode(day, index, spotId) {
   }
   const previous = stops[index - 1];
   if (day === 5 || day === 6) {
+    if (day === 6 && spotId === "toriton-kita8" && ["ario-sapporo", "rokkatei-ario-sapporo"].includes(previous)) return "walking";
     if ([previous, spotId].every(id => ["ario-sapporo", "rokkatei-ario-sapporo"].includes(id))) return "walking";
     if (getKnownWalkingLeg(day, index, spotId)) return "walking";
     if (day === 5 && ["nakajima-park", "unagi-nakajima"].includes(spotId)
@@ -3222,11 +3318,10 @@ function getDriveInfoForStop(day, index, spotId) {
   if (day === 5 || day === 6) {
     const mode = getStopNavigationMode(day, index, spotId);
     const prefix = "A 線市區觀光｜同伴用車滑雪，這段不自駕。";
+    const daySixGuide = getDaySixTransport(day, index, spotId);
+    if (daySixGuide) return `${prefix}${daySixGuide.summary}。${daySixGuide.steps.map(step => step.text).join(" ")}`;
     if (day === 5 && spotId === "shiroi-koibito-park") return `${prefix}中島公園站搭南北線往麻生→大通，轉東西線往宮の沢→終點下車，步行約 7 分（雪天抓 10–15 分）。若從薄野出發，同樣搭南北線至大通轉車。約 16:00 在園區 Welcome Gate 入口與同伴會合，逛完搭他們的車回 APA；同伴 15:00 從藻岩山滑雪場開車出發，雪天會合可延至 16:30。`;
     if (day === 5 && spotId === "moiwa-yama") return `自行加回 D5 的搭車備案｜APA 步行到資生館小学校前，搭市電至ロープウェイ入口，再搭免費接駁至夜景纜車山麓站。夜景目前排 D4，回程與集合需另排，不預設朋友接送。`;
-    if (day === 6 && spotId === "sapporo-beer-museum") return `${prefix}APA 出發參考：薄野（すすきの）搭南北線往麻生→地下鐵さっぽろ下車→步行至札幌站北口 2 號乘車處→轉 188 巴士往サッポロビール園→同名站下車。JR 備案：JR 札幌→苗穂，搭確認停靠苗穂的普通列車，苗穂北口步行約 8 分鐘；班次不合可改計程車。主按鈕從目前位置查路線。`;
-    if (day === 6 && spotId === "toriton-kita8") return `${prefix}原規劃從 Ario 步行前往北8条光星店，雪地先留約 30 分鐘；路況差或太冷可改計程車，搭車按鈕從目前位置查路線。`;
-    if (day === 6 && spotId === "kinotoya-bake-pole-town" && dayStops[index - 1] === "toriton-kita8") return `${prefix}Toriton 用餐後步行到東区役所前站，搭東豐線往福住→大通下車，再循 Pole Town 地下街標示步行到 KINOTOYA。含地面步行、候車與站內移動先留約 1 小時；積雪難走可直接搭計程車。`;
     if (mode === "walking") return `${prefix}${getKnownWalkingLeg(day, index, spotId) || "步行串接附近景點，雪地請留緩衝；走累可改計程車。"}`;
     return `${prefix}依目前位置搭地鐵／市電／巴士前往，班次不合或風雪大可改計程車；不需回 APA 取車或停車。`;
   }

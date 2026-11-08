@@ -186,7 +186,7 @@
       "kanemori-warehouse": "八幡坂下坡後逛金森；午餐與咖啡安排在海灣周邊，14:15 離開。",
       "hakodate-mt": "14:45 抵達山麓站為目標，預留排隊；下午上山看日景轉夜景，17:00 開始下山。",
       "hakodate-gokoku-shrine": "晚餐後先回飯店休息；僅在午夜開放及往返車輛確認後，23:15 左右搭車前往。",
-      "morning-market": "元旦有店營業才短逛朝市；09:45 回飯店準備退房，別讓早餐拖到後面的交通。",
+      "morning-market": "09:15 有店開才短逛；沒開就留飯店休息、整理行李。早餐先吃完，09:45 開始退房準備，10:15 前寄放行李。",
       motomachi: "10:15 前退房寄行李；函館駅前搭 2 往谷地頭／5 往函館どつく前→十字街下車。11:45 折返，搭往湯の川→函館駅前。",
       "hakodate-station-airport-bus": "12:15 回 La'gent Stay 取行李，最晚 13:10 到函館站前巴士總站 11 號乘車處。13:30 目標班次待確認；不符就改搭計程車。",
       "hakodate-airport": "14:10 前後到國際線 1F 為目標；JX861 18:00 起飛，星宇櫃檯一般 15:30 開始、17:00 截止報到。"
@@ -200,7 +200,7 @@
   function navigationFor(id) {
     const index = (state.plan[state.selectedDay] || []).indexOf(id);
     const nav = getStopNavigation(state.selectedDay, index, spotById(id));
-    return { ...nav, label: nav.label === "地圖" ? "開啟地圖" : nav.label };
+    return { ...nav, url: nav.boardingUrl || nav.url, label: nav.boardingLabel || (nav.label === "地圖" ? "開啟地圖" : nav.label) };
   }
 
   function companionGroupTransform(x, y) {
@@ -314,6 +314,8 @@
       <h3 id="journey-next-title" tabindex="-1">${escapeHtml(spot.name)}</h3><p class="winter-focus-summary">${escapeHtml(summaryText(spot))}</p>
 
       <div class="winter-focus-actions"><a href="${escapeHtml(nav.url)}" target="_blank" rel="noopener noreferrer">↗ ${nav.label}</a><button type="button" data-winter-info aria-expanded="false" aria-controls="winter-focus-info">查看詳情 ⌄</button></div>
+      ${daySixTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id)}
+      ${dayTenMorningBackupHtml(state.selectedDay, id)}
       ${state.selectedDay === 10 && id === "hakodate-station-airport-bus" ? airportBusTimetableHtml() : ""}
       <div id="winter-focus-info" class="winter-focus-info" hidden>${nav.note ? `<p>${escapeHtml(nav.note)}</p>` : ""}<p>${escapeHtml(spot.desc)}</p><p>${escapeHtml(getDriveInfoForStop(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id))}</p>${plannedDrivingRouteHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id)}${logistics?.hours ? `<p><strong>開放／營業：</strong>${escapeHtml(logistics.hours)}</p>` : ""}${logistics?.tickets ? `<p><strong>票券：</strong>${escapeHtml(logistics.tickets)}</p>` : ""}</div>
       ${preview ? `<button type="button" class="winter-return" data-player-return>↶ 回到實際進度</button>` : `<div class="formal-stop-actions"><button type="button" data-journey-status="done" data-journey-id="${id}">✓ 完成，前往下一站</button><button type="button" data-journey-status="skipped" data-journey-id="${id}">略過</button></div>`}`;
@@ -457,6 +459,8 @@
           <div class="journey-stop-details">
             <p>${escapeHtml(spot.desc)}</p>
             ${timing ? `<p>${escapeHtml(timing.note)}</p>` : ""}
+            ${daySixTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id)}
+            ${dayTenMorningBackupHtml(state.selectedDay, id)}
             ${plannedDrivingRouteHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id)}
             ${logistics?.hours ? `<p><strong>開放：</strong>${escapeHtml(logistics.hours)}</p>` : ""}
             ${logistics?.tickets ? `<p><strong>票券：</strong>${escapeHtml(logistics.tickets)}</p>` : ""}

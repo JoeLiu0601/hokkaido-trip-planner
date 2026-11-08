@@ -15,7 +15,7 @@ const runtime = vm.runInNewContext(
   + section('const hakodateTransitLegs =', 'function normalizeSyncCode(')
   + section('function getDayFiveReturnUrl()', 'function dayDepartureHtml(')
   + '\nfunction spotById(id) { return spots.find(spot => spot.id === id); }'
-  + '\n({ state, spotById, getStopNavigation, getDrivingRouteUrlForStop, getGroupRouteForDay, getDayFiveReturnUrl, getDayFiveMeetingUrl, getDriveInfoForStop });',
+  + '\n({ state, spotById, getStopNavigation, getDrivingRouteUrlForStop, getGroupRouteForDay, getDayFiveReturnUrl, getDayFiveMeetingUrl, getDriveInfoForStop, getDaySixTransport, daySixStepUrl });',
   { state: { plan: {} } }
 );
 
@@ -41,7 +41,8 @@ const cases = [
   ['D5 reordered park is not an assumed walk from ropeway', 5, ['moiwa-yama', 'nakajima-park'], 'transit'],
   ['D6 museum from hotel by transit', 6, ['sapporo-beer-museum'], 'transit'],
   ['D6 adjacent mall on foot', 6, ['sapporo-beer-museum', 'ario-sapporo'], 'walking'],
-  ['D6 Toriton uses transit options', 6, ['ario-sapporo', 'toriton-kita8'], 'transit'],
+  ['D6 Ario to Toriton on foot', 6, ['ario-sapporo', 'toriton-kita8'], 'walking'],
+  ['D6 Ario Rokkatei to Toriton on foot', 6, ['ario-sapporo', 'rokkatei-ario-sapporo', 'toriton-kita8'], 'walking'],
   ['D6 Toriton to underground shops by transit', 6, ['toriton-kita8', 'kinotoya-bake-pole-town'], 'transit'],
   ['D6 underground shops on foot', 6, ['kinotoya-bake-pole-town', '3coins-pole-town'], 'walking'],
   ['D6 nearby ramen on foot', 6, ['3coins-pole-town', 'ramen-haruka'], 'walking'],
@@ -137,6 +138,68 @@ test('D6 return route follows Toriton only when it is the previous stop', () => 
   assert.match(text, /東区役所前.*東豐線.*福住.*大通/);
   runtime.state.plan[6] = ['ario-sapporo', 'kinotoya-bake-pole-town'];
   assert.doesNotMatch(runtime.getDriveInfoForStop(6, 1, 'kinotoya-bake-pole-town'), /Toriton 用餐後/);
+});
+
+test('D6 transit guides navigate to boarding, the train leg and the final walk separately', () => {
+  const before = JSON.stringify(runtime.state.plan);
+  const legs = [
+    { stops: ['sapporo-beer-museum'], from: /豊水すすきの/, to: /東区役所前/, direction: /往栄町/, exit: /4 號出口/, time: '29' },
+    { stops: ['toriton-kita8', 'kinotoya-bake-pole-town'], from: /東区役所前/, to: /大通/, direction: /往福住/, exit: /Pole Town/, time: '57' }
+  ];
+  for (const leg of legs) {
+    runtime.state.plan[6] = leg.stops;
+    const index = leg.stops.length - 1;
+    const guide = runtime.getDaySixTransport(6, index, leg.stops[index]);
+    assert.match(guide.summary, leg.direction);
+    assert.match(guide.steps[2].text, leg.exit);
+    assert.ok(guide.timetable[0][1].includes(leg.time));
+    const train = new URL(runtime.daySixStepUrl(guide.steps[1]));
+    assert.equal(train.searchParams.get('travelmode'), 'transit');
+    assert.match(train.searchParams.get('origin'), leg.from);
+    assert.match(train.searchParams.get('destination'), leg.to);
+    const nav = runtime.getStopNavigation(6, index, runtime.spotById(leg.stops[index]));
+    const boarding = new URL(nav.boardingUrl);
+    assert.match(boarding.searchParams.get('destination'), leg.from);
+    assert.equal(boarding.searchParams.get('travelmode'), 'walking');
+    assert.equal(boarding.searchParams.has('origin'), false);
+    assert.equal(new URL(runtime.daySixStepUrl(guide.steps[2])).searchParams.has('origin'), false);
+    const plan = JSON.stringify(runtime.state.plan);
+    runtime.getDaySixTransport(6, index, leg.stops[index]);
+    assert.equal(JSON.stringify(runtime.state.plan), plan, 'guidance must not edit the plan');
+  }
+  runtime.state.plan = JSON.parse(before);
+});
+
+test('D6 does not attach original transit instructions after reordering or on another day', () => {
+  runtime.state.plan[6] = ['ario-sapporo', 'sapporo-beer-museum', 'kinotoya-bake-pole-town'];
+  assert.equal(runtime.getDaySixTransport(6, 1, 'sapporo-beer-museum'), null);
+  assert.equal(runtime.getDaySixTransport(6, 2, 'kinotoya-bake-pole-town'), null);
+  assert.equal(runtime.getDaySixTransport(6, -1, 'sapporo-beer-museum'), null);
+  runtime.state.plan[5] = ['sapporo-beer-museum'];
+  assert.equal(runtime.getDaySixTransport(5, 0, 'sapporo-beer-museum'), null);
+});
+
+test('D6 hotel return is offered after dinner only when dinner is the final stop', () => {
+  runtime.state.plan[6] = ['3coins-pole-town', 'ramen-haruka'];
+  assert.equal(runtime.getDaySixTransport(6, 1, 'ramen-haruka').steps.length, 2);
+  const url = new URL(runtime.daySixStepUrl(runtime.getDaySixTransport(6, 1, 'ramen-haruka').steps[1]));
+  assert.match(url.searchParams.get('destination'), /アパホテル.*すすきの駅西/);
+  assert.equal(url.searchParams.get('travelmode'), 'walking');
+  runtime.state.plan[6].push('donki-tanukikoji');
+  assert.equal(runtime.getDaySixTransport(6, 1, 'ramen-haruka').steps.length, 1);
+});
+
+test('travel view prioritizes the boarding walk without changing other days navigation', () => {
+  const journey = fs.readFileSync(path.join(__dirname, '..', 'journey.js'), 'utf8');
+  const body = journey.slice(journey.indexOf('  function navigationFor('), journey.indexOf('  function companionGroupTransform('));
+  const navFor = vm.runInNewContext(body + '\n navigationFor;', runtime);
+  runtime.state.selectedDay = 6;
+  runtime.state.plan[6] = ['sapporo-beer-museum'];
+  assert.match(navFor('sapporo-beer-museum').label, /走到豊水すすきの/);
+  assert.equal(new URL(navFor('sapporo-beer-museum').url).searchParams.get('travelmode'), 'walking');
+  runtime.state.selectedDay = 3;
+  runtime.state.plan[3] = ['hokkaido-shrine'];
+  assert.equal(new URL(navFor('hokkaido-shrine').url).searchParams.get('travelmode'), 'driving');
 });
 
 test('a manually restored D5 night visit does not promise the former shared ride', () => {

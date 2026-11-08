@@ -344,6 +344,21 @@ body.winter-view-active[data-planner-theme="dark"] {
 
 .inline-lunch-options > summary { min-height: 48px; display: flex; align-items: center; font-size: .86rem; }
 
+/* D6: the next action walks to the boarding station; train and exit steps stay together. */
+.day-six-transport { margin: 12px 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--text); }
+.day-six-transport > summary { min-height: 48px; padding: 12px; font-size: .85rem; font-weight: 700; line-height: 1.65; cursor: pointer; overflow-wrap: anywhere; }
+.day-six-transport > summary > span { display: block; font-size: .76rem; font-weight: 400; color: var(--muted); }
+.day-six-transport > ol { padding: 0 16px 0 34px; margin: 0 0 14px; }
+.day-six-transport li { padding: 0 0 12px; font-size: .84rem; line-height: 1.8; overflow-wrap: anywhere; }
+.day-six-transport li p { margin: 0 0 8px; color: var(--text); }
+.day-six-transport .small-button { display: inline-flex; align-items: center; min-height: 44px; max-width: 100%; padding: 9px 12px; white-space: normal; overflow-wrap: anywhere; color: var(--text); }
+.day-six-timetable { padding: 0 12px 12px; font-size: .8rem; line-height: 1.8; }
+.day-six-timetable p { color: var(--muted); }
+.day-six-timetable dl { margin: 10px 0; }
+.day-six-timetable dl > div { display: grid; grid-template-columns: 44px minmax(0,1fr); gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.day-six-timetable dt { font-weight: 700; }
+.day-six-timetable dd { margin: 0; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+
 /* Keep navigation on the first phone screen; retain the full cover on overview. */
 .journey-feedback:not([hidden]) { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
 .journey-feedback [data-journey-undo] { min-height: 44px; padding: 8px 12px; text-decoration: underline; color: var(--text); }
