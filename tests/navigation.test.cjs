@@ -84,6 +84,17 @@ for (const [name, day, stops, mode] of cases) {
   });
 }
 
+test('D5 Pokemon stays in Daimaru and the onward subway goes through Odori', () => {
+  runtime.state.plan[5] = ['unagi-nakajima', 'daimaru-sapporo', 'pokemon-center-sapporo', 'shiroi-koibito-park'];
+  const nav = runtime.getStopNavigation(5, 2, runtime.spotById('pokemon-center-sapporo'));
+  assert.equal(nav.mode, '');
+  assert.match(nav.label, /同棟.*8F/);
+  assert.match(runtime.getDriveInfoForStop(5, 1, 'daimaru-sapporo'), /中島公園.*麻生.*さっぽろ/);
+  assert.match(runtime.getDriveInfoForStop(5, 3, 'shiroi-koibito-park'), /真駒内.*大通.*宮の沢/);
+  runtime.state.plan[5].splice(3, 0, 'stellar-place');
+  assert.equal(runtime.getStopNavigation(5, 3, runtime.spotById('stellar-place')).mode, 'walking');
+});
+
 test('planned route keeps hotel origin only in secondary preview', () => {
   runtime.state.plan[8] = ['lagent-hakodate-ekimae'];
   const url = new URL(runtime.getDrivingRouteUrlForStop(8, 0, 'lagent-hakodate-ekimae'));
@@ -192,7 +203,7 @@ test('D6 hotel return is offered after dinner only when dinner is the final stop
 test('travel view prioritizes the boarding walk without changing other days navigation', () => {
   const journey = fs.readFileSync(path.join(__dirname, '..', 'journey.js'), 'utf8');
   const body = journey.slice(journey.indexOf('  function navigationFor('), journey.indexOf('  function companionGroupTransform('));
-  const navFor = vm.runInNewContext(body + '\n navigationFor;', runtime);
+  const navFor = vm.runInNewContext(body + '\n navigationFor;', { ...runtime, stationRouteActive: () => false });
   runtime.state.selectedDay = 6;
   runtime.state.plan[6] = ['sapporo-beer-museum'];
   assert.match(navFor('sapporo-beer-museum').label, /走到豊水すすきの/);

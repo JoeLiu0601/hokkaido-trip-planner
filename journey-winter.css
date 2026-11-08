@@ -344,6 +344,14 @@ body.winter-view-active[data-planner-theme="dark"] {
 
 .inline-lunch-options > summary { min-height: 48px; display: flex; align-items: center; font-size: .86rem; }
 
+.workspace.is-travel:not(.is-overview) #day-options-shell[data-day="5"]:not([hidden]) { display: block; }
+.travel-route-picker { margin: 12px 0; }
+.travel-route-picker > div { display: flex; gap: 8px; }
+.travel-route-picker button { flex: 1; min-height: 44px; padding: 10px; border: 1px solid var(--line); border-radius: 12px; color: var(--text); background: var(--surface); font: inherit; cursor: pointer; }
+.travel-route-picker button[aria-pressed="true"] { background: var(--warm-surface); color: #423619; border-color: #c8a868; }
+.travel-route-picker p,.travel-scope-note { font-size: .78rem; color: var(--muted); line-height: 1.7; overflow-wrap: anywhere; }
+.travel-timing-notice { padding: 12px; border: 1px solid var(--line); border-left: 4px solid #c49a45; border-radius: 10px; background: var(--surface); color: var(--text); font-size: .83rem; line-height: 1.7; }
+
 /* D6: the next action walks to the boarding station; train and exit steps stay together. */
 .day-six-transport { margin: 12px 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--text); }
 .day-six-transport > summary { min-height: 48px; padding: 12px; font-size: .85rem; font-weight: 700; line-height: 1.65; cursor: pointer; overflow-wrap: anywhere; }

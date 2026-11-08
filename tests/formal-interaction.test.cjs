@@ -55,6 +55,7 @@ test('Undo restores the previous progress and refuses a different day or trip', 
     host: { addEventListener(type, handler) { click = handler; }, querySelector: () => null },
     pausePlayback() {}, progress: () => saved, progressKey: () => tripKey,
     spotById: () => ({ name: '測試站' }), renderJourney() {},
+    travelIds: () => state.plan[state.selectedDay], travelSpot: () => ({ name: '測試站' }),
     window: { localStorage: { setItem() {} } }
   };
   vm.runInNewContext(section('  host.addEventListener("click", (event) => {', '  host.addEventListener("input",'), sandbox);

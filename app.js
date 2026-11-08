@@ -528,8 +528,8 @@ const spots = [
     season: ["winter"],
     time: "1h",
     best: "寶可夢周邊、玩偶、札幌必逛",
-    desc: "已確認想去的寶可夢專賣店，位在札幌站直結的大丸札幌店 8F，可和大丸、Stellar Place 一起逛。一般營業時間 10:00–20:00，先留約 1 小時挑選周邊；年末特別營業、熱門商品販售與入場規則依官方公告，日期尚待安排。",
-    highlight: "必逛・日期待安排"
+    desc: "D5 午餐後的必逛點，位在札幌站直結的大丸札幌店 8F。與大丸同棟，不重複計算跨區移動；先留約 45 分鐘選周邊，14:20 左右離開去白色戀人公園。一般 10:00–20:00，熱門商品與入場規則依官方公告。",
+    highlight: "D5 必逛・大丸 8F"
   },
   {
     id: "daimaru-sapporo",
@@ -539,7 +539,7 @@ const spots = [
     season: ["winter"],
     time: "2h",
     best: "伴手禮、地下食品街、JR Tower",
-    desc: "就在札幌車站大樓內，地下食品街是掃伴手禮的最佳據點，北海道限定商品幾乎都在這裡。",
+    desc: "D5 鰻魚飯後到札幌站，先短逛大丸地下食品街或想看的樓層，再上 8F 寶可夢中心。同一棟合計先抓約 65 分鐘；若想仔細逛百貨，縮短其他購物，不影響 16:00 白色戀人會合。一般百貨樓層及寶可夢中心 10:00–20:00，特別營業另確認。",
     highlight: "站內最好逛"
   },
   {
@@ -1224,6 +1224,8 @@ const winterTemplate = {
   "5": [
     "nakajima-park",
     "unagi-nakajima",
+    "daimaru-sapporo",
+    "pokemon-center-sapporo",
     "shiroi-koibito-park"
   ],
   "6": [
@@ -1613,8 +1615,10 @@ const spotLogistics = {
     checkedAt: "2026/11/04"
   },
   "daimaru-sapporo": {
-    hours: "常見 10:00-20:00；餐廳樓層依店舖可能更晚",
-    access: "JR 札幌站直結，適合和 Stellar Place、東急百貨串遊"
+    hours: "百貨 B1F–7F 與 8F 寶可夢中心一般 10:00–20:00；8F 餐廳街 11:00–22:00，特別營業依公告",
+    access: "札幌市中央区北5条西4丁目7，JR 札幌站直結。D5 從中島公園站搭南北線往麻生至さっぽろ，沿 JR 札幌站／大丸標示前往；逛完上同棟 8F 寶可夢中心",
+    infoUrl: "https://www.daimaru.co.jp/sapporo/hours.html",
+    checkedAt: "2026/11/9"
   },
   "mitsukoshi-sapporo": {
     hours: "常見 10:00-19:30；餐飲與活動依樓層調整",
@@ -1629,8 +1633,10 @@ const spotLogistics = {
     access: "札幌站南口附近，JR/地鐵札幌站步行可達"
   },
   "stellar-place": {
-    hours: "購物常見 10:00-21:00；餐廳樓層常見到 23:00",
-    access: "JR 札幌站直結，下雪天移動最省力"
+    hours: "購物一般 10:00–20:00；餐廳一般 11:00–23:00，部分店家不同，特別營業另確認",
+    access: "JR 札幌站直結，下雪天移動最省力",
+    infoUrl: "https://www.stellarplace.net/",
+    checkedAt: "2026/11/9"
   },
   "donki-tanukikoji": {
     hours: "一般 24 小時營業、無固定店休；醫藥品僅在合資格人員在勤時販售，年末及退稅服務時間另確認",
@@ -2965,6 +2971,9 @@ function dayTenMorningBackupHtml(day, spotId) {
 }
 
 function getStopNavigation(day, index, spot) {
+  if (day === 5 && spot.id === "pokemon-center-sapporo" && state.plan[5]?.[index - 1] === "daimaru-sapporo") {
+    return { url: getMapUrl(spot), label: "查看同棟 8F 位置", mode: "", note: "已在大丸內，搭電梯／手扶梯上 8F，不需出大樓。" };
+  }
   const mode = getStopNavigationMode(day, index, spot.id);
   const destination = mode === "driving" ? getDrivingPlaceQuery(spot)
     : drivingPlaceOverrides[spot.id] || `${spot.name} ${spot.area} 北海道`;
@@ -3234,6 +3243,10 @@ function getDrivingOriginForStop(day, index) {
 }
 
 function getKnownWalkingLeg(day, index, spotId) {
+  const stationShops = ["daimaru-sapporo", "pokemon-center-sapporo", "stellar-place", "tokyu-sapporo"];
+  if (day === 5 && index > 0 && [state.plan[day]?.[index - 1], spotId].every(id => stationShops.includes(id))) {
+    return "札幌站購物區步行銜接，沿 JR 札幌站／各商場指標移動；同棟寶可夢中心在大丸 8F，不另搭車。";
+  }
   const previousId = index > 0 ? (state.plan[day] || [])[index - 1] : null;
   return previousId ? knownWalkingLegs[`${previousId}|${spotId}`] : null;
 }
@@ -3325,7 +3338,9 @@ function getDriveInfoForStop(day, index, spotId) {
     const prefix = "A 線市區觀光｜同伴用車滑雪，這段不自駕。";
     const daySixGuide = getDaySixTransport(day, index, spotId);
     if (daySixGuide) return `${prefix}${daySixGuide.summary}。${daySixGuide.steps.map(step => step.text).join(" ")}`;
-    if (day === 5 && spotId === "shiroi-koibito-park") return `${prefix}中島公園站搭南北線往麻生→大通，轉東西線往宮の沢→終點下車，步行約 7 分（雪天抓 10–15 分）。若從薄野出發，同樣搭南北線至大通轉車。約 16:00 在園區 Welcome Gate 入口與同伴會合，逛完搭他們的車回 APA；同伴 15:00 從藻岩山滑雪場開車出發，雪天會合可延至 16:30。`;
+    if (day === 5 && spotId === "daimaru-sapporo" && dayStops[index - 1] === "unagi-nakajima") return `${prefix}中島公園 N09 搭南北線往麻生，3 站到さっぽろ N06，沿 JR 札幌站／大丸標示步行；含候車與站內移動先留 30 分鐘。`;
+    if (day === 5 && spotId === "pokemon-center-sapporo" && dayStops[index - 1] === "daimaru-sapporo") return "同棟移動｜已在大丸札幌，搭電梯／手扶梯上 8F，不需出大樓或搭車。";
+    if (day === 5 && spotId === "shiroi-koibito-park") return `${prefix}${["daimaru-sapporo", "pokemon-center-sapporo", "stellar-place", "tokyu-sapporo"].includes(dayStops[index - 1]) ? "從地下鐵さっぽろ N06 搭南北線往真駒内，1 站到大通" : "中島公園／薄野站搭南北線往麻生至大通"}，轉東西線往宮の沢至終點，再步行約 7 分（雪天留 10–15 分）。14:20 左右離開札幌站購物區，約 16:00 在 Welcome Gate 與同伴會合，逛完搭他們的車回 APA；雪天會合可延至 16:30。`;
     if (day === 5 && spotId === "moiwa-yama") return `自行加回 D5 的搭車備案｜APA 步行到資生館小学校前，搭市電至ロープウェイ入口，再搭免費接駁至夜景纜車山麓站。夜景目前排 D4，回程與集合需另排，不預設朋友接送。`;
     if (mode === "walking") return `${prefix}${getKnownWalkingLeg(day, index, spotId) || "步行串接附近景點，雪地請留緩衝；走累可改計程車。"}`;
     return `${prefix}依目前位置搭地鐵／市電／巴士前往，班次不合或風雪大可改計程車；不需回 APA 取車或停車。`;
@@ -4738,6 +4753,11 @@ function renderDayAlternative() {
 }
 
 const dayOptionalSpots = {
+  5: {
+    title: "D5 札幌站購物備選",
+    note: "大丸＋8F 寶可夢中心已排主線。Stellar Place 與大丸相鄰、適合優先順逛；東急百貨在札幌站南口附近。這些只作備選，想逛時需縮短原購物，不把每間百貨都加成必去；14:20 左右出發去白色戀人，16:00 會合優先。",
+    ids: ["stellar-place", "tokyu-sapporo"]
+  },
   3: {
     title: "D3 小樽午餐二選一",
     ids: dayThreeLunchIds
@@ -4924,6 +4944,8 @@ function bindDayOptionButtons(panel, day, options) {
           const valleyIndex = stops.indexOf("noboribetsu-valley");
           insertion = valleyIndex >= 0 ? valleyIndex + 1 : stops.findIndex(spotId => [...dayFourOptionalStopIds, "moiwa-yama"].includes(spotId));
         }
+      } else if (day === 5) {
+        insertion = stops.indexOf("shiroi-koibito-park");
       } else if (day === 6) {
         const anchor = id === "rokkatei-ario-sapporo" ? "ario-sapporo" : id === "donki-tanukikoji" ? "3coins-pole-town" : null;
         const anchorIndex = anchor ? stops.indexOf(anchor) : -1;

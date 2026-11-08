@@ -57,7 +57,7 @@ test('D4 retains the night ropeway and D5 reunites at Shiroi Koibito Park', () =
   assert.equal(runtime.dayDepartures[4].time, '06:30');
   assert.equal(plan[4][plan[4].indexOf('happiness-bell') + 1], 'moiwa-yama');
   assert.ok(!plan[5].includes('moiwa-yama'));
-  assert.equal(plan[5][plan[5].indexOf('unagi-nakajima') + 1], 'shiroi-koibito-park');
+  assert.deepEqual(Array.from(plan[5]), ['nakajima-park','unagi-nakajima','daimaru-sapporo','pokemon-center-sapporo','shiroi-koibito-park']);
   assert.match(runtime.skiRouteDays[5].route, /15:00.*16:00.*白色戀人/);
   const row = runtime.dailyTimingDrafts[5].rows.find(row => row[3]?.includes('shiroi-koibito-park'));
   assert.equal(row[0], '16:00–18:00');

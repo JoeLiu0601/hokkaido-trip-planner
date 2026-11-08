@@ -10,7 +10,7 @@
     />
     <link rel="stylesheet" href="styles.css?v=20261103-day-flights" />
     <link rel="stylesheet" href="journey.css?v=20261104-sapporo-shopping" />
-    <link rel="stylesheet" href="journey-winter.css?v=20261108-transit-backup" />
+    <link rel="stylesheet" href="journey-winter.css?v=20261109-shopping-usability" />
   </head>
   <body class="winter-view-active" data-planner-theme="dark">
     <main class="shell">
@@ -63,6 +63,8 @@
           <p class="toolbar-save-status" id="sync-status">雲端同步：未啟用</p>
           <button class="button button-secondary" id="reset-plan-btn">恢復預設行程</button>
           </div>
+          <p class="travel-scope-note">雲端同步的是行程與備註；路線選擇、完成／略過進度與深淺色只存各自手機。</p>
+          <p class="travel-scope-note" id="offline-status" role="status">離線準備尚未完成；可先用「儲存 PDF」保留行程副本。Google 地圖與雲端同步仍需網路。</p>
         </section>
       </section>
 
@@ -233,9 +235,11 @@
 
     <!-- deploy-stamp: 2026-09-21T18:00:00+08:00 -->
     <script src="sync-config.js"></script>
-    <script src="timing-drafts.js?v=20261108-transit-backup"></script>
-    <script src="app.js?v=20261109-station-backup"></script>
+    <script src="timing-drafts.js?v=20261109-shopping-usability"></script>
+    <script src="app.js?v=20261109-shopping-usability"></script>
+    <script src="travel-tools.js?v=20261109-shopping-usability"></script>
     <script src="journey-scenes.js?v=20261026-d9-titles"></script>
-    <script src="journey.js?v=20261109-station-backup"></script>
+    <script src="journey.js?v=20261109-shopping-usability"></script>
+    <script src="offline.js?v=20261109-shopping-usability"></script>
   </body>
 </html>

@@ -70,6 +70,20 @@ test('D3 lunch refuses cross-day duplicates and ignores clicks after switching d
   assert.equal(c.edits(), 0);
 });
 
+test('D5 shopping alternatives stay before the park meeting and preserve other days', () => {
+  const c = setup();
+  c.state.selectedDay = 5;
+  const others = JSON.stringify(Object.fromEntries(Object.entries(c.state.plan).filter(([day]) => day !== '5')));
+  c.choose('stellar-place', 5);
+  c.choose('tokyu-sapporo', 5);
+  c.choose('stellar-place', 5);
+  const stops = Array.from(c.state.plan[5]);
+  assert.deepEqual(stops.slice(-3), ['stellar-place', 'tokyu-sapporo', 'shiroi-koibito-park']);
+  assert.equal(c.edits(), 2);
+  assert.equal(c.runtime.isDailyTimingDraftApplicable(5), false, 'extra shopping must not retain the original times');
+  assert.equal(JSON.stringify(Object.fromEntries(Object.entries(c.state.plan).filter(([day]) => day !== '5'))), others);
+});
+
 test('D6 optional purchases stay near their anchors, avoid duplicates and preserve other days', () => {
   const c = setup();
   const before = JSON.stringify(c.state.plan);

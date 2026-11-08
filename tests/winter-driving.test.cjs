@@ -38,22 +38,26 @@ test('D4 displays a single flexible lunch area while preserving its driving buff
   assert.equal(draft.driveReview.normal.moiwaArrival, r.calculateDayFourScenario(state.plan[4], 1.5).moiwaArrival);
 });
 
-test('only D4 lookouts join the existing optional group and stay out of main progress', () => {
+test('optional presentation follows each day without deleting shared stops', () => {
   const { r, state } = setup();
   state.selectedDay = 4;
   const journey = fs.readFileSync(path.join(root, 'journey.js'), 'utf8');
   const isOptional = vm.runInNewContext(journey.slice(journey.indexOf('  function isOptional('), journey.indexOf('  function durationText(')) + '\nisOptional',
-    { state, dayOneTimingDraft: r.dayOneTimingDraft, dayFourOptionalStopIds: r.dayFourOptionalStopIds });
+    { state, travelTools: require('../travel-tools.js'), dailyTimingDrafts: vm.runInNewContext(timing+'\ndailyTimingDrafts'), dayOneTimingDraft: r.dayOneTimingDraft, dayFourOptionalStopIds: r.dayFourOptionalStopIds });
   const before = JSON.stringify(state.plan);
   assert.deepEqual(Array.from(state.plan[4]).filter(id => isOptional(id)), Array.from(r.dayFourOptionalStopIds));
   const main = state.plan[4].filter(id => !isOptional(id));
   assert.ok(main.includes('noboribetsu-valley'));
   assert.ok(main.includes('moiwa-yama'));
-  for (const day of [2, 3, 5, 6, 7, 8, 9, 10]) {
+  assert.equal(isOptional('noboribetsu-onsen-ichiba', 4), false, 'retain the existing lunch stop when the shared plan still uses the market');
+  for (const day of [5, 6, 7, 9, 10]) {
     assert.equal(state.plan[day].some(id => isOptional(id, day)), false);
   }
   assert.equal(isOptional('biei-blue', 1), true);
   assert.equal(isOptional('happiness-bell', 3), false);
+  assert.equal(isOptional('hinode-park', 2), true);
+  assert.equal(isOptional('teine-shrine', 3), true);
+  assert.equal(isOptional('goryokaku', 8), true);
   assert.equal(JSON.stringify(state.plan), before);
 });
 

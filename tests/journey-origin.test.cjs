@@ -13,12 +13,14 @@ const plain = value => JSON.parse(JSON.stringify(value));
 function setup() {
   const state = { selectedDay: 2 }, statuses = {};
   const runtime = vm.runInNewContext(
-    app.slice(0, app.indexOf('const state ='))
+    fs.readFileSync(path.join(root, 'timing-drafts.js'), 'utf8') + '\n' + app.slice(0, app.indexOf('const state ='))
     + sceneSource + '\nconst scenes = window.HOKKAIDO_SCENES; let selectedGroup = "A";'
     + section(app, 'function spotById(', 'function getSpotLogistics(')
     + section(app, 'function getAccommodationMapUrl(', 'function getDayFiveReturnUrl(')
     + section(journey, '  const companions =', '  const winterStops =')
     + section(journey, '  const winterStops =', '  const speeds =')
+    + '\nconst travelTools = window.HOKKAIDO_TRAVEL_TOOLS;'
+    + section(journey, '  function dayTenRouteKey(', '  function progressKey(')
     + '\nlet playback = null, previewPosition = null, playing = false, previousFrameTime = null, animationFrame = null;'
     + section(journey, '  function playbackOrigin(', '  function timeLabel(')
     + section(journey, '  function timeLabel(', '  function winterFocusCardHtml(')
@@ -32,7 +34,8 @@ function setup() {
     + 'preview(value) { previewPosition = value; }, originCard() { return winterFocusCardHtml(playback.origin.id); },'
     + 'overview(group) { selectedGroup = group; renderOverview(); return host.innerHTML; },'
     + 'travel(day) { state.selectedDay = day; renderJourney(); return host.innerHTML; }})',
-    { state, statuses, window: {}, statusFor: id => statuses[id] || 'pending',
+    { state, statuses, window: {HOKKAIDO_TRAVEL_TOOLS: require('../travel-tools.js')}, statusFor: id => statuses[id] || 'pending',
+      readLocalStorage: () => null, isDayTimingDraftApplicable: () => true,
       isDayOneTimingDraftApplicable: () => true, escapeHtml: value => String(value),
       host: { innerHTML: '', classList: { remove() {} }, setAttribute() {}, querySelectorAll: () => [], querySelector: selector => selector === '.journey-next-card' ? { innerHTML: '' } : null },
       workspace: { classList: { toggle() {} } }, document: { body: { classList: { toggle() {}, add() {} } } },

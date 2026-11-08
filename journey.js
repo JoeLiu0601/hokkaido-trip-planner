@@ -52,6 +52,7 @@
   let animationFrame = null;
   let previousFrameTime = null;
   let focusedCardKey = "";
+  const travelTools = window.HOKKAIDO_TRAVEL_TOOLS;
   const viewKey = "hokkaido-planner-view";
   const progressCache = new Map();
   const validModes = ["overview", "edit", "travel"];
@@ -129,12 +130,40 @@
     draggedDates = false;
   }, true);
 
-  function progressKey() {
-    return `hokkaido-journey-20261223-${state.syncCode || "local"}`;
+  function dayTenRouteKey() { return `hokkaido-d10-route-${state.syncCode || "local"}`; }
+
+  function stationRouteActive(day = state.selectedDay) {
+    return day === 10 && readLocalStorage(dayTenRouteKey()) === "station" && travelTools.stationSupported(state.plan[10] || []);
   }
 
-  function progress() {
-    const key = progressKey();
+  function travelIds(day = state.selectedDay) {
+    return travelTools.ids(day, state.plan[day] || [], stationRouteActive(day));
+  }
+
+  function travelSpot(id) { return travelTools.spot(state.selectedDay, spotById(id), stationRouteActive()); }
+
+  function travelTiming(id) {
+    return travelTools.timing(state.selectedDay, id, stationRouteActive()) || getTimingDraftForStop(state.selectedDay, id);
+  }
+
+  function routeChoiceHtml() {
+    if (state.selectedDay !== 10) return "";
+    const active = stationRouteActive();
+    const supported = travelTools.stationSupported(state.plan[10] || []);
+    return `<section class="travel-route-picker" aria-label="D10 當天路線"><div role="group" aria-label="選擇 D10 路線"><button type="button" data-day-ten-route="main" aria-pressed="${!active}">原路線</button><button type="button" data-day-ten-route="station" aria-pressed="${active}" ${supported ? "" : "disabled"}>車站備案</button></div><p>${active ? "已採用車站備案：下一站與導航已切換，不再前往朝市或元町。" : "朝市未開時可改車站備案。"} 路線選擇只存這支手機，可隨時切回；不改團員共編清單。${supported ? "" : " 此日清單已調整，請先核對備案是否適用。"}</p></section>`;
+  }
+
+  function timingNoticeHtml() {
+    if (stationRouteActive() || !travelIds().length || isDayTimingDraftApplicable(state.selectedDay)) return "";
+    return `<p class="travel-timing-notice" role="status"><strong>這天需重新估時</strong>：景點或順序與原規劃不同。目前只列停留參考，不代表已重算車程、用餐及抵達時刻。</p>`;
+  }
+
+  function progressKey(day = state.selectedDay) {
+    return travelTools.progressKey(`hokkaido-journey-20261223-${state.syncCode || "local"}`, stationRouteActive(day));
+  }
+
+  function progress(day = state.selectedDay) {
+    const key = progressKey(day);
     if (progressCache.has(key)) return progressCache.get(key);
     let saved = {};
     try {
@@ -159,8 +188,9 @@
   }
 
   function isOptional(id, day = state.selectedDay) {
-    return (day === 1 && dayOneTimingDraft[id]?.optional === true)
-      || (day === 4 && dayFourOptionalStopIds.includes(id));
+    const draft = typeof getDailyTimingDraft === "function" ? getDailyTimingDraft(day) : typeof dailyTimingDrafts === "undefined" ? null : dailyTimingDrafts[day];
+    if (day === 4) return dayFourOptionalStopIds.includes(id);
+    return travelTools.optional(day, id, draft, dayOneTimingDraft);
   }
 
   function durationText(spot) {
@@ -171,8 +201,8 @@
   }
 
   function timingText(spot) {
-    const timing = getTimingDraftForStop(state.selectedDay, spot.id);
-    return timing ? `${timing.time}${timing.optional ? "" : " · 預估"}` : durationText(spot);
+    const timing = travelTiming(spot.id);
+    return timing ? `${timing.time}${timing.optional ? "" : " · 預估"}` : `${durationText(spot)} · 時段待估`;
   }
 
   function summaryText(spot) {
@@ -191,13 +221,22 @@
       "hakodate-station-airport-bus": "12:15 回 La'gent Stay 取行李，最晚 13:10 到函館站前巴士總站 11 號乘車處。13:30 目標班次待確認；不符就改搭計程車。",
       "hakodate-airport": "14:10 前後到國際線 1F 為目標；JX861 18:00 起飛，星宇櫃檯一般 15:30 開始、17:00 截止報到。"
     };
-    const timing = getTimingDraftForStop(state.selectedDay, spot.id);
+    const timing = travelTiming(spot.id);
+    if (stationRouteActive() && timing) return timing.note;
     if (timing && summaries[spot.id]) return summaries[spot.id];
     if (timing?.note) return timing.note;
     return spot.best || spot.desc;
   }
 
   function navigationFor(id) {
+    if (stationRouteActive()) {
+      const destinations = {
+        "hokkaido-shikisai-hakodate": "JR函館駅 正面入口 函館市若松町12-13",
+        "lagent-hakodate-ekimae": "ラ・ジェント・ステイ函館駅前 函館市若松町12-8",
+        "hakodate-station-airport-bus": "函館駅前 バスターミナル 11番のりば"
+      };
+      if (destinations[id]) return { url: daySixStepUrl({ destination: destinations[id], mode: "walking" }), label: "步行導航", mode: "walking" };
+    }
     const index = (state.plan[state.selectedDay] || []).indexOf(id);
     const nav = getStopNavigation(state.selectedDay, index, spotById(id));
     return { ...nav, url: nav.boardingUrl || nav.url, label: nav.boardingLabel || (nav.label === "地圖" ? "開啟地圖" : nav.label) };
@@ -220,14 +259,15 @@
   }
 
   function playbackOrigin(ids) {
-    const departure = dayDepartures[state.selectedDay];
+    const baseDeparture = dayDepartures[state.selectedDay];
+    const departure = stationRouteActive() && baseDeparture ? { ...baseDeparture, note: "先吃早餐，09:15 開始退房整理，10:00 前退房、寄行李後步行到函館站。12:15 回飯店取行李，13:10 前到巴士乘車處。" } : baseDeparture;
     if (!departure || !ids.length) return null;
     return { id: `day-${state.selectedDay}-departure`, name: departure.name,
       shortName: departure.hotel.note, type: "飯店出發", departure };
   }
 
   function playbackSpot(id) {
-    return id === playback?.origin?.id ? playback.origin : spotById(id);
+    return id === playback?.origin?.id ? playback.origin : travelSpot(id);
   }
 
   function nextPlaybackStop() {
@@ -302,22 +342,23 @@
         <div class="winter-focus-actions"><a href="${escapeHtml(getAccommodationMapUrl(origin.departure.hotel))}" target="_blank" rel="noopener noreferrer">↗ 飯店地圖</a></div>
         <button type="button" class="winter-return" data-player-return>↶ 回到實際進度</button>`;
     }
-    const spot = spotById(id);
+    const spot = travelSpot(id);
     if (!spot) {
       const hasMainStops = Boolean(playback?.stops.length);
       return `<p class="winter-focus-eyebrow">${hasMainStops ? "今天的主要安排已結束" : "今天還沒有主要行程"}</p><h3 id="journey-next-title" tabindex="-1">${hasMainStops ? (state.selectedDay === 10 ? "把回憶帶回家，旅途平安" : "慢慢休息，明天再出發") : "先挑幾個想去的地方"}</h3><p>${hasMainStops ? "可以回顧今天走過的地方，也可以隨體力看看彈性選項。" : "從右上角「更多」選擇編輯行程，加入想去的景點。"}</p>`;
     }
     const preview = previewPosition !== null;
     const nav = navigationFor(id);
-    const logistics = getSpotLogistics(id);
+    const logistics = stationRouteActive() && id === "lagent-hakodate-ekimae" ? null : getSpotLogistics(id);
+    const transportGuide = daySixTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id);
     return `<div class="winter-focus-top"><span class="winter-focus-eyebrow">${preview ? "正在預覽這一站" : "接下來去哪裡"}</span><span>${escapeHtml(timingText(spot))}</span></div>
       <h3 id="journey-next-title" tabindex="-1">${escapeHtml(spot.name)}</h3><p class="winter-focus-summary">${escapeHtml(summaryText(spot))}</p>
 
       <div class="winter-focus-actions"><a href="${escapeHtml(nav.url)}" target="_blank" rel="noopener noreferrer">↗ ${nav.label}</a><button type="button" data-winter-info aria-expanded="false" aria-controls="winter-focus-info">查看詳情 ⌄</button></div>
-      ${daySixTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id)}
+      ${transportGuide}
       ${dayTenMorningBackupHtml(state.selectedDay, id)}
       ${state.selectedDay === 10 && id === "hakodate-station-airport-bus" ? airportBusTimetableHtml() : ""}
-      <div id="winter-focus-info" class="winter-focus-info" hidden>${nav.note ? `<p>${escapeHtml(nav.note)}</p>` : ""}<p>${escapeHtml(spot.desc)}</p><p>${escapeHtml(getDriveInfoForStop(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id))}</p>${plannedDrivingRouteHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id)}${logistics?.hours ? `<p><strong>開放／營業：</strong>${escapeHtml(logistics.hours)}</p>` : ""}${logistics?.tickets ? `<p><strong>票券：</strong>${escapeHtml(logistics.tickets)}</p>` : ""}</div>
+      <div id="winter-focus-info" class="winter-focus-info" hidden>${nav.note ? `<p>${escapeHtml(nav.note)}</p>` : ""}${id === "morning-market" ? "" : `<p>${escapeHtml(spot.desc)}</p>`}${transportGuide || stationRouteActive() || id === "morning-market" ? "" : `<p>${escapeHtml(getDriveInfoForStop(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id))}</p>`}${plannedDrivingRouteHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id)}${logistics?.hours ? `<p><strong>開放／營業：</strong>${escapeHtml(logistics.hours)}</p>` : ""}${logistics?.tickets ? `<p><strong>票券：</strong>${escapeHtml(logistics.tickets)}</p>` : ""}</div>
       ${preview ? `<button type="button" class="winter-return" data-player-return>↶ 回到實際進度</button>` : `<div class="formal-stop-actions"><button type="button" data-journey-status="done" data-journey-id="${id}">✓ 完成，前往下一站</button><button type="button" data-journey-status="skipped" data-journey-id="${id}">略過</button></div>`}`;
   }
 
@@ -403,7 +444,7 @@
       ? `<image href="assets/day1-winter-scene.svg?v=20261026-contrast" width="380" height="394" aria-hidden="true" />`
       : scenes.background(state.selectedDay, height);
     const shortNames = {
-      "apa-sapporo-susukino-ekinishi": "APA 入住", "lagent-hakodate-ekimae": "函館入住",
+      "apa-sapporo-susukino-ekinishi": "APA 入住", "lagent-hakodate-ekimae": stationRouteActive() ? "飯店取行李" : "函館入住",
       "toya-kohan-tei": "洞爺湖入住", "hakodate-station-airport-bus": "機場巴士",
       "sapporo-beer-museum": "啤酒博物館", "muroran-hakucho-bridge-view": "白鳥大橋",
       "lucky-pierrot-goryokaku": "小丑漢堡", "shiroi-koibito-park": "白色戀人公園"
@@ -420,7 +461,7 @@
           const origin = point.id === playback.origin?.id;
           const spot = playbackSpot(point.id);
           const status = origin ? "departure" : statusFor(point.id);
-          const draft = origin ? null : getTimingDraftForStop(state.selectedDay, point.id);
+          const draft = origin ? null : travelTiming(point.id);
           const stopNumber = index + (playback.origin ? 0 : 1);
           const prefix = origin ? "出發 ·" : draft && playback.timed ? draft.time.slice(0,5) : `${stopNumber} ·`;
           const name = origin ? spot.shortName : point.label || shortNames[point.id] || Array.from(spot.name).slice(0, 6).join("") + (Array.from(spot.name).length > 6 ? "…" : "");
@@ -442,11 +483,12 @@
   }
 
   function stopHtml(id, index, nextId) {
-    const spot = spotById(id);
+    const spot = travelSpot(id);
     const status = statusFor(id);
     const nav = navigationFor(id);
-    const logistics = getSpotLogistics(id);
-    const timing = getTimingDraftForStop(state.selectedDay, id);
+    const logistics = stationRouteActive() && id === "lagent-hakodate-ekimae" ? null : getSpotLogistics(id);
+    const timing = travelTiming(id);
+    const transportGuide = daySixTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id);
     return `
       <li class="journey-stop is-${status}${id === nextId ? " is-next" : ""}">
         <span class="journey-stop-dot" aria-hidden="true">${status === "done" ? "✓" : status === "skipped" ? "↷" : index + 1}</span>
@@ -457,9 +499,9 @@
             <span class="journey-stop-status">${status === "done" ? "已完成" : status === "skipped" ? "已略過" : id === nextId ? "下一站" : isOptional(id) ? "有空再去" : "待出發"}</span>
           </summary>
           <div class="journey-stop-details">
-            <p>${escapeHtml(spot.desc)}</p>
-            ${timing ? `<p>${escapeHtml(timing.note)}</p>` : ""}
-            ${daySixTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id)}
+            ${id === "morning-market" ? "" : `<p>${escapeHtml(spot.desc)}</p>`}
+            ${timing && !transportGuide && !stationRouteActive() && id !== "morning-market" && timing.note !== spot.desc ? `<p>${escapeHtml(timing.note)}</p>` : ""}
+            ${transportGuide}
             ${dayTenMorningBackupHtml(state.selectedDay, id)}
             ${plannedDrivingRouteHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id)}
             ${logistics?.hours ? `<p><strong>開放：</strong>${escapeHtml(logistics.hours)}</p>` : ""}
@@ -541,11 +583,11 @@
     };
     const days = tripDates.map((date, index) => {
       const day = index + 1;
-      const places = (state.plan[day] || []).map(spotById).filter(Boolean);
+      const places = travelIds(day).map(id => travelTools.spot(day, spotById(id), stationRouteActive(day))).filter(Boolean);
       const mainPlaces = places.filter(spot => !isOptional(spot.id, day));
       const areas = [...new Set(places.map(spot => spot.area).filter(Boolean))];
-      const done = mainPlaces.filter(spot => progress()[day]?.[spot.id] === "done").length;
-      const skipped = mainPlaces.filter(spot => progress()[day]?.[spot.id] === "skipped").length;
+      const done = mainPlaces.filter(spot => progress(day)[day]?.[spot.id] === "done").length;
+      const skipped = mainPlaces.filter(spot => progress(day)[day]?.[spot.id] === "skipped").length;
       const groupRoute = getGroupRouteForDay(day, selectedGroup);
       return { day, date, places, mainPlaces, areas: groupRoute ? ["札幌"] : areas, done, skipped, groupRoute };
     });
@@ -621,7 +663,7 @@
     const openDetails = new Set(Array.from(host.querySelectorAll("details[data-journey-details][open]")).map((item) => item.dataset.journeyDetails));
     const mapOpen = sameDay && (host.querySelector(".winter-route-details")?.open ?? false);
     const optionalOpen = sameDay && (host.querySelector(".journey-optional")?.open ?? false);
-    const ids = (state.plan[state.selectedDay] || []).filter((id) => spotById(id));
+    const ids = travelIds().filter((id) => spotById(id));
     const mainIds = ids.filter((id) => !isOptional(id));
     const optionalIds = ids.filter(id => isOptional(id));
     const newPlaybackContext = `${context}|${mainIds.join(",")}|${isDayOneTimingDraftApplicable()}`;
@@ -643,10 +685,13 @@
       <header class="winter-heading"><div><p>HOKKAIDO WINTER WALK</p><h2 id="journey-title" tabindex="-1">Day ${state.selectedDay} · ${scene.title}</h2><span>${escapeHtml(areas.join(" → ") || "今天的路線，等你來安排")}</span></div><div class="winter-date"><strong>${tripDates[state.selectedDay - 1].replace("/", ".")}</strong><span>${weekday} · 日本時間</span></div></header>
       ${dayFlightHtml(state.selectedDay, "journey")}
       ${getGroupRouteForDay(state.selectedDay, "B") ? groupRouteSwitchHtml() : ""}
+      ${routeChoiceHtml()}
       <section class="journey-next-card winter-focus-card" aria-labelledby="journey-next-title"></section>
       <div class="journey-feedback" role="status" aria-live="polite" ${feedback ? "" : "hidden"}><span>${escapeHtml(feedback)}</span>${undoProgress ? `<button type="button" class="small-button" data-journey-undo>復原剛才操作</button>` : ""}</div>
-      ${dayDepartures[state.selectedDay] ? `<details class="formal-departure"><summary>出發：${escapeHtml(dayDepartures[state.selectedDay].name)}</summary>${dayDepartureHtml(state.selectedDay)}</details>` : ""}
+      ${dayDepartures[state.selectedDay] ? `<details class="formal-departure"><summary>出發：${escapeHtml(dayDepartures[state.selectedDay].name)}</summary>${stationRouteActive() ? `<p>${escapeHtml(playback.origin.departure.note)}</p>` : dayDepartureHtml(state.selectedDay)}</details>` : ""}
       <div class="winter-day-progress"><span>已完成 ${doneCount} / ${mainIds.length} 站${skippedCount ? ` · 略過 ${skippedCount}` : ""}</span><span>共 ${mainIds.length} 站</span></div>
+      <p class="travel-scope-note">行程可共編同步；完成／略過進度只存這支手機。</p>
+      ${timingNoticeHtml()}
       ${mainIds.length ? `<section class="journey-timeline-section"><h3>今天這樣走 <span>依序前往 · 時間為預估</span></h3><ol class="journey-timeline">${timelineHtml(mainIds, nextId)}</ol></section>` : ""}
       ${mainIds.length ? `<details class="winter-route-details"><summary>路線地圖與播放 <span>點開查看</span></summary>${mapHtml(mainIds, nextId)}</details>` : ""}
       ${optionalIds.length ? `<details class="journey-optional"><summary>有空再去 <span>${optionalIds.length} 個彈性選項</span></summary><p>隨體力與天候安排，晚到就留給下次。</p><ol class="journey-timeline">${optionalIds.map((id, index) => stopHtml(id, index, null)).join("")}</ol></details>` : ""}
@@ -695,6 +740,17 @@
 
   host.addEventListener("click", (event) => {
     const target = event.target;
+    const routeButton = target.closest("[data-day-ten-route]");
+    if (routeButton) {
+      if (state.selectedDay !== 10 || !["main", "station"].includes(routeButton.dataset.dayTenRoute)) return;
+      if (routeButton.dataset.dayTenRoute === "station" && !travelTools.stationSupported(state.plan[10] || [])) return;
+      try { window.localStorage.setItem(dayTenRouteKey(), routeButton.dataset.dayTenRoute); }
+      catch { feedback = "此裝置無法保存路線選擇，請確認瀏覽器允許儲存。"; renderJourney(); return; }
+      pausePlayback(); previewPosition = null; undoProgress = null;
+      renderJourney();
+      host.querySelector("#journey-title")?.focus({ preventScroll: true });
+      return;
+    }
     const groupButton = target.closest("[data-group-route]");
     if (groupButton) {
       const nextGroup = groupButton.dataset.groupRoute;
@@ -764,7 +820,7 @@
     if (undo && (undo.day !== state.selectedDay || undo.key !== progressKey())) return;
     const id = undo ? undo.id : button.dataset.journeyId;
     const status = undo ? undo.status : button.dataset.journeyStatus;
-    if (!(state.plan[state.selectedDay] || []).includes(id) || !["pending", "done", "skipped"].includes(status)) return;
+    if (!travelIds().includes(id) || !["pending", "done", "skipped"].includes(status)) return;
     pausePlayback();
     previewPosition = null;
     const saved = progress();
@@ -772,7 +828,7 @@
     undoProgress = undo ? null : { day: state.selectedDay, key: progressKey(), id, status: saved[state.selectedDay][id] || "pending" };
     if (status === "pending") delete saved[state.selectedDay][id];
     else saved[state.selectedDay][id] = status;
-    feedback = `「${spotById(id).name}」${status === "done" ? "已完成" : status === "skipped" ? "已略過" : "已改回待出發"}。`;
+    feedback = `「${travelSpot(id).name}」${status === "done" ? "已完成" : status === "skipped" ? "已略過" : "已改回待出發"}。`;
     try {
       window.localStorage.setItem(progressKey(), JSON.stringify(saved));
     } catch {
@@ -796,6 +852,7 @@
   });
 
   window.addEventListener("storage", (event) => {
+    if (event.key === dayTenRouteKey()) { renderJourney(); return; }
     if (event.key === progressKey() || event.key === null) {
       if (event.key === null) progressCache.clear();
       else progressCache.delete(progressKey());
