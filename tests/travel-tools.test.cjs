@@ -9,13 +9,14 @@ test('station route replaces the displayed route reversibly without touching any
   const plan = {5:['unagi-nakajima'],9:['hachimanzaka'],10:[...original]};
   const before = JSON.stringify(plan);
   const route = tools.ids(10,plan[10],true);
-  assert.deepEqual(route,['hokkaido-shikisai-hakodate','lagent-hakodate-ekimae','hakodate-station-airport-bus','hakodate-airport']);
+  assert.deepEqual(route,['hokkaido-shikisai-hakodate','hakodate-station-airport-bus','hakodate-airport']);
   assert.deepEqual(tools.ids(10,plan[10],false),original);
   assert.deepEqual(tools.ids(5,plan[5],true),plan[5]);
   assert.equal(JSON.stringify(plan),before);
   assert.notEqual(tools.progressKey('trip',true),tools.progressKey('trip',false));
-  assert.equal(tools.timing(10,'lagent-hakodate-ekimae',true).time,'12:15–12:35');
-  assert.match(tools.spot(10,{id:'lagent-hakodate-ekimae',name:'入住'},true).name,/取行李/);
+  assert.equal(route.includes('lagent-hakodate-ekimae'),false);
+  assert.match(tools.spot(10,{id:'hokkaido-shikisai-hakodate'},true).name,/採買與午餐/);
+  assert.match(tools.timing(10,'hokkaido-shikisai-hakodate',true).note,/帶著全部行李/);
 });
 
 test('station route refuses an unexpected custom plan and does not resurrect removed transport', () => {

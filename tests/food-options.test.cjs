@@ -78,7 +78,7 @@ test('D5 shopping alternatives stay before the park meeting and preserve other d
   c.choose('tokyu-sapporo', 5);
   c.choose('stellar-place', 5);
   const stops = Array.from(c.state.plan[5]);
-  assert.deepEqual(stops.slice(-3), ['stellar-place', 'tokyu-sapporo', 'shiroi-koibito-park']);
+  assert.deepEqual(stops.slice(-4), ['stellar-place', 'tokyu-sapporo', 'shiroi-koibito-park', 'tanukikoji-shopping-street']);
   assert.equal(c.edits(), 2);
   assert.equal(c.runtime.isDailyTimingDraftApplicable(5), false, 'extra shopping must not retain the original times');
   assert.equal(JSON.stringify(Object.fromEntries(Object.entries(c.state.plan).filter(([day]) => day !== '5'))), others);
@@ -86,8 +86,11 @@ test('D5 shopping alternatives stay before the park meeting and preserve other d
 
 test('D6 optional purchases stay near their anchors, avoid duplicates and preserve other days', () => {
   const c = setup();
-  const before = JSON.stringify(c.state.plan);
   c.state.selectedDay = 6;
+  c.choose('tanukikoji-shopping-street', 6);
+  assert.equal(c.edits(), 0, 'D6 must not duplicate the street already planned on D5');
+  c.state.plan[5] = c.state.plan[5].filter(id => id !== 'tanukikoji-shopping-street');
+  const before = JSON.stringify(c.state.plan);
   function choose(id) {
     let click;
     const button = { dataset: { dayOption: id }, addEventListener(event, callback) { click = callback; } };
@@ -96,13 +99,15 @@ test('D6 optional purchases stay near their anchors, avoid duplicates and preser
   }
   choose('rokkatei-ario-sapporo');
   choose('donki-tanukikoji');
+  choose('tanukikoji-shopping-street');
   choose('sandria-honten');
   choose('donki-tanukikoji');
   const stops = c.state.plan[6];
   assert.equal(stops[stops.indexOf('ario-sapporo') + 1], 'rokkatei-ario-sapporo');
-  assert.equal(stops[stops.indexOf('3coins-pole-town') + 1], 'donki-tanukikoji');
+  assert.equal(stops[stops.indexOf('3coins-pole-town') + 1], 'tanukikoji-shopping-street');
+  assert.equal(stops[stops.indexOf('tanukikoji-shopping-street') + 1], 'donki-tanukikoji');
   assert.equal(stops.filter(id => id === 'donki-tanukikoji').length, 1);
-  assert.equal(c.edits(), 3);
+  assert.equal(c.edits(), 4);
   const after = JSON.parse(JSON.stringify(c.state.plan));
   after[6] = JSON.parse(before)[6];
   assert.equal(JSON.stringify(after), before);
@@ -160,4 +165,8 @@ test('D2 timing accepts one lunch and dinner but rejects two meals in either slo
   assert.equal(c.runtime.isDailyTimingDraftApplicable(2), false);
   c.choose('furano-kumagera');
   assert.equal(c.runtime.isDailyTimingDraftApplicable(2), true);
+  const withPark = Array.from(c.state.plan[2]);
+  c.state.plan[2] = withPark.filter(id => id !== 'hinode-park');
+  assert.equal(c.runtime.isDailyTimingDraftApplicable(2), false, 'removing the confirmed park must invalidate the original schedule');
+  c.state.plan[2] = withPark;
 });

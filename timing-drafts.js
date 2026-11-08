@@ -1,15 +1,15 @@
 const dailyTimingDrafts = {
   2: {
-    intro: "08:30 從旭川飯店退房，上午行程保留緩衝；15:00 左右到精靈露臺，天黑看燈。17:30–18:30 富良野晚餐後直接回札幌，約 22:00 入住，車程皆為冬季估計。",
-    route: "旭川 → 美瑛／上富良野 → 精靈露臺夜景 → 富良野晚餐或沿途補餐 → 札幌 APA",
+    intro: "08:30 從旭川飯店退房，經美瑛神社到日之出公園，再接上富良野午餐；15:00 左右到精靈露臺，天黑看燈。17:30–18:30 富良野晚餐後直接回札幌，約 22:00 入住，車程皆為冬季估計。",
+    route: "旭川 → 美瑛神社 → 日之出公園 → 上富良野午餐 → 精靈露臺夜景 → 富良野晚餐或沿途補餐 → 札幌 APA",
     stopGroups: [["biei-shrine"],["hinode-park"],["kamifurano-marumasu","kamifurano-mansaku"],["ningle-terrace"],["furano-kumagera","furano-yuiga-doxon"],["apa-sapporo-susukino-ekinishi"],["sapporo-odori"],["sapporo-susukino"]],
-    requiredIds: ["biei-shrine","ningle-terrace","apa-sapporo-susukino-ekinishi"],
+    requiredIds: ["biei-shrine","hinode-park","ningle-terrace","apa-sapporo-susukino-ekinishi"],
     rows: [
       ["07:30–08:30","早餐、退房與清車積雪","08:30 從旭川飯店出發，護照、租車資料與隨身用品先備妥。"],
       ["08:30–09:30","開車：旭川 → 美瑛神社","經國道 237 號往美瑛，先抓約 1 小時含停車。風雪時延長並縮短後續戶外點。"],
       ["09:30–10:00","美瑛神社","參拜、拍照約 30 分；御朱印與授與所是否開放依當日公告。",["biei-shrine"],"約 30 分"],
       ["10:00–10:40","開車：美瑛 → 上富良野","沿主要除雪道路前往日之出公園；不為找雪景繞入小路。"],
-      ["10:40–11:10","日之出公園短逛","只走已開放且安全的區域；冬季不預設可開車上到夏季展望位置，路滑就略過。",["hinode-park"],"約 30 分"],
+      ["10:40–11:10","日之出公園","本日確定安排，逛完接上富良野午餐。只走冬季已開放且安全的區域，不預設可開車上到夏季展望位置。",["hinode-park"],"約 30 分"],
       ["11:10–11:30","開車到上富良野午餐店","日之出公園後在上富良野就近用餐，車程與停車先留約 20 分鐘；餐廳二選一，尚未選定。"],
       ["11:30–13:00","上富良野午餐：まるます／まん作二選一","保留燒肉定食與手打蕎麥兩間候選，含候位先留 90 分鐘，只吃其中一間；排隊過久就調整午餐後休息。",["kamifurano-marumasu","kamifurano-mansaku"],"含候位約 1.5 小時"],
       ["13:00–14:30","前往富良野、午餐後休息／彈性時間","含開車到富良野約 30 分鐘，剩餘時間留給咖啡、休息與停車緩衝；15:00 精靈露臺不變。"],
@@ -22,24 +22,24 @@ const dailyTimingDrafts = {
     ],
     notes: ["留在富良野吃到 19:00 才出發，則約 22:30–23:00 抵飯店，風雪可能更晚。","沿途補餐版：17:15 左右離開精靈露臺，餐食與休息一併計入約 4 小時車程緩衝，約 21:15 後到 APA；服務區餐廳營業需事先確認。","大通與薄野仍留在選項，不代表今晚要走完。12/24 市集有結束時間，這版無法保證趕上。"],
     sources: [["精靈露臺冬季時間","https://www.princehotels.com/shinfurano/facilities/ningle-terrace-shop/"],["札幌燈飾活動","https://www.sapporo.travel/white-illumination/"]],
-    optionalIds: ["hinode-park","sapporo-odori","sapporo-susukino"]
+    optionalIds: ["sapporo-odori","sapporo-susukino"]
   },
   3: {
-    intro: "07:45 從 APA 出發，以 08:45 前抵達北海道神宮為目標，第一段含冬季行車、停車與步行先留 1 小時，並非保證車程。童話十字路之後加入天狗山夜景，之後再回運河；四座神社全留會很滿，至少略過一至兩座彈性神社較從容。",
-    route: "APA → 神宮／彈性神社 → 小樽午餐 → 大正硝子 → LeTAO 本店 → 童話十字路 → 天狗山夜景 → 運河 → APA",
+    intro: "07:45 從 APA 出發，以 08:45 前抵達北海道神宮為目標，第一段含冬季行車、停車與步行先留 1 小時，並非保證車程。神宮保留約 50 分鐘，伏見稻荷、手稻與小樽稻荷依原順序短暫參拜，各約 20–25 分鐘；童話十字路後上天狗山，再回運河。",
+    route: "APA → 北海道神宮 → 伏見稻荷 → 手稻神社 → 小樽午餐 → 小樽稻荷 → 大正硝子 → LeTAO 本店 → 童話十字路 → 天狗山夜景 → 運河 → APA",
     stopGroups: [["hokkaido-shrine"],["sapporo-fushimi-inari"],["teine-shrine"],["wakadori-naruto-honten"],["otaru-inari-shrine"],["taisho-glass"],["letao-otaru-honten"],["otaru-meruhen-crossing"],["otaru-tenguyama"],["otaru-canal"]],
-    requiredIds: ["hokkaido-shrine","wakadori-naruto-honten","taisho-glass","otaru-meruhen-crossing","otaru-canal","otaru-tenguyama"],
-    optionalIds: ["sapporo-fushimi-inari","teine-shrine","otaru-inari-shrine"],
+    requiredIds: ["hokkaido-shrine","sapporo-fushimi-inari","teine-shrine","wakadori-naruto-honten","otaru-inari-shrine","taisho-glass","otaru-meruhen-crossing","otaru-canal","otaru-tenguyama"],
+    optionalIds: [],
     rows: [
       ["07:45–08:45","開車：APA → 北海道神宮","早餐、清車積雪先完成；冬季行車、停車與步行先留 1 小時，以 9 點前抵達為目標，風雪時仍會延長。"],
       ["08:45–09:35","北海道神宮","主要必去點，留參拜、拍照與步行約 50 分；御守、御朱印依社務所當日開放。",["hokkaido-shrine"],"約 50 分"],
-      ["09:35–10:10","開車至札幌伏見稻荷、移動緩衝","先完成札幌市內兩座，再向西走，避免從手稻折返札幌。預留冬季移動與停車緩衝，彈性神社仍可略過。"],
+      ["09:35–10:10","開車至札幌伏見稻荷、移動緩衝","先完成札幌市內兩座，再向西走，避免從手稻折返札幌。預留冬季移動與停車緩衝。"],
       ["10:10–10:30","札幌伏見稻荷神社","短暫參拜約 20 分；停車／坡道不安全就略過。",["sapporo-fushimi-inari"],"約 20 分"],
       ["10:30–11:15","開車至手稻神社","含市區路口、冬季行車與找車位預留約 45 分。"],
-      ["11:15–11:40","手稻神社","前往小樽途中短停；若上午已落後，可直接前往小樽。",["teine-shrine"],"約 25 分"],
+      ["11:15–11:40","手稻神社","前往小樽途中短暫參拜、拍照約 25 分，接著前往小樽午餐。",["teine-shrine"],"約 25 分"],
       ["11:40–12:30","開車：手稻 → 小樽","走可通行的主要道路／札樽道，含進城停車先抓約 50 分。"],
-      ["12:30–13:30","若鶏時代 なると 本店午餐","炸半雞午餐含候位約 1 小時；排隊久就縮短下一座彈性神社。",["wakadori-naruto-honten"],"約 1 小時"],
-      ["13:30–14:20","小樽稻荷神社與往返","開車約 20–25 分後參拜約 20–25 分；遇坡道積雪、授與所休息或已落後，就略過。",["otaru-inari-shrine"],"含移動約 50 分"],
+      ["12:30–13:30","若鶏時代 なると 本店午餐","炸半雞午餐含候位約 1 小時；用餐後依原順序前往小樽稻荷。",["wakadori-naruto-honten"],"約 1 小時"],
+      ["13:30–14:20","小樽稻荷神社與往返","開車約 20–25 分後參拜約 20–25 分；只走已開放且安全的區域，御朱印依授與所當日開放。",["otaru-inari-shrine"],"含移動約 50 分"],
       ["14:20–14:45","移車至運河／堺町周邊停車場","確認可停到傍晚，接下來商店街與運河以步行串接，保留取車路程。"],
       ["14:45–15:25","大正硝子館","先逛店；這版不含製作體驗。若預約體驗，需另留時間並減少神社。",["taisho-glass"],"約 40 分"],
       ["15:25–15:55","LeTAO 小樽本店","必逛點放在上山前，先留約 30 分鐘採買；咖啡廳另留候位與用餐時間。",["letao-otaru-honten"],"先留約 30 分"],
@@ -51,7 +51,7 @@ const dailyTimingDrafts = {
       ["19:40–21:30","取車、開車回 APA","含冬季返程、一次短休息與市區停車，風雪另延長。"],
       ["21:30 之後","飯店附近簡單補餐","不等到此時才吃第一份晚餐，下午或天狗山下山後先吃。"]
     ],
-    notes: ["天狗山是新增夜景段，商店仍先逛；若保留四座神社，下午容易延誤，優先略過手稻／小樽稻荷等彈性點。","保留神宮、商店、天狗山與運河時，建議將多出的時間用於 18:00–19:00 晚餐；表內晚返時間是完整密集版。"],
+    notes: ["四座神社都是主要安排；北海道神宮約 50 分鐘，其餘三座以短暫參拜為主，各約 20–25 分鐘，不另外排長時間散步。","參拜時間不含開車、停車與雪地步行；保持原有移動緩衝。晚餐考慮上天狗山前吃，餐廳與時間仍待決定，另加用餐需重估下午時段。"],
     sources: [["北海道神宮公告","https://www.hokkaidojingu.or.jp/"],["大正硝子館","https://www.otaruglass.com/"],["天狗山冬季營業／票價","https://tenguyama.ckk.chuo-bus.co.jp/hours-and-fees/"],["天狗山山麓停車／交通","https://tenguyama.ckk.chuo-bus.co.jp/access/"]]
   },
   4: {
@@ -65,10 +65,10 @@ const dailyTimingDrafts = {
     sources: [["登別溫泉市場","https://noboribetsu-spa.jp/tw/spot/spot0169/"],["北海道道路資訊","https://info-road.hdb.hkd.mlit.go.jp/"],["藻岩山營業／冬季道路封閉","https://mt-moiwa.jp/guide/"],["NEXCO 車程估算說明","https://www.driveplaza.com/dp/SearchQuick?startPlaceKana=札幌南&arrivePlaceKana=登別東"]]
   },
   5: {
-    intro: "D5 A 線：中島公園、鰻魚飯後到大丸札幌與同棟 8F 寶可夢中心，14:20 左右離開購物區，搭地鐵去白色戀人公園。B 線同伴自駕滑雪，15:00 離開滑雪場，約 16:00 在園區入口會合；逛完四人一起搭車回 APA。",
-    route: "A：APA → 中島公園 → 鰻魚飯 → 大丸札幌／寶可夢中心 → 地鐵宮之沢 → 白色戀人；B：滑雪場 15:00 出發 → 約 16:00 會合 → 一起搭車回 APA",
-    stopGroups: [["nakajima-park"],["unagi-nakajima"],["daimaru-sapporo"],["pokemon-center-sapporo"],["shiroi-koibito-park"]],
-    requiredIds: ["nakajima-park","unagi-nakajima","daimaru-sapporo","pokemon-center-sapporo","shiroi-koibito-park"],
+    intro: "D5 A 線：中島公園、鰻魚飯後到大丸札幌與同棟 8F 寶可夢中心，14:20 左右離開購物區，搭地鐵去白色戀人公園。B 線同伴自駕滑雪，15:00 離開滑雪場，約 16:00 在園區入口會合；逛完四人一起搭車回 APA，晚餐後步行逛狸小路。",
+    route: "A：APA → 中島公園 → 鰻魚飯 → 大丸札幌／寶可夢中心 → 白色戀人；B：滑雪場 15:00 出發 → 約 16:00 會合 → 一起搭車回 APA → 晚餐 → 狸小路",
+    stopGroups: [["nakajima-park"],["unagi-nakajima"],["daimaru-sapporo"],["pokemon-center-sapporo"],["shiroi-koibito-park"],["tanukikoji-shopping-street"]],
+    requiredIds: ["nakajima-park","unagi-nakajima","daimaru-sapporo","pokemon-center-sapporo","shiroi-koibito-park","tanukikoji-shopping-street"],
     rows: [
       ["10:00–10:20","A 線步行：APA → 中島公園","市區觀光組先吃早餐，雪地步行抓約 20 分鐘；同伴自行開車去滑雪。"],
       ["10:20–11:10","中島公園雪景散步","挑公園北側與已清雪步道走約 50 分；日本庭園冬季關閉，太冷就早點到室內。",["nakajima-park"],"約 50 分"],
@@ -82,7 +82,8 @@ const dailyTimingDrafts = {
       ["15:45–16:00","園區入口等候、室內暖身","A 線先到 Welcome Gate 入口附近，與同伴即時聯絡。B 線另於 15:00 從滑雪場開車出發；此段為會合目標，不保證雪天車程。"],
       ["16:00–18:00","白色戀人公園會合、看燈飾","同伴先停好車再到 Welcome Gate 入口；會合可延至 16:30。一起逛免費庭院、商店與拍照，當季點燈 16:00–19:00；不預設完整付費工廠參觀。",["shiroi-koibito-park"],"約 2 小時，含會合緩衝"],
       ["18:00–19:00","四人搭同伴的車回 APA","不另排回程地鐵，先回飯店停車；含離場、雪天市區行車與停車先留約 1 小時。"],
-      ["19:00–20:00","飯店附近晚餐","餐廳與實際時間待討論，不再安排遠處景點。"]
+      ["19:00–20:00","飯店附近晚餐","餐廳與實際時間待討論，吃完再步行去狸小路。"],
+      ["20:00–21:00","晚餐後逛狸小路商店街","回 APA、吃完晚餐後再步行到 3–5 丁目，先抓約 1 小時；依仍有營業的店採買、散步，太晚就縮短。",["tanukikoji-shopping-street"],"約 1 小時，含步行"]
     ],
     notes: ["同伴約 15:00 從滑雪場開車離場，裝備於 D6 歸還。15:00–16:00 只作會合目標，冬季行車、停車與走到入口先預留 60–90 分鐘規劃緩衝，非即時導航估計；延誤可改 16:30 碰面。","燈飾庭院免費；付費區、咖啡及商店各有截止時間，要參觀工廠需提早到並另查最後入場，不把 19:00 當作所有設施關門時間。"],
     sources: [["中島公園","https://www.sapporo.travel/spot/facility/nakajima_park/"],["白色戀人當季燈飾","https://www.shiroikoibitopark.jp/illumination/"],["公園交通與停車","https://www.shiroikoibitopark.jp/park-guide/access.html"],["滑雪場入口","https://sapporo-moiwa.jp/access/"]]

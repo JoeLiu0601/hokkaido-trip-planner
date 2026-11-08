@@ -45,6 +45,8 @@ const cases = [
   ['D6 Ario Rokkatei to Toriton on foot', 6, ['ario-sapporo', 'rokkatei-ario-sapporo', 'toriton-kita8'], 'walking'],
   ['D6 Toriton to underground shops by transit', 6, ['toriton-kita8', 'kinotoya-bake-pole-town'], 'transit'],
   ['D6 underground shops on foot', 6, ['kinotoya-bake-pole-town', '3coins-pole-town'], 'walking'],
+  ['D6 underground street to Tanukikoji on foot', 6, ['3coins-pole-town', 'tanukikoji-shopping-street'], 'walking'],
+  ['D6 Tanukikoji to Donki on foot', 6, ['tanukikoji-shopping-street', 'donki-tanukikoji'], 'walking'],
   ['D6 nearby ramen on foot', 6, ['3coins-pole-town', 'ramen-haruka'], 'walking'],
   ['D6 reordered shop after museum by transit', 6, ['sapporo-beer-museum', '3coins-pole-town'], 'transit'],
   ['D7 lake region has no confirmed parking destination', 7, ['toyako-lake'], ''],
@@ -102,6 +104,17 @@ test('planned route keeps hotel origin only in secondary preview', () => {
   assert.equal(url.searchParams.get('dir_action'), null);
   runtime.state.plan[5] = ['unagi-nakajima', 'moiwa-yama'];
   assert.equal(runtime.getDrivingRouteUrlForStop(5, 1, 'moiwa-yama'), '');
+});
+
+test('D5 evening street separates the shared ride home from the after-dinner walk', () => {
+  runtime.state.plan[5] = ['shiroi-koibito-park','tanukikoji-shopping-street'];
+  const nav = runtime.getStopNavigation(5,1,runtime.spotById('tanukikoji-shopping-street'));
+  assert.equal(new URL(nav.url).searchParams.get('travelmode'),'walking');
+  assert.match(nav.label,/晚餐後/);
+  const home = new URL(nav.beforeUrl);
+  assert.equal(home.searchParams.get('travelmode'),'driving');
+  assert.match(home.searchParams.get('destination'),/APA/);
+  assert.equal(home.searchParams.has('origin'),false);
 });
 
 test('unplaced library or meal options do not claim a transport mode', () => {

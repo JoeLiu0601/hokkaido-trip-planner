@@ -216,7 +216,7 @@
       "kanemori-warehouse": "八幡坂下坡後逛金森；午餐與咖啡安排在海灣周邊，14:15 離開。",
       "hakodate-mt": "14:45 抵達山麓站為目標，預留排隊；下午上山看日景轉夜景，17:00 開始下山。",
       "hakodate-gokoku-shrine": "晚餐後先回飯店休息；僅在午夜開放及往返車輛確認後，23:15 左右搭車前往。",
-      "morning-market": "朝市有開才去；未開改函館站內逛街備案，取代元町往返。先退房寄行李，10:00–11:00 採買、用餐休息後，12:15 取行李。",
+      "morning-market": "朝市有開才去；未開改函館站內備案，取代元町往返。退房帶著行李去車站採買、吃午餐，13:10 前到機場巴士乘車處。",
       motomachi: "10:15 前退房寄行李；函館駅前搭 2 往谷地頭／5 往函館どつく前→十字街下車。11:45 折返，搭往湯の川→函館駅前。",
       "hakodate-station-airport-bus": "12:15 回 La'gent Stay 取行李，最晚 13:10 到函館站前巴士總站 11 號乘車處。13:30 目標班次待確認；不符就改搭計程車。",
       "hakodate-airport": "14:10 前後到國際線 1F 為目標；JX861 18:00 起飛，星宇櫃檯一般 15:30 開始、17:00 截止報到。"
@@ -232,7 +232,6 @@
     if (stationRouteActive()) {
       const destinations = {
         "hokkaido-shikisai-hakodate": "JR函館駅 正面入口 函館市若松町12-13",
-        "lagent-hakodate-ekimae": "ラ・ジェント・ステイ函館駅前 函館市若松町12-8",
         "hakodate-station-airport-bus": "函館駅前 バスターミナル 11番のりば"
       };
       if (destinations[id]) return { url: daySixStepUrl({ destination: destinations[id], mode: "walking" }), label: "步行導航", mode: "walking" };
@@ -260,7 +259,7 @@
 
   function playbackOrigin(ids) {
     const baseDeparture = dayDepartures[state.selectedDay];
-    const departure = stationRouteActive() && baseDeparture ? { ...baseDeparture, note: "先吃早餐，09:15 開始退房整理，10:00 前退房、寄行李後步行到函館站。12:15 回飯店取行李，13:10 前到巴士乘車處。" } : baseDeparture;
+    const departure = stationRouteActive() && baseDeparture ? { ...baseDeparture, note: "先吃早餐，09:15 開始整理，10:00 前退房後帶著全部行李步行到函館站，採買、用餐與休息；13:10 前到站前巴士乘車處。" } : baseDeparture;
     if (!departure || !ids.length) return null;
     return { id: `day-${state.selectedDay}-departure`, name: departure.name,
       shortName: departure.hotel.note, type: "飯店出發", departure };
@@ -354,7 +353,7 @@
     return `<div class="winter-focus-top"><span class="winter-focus-eyebrow">${preview ? "正在預覽這一站" : "接下來去哪裡"}</span><span>${escapeHtml(timingText(spot))}</span></div>
       <h3 id="journey-next-title" tabindex="-1">${escapeHtml(spot.name)}</h3><p class="winter-focus-summary">${escapeHtml(summaryText(spot))}</p>
 
-      <div class="winter-focus-actions"><a href="${escapeHtml(nav.url)}" target="_blank" rel="noopener noreferrer">↗ ${nav.label}</a><button type="button" data-winter-info aria-expanded="false" aria-controls="winter-focus-info">查看詳情 ⌄</button></div>
+      <div class="winter-focus-actions">${nav.beforeUrl ? `<a href="${escapeHtml(nav.beforeUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(nav.beforeLabel)}</a>` : ""}<a href="${escapeHtml(nav.url)}" target="_blank" rel="noopener noreferrer">↗ ${nav.label}</a><button type="button" data-winter-info aria-expanded="false" aria-controls="winter-focus-info">查看詳情 ⌄</button></div>
       ${transportGuide}
       ${dayTenMorningBackupHtml(state.selectedDay, id)}
       ${state.selectedDay === 10 && id === "hakodate-station-airport-bus" ? airportBusTimetableHtml() : ""}
@@ -444,7 +443,7 @@
       ? `<image href="assets/day1-winter-scene.svg?v=20261026-contrast" width="380" height="394" aria-hidden="true" />`
       : scenes.background(state.selectedDay, height);
     const shortNames = {
-      "apa-sapporo-susukino-ekinishi": "APA 入住", "lagent-hakodate-ekimae": stationRouteActive() ? "飯店取行李" : "函館入住",
+      "apa-sapporo-susukino-ekinishi": "APA 入住", "lagent-hakodate-ekimae": "函館入住",
       "toya-kohan-tei": "洞爺湖入住", "hakodate-station-airport-bus": "機場巴士",
       "sapporo-beer-museum": "啤酒博物館", "muroran-hakucho-bridge-view": "白鳥大橋",
       "lucky-pierrot-goryokaku": "小丑漢堡", "shiroi-koibito-park": "白色戀人公園"
@@ -508,6 +507,7 @@
             ${logistics?.tickets ? `<p><strong>票券：</strong>${escapeHtml(logistics.tickets)}</p>` : ""}
             ${state.selectedDay === 10 && id === "hakodate-station-airport-bus" ? airportBusTimetableHtml() : ""}
             <div class="journey-row-actions">
+              ${nav.beforeUrl ? `<a class="small-button map-link" href="${escapeHtml(nav.beforeUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(nav.beforeLabel)}</a>` : ""}
               <a class="small-button map-link" href="${escapeHtml(nav.url)}" target="_blank" rel="noopener noreferrer">${nav.label}</a>
               <button class="small-button" type="button" data-journey-status="${status === "pending" ? "done" : "pending"}" data-journey-id="${escapeHtml(id)}">${status === "pending" ? "標為完成" : "改回待出發"}</button>
               ${status === "pending" ? `<button class="small-button" type="button" data-journey-status="skipped" data-journey-id="${escapeHtml(id)}">略過</button>` : ""}

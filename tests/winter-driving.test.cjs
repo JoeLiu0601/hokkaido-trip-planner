@@ -55,8 +55,8 @@ test('optional presentation follows each day without deleting shared stops', () 
   }
   assert.equal(isOptional('biei-blue', 1), true);
   assert.equal(isOptional('happiness-bell', 3), false);
-  assert.equal(isOptional('hinode-park', 2), true);
-  assert.equal(isOptional('teine-shrine', 3), true);
+  assert.equal(isOptional('hinode-park', 2), false);
+  for (const id of ['sapporo-fushimi-inari', 'teine-shrine', 'otaru-inari-shrine']) assert.equal(isOptional(id, 3), false);
   assert.equal(isOptional('goryokaku', 8), true);
   assert.equal(JSON.stringify(state.plan), before);
 });

@@ -339,7 +339,7 @@ const spots = [
   ],
   "time": "2h",
   "best": "山頂俯瞰小樽港與市街夜景",
-  "desc": "D3 童話十字路之後前往山麓站，再搭纜車上山。冬季不導航到山頂；強風可能停駛。夜景與運河都保留時，建議減少彈性神社。",
+  "desc": "D3 童話十字路之後前往山麓站，再搭纜車上山。冬季不導航到山頂；強風可能停駛。四座神社依原順序安排，除北海道神宮外，其餘以短暫參拜為主，保留夜景與運河的時間。",
   "highlight": "港町夜景"
 },
   {
@@ -438,7 +438,7 @@ const spots = [
     season: ["winter"],
     time: "1.5h",
     best: "海鮮丼、早餐、在地味、元旦需確認",
-    desc: "Day 10 是元旦，朝市各店自行決定年末營業，目前未確認 2027/1/1 各店名單；確認有開才去。沒開或不想碰運氣，就採函館站內逛街備案：先吃早餐、退房寄行李，10:00–11:00 逛四季彩館與站內伴手禮，11:00–12:00 用餐休息，12:15 回飯店取行李。這套備案取代朝市與元町往返，不是再加行程；站內店家元旦營業也需確認，店休就休息、不追店。",
+    desc: "Day 10 是元旦，朝市各店自行決定年末營業，目前未確認 2027/1/1 各店名單；確認有開才去。沒開或不想碰運氣，就採函館站內逛街備案：先吃早餐、退房後帶齊行李到車站，10:00–11:00 逛四季彩館與站內伴手禮，11:00–12:00 用餐休息，再補買、整理行李，13:10 前直接候車。這套備案取代朝市與元町往返，不是再加行程；站內店家元旦營業也需確認，店休就休息、不追店。",
     highlight: "元旦高風險"
   },
   {
@@ -607,6 +607,18 @@ const spots = [
     best: "藥妝、零食、伴手禮、狸小路",
     desc: "狸小路的 24 小時大型採買店，從大通、Pole Town 與薄野可步行串接。建議 D6 逛狸小路時預留 60–90 分鐘，含結帳與退稅緩衝，買完回 APA 整理；不必另外繞去函館店。醫藥品須在合資格人員在勤時購買。",
     highlight: "狸小路採買"
+  },
+
+  {
+    id: "tanukikoji-shopping-street",
+    name: "狸小路商店街",
+    area: "札幌",
+    type: "商店街",
+    season: ["winter"],
+    time: "1h",
+    best: "有頂棚商店街、藥妝、伴手禮、餐飲",
+    desc: "札幌市中心的有頂棚商店街，1–7 丁目延伸約 900 公尺，可逛藥妝、伴手禮、生活雜貨與餐飲。D5 白色戀人後搭同伴車回 APA，吃完晚餐再步行來晃，先以 3–5 丁目為主、抓約 1 小時；也可順逛唐吉訶德。各店開關門不同，晚餐後以仍有營業的店為主，不代表全街 24 小時營業。",
+    highlight: "D5 晚餐後散步"
   },
 
   // 札幌美食
@@ -1226,7 +1238,8 @@ const winterTemplate = {
     "unagi-nakajima",
     "daimaru-sapporo",
     "pokemon-center-sapporo",
-    "shiroi-koibito-park"
+    "shiroi-koibito-park",
+    "tanukikoji-shopping-street"
   ],
   "6": [
     "sapporo-beer-museum",
@@ -1280,14 +1293,14 @@ const dayFourOptionalStopIds = ["muroran-hakucho-bridge-view", "happiness-bell"]
 const daySummaries = {
   "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先規劃約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住規劃約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
   "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景。約 18:30 在富良野吃完晚餐出發，約 22:00 到札幌 APA。也可提早離開、沿途補餐。大通與薄野僅留彈性備選，晚到不再硬逛。",
-  "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。手稻放在前往小樽途中，午餐若雞／武田二選一；大正硝子後逛必去的 LeTAO 本店與童話十字路，再上天狗山、看運河。四座神社全走仍會偏滿，優先刪減彈性神社；晚餐先考慮上天狗山前吃，餐廳與時間尚未決定。",
+  "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。神宮約 50 分鐘，接著伏見稻荷、手稻短暫參拜，各約 20–25 分鐘；小樽午餐若雞／武田二選一後，再到小樽稻荷短暫參拜。大正硝子、LeTAO 本店與童話十字路後上天狗山、看運河。晚餐先考慮上天狗山前吃，餐廳與時間尚未決定。",
   "4": "06:30 從 APA 出發，主線是登別地獄谷、溫泉街午餐與藻岩山夜景。白鳥大橋、幸福之鐘列為有空再去，建議最多挑一處；路況不佳就午餐後直接前往藻岩山。完整規劃包含清單中的室蘭備選，實際略過可提早抵達。已用 11/03 Google 地圖逐段核對，分開試算 ×1.5／×2 加停車休息緩衝；兩點都去的 ×2 情境約 20:05 才到山麓，兩點皆略過約 16:10，可保留夜景時間。",
-  "5": "白天分組：A 線中島公園、鰻魚飯與市區休息後搭地鐵到白色戀人公園；B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA；雪天與停車先留至 16:30 的會合緩衝。藻岩山夜景維持 D4。",
+  "5": "白天分組：A 線中島公園、鰻魚飯、大丸與同棟 8F 寶可夢中心後搭地鐵到白色戀人公園；B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA，附近晚餐後約 20:00–21:00 步行逛狸小路；雪天與停車先留至 16:30 的會合緩衝。藻岩山夜景維持 D4。",
   "6": "A 線市區觀光：搭車前往啤酒博物館、Ario 與 Toriton，下午搭車回市中心逛地下街；B 線同伴自行開車去滑雪，集合時間另約。",
   "7": "07:30 從札幌 APA 退房出發，約 10:30 到真狩村，先看羊蹄山與休息，午餐後經 SAIRO 展望台到洞爺湖，15:15 左右入住 Toya Kohan Tei；不安排火口，下午留給泡湯與休息。車程為冬季估計。",
   "8": "07:00 從洞爺湖出發，約 10:45 到函館寄行李、加油還車。先吃小丑漢堡，公園有餘裕才短逛；15:30 到五稜郭塔購票，16:00–17:30 看日景轉夜景，約 18:30 回飯店入住。湖畔亭早餐 07:00 開始，這版早餐自備；函館山維持 D9，車程與入夜時段為估計。",
   "9": "原主線 09:30 從 La'gent Stay 函館站前出發，八幡坂與金森後提早上函館山；晚餐後回飯店休息。若 D8 沒逛五稜郭公園，可視當天狀況選擇早上補逛，也可不補；採用需重估上午交通與出發時間，不影響下午上山優先。護國神社午夜初詣仍須確認開放與往返交通。",
-  "10": "朝市確認有開才短逛；未開就改函館站內逛街備案，取代朝市與元町往返：先吃早餐、10:00 前退房寄行李，站內採買與用餐休息，12:15 取行李。採原元町路線則仍須 10:15 前退房寄行李。兩條路線都以 13:10 前候車、13:30 參考班次出發、14:10 前後進國際線為目標；JX861 18:00 起飛，2027 元旦班次待確認。"
+  "10": "朝市確認有開才短逛；未開就改函館站內逛街備案，取代朝市與元町往返：先吃早餐、10:00 前退房帶齊行李，站內採買與用餐休息後直接候車。採原元町路線則仍須 10:15 前退房寄行李。兩條路線都以 13:10 前候車、13:30 參考班次出發、14:10 前後進國際線為目標；JX861 18:00 起飛，2027 元旦班次待確認。"
 };
 const dayOneTimingDraft = {
   "new-chitose-airport": {
@@ -1379,7 +1392,7 @@ const dayNineSchedule = [
 const dayTenTimingDraft = {
   "morning-market": {
     time: "09:15–09:45（有營業才去）", duration: "最多約 30 分",
-    note: "朝市確認有開才短逛。未開時改走函館站內備案，取代本段與元町：先吃早餐、10:00 前退房寄行李，10:00–11:00 站內採買、11:00–12:00 用餐休息，12:15 取行李。站內店家 2027 元旦營業待確認，沒有開就休息、吃備餐，不跑遠處找店。"
+    note: "朝市確認有開才短逛。未開時改走函館站內備案，取代本段與元町：先吃早餐、10:00 前退房帶齊行李，10:00–11:00 站內採買、11:00–12:00 用餐休息，補買整理後直接候車。站內店家 2027 元旦營業待確認，沒有開就休息、吃備餐，不跑遠處找店。"
   },
   motomachi: {
     time: "10:45–11:45", duration: "約 1 小時",
@@ -1396,7 +1409,7 @@ const dayTenTimingDraft = {
 };
 const dayTenRequiredStopIds = ["motomachi", "hakodate-station-airport-bus", "hakodate-airport"];
 const dayTenSchedule = [
-  ["09:15–09:45", "朝市有開才短逛／啟用站內備案", "朝市未開時，改採函館站內逛街備案，取代朝市及元町：08:30–09:15 早餐、10:00 前退房寄行李、10:00–11:00 站內採買、11:00–12:00 用餐休息、12:15 取行李。下列元町往返僅適用原路線，不與站內備案疊加。"],
+  ["09:15–09:45", "朝市有開才短逛／啟用站內備案", "朝市未開時，改採函館站內逛街備案，取代朝市及元町：08:30–09:15 早餐、10:00 前退房並帶齊行李、10:00–11:00 站內採買、11:00–12:00 用餐休息，補買整理後直接候車。下列元町往返僅適用原路線，不與站內備案疊加。"],
   ["09:45–10:15", "回飯店退房、寄行李", "La'gent Stay 一般 11:00 前退房，官方可寄放當日領回的行李；護照與貴重物品隨身帶。"],
   ["10:15–10:45", "函館駅前 → 十字街 → 元町", "飯店步行到函館駅前電停；搭市電 2 系統往谷地頭或 5 系統往函館どつく前，十字街下車後步行上坡。此段含候車與雪地步行。"],
   ["10:45–11:45", "元町散步", "只挑想看的街區，11:45 開始下坡；若天候差或團員疲累，就在站前休息。"],
@@ -1643,6 +1656,12 @@ const spotLogistics = {
     access: "地址：札幌市中央区南3条西4丁目12-1。導航請選 MEGAドン・キホーテ札幌狸小路本店，從大通、Pole Town、薄野可步行串接；不需特地開車",
     infoUrl: "https://www.donki.com/store/shop_detail.php?shop_id=555",
     checkedAt: "2026/11/04"
+  },
+  "tanukikoji-shopping-street": {
+    hours: "商店街可散步，各店開關門與年末年始休業不同；採買請依想逛店家的營業時間，不視為全街 24 小時營業",
+    access: "札幌市中央区南2・3条西1–7丁目；官方一般步行：大通站約 5 分、薄野站約 3 分、市電狸小路站約 1 分。D5 晚餐後從 APA／用餐處步行前往，先逛 3–5 丁目；若改 D6，可從 Pole Town 指標到地面；雪地與過街另留緩衝",
+    infoUrl: "https://tanukikoji.or.jp/access/",
+    checkedAt: "2026/11/9"
   },
   "sandria-honten": {
     hours: "本店一般 24 小時；官方觀光頁列 12/31–1/2 休息，2026–2027 年末特別營業待確認",
@@ -1941,7 +1960,7 @@ const spotLogistics = {
   },
   "morning-market": {
     hours: "1–4 月一般約 06:00 至 14:00 後（各店不同）；2027/1/1 各店營業尚未確認，不把過往年份公告當成當天保證",
-    access: "地址：函館市若松町9-19。函館站步行約 1-2 分鐘。D10 朝市未開時改函館站內逛街／用餐備案，不再同時跑元町；先退房寄行李、12:15 取回，13:10 前到巴士乘車處",
+    access: "地址：函館市若松町9-19。函館站步行約 1-2 分鐘。D10 朝市未開時改函館站內逛街／用餐備案，不再同時跑元町；退房後帶齊行李，站內採買、午餐後直接到巴士乘車處，13:10 前候車",
     infoUrl: "https://www.hakodate-asaichi.com/",
     checkedAt: "2026/11/9"
   },
@@ -2044,6 +2063,7 @@ const drivingPlaceOverrides = {
   "sandria-honten": "サンドリア本店 札幌市中央区南8条西9丁目758-14",
   "rokkatei-ario-sapporo": "六花亭 アリオ札幌店 札幌市東区北7条東9丁目2-20 1F",
   "donki-tanukikoji": "MEGAドン・キホーテ札幌狸小路本店 札幌市中央区南3条西4丁目12-1",
+  "tanukikoji-shopping-street": "狸小路商店街 3丁目 札幌市中央区南2条西3丁目",
   "furano-kumagera": "くまげら 北海道富良野市日の出町3-22",
   "furano-yuiga-doxon": "唯我独尊 北海道富良野市日の出町11-8",
   "kamifurano-marumasu": "焼肉 まるます 北海道上富良野町緑町2丁目1-17",
@@ -2956,21 +2976,25 @@ function daySixTransportHtml(day, index, spotId) {
 }
 
 function dayTenMorningBackupHtml(day, spotId) {
-  if (day !== 10 || spotId !== "morning-market") return "";
+  if (day !== 10 || !["morning-market", "hokkaido-shikisai-hakodate"].includes(spotId)) return "";
   const stationUrl = daySixStepUrl({ destination: "JR函館駅 正面入口 函館市若松町12-13", mode: "walking" });
-  const hotelUrl = daySixStepUrl({ destination: "ラ・ジェント・ステイ函館駅前 函館市若松町12-8", mode: "walking" });
-  return `<details class="day-six-transport day-ten-morning-backup"><summary>朝市沒開 → 函館站內逛街備案</summary>
-    <div class="day-six-timetable"><p>朝市未開，或前晚仍無法確認營業，就採這套備案；同時略過原本元町往返，不把兩套行程疊加。</p></div>
+  return `<details class="day-six-transport day-ten-morning-backup"><summary>${spotId === "morning-market" ? "朝市沒開 → 函館站內逛街備案" : "站內採買與午餐安排"}</summary>
+    <div class="day-six-timetable"><p>退房後帶著全部行李到車站，採買、用餐後直接候車去機場。這套備案取代朝市與元町往返。</p></div>
     <ol><li><p><strong>08:30–09:15｜先吃早餐</strong><br>飯店已含早餐或事先確認可加購才採用，否則前晚備好輕食；不等到發現朝市沒開才找早餐。</p></li>
-    <li><p><strong>09:15–10:00｜退房、寄放行李</strong><br>大件行李先留在 La’gent Stay，帶隨身包步行到旁邊的 JR 函館站。</p></li>
+    <li><p><strong>09:15–10:00｜整理、退房，帶行李到車站</strong><br>帶齊全部行李，步行到旁邊的 JR 函館站。</p></li>
     <li><p><strong>10:00–11:00｜函館站內逛街、補買伴手禮</strong><br>以 1F 北海道四季彩館與站內甜點專櫃為主，先留約 45–60 分鐘。四季彩館現行一般 07:00–20:00，其他專櫃各自營業；2027/1/1 調整仍待確認，不保證全店開門。</p><a class="small-button map-link" href="${escapeHtml(stationUrl)}" target="_blank" rel="noopener noreferrer">步行到函館站・站內採買</a></li>
-    <li><p><strong>11:00–12:00｜站內午餐／休息</strong><br>有營業可考慮 2F あじさい JR函館駅店，現行一般 10:00–19:30 最後點餐，元旦安排待確認。店休或候位太久，就吃已備妥的輕食、留在站前休息，不另外跑遠處找店。</p></li>
-    <li><p><strong>12:15｜回飯店取行李</strong><br>留時間整理採買品，再走到站前巴士總站 11 號乘車處；13:10 前到站候車。</p><a class="small-button map-link" href="${escapeHtml(hotelUrl)}" target="_blank" rel="noopener noreferrer">步行回 La’gent Stay 取行李</a></li></ol>
-    <div class="day-six-timetable"><p>13:30 仍是待確認的參考班次；不符、客滿或延誤就改計程車，維持約 14:10 進國際線航廈的目標。站內店家沒有開時，備案就改休息，不延後去機場。</p><a class="small-button map-link" href="https://www.hkiosk.co.jp/shop/hokkaido-shikisaikan-jrhakodate/" target="_blank" rel="noopener noreferrer">四季彩館官方店家資訊</a><a class="small-button map-link" href="https://ajisai.tv/shop/" target="_blank" rel="noopener noreferrer">あじさい官方店家資訊</a></div>
+    <li><p><strong>11:00–12:00｜站內午餐／休息</strong><br>2F あじさい可吃函館鹽味拉麵，一般 10:00–19:30 最後點餐；2F「食の宝庫 北海道」有定食、蕎麥／烏龍麵與道產料理，一般 11:00–21:00。2027 元旦實際營業均待確認。</p><a class="small-button map-link" href="https://ajisai.tv/shop/" target="_blank" rel="noopener noreferrer">あじさい官方資訊</a><a class="small-button map-link" href="https://www.hkiosk.co.jp/shop/shokunohouko-hokkaido/" target="_blank" rel="noopener noreferrer">食の宝庫 北海道官方資訊</a></li>
+    <li><p><strong>附近壽司備選｜根室花まる キラリス函館店</strong><br>車站對面 KIRARIS 地下 1F，需帶行李過街；一般 11:00–22:00（L.O. 21:45），不接受座位預約，現場取號。只在元旦有開且能於 12:30 前吃完時考慮；候位太久就回站內用餐。</p><a class="small-button map-link" href="https://www.sushi-hanamaru.com/store/details/s16.html" target="_blank" rel="noopener noreferrer">花まる分店資訊與候位</a></li>
+    <li><p><strong>12:00–13:00｜補買、休息與整理行李</strong><br>補齊紀念品和禮物，13:00 前結帳並整理好行李，再到站前巴士總站 11 號乘車處；13:10 前到站候車。</p></li></ol>
+    <div class="day-six-timetable"><p>13:30 仍是待確認的參考班次；不符、客滿或延誤就改計程車，維持約 14:10 進國際線航廈的目標。站內店家沒有開時，備案就改休息或備餐，不延後去機場。</p><a class="small-button map-link" href="https://www.hkiosk.co.jp/shop/hokkaido-shikisaikan-jrhakodate/" target="_blank" rel="noopener noreferrer">四季彩館官方店家資訊</a></div>
   </details>`;
 }
 
 function getStopNavigation(day, index, spot) {
+  if (day === 5 && index >= 0 && state.plan[5]?.[index] === spot.id && spot.id === "tanukikoji-shopping-street") {
+    const destination = drivingPlaceOverrides[spot.id];
+    return { url: daySixStepUrl({ destination, mode: "walking" }), label: "晚餐後步行去狸小路", mode: "walking", beforeUrl: state.plan[5][index - 1] === "shiroi-koibito-park" ? getDayFiveReturnUrl() : "", beforeLabel: "先搭同伴車回 APA", note: "白色戀人結束先搭同伴的車回 APA、吃晚餐；之後再從飯店或用餐處步行去狸小路。" };
+  }
   if (day === 5 && spot.id === "pokemon-center-sapporo" && state.plan[5]?.[index - 1] === "daimaru-sapporo") {
     return { url: getMapUrl(spot), label: "查看同棟 8F 位置", mode: "", note: "已在大丸內，搭電梯／手扶梯上 8F，不需出大樓。" };
   }
@@ -3006,13 +3030,14 @@ function getStopNavigationMode(day, index, spotId) {
   }
   const previous = stops[index - 1];
   if (day === 5 || day === 6) {
+    if (day === 5 && spotId === "tanukikoji-shopping-street") return "walking";
     if (day === 6 && spotId === "toriton-kita8" && ["ario-sapporo", "rokkatei-ario-sapporo"].includes(previous)) return "walking";
     if ([previous, spotId].every(id => ["ario-sapporo", "rokkatei-ario-sapporo"].includes(id))) return "walking";
     if (getKnownWalkingLeg(day, index, spotId)) return "walking";
     if (day === 5 && ["nakajima-park", "unagi-nakajima"].includes(spotId)
       && (index === 0 || ["nakajima-park", "unagi-nakajima"].includes(previous))) return "walking";
     const downtown = ["kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka", "sapporo-susukino", "sapporo-odori", "apa-sapporo-susukino-ekinishi", "samurai-cocono-susukino", "kushidori-susukino-nishi5"];
-    downtown.push("donki-tanukikoji", "sandria-honten");
+    downtown.push("donki-tanukikoji", "tanukikoji-shopping-street", "sandria-honten");
     if (day === 6 && downtown.includes(spotId) && (index === 0 || downtown.includes(previous))) return "walking";
     return "transit";
   }
@@ -3243,6 +3268,9 @@ function getDrivingOriginForStop(day, index) {
 }
 
 function getKnownWalkingLeg(day, index, spotId) {
+  const previousStop = (state.plan[day] || [])[index - 1];
+  if (day === 6 && spotId === "tanukikoji-shopping-street" && ["kinotoya-bake-pole-town", "3coins-pole-town", "donki-tanukikoji"].includes(previousStop)) return "沿 Pole Town 的狸小路出口指標到地面，步行串接狸小路 3–5 丁目；不必再搭車。";
+  if (day === 6 && previousStop === "tanukikoji-shopping-street" && spotId === "donki-tanukikoji") return "沿商店街步行到 MEGA 唐吉訶德札幌狸小路本店；已在同一逛街區，不必再搭車。";
   const stationShops = ["daimaru-sapporo", "pokemon-center-sapporo", "stellar-place", "tokyu-sapporo"];
   if (day === 5 && index > 0 && [state.plan[day]?.[index - 1], spotId].every(id => stationShops.includes(id))) {
     return "札幌站購物區步行銜接，沿 JR 札幌站／各商場指標移動；同棟寶可夢中心在大丸 8F，不另搭車。";
@@ -3338,6 +3366,7 @@ function getDriveInfoForStop(day, index, spotId) {
     const prefix = "A 線市區觀光｜同伴用車滑雪，這段不自駕。";
     const daySixGuide = getDaySixTransport(day, index, spotId);
     if (daySixGuide) return `${prefix}${daySixGuide.summary}。${daySixGuide.steps.map(step => step.text).join(" ")}`;
+    if (day === 5 && spotId === "tanukikoji-shopping-street") return "D5 晚間｜白色戀人公園後先搭同伴車回 APA，19:00–20:00 附近晚餐；約 20:00 再從飯店／用餐地點步行去狸小路 3–5 丁目，先逛約 1 小時。各店關門時間不同，走累就回飯店休息。";
     if (day === 5 && spotId === "daimaru-sapporo" && dayStops[index - 1] === "unagi-nakajima") return `${prefix}中島公園 N09 搭南北線往麻生，3 站到さっぽろ N06，沿 JR 札幌站／大丸標示步行；含候車與站內移動先留 30 分鐘。`;
     if (day === 5 && spotId === "pokemon-center-sapporo" && dayStops[index - 1] === "daimaru-sapporo") return "同棟移動｜已在大丸札幌，搭電梯／手扶梯上 8F，不需出大樓或搭車。";
     if (day === 5 && spotId === "shiroi-koibito-park") return `${prefix}${["daimaru-sapporo", "pokemon-center-sapporo", "stellar-place", "tokyu-sapporo"].includes(dayStops[index - 1]) ? "從地下鐵さっぽろ N06 搭南北線往真駒内，1 站到大通" : "中島公園／薄野站搭南北線往麻生至大通"}，轉東西線往宮の沢至終點，再步行約 7 分（雪天留 10–15 分）。14:20 左右離開札幌站購物區，約 16:00 在 Welcome Gate 與同伴會合，逛完搭他們的車回 APA；雪天會合可延至 16:30。`;
@@ -4755,7 +4784,7 @@ function renderDayAlternative() {
 const dayOptionalSpots = {
   5: {
     title: "D5 札幌站購物備選",
-    note: "大丸＋8F 寶可夢中心已排主線。Stellar Place 與大丸相鄰、適合優先順逛；東急百貨在札幌站南口附近。這些只作備選，想逛時需縮短原購物，不把每間百貨都加成必去；14:20 左右出發去白色戀人，16:00 會合優先。",
+    note: "大丸＋8F 寶可夢中心已排主線。Stellar Place 與大丸相鄰、適合優先順逛；東急百貨在札幌站南口附近。這些只作備選，想逛時需縮短原購物，不把每間百貨都加成必去；14:20 左右出發去白色戀人，16:00 會合優先。狸小路已排在晚餐後，先搭同伴車回 APA，吃完飯再步行去晃。",
     ids: ["stellar-place", "tokyu-sapporo"]
   },
   3: {
@@ -4774,9 +4803,9 @@ const dayOptionalSpots = {
     ids: ["noboribetsu-onsen-ichiba", "noboribetsu-cafe-denen"]
   },
   6: {
-    title: "D6 採買與輕食備選",
-    note: "有空再選，不必全部加入。六花亭可在原本 Ario 停留內順買；唐吉訶德接狸小路採買，三明治可當早餐或宵夜。正式加入後請依當天體力調整其他停留，原規劃不會自動多出購物時間。",
-    ids: ["rokkatei-ario-sapporo", "donki-tanukikoji", "sandria-honten"]
+    title: "D6 札幌逛街與輕食備選",
+    note: "有空再選，不必全部加入。狸小路商店街已排 D5 晚餐後，D6 不重複加入；若之後改日期，可接 Pole Town 地下街後逛。六花亭在 Ario 順買，三明治可當早餐或宵夜。正式加入後請依當天體力調整其他停留，原規劃不會自動多出購物時間。",
+    ids: ["tanukikoji-shopping-street", "rokkatei-ario-sapporo", "donki-tanukikoji", "sandria-honten"]
   },
   9: {
     title: "D9 早上備選・五稜郭公園",
@@ -4947,7 +4976,7 @@ function bindDayOptionButtons(panel, day, options) {
       } else if (day === 5) {
         insertion = stops.indexOf("shiroi-koibito-park");
       } else if (day === 6) {
-        const anchor = id === "rokkatei-ario-sapporo" ? "ario-sapporo" : id === "donki-tanukikoji" ? "3coins-pole-town" : null;
+        const anchor = id === "rokkatei-ario-sapporo" ? "ario-sapporo" : id === "tanukikoji-shopping-street" ? "3coins-pole-town" : id === "donki-tanukikoji" ? (stops.includes("tanukikoji-shopping-street") ? "tanukikoji-shopping-street" : "3coins-pole-town") : null;
         const anchorIndex = anchor ? stops.indexOf(anchor) : -1;
         insertion = anchorIndex >= 0 ? anchorIndex + 1 : stops.indexOf("apa-sapporo-susukino-ekinishi");
       } else if (day === 9) {
@@ -5251,6 +5280,7 @@ const shoppingSpotIds = new Set([
   "stellar-place",
   "apa-sogo",
   "donki-tanukikoji",
+  "tanukikoji-shopping-street",
   "ario-sapporo",
   "3coins-pole-town",
   "rokkatei-ario-sapporo",
