@@ -438,7 +438,7 @@ const spots = [
     season: ["winter"],
     time: "1.5h",
     best: "海鮮丼、早餐、在地味、元旦需確認",
-    desc: "Day 10 是元旦，朝市各店自行決定年末營業，不能保證整區照常開門；目前未確認 2027/1/1 各店名單。09:15 有開才短逛，沒開就留在飯店吃已含餐／事先確認可加購的早餐，或吃前晚備好的輕食，休息整理行李。09:45 開始退房準備，10:15 前退房寄放行李，不為找店影響機場交通。",
+    desc: "Day 10 是元旦，朝市各店自行決定年末營業，目前未確認 2027/1/1 各店名單；確認有開才去。沒開或不想碰運氣，就採函館站內逛街備案：先吃早餐、退房寄行李，10:00–11:00 逛四季彩館與站內伴手禮，11:00–12:00 用餐休息，12:15 回飯店取行李。這套備案取代朝市與元町往返，不是再加行程；站內店家元旦營業也需確認，店休就休息、不追店。",
     highlight: "元旦高風險"
   },
   {
@@ -1285,7 +1285,7 @@ const daySummaries = {
   "7": "07:30 從札幌 APA 退房出發，約 10:30 到真狩村，先看羊蹄山與休息，午餐後經 SAIRO 展望台到洞爺湖，15:15 左右入住 Toya Kohan Tei；不安排火口，下午留給泡湯與休息。車程為冬季估計。",
   "8": "07:00 從洞爺湖出發，約 10:45 到函館寄行李、加油還車。先吃小丑漢堡，公園有餘裕才短逛；15:30 到五稜郭塔購票，16:00–17:30 看日景轉夜景，約 18:30 回飯店入住。湖畔亭早餐 07:00 開始，這版早餐自備；函館山維持 D9，車程與入夜時段為估計。",
   "9": "原主線 09:30 從 La'gent Stay 函館站前出發，八幡坂與金森後提早上函館山；晚餐後回飯店休息。若 D8 沒逛五稜郭公園，可視當天狀況選擇早上補逛，也可不補；採用需重估上午交通與出發時間，不影響下午上山優先。護國神社午夜初詣仍須確認開放與往返交通。",
-  "10": "09:15 起在飯店附近早餐，朝市僅在元旦有店營業時短逛；10:15 前退房寄行李，再搭市電逛元町。12:15 回飯店拿行李，目標 13:30 從函館站前搭機場巴士、14:10 前後進國際線航廈。JX861 18:00 起飛；2027 元旦巴士班次待確認。"
+  "10": "朝市確認有開才短逛；未開就改函館站內逛街備案，取代朝市與元町往返：先吃早餐、10:00 前退房寄行李，站內採買與用餐休息，12:15 取行李。採原元町路線則仍須 10:15 前退房寄行李。兩條路線都以 13:10 前候車、13:30 參考班次出發、14:10 前後進國際線為目標；JX861 18:00 起飛，2027 元旦班次待確認。"
 };
 const dayOneTimingDraft = {
   "new-chitose-airport": {
@@ -1377,7 +1377,7 @@ const dayNineSchedule = [
 const dayTenTimingDraft = {
   "morning-market": {
     time: "09:15–09:45（有營業才去）", duration: "最多約 30 分",
-    note: "09:15 朝市有店營業才短逛；沒開就採飯店早餐／前晚備妥輕食，09:15–09:45 休息整理。飯店一般早餐 06:00–10:00、09:30 最後入場；是否含餐、能否加購及元旦安排請事先確認。09:45 開始退房準備，10:15 前退房寄行李。"
+    note: "朝市確認有開才短逛。未開時改走函館站內備案，取代本段與元町：先吃早餐、10:00 前退房寄行李，10:00–11:00 站內採買、11:00–12:00 用餐休息，12:15 取行李。站內店家 2027 元旦營業待確認，沒有開就休息、吃備餐，不跑遠處找店。"
   },
   motomachi: {
     time: "10:45–11:45", duration: "約 1 小時",
@@ -1394,7 +1394,7 @@ const dayTenTimingDraft = {
 };
 const dayTenRequiredStopIds = ["motomachi", "hakodate-station-airport-bus", "hakodate-airport"];
 const dayTenSchedule = [
-  ["09:15–09:45", "朝市有開才短逛／飯店休息整理", "早餐先於 08:30–09:15 吃完：飯店已含餐或確認可加購才用餐，否則前晚備輕食。朝市沒開就留飯店休息，09:45 開始退房準備，不另跑遠處景點。"],
+  ["09:15–09:45", "朝市有開才短逛／啟用站內備案", "朝市未開時，改採函館站內逛街備案，取代朝市及元町：08:30–09:15 早餐、10:00 前退房寄行李、10:00–11:00 站內採買、11:00–12:00 用餐休息、12:15 取行李。下列元町往返僅適用原路線，不與站內備案疊加。"],
   ["09:45–10:15", "回飯店退房、寄行李", "La'gent Stay 一般 11:00 前退房，官方可寄放當日領回的行李；護照與貴重物品隨身帶。"],
   ["10:15–10:45", "函館駅前 → 十字街 → 元町", "飯店步行到函館駅前電停；搭市電 2 系統往谷地頭或 5 系統往函館どつく前，十字街下車後步行上坡。此段含候車與雪地步行。"],
   ["10:45–11:45", "元町散步", "只挑想看的街區，11:45 開始下坡；若天候差或團員疲累，就在站前休息。"],
@@ -1935,9 +1935,9 @@ const spotLogistics = {
   },
   "morning-market": {
     hours: "1–4 月一般約 06:00 至 14:00 後（各店不同）；2027/1/1 各店營業尚未確認，不把過往年份公告當成當天保證",
-    access: "地址：函館市若松町9-19。函館站步行約 1-2 分鐘。D10 朝市未開時改飯店早餐／前晚備餐、休息整理；10:15 前退房寄行李，機場巴士安排維持原規劃",
+    access: "地址：函館市若松町9-19。函館站步行約 1-2 分鐘。D10 朝市未開時改函館站內逛街／用餐備案，不再同時跑元町；先退房寄行李、12:15 取回，13:10 前到巴士乘車處",
     infoUrl: "https://www.hakodate-asaichi.com/",
-    checkedAt: "2026/11/8"
+    checkedAt: "2026/11/9"
   },
   "kanemori-warehouse": {
     hours: "多數店家常見 09:30-19:00；跨年與元旦通常縮短營業，請以當年度公告為準",
@@ -2951,11 +2951,16 @@ function daySixTransportHtml(day, index, spotId) {
 
 function dayTenMorningBackupHtml(day, spotId) {
   if (day !== 10 || spotId !== "morning-market") return "";
-  return `<details class="day-six-transport day-ten-morning-backup"><summary>元旦朝市沒開？查看替代安排</summary>
-    <ol><li><p><strong>08:30–09:15｜先吃早餐</strong><br>La’gent Stay 2F 飯店早餐一般 06:00–10:00，09:30 最後入場；已含早餐或事先確認可加購才採用，元旦安排另確認。未訂早餐就前晚備好輕食。</p></li>
-    <li><p><strong>09:15–09:45｜飯店休息、整理行李</strong><br>朝市有店開才短逛；沒開直接休息，不臨時跑遠處找早餐或景點。</p></li>
-    <li><p><strong>09:45–10:15｜退房、寄放行李</strong><br>天氣好、體力足再依原安排逛元町外觀；風雪大或前晚跨年較累，就略過元町、留在站前。</p></li></ol>
-    <div class="day-six-timetable"><p>後段時間不往後延：12:15 取行李、13:10 前到站前巴士乘車處。13:30 班次仍為待確認的參考；不符、客滿或延誤就改計程車。</p><a class="small-button map-link" href="https://lagent.jp/hakodate-ekimae/faq/" target="_blank" rel="noopener noreferrer">飯店早餐／退房官方資訊</a></div>
+  const stationUrl = daySixStepUrl({ destination: "JR函館駅 正面入口 函館市若松町12-13", mode: "walking" });
+  const hotelUrl = daySixStepUrl({ destination: "ラ・ジェント・ステイ函館駅前 函館市若松町12-8", mode: "walking" });
+  return `<details class="day-six-transport day-ten-morning-backup"><summary>朝市沒開 → 函館站內逛街備案</summary>
+    <div class="day-six-timetable"><p>朝市未開，或前晚仍無法確認營業，就採這套備案；同時略過原本元町往返，不把兩套行程疊加。</p></div>
+    <ol><li><p><strong>08:30–09:15｜先吃早餐</strong><br>飯店已含早餐或事先確認可加購才採用，否則前晚備好輕食；不等到發現朝市沒開才找早餐。</p></li>
+    <li><p><strong>09:15–10:00｜退房、寄放行李</strong><br>大件行李先留在 La’gent Stay，帶隨身包步行到旁邊的 JR 函館站。</p></li>
+    <li><p><strong>10:00–11:00｜函館站內逛街、補買伴手禮</strong><br>以 1F 北海道四季彩館與站內甜點專櫃為主，先留約 45–60 分鐘。四季彩館現行一般 07:00–20:00，其他專櫃各自營業；2027/1/1 調整仍待確認，不保證全店開門。</p><a class="small-button map-link" href="${escapeHtml(stationUrl)}" target="_blank" rel="noopener noreferrer">步行到函館站・站內採買</a></li>
+    <li><p><strong>11:00–12:00｜站內午餐／休息</strong><br>有營業可考慮 2F あじさい JR函館駅店，現行一般 10:00–19:30 最後點餐，元旦安排待確認。店休或候位太久，就吃已備妥的輕食、留在站前休息，不另外跑遠處找店。</p></li>
+    <li><p><strong>12:15｜回飯店取行李</strong><br>留時間整理採買品，再走到站前巴士總站 11 號乘車處；13:10 前到站候車。</p><a class="small-button map-link" href="${escapeHtml(hotelUrl)}" target="_blank" rel="noopener noreferrer">步行回 La’gent Stay 取行李</a></li></ol>
+    <div class="day-six-timetable"><p>13:30 仍是待確認的參考班次；不符、客滿或延誤就改計程車，維持約 14:10 進國際線航廈的目標。站內店家沒有開時，備案就改休息，不延後去機場。</p><a class="small-button map-link" href="https://www.hkiosk.co.jp/shop/hokkaido-shikisaikan-jrhakodate/" target="_blank" rel="noopener noreferrer">四季彩館官方店家資訊</a><a class="small-button map-link" href="https://ajisai.tv/shop/" target="_blank" rel="noopener noreferrer">あじさい官方店家資訊</a></div>
   </details>`;
 }
 
