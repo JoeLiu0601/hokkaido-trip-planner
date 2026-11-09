@@ -7,10 +7,11 @@ const source = fs.readFileSync('departure-prep.js','utf8');
 function setup(initial = '{}') {
   let raw = initial, fail = false, writes = 0;
   const handlers = {}, windowHandlers = {}, count = {}, status = {};
+  const groupCounts = ['documents','driving','electronics'].map(id=>({dataset:{prepGroupCount:id},textContent:''}));
   const inputs = ['passport','license','translation','phone'].map(id => ({dataset:{prepId:id},checked:false}));
   const host = {
     addEventListener:(type,fn)=>handlers[type]=fn,
-    querySelectorAll:()=>inputs,
+    querySelectorAll:selector=>selector==='[data-prep-id]'?inputs:selector==='[data-prep-group-count]'?groupCounts:[],
     querySelector:selector=>selector==='[data-prep-count]'?count:status
   };
   const window = {
@@ -18,10 +19,11 @@ function setup(initial = '{}') {
     localStorage:{getItem:()=>raw,setItem:(key,value)=>{if(fail)throw Error('storage full');raw=value;writes++;}}
   };
   vm.runInNewContext(source,{window,document:{getElementById:()=>host}});
-  return { html:()=>window.HOKKAIDO_DEPARTURE_PREP.html(), count, status,
+  return { html:()=>window.HOKKAIDO_DEPARTURE_PREP.html(), count, status, groupCounts,
     setRaw:value=>raw=JSON.stringify(value), saved:()=>JSON.parse(raw), writes:()=>writes,
     fail:value=>fail=value,
     toggle:open=>handlers.toggle({target:{id:'departure-prep',open}}),
+    toggleGroup:(id,open)=>handlers.toggle({target:{dataset:{prepGroup:id},open}}),
     storage:key=>windowHandlers.storage({key}),
     change(id,done){const input=inputs.find(i=>i.dataset.prepId===id)||{dataset:{prepId:id}};input.checked=done;handlers.change({target:{closest:()=>input}});}
   };
@@ -31,7 +33,7 @@ test('preparation restores only known boolean checks and starts collapsed on a n
   const c=setup(JSON.stringify({passport:true,license:'true',unknown:true}));
   assert.match(c.html(),/data-prep-id="passport" checked/);
   assert.doesNotMatch(c.html(),/data-prep-id="license" checked/);
-  assert.match(c.html(),/1 \/ 10 已備妥/);
+  assert.match(c.html(),/1 \/ 46 已備妥/);
   assert.doesNotMatch(c.html(),/<details[^>]*\sopen/);
   c.toggle(true);
   assert.match(c.html(),/<details[^>]*\sopen/);
@@ -54,18 +56,46 @@ test('preparation merges recent checks from another tab and keeps separate itine
   assert.match(c.html(),/data-prep-id="phone" checked/);
   assert.doesNotMatch(c.html(),/data-prep-id="license" checked/);
   c.setRaw({}); c.storage(null);
-  assert.equal(c.count.textContent,'0 / 10 已備妥');
+  assert.equal(c.count.textContent,'0 / 46 已備妥');
 });
 
 test('failed writes retain multiple checks in this visit and can be saved after recovery',()=>{
   const c=setup(); c.fail(true);
   c.change('passport',true); c.change('license',true);
-  assert.match(c.html(),/2 \/ 10 已備妥/);
+  assert.match(c.html(),/2 \/ 46 已備妥/);
   assert.match(c.status.textContent,/無法儲存/);
   assert.deepEqual(c.saved(),{});
   c.change('passport',false);
-  assert.match(c.html(),/1 \/ 10 已備妥/);
+  assert.match(c.html(),/1 \/ 46 已備妥/);
   c.fail(false); c.change('translation',true);
   assert.deepEqual(c.saved(),{license:true,translation:true});
   assert.doesNotMatch(c.status.textContent,/無法儲存/);
+});
+
+test('expanded checklist preserves all previous checks without completing newly separated items',()=>{
+  const legacy=['passport','license','translation','rental','bookings','entry','payment','phone','winter','insurance'];
+  const c=setup(JSON.stringify(Object.fromEntries(legacy.map(id=>[id,true]))));
+  const html=c.html();
+  for(const id of legacy) assert.match(html,new RegExp(`data-prep-id="${id}" checked`));
+  assert.match(html,/10 \/ 46 已備妥/);
+  assert.doesNotMatch(html,/data-prep-id="(?:chargers|powerbank|gloves|medicines)" checked/);
+  const itemIds=[...html.matchAll(/data-prep-id="([^"]+)"/g)].map(match=>match[1]);
+  assert.equal(itemIds.length,46);
+  assert.equal(new Set(itemIds).size,46);
+});
+
+test('categories open independently for this visit and update their own progress',()=>{
+  const c=setup();
+  c.toggleGroup('documents',true); c.toggleGroup('driving',true);
+  assert.match(c.html(),/data-prep-group="documents" open/);
+  assert.match(c.html(),/data-prep-group="driving" open/);
+  c.toggleGroup('documents',false); c.toggleGroup('unknown',true);
+  assert.doesNotMatch(c.html(),/data-prep-group="documents" open/);
+  assert.match(c.html(),/data-prep-group="driving" open/);
+  c.change('license',true); c.change('translation',true);
+  assert.equal(c.groupCounts[1].textContent,'2 / 7');
+  c.setRaw({passport:true}); c.storage('hokkaido-departure-prep-20261223');
+  assert.equal(c.groupCounts[0].textContent,'1 / 6');
+  assert.equal(c.groupCounts[1].textContent,'0 / 7');
+  assert.doesNotMatch(setup(JSON.stringify(c.saved())).html(),/<details[^>]*\sopen/);
 });
