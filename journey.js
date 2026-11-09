@@ -622,6 +622,7 @@
       </section>`;
     host.innerHTML = `
       <header class="winter-heading winter-overview-heading"><div><p>HOKKAIDO WINTER WALK</p><h2 id="journey-overview-title" tabindex="-1">北海道十日總覽</h2><span>12/23 — 1/1 · 選一天，查看路線與導航</span></div></header>
+      ${window.HOKKAIDO_DEPARTURE_PREP?.html() || ""}
       ${groupRouteSwitchHtml()}
       <div class="journey-overview-days formal-overview-days">${days.map(day => {
         const scene = scenes.days[day.day - 1];

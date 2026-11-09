@@ -344,6 +344,26 @@ body.winter-view-active[data-planner-theme="dark"] {
 
 .inline-lunch-options > summary { min-height: 48px; display: flex; align-items: center; font-size: .86rem; }
 
+.departure-prep { margin: 12px 0 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); color: var(--text); }
+.departure-prep > summary { min-height: 54px; padding: 12px 14px; display: grid; grid-template-columns: minmax(0,1fr) auto 16px; align-items: center; gap: 8px; cursor: pointer; font-size: .9rem; }
+.departure-prep > summary::-webkit-details-marker { display: none; }
+.departure-prep [data-prep-count] { color: var(--muted); font-size: .75rem; font-variant-numeric: tabular-nums; }
+.prep-chevron { transition: transform .15s; }
+.departure-prep[open] .prep-chevron { transform: rotate(180deg); }
+.prep-content { padding: 0 14px 14px; }
+.prep-status,.prep-source-note { font-size: .78rem; line-height: 1.65; color: var(--muted); overflow-wrap: anywhere; }
+.prep-groups { display: grid; gap: 16px; }
+.prep-groups fieldset { margin: 0; padding: 0; border: 0; min-inline-size: 0; }
+.prep-groups legend { padding: 8px 0; font-size: .86rem; font-weight: 700; color: var(--text); }
+.prep-item { padding: 8px 0; border-top: 1px solid var(--line); }
+.prep-item label { display: flex; align-items: flex-start; gap: 12px; min-height: 48px; cursor: pointer; }
+.prep-item input { flex: 0 0 24px; width: 24px; height: 24px; margin: 2px 0 0; accent-color: #98712e; cursor: pointer; }
+.prep-item label span { min-width: 0; }
+.prep-item strong { display: block; color: var(--text); font-size: .87rem; line-height: 1.6; overflow-wrap: anywhere; }
+.prep-item small { display: block; margin-top: 4px; color: var(--muted); font-size: .78rem; line-height: 1.7; overflow-wrap: anywhere; }
+.prep-item input:checked + span strong { color: var(--muted); text-decoration: line-through; }
+.prep-item a { display: flex; align-items: center; min-height: 44px; width: fit-content; max-width: calc(100% - 36px); margin-left: 36px; padding: 8px 0; font-size: .8rem; color: var(--accent-2); text-underline-offset: 3px; overflow-wrap: anywhere; }
+@media (min-width:900px) { .prep-groups { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; } }
 .workspace.is-travel:not(.is-overview) #day-options-shell[data-day="5"]:not([hidden]) { display: block; }
 .travel-route-picker { margin: 12px 0; }
 .travel-route-picker > div { display: flex; gap: 8px; }
