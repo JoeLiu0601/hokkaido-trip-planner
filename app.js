@@ -3117,7 +3117,8 @@ function getStopNavigationMode(day, index, spotId) {
   }
   if (day === 8) {
     if (index === 0 && spotId === "lagent-hakodate-ekimae") return "driving";
-    const nearby = ["goryokaku", "goryokaku-tower", "lucky-pierrot-goryokaku", "rokkatei-goryokaku"];
+    if (previous === "lagent-hakodate-ekimae" && spotId === "lucky-pierrot-hakodate-station") return "walking";
+    const nearby = ["goryokaku", "goryokaku-tower", "lucky-pierrot-goryokaku", "rokkatei-goryokaku", "hakodate-shunka-sushi"];
     if (nearby.includes(previous) && nearby.includes(spotId)) return "walking";
     return "transit";
   }
@@ -3407,7 +3408,7 @@ function getHakodateTransitInfo(day, index, spotId, dayStops) {
 
   if (day === 8 && index === 0) {
     if (spotId === "lagent-hakodate-ekimae") {
-      return "從洞爺湖開車到函館站前 La'gent Stay，先寄行李、加油，再到已確認的函館站前門市還車；實際店址與截止時間依租車合約。一般入住 15:00 起，規劃於五稜郭行程後約 18:00 正式入住";
+      return "從洞爺湖開車到函館站前 La'gent Stay，先寄行李、加油，再到已確認的函館站前門市還車；實際店址與截止時間依租車合約。一般入住15:00起，這版看完五稜郭塔並在旬花吃晚餐後約20:05回飯店正式入住";
     }
     if (spotId === "hachimanzaka") {
       return "從洞爺湖自駕抵達函館並還車，先寄放行李；由函館駅前搭往函館どつく前方向的市電到末廣町，再步行前往八幡坂。拍坂頂港景需上坡，雪地請慢走";
