@@ -3162,6 +3162,7 @@ function isDayTenTimingDraftApplicable() {
 
 function getDailyTimingDraft(day) {
   const stops = state.plan[day] || [];
+  if (day === 3) return buildDayThreeTimingDraft(stops);
   if (day === 4) return buildDayFourTimingDraft(stops.includes("sotorent-teine-pickup") ? stops.filter(id => !dayFourOptionalStopIds.includes(id)) : stops);
   const hasFuranoRoute = stops.some((id) => ["biei-shrine", "hinode-park", "ningle-terrace"].includes(id));
   if (day === 2 && !hasFuranoRoute && stops.includes("apa-sapporo-susukino-ekinishi")
@@ -3170,6 +3171,7 @@ function getDailyTimingDraft(day) {
 }
 
 function isDailyTimingDraftApplicable(day) {
+  if (day === 3 && ["wakadori-naruto-honten", "otaru-takeda"].filter(id => state.plan[day]?.includes(id)).length > 1) return false;
   if (day === 2 && [dayTwoLunchIds, ["furano-kumagera", "furano-yuiga-doxon"]].some(ids => ids.filter(id => state.plan[day]?.includes(id)).length > 1)) return false;
   const draft = getDailyTimingDraft(day);
   if (!draft) return false;
