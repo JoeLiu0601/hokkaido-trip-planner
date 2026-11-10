@@ -120,3 +120,28 @@ test('D4 derived schedules preserve the plan and distinguish a feasible draft fr
   }));
   slots.forEach(([start, end], i) => { assert.ok(end >= start); if (i) assert.ok(start >= slots[i - 1][1]); });
 });
+
+test('D4 rental route visits the new pickup store before Moiwa and warns when optional detours miss closing', () => {
+  const { r, state } = setup();
+  const before = JSON.stringify(state.plan);
+  const direct = ['noboribetsu-valley', 'noboribetsu-onsen-ichiba', 'sotorent-teine-pickup', 'moiwa-yama'];
+  state.plan[4] = direct;
+  assert.equal(r.isDailyTimingDraftApplicable(4), true);
+  const draft = r.getDailyTimingDraft(4);
+  const pickup = draft.rows.findIndex(row => row[3]?.includes('sotorent-teine-pickup'));
+  assert.ok(draft.rows.some(row => row[3]?.includes('noboribetsu-onsen-ichiba')), 'a selected market lunch must keep its own timing row');
+  const night = draft.rows.findIndex(row => row[3]?.includes('moiwa-yama'));
+  assert.ok(pickup >= 0 && pickup < night);
+  assert.ok(draft.requiredIds.includes('sotorent-teine-pickup'));
+  assert.ok(draft.driveReview.normal.legIds.includes('directRental'));
+  assert.ok(draft.driveReview.normal.legIds.includes('rentalMoiwa'));
+  assert.ok(!draft.driveReview.normal.legIds.includes('directMoiwa'));
+  assert.equal(draft.driveReview.conservative.rentalExceedsWindow, false);
+  assert.equal(draft.driveReview.conservative.exceedsOperatingWindow, false);
+  const full = r.calculateDayFourScenario([...direct, 'muroran-hakucho-bridge-view', 'happiness-bell'], 2);
+  assert.equal(full.rentalExceedsWindow, true);
+  assert.equal(full.exceedsOperatingWindow, true);
+  state.plan[4] = direct.filter(id => id !== 'sotorent-teine-pickup').concat('sotorent-teine-pickup');
+  assert.equal(r.isDailyTimingDraftApplicable(4), false, 'pickup after the night view must invalidate the schedule');
+  state.plan = JSON.parse(before);
+});

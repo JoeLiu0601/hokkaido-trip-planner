@@ -166,6 +166,10 @@ const dayFourDriveLegs = {
   bridgeMoiwa: { label: "祝津公園 → 藻岩山山麓站", from: "祝津公園展望台 室蘭", to: "もいわ山ロープウェイ山麓駅", minutes: 108, km: 132, buffer: 30 },
   capeMoiwa: { label: "地球岬 → 藻岩山山麓站", from: "地球岬駐車場", to: "もいわ山ロープウェイ山麓駅", minutes: 113, km: 129, buffer: 30 },
   directMoiwa: { label: "登別 → 藻岩山山麓站（略過室蘭）", from: "登別地獄谷駐車場", to: "もいわ山ロープウェイ山麓駅", minutes: 90, km: 108, buffer: 30 },
+  directRental: { label: "登別溫泉市場 → SOTORENT 手稻站前店", from: "温泉市場 登別温泉町50", to: "札幌市手稲区手稲本町2条4丁目8-24", minutes: 92, km: 124, buffer: 30, checkedAt: "11/11" },
+  bridgeRental: { label: "祝津公園 → SOTORENT 手稻站前店", from: "祝津公園展望台 室蘭", to: "札幌市手稲区手稲本町2条4丁目8-24", minutes: 111, km: 148, buffer: 30, checkedAt: "11/11" },
+  capeRental: { label: "地球岬 → SOTORENT 手稻站前店", from: "地球岬駐車場", to: "札幌市手稲区手稲本町2条4丁目8-24", minutes: 113, km: 146, buffer: 30, checkedAt: "11/11" },
+  rentalMoiwa: { label: "SOTORENT 手稻站前店 → 藻岩山山麓站", from: "札幌市手稲区手稲本町2条4丁目8-24", to: "もいわ山ロープウェイ山麓駅", minutes: 23, km: 14.3, buffer: 20, checkedAt: "11/11" },
   hotel: { label: "藻岩山山麓站 → APA", from: "もいわ山ロープウェイ山麓駅", to: "APAホテル札幌すすきの駅西", minutes: 9, km: 3.8, buffer: 15 }
 };
 
@@ -180,6 +184,7 @@ function dayFourDriveMinutes(leg, factor) {
 function calculateDayFourScenario(stops, factor = 1.5) {
   const bridge = stops.includes("muroran-hakucho-bridge-view");
   const cape = stops.includes("happiness-bell");
+  const rental = stops.includes("sotorent-teine-pickup");
   const rows = [["06:00–06:30", "早餐、清車積雪與準備", "前晚準備簡單早餐，06:30 從 APA 出發。"]];
   const legIds = [];
   let clock = 6 * 60 + 30;
@@ -192,7 +197,7 @@ function calculateDayFourScenario(stops, factor = 1.5) {
     const leg = dayFourDriveLegs[key];
     const duration = dayFourDriveMinutes(leg, factor);
     legIds.push(key); drivingMinutes += duration;
-    add(duration, `開車：${leg.label}`, `Google 11/03 即時參考 ${leg.minutes} 分、${leg.km} 公里；行車 ×${factor} 後另加 ${leg.buffer} 分取車、短休息／停車步行，再向上取整至 5 分鐘。這是規劃情境，不是當日路況保證。`);
+    add(duration, `開車：${leg.label}`, `Google ${leg.checkedAt || "11/03"} 即時參考 ${leg.minutes} 分、${leg.km} 公里；行車 ×${factor} 後另加 ${leg.buffer} 分取車、短休息／停車步行，再向上取整至 5 分鐘。這是規劃情境，不是當日路況保證。`);
   };
   drive("outbound");
   add(60, "登別地獄谷", "走當日開放的步道，保留雪地步行時間。", ["noboribetsu-valley"], "約 1 小時");
@@ -207,34 +212,48 @@ function calculateDayFourScenario(stops, factor = 1.5) {
     drive(bridge ? "bridgeCape" : "toCape");
     add(30, "幸福之鐘／地球岬 · 有空再去", "有空再去，導航地球岬停車場，預留雪地步行；路滑或時間不足就直接往藻岩山。", ["happiness-bell"], "約 30 分");
   }
-  drive(cape ? "capeMoiwa" : bridge ? "bridgeMoiwa" : "directMoiwa");
+  let rentalArrival = null;
+  let rentalFinish = null;
+  if (rental) {
+    drive(cape ? "capeRental" : bridge ? "bridgeRental" : "directRental");
+    rentalArrival = clock;
+    if (clock < 15 * 60) add(15 * 60 - clock, "取件前緩衝", "一般前日取件自15:00起；依已確認的預約時間辦理，提前更多天需先詢問門市。");
+    add(60, "SOTORENT 手稻站前店取滑雪用具", "使用2026新址8-24キテネビルA棟1F，預留約1小時試穿、調整與裝車；取件日期與租期須先確認。貸出須19:40前到店，冬季20:00關門，晚到先聯絡門市。", ["sotorent-teine-pickup"], "約1小時");
+    rentalFinish = clock;
+    drive("rentalMoiwa");
+  } else {
+    drive(cape ? "capeMoiwa" : bridge ? "bridgeMoiwa" : "directMoiwa");
+  }
   const moiwaArrival = clock;
   if (clock < 16 * 60) add(16 * 60 - clock, "山麓周邊休息與暖身", "較早抵達就保留休息，16:00 再開始上山；若另回 APA 或繞行，須額外加入移動時間。");
   add(150, "藻岩山夜景、纜車上下山（必去）", "含購票、排隊、轉乘、觀景與下山預留 2.5 小時。冬季纜車至 22:00、上山末班 21:30，迷你纜車至 21:50；停駛仍以官方營運為準。", ["moiwa-yama"], "含候車約 2.5 小時");
   const moiwaFinish = clock;
   drive("hotel");
-  return { rows, legIds, drivingMinutes, moiwaArrival, moiwaFinish, hotelArrival: clock, exceedsOperatingWindow: moiwaFinish > 21 * 60 + 50, bridge, cape };
+  return { rows, legIds, drivingMinutes, moiwaArrival, moiwaFinish, hotelArrival: clock, exceedsOperatingWindow: moiwaFinish > 21 * 60 + 50, bridge, cape, rental, rentalArrival, rentalFinish, rentalExceedsWindow: rental && (rentalArrival > 19 * 60 + 40 || rentalFinish > 20 * 60) };
 }
 
 function buildDayFourTimingDraft(stops) {
   const normal = calculateDayFourScenario(stops, 1.5);
   const conservative = calculateDayFourScenario(stops, 2);
-  const direct = calculateDayFourScenario([], 2);
+  const direct = calculateDayFourScenario(normal.rental ? ["sotorent-teine-pickup"] : [], 2);
   const stopsLabel = normal.bridge && normal.cape ? "白鳥與幸福之鐘有空再去，建議最多挑一處" : normal.bridge ? "白鳥大橋有空再去" : normal.cape ? "幸福之鐘有空再去" : "略過室蘭兩處，午餐後直接回札幌";
   const rows = normal.rows.map(row => [...row]);
   const streetIndex = rows.findIndex(row => row[3]?.includes("noboribetsu-onsen-street"));
   const lunchIndex = rows.findIndex(row => row[3]?.includes("noboribetsu-onsen-ichiba"));
-  if (streetIndex >= 0 && lunchIndex >= streetIndex) {
+  if (stops.includes("noboribetsu-onsen-street") && !stops.includes("noboribetsu-onsen-ichiba") && streetIndex >= 0 && lunchIndex >= streetIndex) {
     const start = rows[streetIndex][0].split("–")[0];
     const end = rows[lunchIndex][0].split("–")[1];
     rows.splice(streetIndex, lunchIndex - streetIndex + 1, [`${start}–${end}`, "登別溫泉街散步・午餐自選", "在閻魔堂附近散步、看店家後決定午餐，不指定溫泉市場或其他餐廳；含等供餐與用餐緩衝。", ["noboribetsu-onsen-street"], "含散步與午餐約 1.5–2 小時"]);
   }
   return { ...dailyTimingDrafts[4],
-    intro: `藻岩山夜景必去；${stopsLabel}。${normal.bridge || normal.cape ? "完整規劃包含目前清單中的室蘭備選，略過可提早抵達。" : ""}本表以 11/03 Google 車程 ×1.5＋各段停車／休息緩衝規劃；×2 情境約 ${dayFourTime(conservative.moiwaArrival)} 抵藻岩山山麓站，詳細依據可展開查看。`,
-    route: `APA → 登別地獄谷／溫泉街午餐${normal.bridge ? " → 白鳥大橋（有空再去）" : ""}${normal.cape ? " → 幸福之鐘（有空再去）" : ""} → 藻岩山（必去）→ APA`,
+    intro: `藻岩山夜景必去；${stopsLabel}。${normal.rental ? "回札幌先到SOTORENT手稻站前新店取裝備，再去藻岩山；取件日期與時段需先預約確認。" : ""}${normal.bridge || normal.cape ? "完整規劃包含目前清單中的室蘭備選，略過可提早抵達。" : ""}本表以 Google 11/03${normal.rental ? "及11/11取件路段" : ""}參考車程 ×1.5＋各段停車／休息緩衝規劃；×2 情境約 ${dayFourTime(conservative.moiwaArrival)} 抵藻岩山山麓站，詳細依據可展開查看。`,
+    route: `APA → 登別地獄谷／溫泉街午餐${normal.bridge ? " → 白鳥大橋（有空再去）" : ""}${normal.cape ? " → 幸福之鐘（有空再去）" : ""}${normal.rental ? " → SOTORENT手稻站前店取件" : ""} → 藻岩山（必去）→ APA`,
+    stopGroups: [...dailyTimingDrafts[4].stopGroups.filter(group => !group.includes("sotorent-teine-pickup")).slice(0, -1), ["sotorent-teine-pickup"], ["moiwa-yama"]],
+    requiredIds: normal.rental ? [...dailyTimingDrafts[4].requiredIds.filter(id => id !== "sotorent-teine-pickup"), "sotorent-teine-pickup"] : dailyTimingDrafts[4].requiredIds,
     rows,
     driveReview: { normal, conservative },
     notes: [
+      ...(normal.rental ? [`取件為本日必辦停靠，先留1小時。${conservative.rentalExceedsWindow ? "×2情境會錯過19:40貸出到店或20:00關門時間，不能照此完整路線走；請優先略過室蘭兩處並聯絡門市。" : "×2情境仍須依預約時段、到店截止及20:00關門時間調整。"}前日15:00取件的規則須與實際使用日核對，提前更多天或多日連租的費用先問清楚。`] : []),
       `×2 是保守試算，不是雪季固定倍率或保證上限。若每段都按 ×2＋緩衝，目前路線約 ${dayFourTime(conservative.moiwaArrival)} 抵山麓，按相同觀景安排約 ${dayFourTime(conservative.moiwaFinish)} 完成下山。${conservative.exceedsOperatingWindow ? "這會超過迷你纜車 21:50 營業時間，不能直接照走；請優先刪減室蘭備選，保留藻岩山。" : "仍需依當天路況、排隊與運行調整。"}`,
       `白鳥與幸福之鐘尚未替你刪除。若兩處都略過，即使以 ×2＋緩衝估算，也約 ${dayFourTime(direct.moiwaArrival)} 抵山麓、${dayFourTime(direct.hotelArrival)} 回 APA，藻岩山時間較充足。`,
       "午餐留在登別溫泉街，候位過久就調整附近用餐選擇。封路、暴風雪或纜車停駛不能靠倍率推算，出發前查道路與運行資訊。"

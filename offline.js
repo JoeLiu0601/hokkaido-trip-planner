@@ -1,5 +1,5 @@
 (() => {
-  const version = "hokkaido-shell-20261111-d2-lawson";
+  const version = "hokkaido-shell-20261111-d4-sotorent";
   const status = document.getElementById("offline-status");
   let ready = false;
   const paint = () => {
