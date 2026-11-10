@@ -170,3 +170,22 @@ test('D2 timing accepts one lunch and dinner but rejects two meals in either slo
   assert.equal(c.runtime.isDailyTimingDraftApplicable(2), false, 'removing the confirmed park must invalidate the original schedule');
   c.state.plan[2] = withPark;
 });
+
+test('D2 Lawson replaces restaurant dinner without changing lunch, other days or keeping restaurant times', () => {
+  const c = setup();
+  c.choose('kamifurano-mansaku');
+  c.choose('furano-kumagera');
+  const others = JSON.stringify(Object.fromEntries(Object.entries(c.state.plan).filter(([day]) => day !== '2')));
+  c.choose('lawson-furano-kitanomine');
+  const dinner = Array.from(c.state.plan[2]).filter(id => c.runtime.dayOptionalSpots[2].dinnerIds.includes(id));
+  assert.deepEqual(dinner, ['lawson-furano-kitanomine']);
+  assert.equal(c.state.plan[2][c.state.plan[2].indexOf('ningle-terrace') + 1], 'lawson-furano-kitanomine');
+  assert.ok(c.state.plan[2].includes('kamifurano-mansaku'));
+  assert.equal(c.runtime.isDailyTimingDraftApplicable(2), false, 'a short shopping stop must not reuse restaurant dinner times');
+  c.choose('lawson-furano-kitanomine');
+  assert.equal(c.state.plan[2].filter(id => id === 'lawson-furano-kitanomine').length, 1);
+  c.choose('furano-yuiga-doxon');
+  assert.ok(!c.state.plan[2].includes('lawson-furano-kitanomine'));
+  assert.equal(c.runtime.isDailyTimingDraftApplicable(2), true);
+  assert.equal(JSON.stringify(Object.fromEntries(Object.entries(c.state.plan).filter(([day]) => day !== '2'))), others);
+});

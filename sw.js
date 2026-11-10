@@ -1,5 +1,5 @@
-const CACHE_NAME = "hokkaido-shell-20261110-prep-review";
-const VERSION = "20261110-prep-review";
+const CACHE_NAME = "hokkaido-shell-20261111-d2-lawson";
+const VERSION = "20261111-d2-lawson";
 const SHELL = [
   "./", "./index.html", "./styles.css?v=20261103-day-flights", "./journey.css?v=20261104-sapporo-shopping",
   `./journey-winter.css?v=${VERSION}`, `./timing-drafts.js?v=${VERSION}`, `./app.js?v=${VERSION}`,

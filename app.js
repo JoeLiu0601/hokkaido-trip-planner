@@ -1,5 +1,27 @@
 const spots = [
   {
+    id: "otaru-gunjo-sui",
+    name: "群青・翠 sui（日本茶與和菓子）",
+    area: "小樽",
+    type: "甜點・咖啡",
+    season: ["winter"],
+    time: "1–1.5h",
+    best: "古民家、日本茶、手作和菓子、上天狗山前休息",
+    desc: "百年日式宅邸裡的日本茶與和菓子店，安排在天狗山夜景前坐下休息，非晚餐餐廳。11:00–18:00、最後點餐17:00，週三、四休；冬天從建物後方停車場側入口入店。依你的準備安排，11/25（D3前一個月）先確認四人訂位；目前預約頁明示下午採現場到店順序入座，不能保證預訂下午場，也尚未完成訂位。新增停留及候位後須重估下午時段，保留天狗山與運河。",
+    highlight: "D3 天狗山前・11/25確認訂位"
+  },
+  {
+    id: "lawson-furano-kitanomine",
+    name: "Lawson 富良野北の峰店（輕食補給）",
+    area: "富良野",
+    type: "便利商店・餐食",
+    season: ["winter"],
+    time: "15–30min",
+    best: "飯糰、便當、熱飲、回札幌前補給",
+    desc: "精靈露臺看完燈景後，若不想等餐廳，可到 Lawson 買晚餐與熱飲，再直接開回札幌 APA。與くまげら、唯我獨尊擇一，不必再安排一頓餐廳晚餐。採買先留約 15–30 分鐘，餐點以現場庫存為準；回程仍走原本芦別方向，依當晚路況與體力調整休息。",
+    highlight: "D2 晚餐輕食備選"
+  },
+  {
     id: "furano-kumagera",
     name: "くまげら（富良野鄉土料理）",
     area: "富良野",
@@ -1292,7 +1314,7 @@ const dayFourOptionalStopIds = ["muroran-hakucho-bridge-view", "happiness-bell"]
 
 const daySummaries = {
   "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先規劃約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住規劃約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
-  "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景。約 18:30 在富良野吃完晚餐出發，約 22:00 到札幌 APA。也可提早離開、沿途補餐。大通與薄野僅留彈性備選，晚到不再硬逛。",
+  "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景。晚餐可選くまげら、唯我獨尊，或到 Lawson 買輕食後直接經芦別回札幌 APA。餐廳方案原估約 18:30 出發、22:00 入住；選輕食可提早離開，抵達仍依當晚路況，不直接套用餐廳時刻。大通與薄野僅留彈性備選，晚到不再硬逛。",
   "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。神宮約 50 分鐘，接著伏見稻荷、手稻短暫參拜，各約 20–25 分鐘；小樽午餐若雞／武田二選一後，再到小樽稻荷短暫參拜。大正硝子、LeTAO 本店與童話十字路後上天狗山、看運河。晚餐先考慮上天狗山前吃，餐廳與時間尚未決定。",
   "4": "06:30 從 APA 出發，主線是登別地獄谷、溫泉街午餐與藻岩山夜景。白鳥大橋、幸福之鐘列為有空再去，建議最多挑一處；路況不佳就午餐後直接前往藻岩山。完整規劃包含清單中的室蘭備選，實際略過可提早抵達。已用 11/03 Google 地圖逐段核對，分開試算 ×1.5／×2 加停車休息緩衝；兩點都去的 ×2 情境約 20:05 才到山麓，兩點皆略過約 16:10，可保留夜景時間。",
   "5": "白天分組：A 線中島公園、鰻魚飯、大丸與同棟 8F 寶可夢中心後搭地鐵到白色戀人公園；B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA，附近晚餐後約 20:00–21:00 步行逛狸小路；雪天與停車先留至 16:30 的會合緩衝。藻岩山夜景維持 D4。",
@@ -1424,6 +1446,19 @@ const dayTenSchedule = [
 
 // 未個別標示日期的票券於 2026/10/6（Asia/Taipei）查核；金額為成人一般票價、日圓。
 const spotLogistics = {
+  "otaru-gunjo-sui": {
+    hours: "11:00–18:00（L.O.17:00）；週三、四休；12/25 特別營業及四人座位需確認",
+    access: "小樽市住ノ江2丁目2-4；電話0134-64-7812。建物後方有停車場，冬季走停車場側入口；訂到座位不保證有停車位。上午可預約、下午現場候位；先依11/25確認訂位的準備安排辦理，店家未確認必須提前一個月",
+    infoUrl: "https://otaru-gunjo.com/",
+    foodUrl: "https://booking.ebica.jp/webrsv/search/e020101901/34954",
+    checkedAt: "2026/11/11"
+  },
+  "lawson-furano-kitanomine": {
+    hours: "餐飲平台目前列 24 小時；12/24 臨時營業及餐點庫存以門市為準",
+    access: "富良野市北の峰町1-26；電話 0167-23-4290；有停車場。精靈露臺離開後開車前往，採買後直接回札幌；不是園區內店家",
+    infoUrl: "https://tabelog.com/hokkaido/A0104/A010403/1086354/",
+    checkedAt: "2026/11/11"
+  },
   "furano-kumagera": {
     hours: "11:30–21:30（L.O. 21:00）；週三休；12/24 特別營業與年末預約限制先向店家確認",
     access: "富良野市日の出町3-22；電話 0167-39-2345；有停車場，取車後再開回札幌",
@@ -2066,6 +2101,8 @@ const drivingPlaceOverrides = {
   "tanukikoji-shopping-street": "狸小路商店街 3丁目 札幌市中央区南2条西3丁目",
   "furano-kumagera": "くまげら 北海道富良野市日の出町3-22",
   "furano-yuiga-doxon": "唯我独尊 北海道富良野市日の出町11-8",
+  "lawson-furano-kitanomine": "ローソン 富良野北の峰店 北海道富良野市北の峰町1-26",
+  "otaru-gunjo-sui": "群青 翠 小樽市住ノ江2丁目2-4",
   "kamifurano-marumasu": "焼肉 まるます 北海道上富良野町緑町2丁目1-17",
   "kamifurano-mansaku": "手打ちそば まん作 北海道上富良野町西町2丁目1",
   "biei-blue": "白金青い池 駐車場 美瑛町白金 北海道",
@@ -4793,9 +4830,9 @@ const dayOptionalSpots = {
   },
   2: {
     title: "D2 晚餐備選",
-    note: "精靈露臺後在富良野二選一，再開回札幌。先保留候選，尚未選定或預約；若改走札幌天候備案，這些餐廳就不適用。午餐兩間候選接在日之出公園後。",
-    ids: ["kamifurano-marumasu", "kamifurano-mansaku", "furano-kumagera", "furano-yuiga-doxon"],
-    dinnerIds: ["furano-kumagera", "furano-yuiga-doxon"]
+    note: "精靈露臺後選餐廳晚餐，或到 Lawson 買輕食後直接回札幌。先保留候選，尚未選定或預約；若改走札幌天候備案，這些富良野選項就不適用。午餐兩間候選接在日之出公園後。",
+    ids: ["kamifurano-marumasu", "kamifurano-mansaku", "furano-kumagera", "furano-yuiga-doxon", "lawson-furano-kitanomine"],
+    dinnerIds: ["furano-kumagera", "furano-yuiga-doxon", "lawson-furano-kitanomine"]
   },
   4: {
     title: "D4 午餐與溫泉街美食備選",
@@ -4866,7 +4903,7 @@ function getDayTwoDinnerInsertionIndex(ids) {
 }
 
 function dayTwoDinnerOptionsHtml() {
-  return dayTwoMealOptionsHtml(dayOptionalSpots[2].dinnerIds, "富良野晚餐", "精靈露臺後再選晚餐：くまげら鄉土料理／唯我獨尊咖哩二選一。兩間都留著當天參考，約 17:30–18:30 用餐後回札幌；尚未預約，候位較久請調整離開時間。", "晚餐");
+  return dayTwoMealOptionsHtml(dayOptionalSpots[2].dinnerIds, "富良野晚餐", "精靈露臺看完燈景後，可選くまげら／唯我獨尊用餐，或到 Lawson 買輕食、熱飲就直接回札幌。三種方式擇一；餐廳原留約 17:30–18:30，Lawson 採買先留 15–30 分鐘，回程與入住時間依當晚路況調整。", "晚餐");
 }
 
 function getDayThreeLunchInsertionIndex(ids) {
@@ -4883,8 +4920,9 @@ function dayThreeLunchOptionsHtml() {
 
 function dayTwoMealOptionsHtml(ids, title, note, meal, day = 2) {
   const selectedIds = ids.filter(id => state.plan[day].includes(id));
-  return `<details class="day-alternative inline-lunch-options" aria-label="${title}二選一">
-    <summary>${title} · 二選一 · ${selectedIds.length === 1 ? escapeHtml(spotById(selectedIds[0]).name) : "選餐廳"}</summary>
+  const choiceLabel = ids.length === 3 ? "三選一" : "二選一";
+  return `<details class="day-alternative inline-lunch-options" aria-label="${title}${choiceLabel}">
+    <summary>${title} · ${choiceLabel} · ${selectedIds.length === 1 ? escapeHtml(spotById(selectedIds[0]).name) : "選擇用餐"}</summary>
     <p>${note}</p>
     ${ids.map(id => {
       const spot = spotById(id);
