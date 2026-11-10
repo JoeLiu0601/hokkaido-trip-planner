@@ -190,6 +190,7 @@
   function isOptional(id, day = state.selectedDay) {
     const draft = typeof getDailyTimingDraft === "function" ? getDailyTimingDraft(day) : typeof dailyTimingDrafts === "undefined" ? null : dailyTimingDrafts[day];
     if (day === 4) return dayFourOptionalStopIds.includes(id);
+    if (day === 9) return id === "hakodate-hachimangu";
     return travelTools.optional(day, id, draft, dayOneTimingDraft);
   }
 

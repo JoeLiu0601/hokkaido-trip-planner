@@ -1,5 +1,5 @@
 (() => {
-  const version = "hokkaido-shell-20261111-d3-timing";
+  const version = "hokkaido-shell-20261111-all-days-timing";
   const status = document.getElementById("offline-status");
   let ready = false;
   const paint = () => {

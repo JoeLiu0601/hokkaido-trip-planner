@@ -198,6 +198,62 @@ function buildDayThreeTimingDraft(stops) {
   };
 }
 
+function buildDayFiveTimingDraft(stops) {
+  const base = dailyTimingDrafts[5];
+  if (!stops.includes("stellar-place")) return base;
+  const rows = base.rows.map(row => [...row]);
+  const departure = rows.findIndex(row => row[1].startsWith("地鐵：さっぽろ"));
+  rows.splice(departure, 0, ["14:20–14:45", "Stellar Place 短逛", "與大丸同屬札幌站購物區，步行串接先留25分鐘，只挑想看的店；想久逛就縮短其他採買，白色戀人16:00會合優先。", ["stellar-place"], "含步行約25分鐘"]);
+  const transit = rows.find(row => row[1].startsWith("地鐵：さっぽろ"));
+  transit[0] = "14:45–15:55";
+  transit[2] = "14:45前離開札幌站購物區，南北線さっぽろ往真駒内至大通，轉東西線往宮の沢至終點，再由5號出口步行到白色戀人；含轉乘與雪地步行留70分鐘。";
+  const rest = rows.findIndex(row => row[1] === "抵達園區、休息緩衝");
+  rows.splice(rest, 1);
+  const meeting = rows.find(row => row[1] === "園區入口等候、室內暖身");
+  meeting[0] = "15:55–16:00";
+  rows.find(row => row[3]?.includes("pokemon-center-sapporo"))[2] = "寶可夢優先留45分鐘，14:20離開本店後再短逛Stellar Place；14:45前離開整個購物區，保留16:00白色戀人會合。排隊久就縮短其他採買。";
+  return {...base,
+    intro: base.intro.replace("14:20", "14:45").replace("同棟 8F 寶可夢中心", "同棟8F寶可夢中心與Stellar Place短逛"),
+    route: base.route.replace("大丸札幌／寶可夢中心", "大丸札幌／寶可夢中心／Stellar Place"),
+    stopGroups: base.stopGroups.flatMap(ids => ids.includes("pokemon-center-sapporo") ? [ids, ["stellar-place"]] : [ids]),
+    rows,
+    notes: ["札幌站三個購物點合計只留約90分鐘，寶可夢優先；Stellar Place不是完整逛街行程，14:45要離開，否則16:00會合會變趕。", ...base.notes],
+    sources: [...base.sources, ["Stellar Place官方營業與交通", "https://www.stellarplace.net/"]]
+  };
+}
+
+function buildDaySevenTimingDraft(stops) {
+  const base = dailyTimingDrafts[7];
+  if (!stops.includes("restaurant-boyotei")) return base;
+  return {...base,
+    route: base.route + " → 望羊蹄（未含飯店晚餐時的外食方案）",
+    stopGroups: [...base.stopGroups, ["restaurant-boyotei"]],
+    rows: base.rows.map(row => row[1] === "晚餐" ? ["17:30–19:00", "望羊蹄晚餐（若外食）", "先確認湖畔亭訂房是否含晚餐，含餐就留飯店吃，不重複吃兩餐。若外食，17:15左右步行出發，含候位留90分鐘；店家夜間17:00–20:30、L.O.19:30，可能約19:00提早結束，12/29營業須先確認。", ["restaurant-boyotei"], "含候位約90分鐘，若外食"] : [...row]),
+    notes: [...base.notes, "望羊蹄先列同一餐的外食方案，不代表已預約。飯店晚餐與望羊蹄擇一，仍保留16:00後泡湯休息。"],
+    sources: [...base.sources, ["望羊蹄官方營業公告", "https://boyotei.sakura.ne.jp/announce.html"]]
+  };
+}
+
+function buildDaySixTimingDraft(stops) {
+  const base = dailyTimingDrafts[6];
+  if (!stops.includes("sapporo-fushimi-inari")) return base;
+  const rows = base.rows.slice(0, -1).map(row => [...row]);
+  rows.push(
+    ["19:45–20:30", "計程車：薄野／APA → 伏見稻荷", "晚餐後再去，夜間以計程車減少雪地轉乘與步行；候車、行車及上下車先留45分鐘，並先確認回程叫車方式。尚未預約車輛。"],
+    ["20:30–21:00", "伏見稻荷神社夜間參拜", "依你的偏好排天黑後、當天最後一站。神社官方2026公告明列參拜24小時，授與品窗口另有白天時間；不預設能拿御朱印或買御守。12/28照明、除雪與臨時限制行前確認，僅走當日開放區域。", ["sapporo-fushimi-inari"], "約30分鐘"],
+    ["21:00–21:45", "計程車回APA", "回程等車與雪天市區行車先留45分鐘；未預約車輛。回飯店整理行李，D7翌日07:00出發。"]
+  );
+  return {...base,
+    intro: base.intro + " 晚餐後約20:30到伏見稻荷看夜間鳥居、短暫參拜，無車先以計程車往返，約21:45回APA。",
+    route: base.route.replace("步行回 APA", "計程車往返伏見稻荷夜間參拜 → APA"),
+    stopGroups: [...base.stopGroups, ["sapporo-fushimi-inari"]],
+    requiredIds: [...base.requiredIds, "sapporo-fushimi-inari"],
+    rows,
+    notes: [...base.notes, "伏見稻荷依指示排天黑後，不改到白天。官方參拜24小時與授與所開放分開；冬季照明及當日通行不保證。夜間去回程是計程車規劃估時，非已預訂或即時導航。若與D4藻岩山互換，須重排夜景交通與晚餐，舊時刻不沿用。"],
+    sources: [...base.sources, ["伏見稻荷官方24小時參拜說明", "https://fushimiinari.or.jp/hokkaido-kamitama-junpai-2026/"], ["神社官方交通", "https://fushimiinari.or.jp/"]]
+  };
+}
+
 // Google Maps「立即出發」查閱於 2026/11/03；不是 12/26 路況預報。
 const dayFourDriveLegs = {
   outbound: { label: "APA → 登別地獄谷停車場", from: "APAホテル札幌すすきの駅西", to: "登別地獄谷駐車場", minutes: 90, km: 109, buffer: 25 },

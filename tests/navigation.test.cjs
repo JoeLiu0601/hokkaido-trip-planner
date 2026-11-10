@@ -235,6 +235,15 @@ test('a manually restored D5 night visit does not promise the former shared ride
   assert.match(runtime.getDriveInfoForStop(5, 1, 'moiwa-yama'), /資生館小学校前.*ロープウェイ入口.*接駁.*夜景目前排 D4.*回程與集合需另排/);
 });
 
+test('D6 late shrine uses an exact taxi destination without promising a late bus', () => {
+  runtime.state.plan[6] = ['ramen-haruka', 'sapporo-fushimi-inari'];
+  const nav = runtime.getStopNavigation(6, 1, runtime.spotById('sapporo-fushimi-inari'));
+  assert.equal(nav.mode, '');
+  assert.equal(nav.label, '計程車目的地');
+  assert.match(new URL(nav.url).searchParams.get('query'), /伏見2丁目2-17/);
+  assert.match(runtime.getDriveInfoForStop(6, 1, 'sapporo-fushimi-inari'), /晚餐後天黑.*計程車.*各留45分鐘/);
+});
+
 test('Hakodate tram branches and station return are explicit', () => {
   runtime.state.plan[9] = ['hachimanzaka'];
   assert.match(runtime.getDriveInfoForStop(9, 0, 'hachimanzaka'), /5 系統.*函館どつく前.*末廣町.*2 系統.*不經/);
