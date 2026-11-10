@@ -111,14 +111,14 @@ const dailyTimingDrafts = {
     sources: [["豊水すすきの官方時刻表","https://www.city.sapporo.jp/st/time/documents/09sui.pdf"],["東区役所前官方時刻表","https://www.city.sapporo.jp/st/time/documents/05hiku.pdf"],["東豐線官方站間時間","https://www.city.sapporo.jp/st/subway/jikan_kyori/jikan_kyori.html"],["博物館官方交通","https://www.sapporobeer.jp/brewery/s_museum/access/"],["札幌地下鐵站內圖","https://www.city.sapporo.jp/st/subway/ekikonaizu/ekikonaizu.html"],["Ario 札幌","https://sapporo.ario.jp/"],["拉麵悠店家資訊","https://www.ramenharuka.com/maps"]]
   },
   7: {
-    intro: "07:30 從 APA 退房出發，冬季含休息先抓約 3 小時，約 10:30 到真狩村。提早抵達的時間留給羊蹄山短拍與休息，午餐仍排 11:30；經 SAIRO 展望台到洞爺湖，15:15 左右入住湖畔亭，不排火口。",
+    intro: "約07:00從APA退房出發，冬季含休息先抓約3小時，約10:00到真狩村。提早抵達的時間留給羊蹄山短拍與休息，午餐仍排11:30；經SAIRO展望台到洞爺湖，15:15左右入住湖畔亭，不排火口。",
     route: "APA → 真狩村 → SAIRO 展望台 → 洞爺湖湖畔 → Toya Kohan Tei",
     stopGroups: [["makkari-village"],["silo-observatory"],["toyako-lake"],["toya-kohan-tei"]],
     requiredIds: ["makkari-village","silo-observatory","toyako-lake","toya-kohan-tei"],
     rows: [
-      ["06:30–07:30","早餐、退房與裝行李","一般退房 10:00 前，這版提早 07:30 出發；早餐、清車積雪及加油事先安排好。"],
-      ["07:30–10:30","開車：札幌 → 真狩村","以國道 230 號經定山溪、中山峠、留壽都往真狩方向，含中途休息先抓約 3 小時。當日若有峠道風雪或封路，改走已確認可通行路線，真狩可略過。"],
-      ["10:30–12:30","真狩村看羊蹄山、休息與午餐","先在可停車、已開放的地方短拍或休息，11:30 後再用午餐，餐廳先不指定；商店與餐廳未必提早開門。山被雲遮住或路滑就休息，不沿農道找角度。",["makkari-village"],"含休息與午餐約 2 小時"],
+      ["06:00–07:00","早餐、退房與裝行李","一般退房10:00前，這版約07:00出發；早餐、清車積雪及加油事先安排好。"],
+      ["07:00–10:00","開車：札幌 → 真狩村","以國道230號經定山溪、中山峠、留壽都往真狩方向，含中途休息先抓約3小時。若太早經過休息站，餐飲可能尚未開門；峠道風雪或封路時改走確認可通行路線，真狩可略過。"],
+      ["10:00–12:30","真狩村看羊蹄山、休息與午餐","先在可停車、已開放的地方短拍或休息，11:30後再用午餐，餐廳先不指定；商店與餐廳未必提早開門。山被雲遮住或路滑就休息，不沿農道找角度。",["makkari-village"],"含休息與午餐約2.5小時"],
       ["12:30–13:30","開車：真狩村 → SAIRO 展望台","走已除雪主要道路往洞爺湖，含停車先留約 1 小時。"],
       ["13:30–14:00","SAIRO 展望台","先看高處湖景、買小伴手禮與上洗手間；強風或看不到湖就縮短。",["silo-observatory"],"約 30 分"],
       ["14:00–14:30","開車到洞爺湖溫泉街","下到湖畔飯店區，尋找可用停車位置，避免重複移車。"],
@@ -132,29 +132,30 @@ const dailyTimingDrafts = {
     sources: [["洞爺湖交通與路線","https://www.toya-usu-geopark.org/access1"],["湖畔亭入住／用餐","https://www.toya-kohantei.com/faq/"],["北海道道路資訊","https://info-road.hdb.hkd.mlit.go.jp/"]]
   },
   8: {
-    intro: "07:00 從洞爺湖出發，冬季含休息約 3 小時 45 分，先寄行李、加油還車。中午吃小丑漢堡、公園可略過，保留 15:30 到塔購票、16:00–17:30 看日景轉夜景；約 18:30 正式入住。湖畔亭早餐 07:00 開始，這版自備；函館山維持 D9。",
-    route: "湖畔亭 → 函館站前寄行李／還車 → 小丑漢堡 → 公園短逛（可略過）／休息 → 五稜郭塔傍晚夜景（重點）→ 飯店入住",
-    stopGroups: [["lucky-pierrot-goryokaku"],["goryokaku"],["goryokaku-tower"],["lagent-hakodate-ekimae"]],
-    requiredIds: ["lagent-hakodate-ekimae","goryokaku-tower","lucky-pierrot-goryokaku"],
+    intro: "07:00 從洞爺湖出發，冬季含休息約 3 小時 45 分，先寄行李、加油還車。中午吃函館站前小丑漢堡、公園可略過，保留 15:30 到塔購票、16:00–17:30 看日景轉夜景；登塔後到對面的回轉壽司旬花吃晚餐，約20:05正式入住。湖畔亭早餐 07:00 開始，這版自備；函館山維持 D9。",
+    route: "湖畔亭 → 函館站前寄行李／還車 → 小丑漢堡站前店 → 公園短逛（可略過）／休息 → 五稜郭塔傍晚夜景（重點）→ 回轉壽司旬花晚餐 → 飯店入住",
+    stopGroups: [["lucky-pierrot-hakodate-station"],["goryokaku"],["goryokaku-tower"],["hakodate-shunka-sushi"],["lagent-hakodate-ekimae"]],
+    requiredIds: ["lagent-hakodate-ekimae","goryokaku-tower","lucky-pierrot-hakodate-station","hakodate-shunka-sushi"],
     optionalIds: ["goryokaku"],
-    timingOverrides: {"lagent-hakodate-ekimae":{"time":"10:45 寄行李／18:30 入住","duration":"寄放約 20 分＋入住約 30 分","note":"上午先寄行李，一般入住 15:00 起；看完五稜郭塔夜景，約 18:30 回飯店辦理入住。"}},
+    timingOverrides: {"lagent-hakodate-ekimae":{"time":"10:45 寄行李／20:05 入住","duration":"寄放約 20 分＋入住約 30 分","note":"上午先寄行李，一般入住 15:00 起；看完五稜郭塔夜景並在旬花吃晚餐後，約20:05回飯店辦理入住。"}},
     rows: [
       ["06:00–07:00","準備早餐、退房與裝行李","07:00 離開湖畔亭；飯店早餐 07:00 才開始，前晚先備好早餐，能否另作安排請問飯店，不預設有外帶服務。出發前清車積雪並確認路況。"],
       ["07:00–10:45","開車：洞爺湖 → 函館站前","經虻田洞爺湖 IC、道央道往大沼公園 IC，再接國道 5 號／函館新道進城；冬季含一次休息、進城先留約 3 小時 45 分。風雪、封路可能更久。"],
       ["10:45–11:05","La'gent Stay 寄行李","先寄大件行李、簡單補充點心；一般入住 15:00 起，正式進房放在回程。",["lagent-hakodate-ekimae"],"約 20 分"],
       ["11:05–12:00","加油、函館站前門市還車","還車地點已確認是函館站前門市。預留約 55 分加油、車況檢查及步行回函館駅前電停；確切店址、提早還車安排與還車截止仍依租車合約，不繞去機場。"],
-      ["12:00–12:50","市電：函館駅前 → 五稜郭公園前","函館駅前搭 2 或 5 系統往湯の川，到五稜郭公園前下車，再步行約 15–20 分到塔旁／公園。整段含候車與雪地步行先抓 50 分。"],
-      ["12:50–13:50","小丑漢堡五稜郭公園前店","先吃午餐，含候餐先留 1 小時；排隊久就縮短公園，保留傍晚登塔時間。",["lucky-pierrot-goryokaku"],"含候餐約 1 小時"],
+      ["12:00–13:00","小丑漢堡函館站前店午餐","寄行李、還車後先在站前店吃，含步行與候餐先留1小時；排隊太久就縮短公園與休息，保留登塔時間。",["lucky-pierrot-hakodate-station"],"含候餐約1小時"],
+      ["13:00–13:50","市電：函館駅前 → 五稜郭公園前","搭2或5系統往湯の川，到五稜郭公園前下車，再步行約15–20分到塔旁／公園；含候車與雪地步行先抓50分。"],
       ["13:50–14:20","五稜郭公園短逛（可略過）","有餘裕才去入口附近拍照，先抓 20–30 分鐘，不預設繞完整圈；沒逛到可考慮 D9 早上，也可以不補。",["goryokaku"],"彈性約 20–30 分"],
       ["14:20–15:30","周邊室內休息／候位緩衝","找有營業的咖啡或甜點店休息；不新增必去點。15:30 前回塔旁，不為公園或購物耽誤登塔。"],
       ["15:30–16:00","五稜郭塔購票、候梯","以 16:00 左右到展望台為目標，排隊比預期久就縮短前面的休息；不等到 17:50 停售票才趕到。"],
       ["16:00–17:30","五稜郭塔：日景轉夜景（重點）","留到約 16:30 之後看入夜的星形城郭與市景。此為觀景時段估計，非固定點燈時間；2026–2027 五稜星之夢燈飾尚待官方確認。現行營業至 18:00，17:50 停售票，勿排晚餐後才來。",["goryokaku-tower"],"觀景約 1.5 小時，購票另留 30 分"],
-      ["17:30–18:30","市電：五稜郭公園前 → 函館駅前","步行回五稜郭公園前，搭 2 系統往谷地頭或 5 系統往函館どつく前，在函館駅前下車，再步行回飯店；含候車與雪地步行抓 1 小時。"],
-      ["18:30–19:00","La'gent Stay 正式入住","取寄放的行李、辦手續與進房，先休息。"],
-      ["19:00 之後","站前晚餐／自由休息","依食量就近用餐，把體力留給隔天函館山與跨年。"]
+      ["17:30–17:35","步行：五稜郭塔 → 回轉壽司旬花","下塔後走到對面的獨立店面，雪地先留5分鐘，不是塔內的四季海鮮旬花。"],
+      ["17:35–19:05","回轉壽司函館旬花晚餐","候位與用餐先留約1.5小時；一般11:00–21:00、20:30最後點餐，12/30特別營業另確認。不可預約，若候位超出預期可縮短用餐或改附近有開的店。",["hakodate-shunka-sushi"],"含候位約1.5小時"],
+      ["19:05–20:05","市電：五稜郭公園前 → 函館駅前","步行回五稜郭公園前，搭2系統往谷地頭或5系統往函館どつく前，在函館駅前下車，再步行回飯店；含候車與雪地步行抓1小時。"],
+      ["20:05–20:35","La'gent Stay 正式入住","取寄放的行李、辦手續與進房休息；若晚到請依訂房規定通知飯店。"]
     ],
     notes: ["登塔是 D8 重點，公園可略過，省下的時間留作候車與休息；還車合約時間永遠優先，不為景點延遲還車。","公園外圍步道一圈約 1.8 公里；冬季含拍照先估 45–75 分鐘，短看入口約 20–30 分鐘即可，不必走完整圈。","D9 早上補公園只是備選，不自動加入主線；含市電往返與雪地步行先留約 2–2.5 小時，採用後需提早出門並重估八幡坂／金森時段，保留下午函館山。"],
-    sources: [["洞爺湖交通","https://www.toya-usu-geopark.org/access1"],["湖畔亭早餐時間","https://www.toya-kohantei.com/cuisine/"],["La'gent Stay 寄行李／入住","https://lagent.jp/hakodate-ekimae/faq/"],["五稜郭塔時間","https://www.goryokaku-tower.co.jp/price/"],["五稜郭公園外圍步道","https://www.hakodate-jts-kosya.jp/park/goryokaku/scenery/"],["函館市電","https://www.city.hakodate.hokkaido.jp/docs/2014012100939/"]]
+    sources: [["回轉壽司旬花官方","https://kaitensushi.shunka.jp/"],["小丑漢堡站前店官方","https://luckypierrot.jp/shop/hakodatest/"],["洞爺湖交通","https://www.toya-usu-geopark.org/access1"],["湖畔亭早餐時間","https://www.toya-kohantei.com/cuisine/"],["La'gent Stay 寄行李／入住","https://lagent.jp/hakodate-ekimae/faq/"],["五稜郭塔時間","https://www.goryokaku-tower.co.jp/price/"],["五稜郭公園外圍步道","https://www.hakodate-jts-kosya.jp/park/goryokaku/scenery/"],["函館市電","https://www.city.hakodate.hokkaido.jp/docs/2014012100939/"]]
   }
 };
 // Google Maps「立即出發」查閱於 2026/11/03；不是 12/26 路況預報。
@@ -253,6 +254,7 @@ function buildDayFourTimingDraft(stops) {
     rows,
     driveReview: { normal, conservative },
     notes: [
+      ...(normal.rental && normal.exceedsOperatingWindow ? ["×1.5情境的完整清單也會超過藻岩山營業時間，請略過室蘭備選或縮短前段，取件與夜景優先；不能直接照此完整時刻走。"] : []),
       ...(normal.rental ? [`取件為本日必辦停靠，先留1小時。${conservative.rentalExceedsWindow ? "×2情境會錯過19:40貸出到店或20:00關門時間，不能照此完整路線走；請優先略過室蘭兩處並聯絡門市。" : "×2情境仍須依預約時段、到店截止及20:00關門時間調整。"}前日15:00取件的規則須與實際使用日核對，提前更多天或多日連租的費用先問清楚。`] : []),
       `×2 是保守試算，不是雪季固定倍率或保證上限。若每段都按 ×2＋緩衝，目前路線約 ${dayFourTime(conservative.moiwaArrival)} 抵山麓，按相同觀景安排約 ${dayFourTime(conservative.moiwaFinish)} 完成下山。${conservative.exceedsOperatingWindow ? "這會超過迷你纜車 21:50 營業時間，不能直接照走；請優先刪減室蘭備選，保留藻岩山。" : "仍需依當天路況、排隊與運行調整。"}`,
       `白鳥與幸福之鐘尚未替你刪除。若兩處都略過，即使以 ×2＋緩衝估算，也約 ${dayFourTime(direct.moiwaArrival)} 抵山麓、${dayFourTime(direct.hotelArrival)} 回 APA，藻岩山時間較充足。`,

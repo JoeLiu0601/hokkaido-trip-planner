@@ -12,7 +12,8 @@ function setup() {
   const state = { plan: {} };
   const r = vm.runInNewContext(timing + '\n' + source.slice(0, source.indexOf('const state ='))
     + section('function getDailyTimingDraft(', 'function dayNineTimingDraftHtml(')
-    + '\n({buildPlan,dayFourDriveLegs,dayFourDriveMinutes,calculateDayFourScenario,buildDayFourTimingDraft,getDailyTimingDraft,isDailyTimingDraftApplicable,getTimingDraftForStop,timingDraftHtml,dayFourOptionalStopIds,dayOneTimingDraft})',
+    + section('function dayFourDriveReviewHtml(', 'function dailyTimingDraftHtml(')
+    + '\n({buildPlan,dayFourDriveLegs,dayFourDriveMinutes,calculateDayFourScenario,buildDayFourTimingDraft,getDailyTimingDraft,isDailyTimingDraftApplicable,getTimingDraftForStop,timingDraftHtml,dayFourDriveReviewHtml,dayFourOptionalStopIds,dayOneTimingDraft})',
   { window: {}, state, escapeHtml: value => String(value) });
   state.plan = r.buildPlan();
   return { r, state };
@@ -138,10 +139,29 @@ test('D4 rental route visits the new pickup store before Moiwa and warns when op
   assert.ok(!draft.driveReview.normal.legIds.includes('directMoiwa'));
   assert.equal(draft.driveReview.conservative.rentalExceedsWindow, false);
   assert.equal(draft.driveReview.conservative.exceedsOperatingWindow, false);
+  const html = r.dayFourDriveReviewHtml(draft);
+  assert.match(html, /兩點都略過：約 18:25/);
+  assert.match(html, /四種走法皆包含手稻取件/);
+  state.plan[4] = [...direct, 'muroran-hakucho-bridge-view', 'happiness-bell'];
+  assert.equal(r.getDailyTimingDraft(4).driveReview.normal.moiwaArrival, draft.driveReview.normal.moiwaArrival);
   const full = r.calculateDayFourScenario([...direct, 'muroran-hakucho-bridge-view', 'happiness-bell'], 2);
   assert.equal(full.rentalExceedsWindow, true);
   assert.equal(full.exceedsOperatingWindow, true);
   state.plan[4] = direct.filter(id => id !== 'sotorent-teine-pickup').concat('sotorent-teine-pickup');
   assert.equal(r.isDailyTimingDraftApplicable(4), false, 'pickup after the night view must invalidate the schedule');
   state.plan = JSON.parse(before);
+});
+
+test('D8 station lunch and tower-side dinner support the hotel-first luggage stop', () => {
+  const { r, state } = setup();
+  state.plan[8] = ['lagent-hakodate-ekimae', 'lucky-pierrot-hakodate-station', 'goryokaku', 'goryokaku-tower', 'hakodate-shunka-sushi'];
+  const before = JSON.stringify(state.plan);
+  assert.equal(r.isDailyTimingDraftApplicable(8), true);
+  assert.equal(r.getTimingDraftForStop(8, 'hakodate-shunka-sushi').time, '17:35–19:05');
+  state.plan[8] = state.plan[8].filter(id => id !== 'goryokaku');
+  assert.equal(r.isDailyTimingDraftApplicable(8), true);
+  assert.equal(r.getTimingDraftForStop(8, 'lagent-hakodate-ekimae').time, '10:45 寄行李／20:05 入住');
+  state.plan[8] = JSON.parse(before)[8];
+  [state.plan[8][3], state.plan[8][4]] = [state.plan[8][4], state.plan[8][3]];
+  assert.equal(r.isDailyTimingDraftApplicable(8), false, 'dinner before the tower needs a new estimate');
 });

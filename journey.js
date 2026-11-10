@@ -550,6 +550,7 @@
     const route = getGroupRouteForDay(day, selectedGroup);
     host.innerHTML = `<header class="winter-heading"><div><p>HOKKAIDO WINTER WALK</p><h2 id="journey-title" tabindex="-1">Day ${day} · ${escapeHtml(route.title)}</h2><span>B 滑雪 · 札幌</span></div><div class="winter-date"><strong>${tripDates[day - 1].replace("/", ".")}</strong><span>日本時間</span></div></header>
       ${groupRouteSwitchHtml()}
+      ${typeof dayWeatherSwapHtml === "function" ? dayWeatherSwapHtml() : ""}
       ${dayDepartureHtml(day, "B")}
       <section class="day-timing-draft group-ski-day" aria-labelledby="ski-route-title">
         <h3 id="ski-route-title">B 線 · ${escapeHtml(route.title)}</h3>
@@ -687,6 +688,7 @@
       ${dayFlightHtml(state.selectedDay, "journey")}
       ${getGroupRouteForDay(state.selectedDay, "B") ? groupRouteSwitchHtml() : ""}
       ${routeChoiceHtml()}
+      ${typeof dayWeatherSwapHtml === "function" ? dayWeatherSwapHtml() : ""}
       <section class="journey-next-card winter-focus-card" aria-labelledby="journey-next-title"></section>
       <div class="journey-feedback" role="status" aria-live="polite" ${feedback ? "" : "hidden"}><span>${escapeHtml(feedback)}</span>${undoProgress ? `<button type="button" class="small-button" data-journey-undo>復原剛才操作</button>` : ""}</div>
       ${dayDepartures[state.selectedDay] ? `<details class="formal-departure"><summary>出發：${escapeHtml(dayDepartures[state.selectedDay].name)}</summary>${stationRouteActive() ? `<p>${escapeHtml(playback.origin.departure.note)}</p>` : dayDepartureHtml(state.selectedDay)}</details>` : ""}
@@ -741,6 +743,8 @@
 
   host.addEventListener("click", (event) => {
     const target = event.target;
+    const weatherButton = target.closest("[data-weather-swap-mode]");
+    if (weatherButton) { applyDayWeatherSwap(weatherButton.dataset.weatherSwapMode); return; }
     const routeButton = target.closest("[data-day-ten-route]");
     if (routeButton) {
       if (state.selectedDay !== 10 || !["main", "station"].includes(routeButton.dataset.dayTenRoute)) return;

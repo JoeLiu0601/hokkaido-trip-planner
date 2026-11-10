@@ -40,7 +40,7 @@ test('D7 default route follows its timing draft and omits the crater', () => {
   const draft = runtime.dailyTimingDrafts[7];
   assert.deepEqual(day, Array.from(draft.requiredIds));
   assert.deepEqual(day, Array.from(draft.stopGroups, ids => ids[0]));
-  assert.equal(runtime.dayDepartures[7].time, '07:30');
+  assert.equal(runtime.dayDepartures[7].time, '07:00');
 });
 
 test('D3 places Tenguyama after the crossroads and keeps the canal after it', () => {
@@ -120,9 +120,10 @@ test('recognized former D3 orders follow the draft without replaying on custom e
 
 test('D8 prioritizes the tower and remains valid without the optional park', () => {
   const day = runtime.buildPlan()[8], draft = runtime.dailyTimingDrafts[8];
-  assert.ok(day.indexOf('lucky-pierrot-goryokaku') < day.indexOf('goryokaku-tower'));
+  assert.ok(day.indexOf('lucky-pierrot-hakodate-station') < day.indexOf('goryokaku-tower'));
+  assert.ok(day.indexOf('goryokaku-tower') < day.indexOf('hakodate-shunka-sushi'));
   assert.equal(draft.rows.find(row => row[3]?.includes('goryokaku-tower'))[0], '16:00–17:30');
-  assert.equal(draft.timingOverrides['lagent-hakodate-ekimae'].time, '10:45 寄行李／18:30 入住');
+  assert.equal(draft.timingOverrides['lagent-hakodate-ekimae'].time, '10:45 寄行李／20:05 入住');
   assert.ok(draft.requiredIds.includes('goryokaku-tower'));
   assert.ok(!draft.requiredIds.includes('goryokaku'));
   assert.ok(draft.optionalIds.includes('goryokaku'));
