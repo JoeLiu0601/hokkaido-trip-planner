@@ -2132,6 +2132,7 @@ const drivingPlaceOverrides = {
   "apa-sogo": "モユク札幌ロフト 札幌市中央区南2条西3丁目20 モユクサッポロ3階",
   "pokemon-center-sapporo": "ポケモンセンターサッポロ 大丸札幌店 8F 札幌市中央区北5条西4丁目7",
   "sandria-honten": "サンドリア本店 札幌市中央区南8条西9丁目758-14",
+  "hakodate-shunka-sushi": "回転寿司 函館 旬花 函館市五稜郭町29-18",
   "rokkatei-ario-sapporo": "六花亭 アリオ札幌店 札幌市東区北7条東9丁目2-20 1F",
   "donki-tanukikoji": "MEGAドン・キホーテ札幌狸小路本店 札幌市中央区南3条西4丁目12-1",
   "tanukikoji-shopping-street": "狸小路商店街 3丁目 札幌市中央区南2条西3丁目",
