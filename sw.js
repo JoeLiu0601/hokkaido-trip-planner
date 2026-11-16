@@ -1,5 +1,5 @@
-const CACHE_NAME = "hokkaido-shell-20261111-all-days-timing";
-const VERSION = "20261111-all-days-timing";
+const CACHE_NAME = "hokkaido-shell-20261117-complete-schedule";
+const VERSION = "20261117-complete-schedule";
 const SHELL = [
   "./", "./index.html", "./styles.css?v=20261103-day-flights", "./journey.css?v=20261104-sapporo-shopping",
   `./journey-winter.css?v=${VERSION}`, `./timing-drafts.js?v=${VERSION}`, `./app.js?v=${VERSION}`,

@@ -2228,7 +2228,10 @@ const skiRouteDays = {
   }
 };
 function getGroupRouteForDay(day, group) {
-  return group === "B" ? skiRouteDays[day] || null : null;
+  const route = group === "B" ? skiRouteDays[day] || null : null;
+  if (day !== 6 || !route || !state.plan?.[6]?.includes("moiwa-yama")) return route;
+  return {...route, stages: route.stages.map(stage => stage[0] === "結束後"
+    ? [stage[0], stage[1], "先歸還裝備、回飯店停車；藻岩山目前換到D6，若與市區組會合，晚餐及往返安排另約，不沿用D4時段。"] : stage)};
 }
 
 const storageKey = "hokkaido-trip-planner-plan";
@@ -3302,6 +3305,32 @@ function getDayTimingDraftHtml(day, headingId = "day-timing-title") {
 function renderDayTimingDraft() {
   dom.dayTimingDraft.hidden = true;
   dom.dayTimingDraft.innerHTML = "";
+}
+
+function completeScheduleHtml(day, {group = "A", station = false} = {}) {
+  const rowsHtml = rows => `<details class="day-schedule" open><summary>交通、用餐與休息安排</summary><ol>${rows.map(([time, title, note]) => `<li><strong class="day-schedule-time">${escapeHtml(time)}</strong><span><b>${escapeHtml(title)}</b><small>${escapeHtml(note)}</small></span></li>`).join("")}</ol></details>`;
+  const ski = getGroupRouteForDay(day, group);
+  if (ski) return `<p><strong>B線 · ${escapeHtml(ski.title)}</strong></p><p>${escapeHtml(ski.route)}</p>${rowsHtml(ski.stages)}<p>課程、上午出發及還裝備時間仍依預約確認；本表不改市區組或團員行程。</p>`;
+  if (day === 1) {
+    const known = (state.plan[1] || []).every(id => dayOneTimingDraft[id]);
+    const applicable = isDayOneTimingDraftApplicable() && known;
+    const main = ["new-chitose-airport", "nippon-rentacar-new-chitose", "premier-cabin-asahikawa", "aeon-mall-asahikawa-ekimae", "asahikawa-heiwa-dori"];
+    const rows = main.map(id => [dayOneTimingDraft[id].time, spotById(id).name, dayOneTimingDraft[id].note]);
+    rows.splice(2, 0, ["14:15–17:45", "開車：新千歲租車店 → 旭川", "含途中補餐、休息與冬季移動先留3.5小時，風雪可能更久。"]);
+    rows.push(["20:45之後", "回旭川飯店休息", "先把長途移動後的休息留好；晚到就縮短採買與戶外散步。"]);
+    return `${!applicable ? '<p class="day-schedule-warning"><strong>目前行程已調整，下方原規劃僅供參考，需重新估時。</strong></p>' : ""}${rowsHtml(rows)}<details class="day-schedule"><summary>彈性支線，與主線擇一</summary><ol>${(state.plan[1] || []).filter(id => dayOneTimingDraft[id]?.optional).map(id => `<li><strong class="day-schedule-time">${escapeHtml(dayOneTimingDraft[id].time)}</strong><span><b>${escapeHtml(spotById(id).name)}</b><small>${escapeHtml(dayOneTimingDraft[id].note)}</small></span></li>`).join("")}</ol><p>白金青池支線包含額外往返開車，不能與原本採買、晚餐時段直接相加。</p></details>`;
+  }
+  const tools = window.HOKKAIDO_TRAVEL_TOOLS;
+  if (day === 10 && station && tools?.stationSupported(state.plan[10] || [])) {
+    const rows = [["08:30–09:15", "先吃早餐", "飯店早餐依訂房方案，未含餐則先備輕食；元旦營業另確認。"], ["09:15–10:00", "整理、退房，帶齊行李", "退房後直接步行到函館站，不再往返寄放行李或元町。"]];
+    for (const id of tools.ids(10, state.plan[10], true)) {
+      const timing = tools.timing(10, id, true);
+      rows.push([timing.time, id === "hokkaido-shikisai-hakodate" ? "函館站採買、午餐與休息" : spotById(id).name, timing.note]);
+    }
+    rows.push(["15:30–17:00", "星宇報到、托運與出境", dayTenTimingDraft["hakodate-airport"].note], ["18:00", "JX861起飛", "以機票與航空公司當日通知為準。"]);
+    return `<p><strong>目前選擇：D10車站備案</strong></p><p>本表取代朝市、元町往返；元旦店家與巴士正式班次仍需確認。</p>${rowsHtml(rows)}${airportBusTimetableHtml()}`;
+  }
+  return getDayTimingDraftHtml(day, "complete-schedule-day-title") || "<p>這天尚未有完整估時，請先確認景點順序與交通安排。</p>";
 }
 
 function getAccommodationMapUrl(hotel) {

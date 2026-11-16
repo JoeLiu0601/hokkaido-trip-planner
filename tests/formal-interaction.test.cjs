@@ -30,7 +30,7 @@ test('More closes when tapping outside, following settings or pressing Escape', 
   let focused = false;
   const menu = { open: true, contains: target => target.inside === true, querySelector: () => ({ focus() { focused = true; } }) };
   vm.runInNewContext(section('  const menu = document.getElementById("planner-menu");', '  document.getElementById("day-tabs")?.addEventListener'), {
-    document: { getElementById: () => menu, addEventListener: (type, handler) => { handlers[type] = handler; } }
+    document: { getElementById: id => id === 'planner-menu' ? menu : null, addEventListener: (type, handler) => { handlers[type] = handler; } }
   });
   handlers.click({ target: { inside: true, closest: () => null } });
   assert.equal(menu.open, true);

@@ -655,6 +655,7 @@
     host.setAttribute("aria-label", mode === "overview" ? "十日行程總覽" : "旅途中行程");
     switchButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.plannerView === mode)));
     refreshDayNavigation();
+    if (typeof refreshCompleteSchedule === "function") refreshCompleteSchedule();
     if (host.hidden) return;
     if (mode === "overview") { renderOverview(); return; }
     if (getGroupRouteForDay(state.selectedDay, selectedGroup)) { renderSkiDay(); return; }
@@ -721,6 +722,43 @@
   }));
 
   const menu = document.getElementById("planner-menu");
+  const scheduleDialog = document.getElementById("complete-schedule-dialog");
+  const scheduleContent = document.getElementById("complete-schedule-content");
+  const scheduleTrigger = document.getElementById("open-complete-schedule");
+  let scheduleContext = "";
+  function refreshCompleteSchedule() {
+    if (!scheduleDialog?.open) return;
+    const group = mode === "edit" ? "A" : selectedGroup;
+    const station = mode !== "edit" && stationRouteActive();
+    const context = `${state.selectedDay}|${group}|${station}|${JSON.stringify(state.plan[state.selectedDay])}`;
+    if (context === scheduleContext) return;
+    scheduleContext = context;
+    document.getElementById("complete-schedule-title").textContent = `Day ${state.selectedDay} · 完整時間表`;
+    scheduleContent.innerHTML = completeScheduleHtml(state.selectedDay, {group, station});
+    const mainTable = scheduleContent.querySelector(".day-schedule");
+    if (mainTable) mainTable.open = true;
+    const scroll = scheduleDialog.querySelector(".complete-schedule-scroll");
+    if (scroll) scroll.scrollTop = 0;
+  }
+  scheduleTrigger?.addEventListener("click", () => {
+    if (!scheduleDialog || scheduleDialog.open) return;
+    pausePlayback();
+    if (menu) menu.open = false;
+    scheduleContext = "";
+    scheduleDialog.showModal();
+    document.body.classList.add("complete-schedule-open");
+    refreshCompleteSchedule();
+  });
+  document.getElementById("close-complete-schedule")?.addEventListener("click", () => scheduleDialog.close());
+  scheduleDialog?.addEventListener("close", () => {
+    document.body.classList.remove("complete-schedule-open");
+    menu?.querySelector("summary")?.focus({preventScroll: true});
+  });
+  scheduleDialog?.addEventListener("click", event => {
+    if (event.target !== scheduleDialog) return;
+    const box = scheduleDialog.getBoundingClientRect();
+    if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) scheduleDialog.close();
+  });
   document.addEventListener("click", event => {
     if (menu?.open && (!menu.contains(event.target) || event.target.closest("a"))) menu.open = false;
   });

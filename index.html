@@ -10,7 +10,7 @@
     />
     <link rel="stylesheet" href="styles.css?v=20261103-day-flights" />
     <link rel="stylesheet" href="journey.css?v=20261104-sapporo-shopping" />
-    <link rel="stylesheet" href="journey-winter.css?v=20261111-all-days-timing" />
+    <link rel="stylesheet" href="journey-winter.css?v=20261117-complete-schedule" />
   </head>
   <body class="winter-view-active" data-planner-theme="dark">
     <main class="shell">
@@ -87,6 +87,7 @@
                 <details class="planner-menu" id="planner-menu">
                   <summary aria-label="更多行程功能">更多 <span aria-hidden="true">⋯</span></summary>
                   <div class="planner-menu-panel">
+                    <button type="button" id="open-complete-schedule" aria-haspopup="dialog" aria-controls="complete-schedule-dialog">查看完整時間表</button>
                     <button type="button" data-planner-view="edit" aria-pressed="false">編輯行程</button>
                     <a href="#planner-settings-title">同步與設定</a>
                   </div>
@@ -231,16 +232,26 @@
       <button class="small-button undo-dismiss" id="undo-dismiss-btn" type="button" aria-label="關閉復原提示">×</button>
     </div>
 
+    <dialog class="complete-schedule-dialog" id="complete-schedule-dialog" aria-labelledby="complete-schedule-title" aria-describedby="complete-schedule-note">
+      <header class="complete-schedule-header">
+        <h2 id="complete-schedule-title">完整時間表</h2>
+        <button type="button" id="close-complete-schedule" aria-label="關閉完整時間表" autofocus>關閉 <span aria-hidden="true">×</span></button>
+      </header>
+      <div class="complete-schedule-scroll">
+        <p id="complete-schedule-note">以下為日本當地時間與規劃估時；交通、候位與天候可能影響實際安排。</p>
+        <div id="complete-schedule-content"></div>
+      </div>
+    </dialog>
     <section class="print-report" id="print-report" aria-hidden="true"></section>
 
     <!-- deploy-stamp: 2026-09-21T18:00:00+08:00 -->
     <script src="sync-config.js"></script>
-    <script src="timing-drafts.js?v=20261111-all-days-timing"></script>
-    <script src="app.js?v=20261111-all-days-timing"></script>
-    <script src="travel-tools.js?v=20261111-all-days-timing"></script>
+    <script src="timing-drafts.js?v=20261117-complete-schedule"></script>
+    <script src="app.js?v=20261117-complete-schedule"></script>
+    <script src="travel-tools.js?v=20261117-complete-schedule"></script>
     <script src="journey-scenes.js?v=20261026-d9-titles"></script>
-    <script src="departure-prep.js?v=20261111-all-days-timing"></script>
-    <script src="journey.js?v=20261111-all-days-timing"></script>
-    <script src="offline.js?v=20261111-all-days-timing"></script>
+    <script src="departure-prep.js?v=20261117-complete-schedule"></script>
+    <script src="journey.js?v=20261117-complete-schedule"></script>
+    <script src="offline.js?v=20261117-complete-schedule"></script>
   </body>
 </html>
