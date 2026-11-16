@@ -10,7 +10,7 @@ function setup() {
     + app.slice(0, app.indexOf('const state ='))
     + section('function isDayOneTimingDraftApplicable(', 'function getAccommodationMapUrl(')
     + section('const dayOptionalSpots =', 'function getDayTwoLunchInsertionIndex(')
-    + '\n({buildPlan,completeScheduleHtml})', {
+    + '\n({buildPlan,completeScheduleHtml,getDailyTimingDraft,getTimingDraftForStop,getGroupRouteForDay})', {
     state, window:{HOKKAIDO_TRAVEL_TOOLS:require('../travel-tools.js')},
     escapeHtml:value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'),
     spotById:id=>({id,name:id})
@@ -59,4 +59,33 @@ test('B ski route follows the selected route and reflects a D6 weather swap', ()
   state.plan[6].push('moiwa-yama');
   assert.match(api.completeScheduleHtml(6,{group:'B'}),/藻岩山目前換到D6/);
   assert.doesNotMatch(api.completeScheduleHtml(6,{group:'B'}),/夜景已排 D4/);
+});
+
+test('weather swap replaces stale D4 and D6 tables, then restores originals when reversed', () => {
+  const {state,api}=setup();
+  state.plan[4].splice(state.plan[4].indexOf('moiwa-yama'),0,'sotorent-teine-pickup');
+  state.plan[6].push('sapporo-fushimi-inari');
+  const original4=api.completeScheduleHtml(4), original6=api.completeScheduleHtml(6);
+  state.plan[4]=state.plan[4].map(id=>id==='moiwa-yama'?'sapporo-fushimi-inari':id);
+  state.plan[6]=state.plan[6].map(id=>id==='sapporo-fushimi-inari'?'moiwa-yama':id);
+  const snapshot=JSON.stringify(state.plan);
+  for(const day of [4,6]) {
+    const html=api.completeScheduleHtml(day);
+    assert.match(html,/天候調整後的路線/);
+    assert.match(html,/待重新估時/);
+    assert.doesNotMatch(html,/\d{2}:\d{2}[–／]/,'do not show the previous clock times');
+    assert.equal(api.getDailyTimingDraft(day),null);
+    assert.equal(api.getTimingDraftForStop(day,day===4?'sapporo-fushimi-inari':'moiwa-yama'),null);
+  }
+  assert.match(api.completeScheduleHtml(4),/sotorent-teine-pickup/);
+  assert.doesNotMatch(api.completeScheduleHtml(4),/<b>moiwa-yama<\/b>/);
+  assert.match(api.completeScheduleHtml(6),/市電.*免費接駁/);
+  assert.doesNotMatch(api.completeScheduleHtml(6),/20:30|21:45|伏見稻荷神社夜間參拜/);
+  assert.doesNotMatch(api.completeScheduleHtml(5,{group:'B'}),/夜景已排 D4/);
+  assert.match(api.completeScheduleHtml(6,{group:'B'}),/8-27/);
+  assert.equal(JSON.stringify(state.plan),snapshot,'reading routes must not edit shared data');
+  state.plan[4]=state.plan[4].map(id=>id==='sapporo-fushimi-inari'?'moiwa-yama':id);
+  state.plan[6]=state.plan[6].map(id=>id==='moiwa-yama'?'sapporo-fushimi-inari':id);
+  assert.equal(api.completeScheduleHtml(4),original4);
+  assert.equal(api.completeScheduleHtml(6),original6);
 });

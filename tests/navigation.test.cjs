@@ -232,7 +232,7 @@ test('travel view prioritizes the boarding walk without changing other days navi
 
 test('a manually restored D5 night visit does not promise the former shared ride', () => {
   runtime.state.plan[5] = ['unagi-nakajima', 'moiwa-yama'];
-  assert.match(runtime.getDriveInfoForStop(5, 1, 'moiwa-yama'), /資生館小学校前.*ロープウェイ入口.*接駁.*夜景目前排 D4.*回程與集合需另排/);
+  assert.match(runtime.getDriveInfoForStop(5, 1, 'moiwa-yama'), /資生館小学校前.*ロープウェイ入口.*接駁.*依當日清單安排.*回程與集合需另排/);
 });
 
 test('D6 late shrine uses an exact taxi destination without promising a late bus', () => {

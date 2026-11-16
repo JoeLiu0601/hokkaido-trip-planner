@@ -557,7 +557,7 @@
         <h3 id="ski-route-title">B 線 · ${escapeHtml(route.title)}</h3>
         <p class="day-schedule-route">${escapeHtml(route.route)}</p>
         <ol class="group-ski-stages">${route.stages.map(([time, title, note]) => `<li><p><strong>${escapeHtml(time)}</strong></p><h4>${escapeHtml(title)}</h4><p>${escapeHtml(note)}</p></li>`).join("")}</ol>
-        <div class="group-ski-actions"><a class="small-button map-link" href="https://sapporo-moiwa.jp/access/" target="_blank" rel="noopener noreferrer">滑雪場入口與官方交通</a></div>
+        <div class="group-ski-actions"><a class="small-button map-link" href="https://sapporo-moiwa.jp/access/" target="_blank" rel="noopener noreferrer">滑雪場入口與官方交通</a>${day === 6 ? `<a class="small-button map-link" href="${daySixStepUrl({destination: "SOTORENT 手稲駅前リターン店 札幌市手稲区手稲本町2条4丁目8-27", mode: "driving"})}" target="_blank" rel="noopener noreferrer">開車去歸還裝備（8-27）</a>` : ""}</div>
         <p>出發前確認當季營業、課程與租具報到入口；時間未定的項目不代表已預約。</p>
       </section>`;
   }
