@@ -2,7 +2,7 @@ const dailyTimingDrafts = {
   2: {
     intro: "08:30 從旭川飯店退房，經美瑛神社到日之出公園，再接上富良野午餐；15:00 左右到精靈露臺，天黑看燈。17:30–18:30 富良野晚餐後直接回札幌，約 22:00 入住，車程皆為冬季估計。",
     route: "旭川 → 美瑛神社 → 日之出公園 → 上富良野午餐 → 精靈露臺夜景 → 富良野晚餐或沿途補餐 → 札幌 APA",
-    stopGroups: [["biei-shrine"],["hinode-park"],["kamifurano-marumasu","kamifurano-mansaku"],["ningle-terrace"],["furano-kumagera","furano-yuiga-doxon"],["apa-sapporo-susukino-ekinishi"],["sapporo-odori"],["sapporo-susukino"]],
+    stopGroups: [["biei-shrine"],["hinode-park"],["kamifurano-mansaku"],["ningle-terrace"],["furano-kumagera","furano-yuiga-doxon"],["apa-sapporo-susukino-ekinishi"],["sapporo-odori"],["sapporo-susukino"]],
     requiredIds: ["biei-shrine","hinode-park","ningle-terrace","apa-sapporo-susukino-ekinishi"],
     rows: [
       ["07:30–08:30","早餐、退房與清車積雪","08:30 從旭川飯店出發，護照、租車資料與隨身用品先備妥。"],
@@ -10,8 +10,8 @@ const dailyTimingDrafts = {
       ["09:30–10:00","美瑛神社","參拜、拍照約 30 分；御朱印與授與所是否開放依當日公告。",["biei-shrine"],"約 30 分"],
       ["10:00–10:40","開車：美瑛 → 上富良野","沿主要除雪道路前往日之出公園；不為找雪景繞入小路。"],
       ["10:40–11:10","日之出公園","本日確定安排，逛完接上富良野午餐。只走冬季已開放且安全的區域，不預設可開車上到夏季展望位置。",["hinode-park"],"約 30 分"],
-      ["11:10–11:30","開車到上富良野午餐店","日之出公園後在上富良野就近用餐，車程與停車先留約 20 分鐘；餐廳二選一，尚未選定。"],
-      ["11:30–13:00","上富良野午餐：まるます／まん作二選一","保留燒肉定食與手打蕎麥兩間候選，含候位先留 90 分鐘，只吃其中一間；排隊過久就調整午餐後休息。",["kamifurano-marumasu","kamifurano-mansaku"],"含候位約 1.5 小時"],
+      ["11:10–11:30","開車到上富良野午餐店","日之出公園後在上富良野就近用餐，車程與停車先留約 20 分鐘；午餐選まん作。"],
+      ["11:30–13:00","上富良野午餐：手打ちそば まん作","手打蕎麥午餐，不接受訂位；含現場候位先留 90 分鐘，排隊過久就調整午餐後休息。",["kamifurano-mansaku"],"含候位約 1.5 小時"],
       ["13:00–14:30","前往富良野、午餐後休息／彈性時間","含開車到富良野約 30 分鐘，剩餘時間留給咖啡、休息與停車緩衝；15:00 精靈露臺不變。"],
       ["14:30–15:00","開車到新富良野王子飯店、停車","走正式停車場與已開放步道。"],
       ["15:00–17:15","精靈露臺：白天轉夜間燈景","約 15:00 抵達，等天黑看木屋燈光。官方冬季 12:00–20:45；沒有承諾固定點燈分鐘。",["ningle-terrace"],"約 2 小時 15 分"],

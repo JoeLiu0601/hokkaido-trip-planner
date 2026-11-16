@@ -113,16 +113,17 @@ test('D6 optional purchases stay near their anchors, avoid duplicates and preser
   assert.equal(JSON.stringify(after), before);
 });
 
-test('choosing then changing lunch keeps one restaurant after Hinode and preserves stored meals', () => {
+test('Mansaku replaces a previously stored retired lunch and preserves stored meals', () => {
   const c = setup(), meals = JSON.stringify(c.state.mealPlan), d6 = JSON.stringify(c.state.plan[6]);
   c.choose('kamifurano-marumasu');
-  assert.equal(c.state.plan[2][c.state.plan[2].indexOf('hinode-park') + 1], 'kamifurano-marumasu');
+  assert.equal(c.edits(), 0, 'the retired candidate can no longer be selected');
+  c.state.plan[2].splice(c.state.plan[2].indexOf('hinode-park') + 1, 0, 'kamifurano-marumasu');
   c.choose('kamifurano-mansaku');
   assert.ok(!c.state.plan[2].includes('kamifurano-marumasu'));
   assert.equal(c.state.plan[2][c.state.plan[2].indexOf('hinode-park') + 1], 'kamifurano-mansaku');
   assert.equal(c.state.plan[2].filter(id => id === 'kamifurano-mansaku').length, 1);
   c.choose('kamifurano-mansaku');
-  assert.equal(c.edits(), 2);
+  assert.equal(c.edits(), 1);
   assert.equal(JSON.stringify(c.state.mealPlan), meals);
   assert.equal(JSON.stringify(c.state.plan[6]), d6);
 });

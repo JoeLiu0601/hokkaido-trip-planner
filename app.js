@@ -73,7 +73,7 @@ const spots = [
     season: ["winter"],
     time: "1h",
     best: "北海道蕎麥、自家石磨製粉、手打蕎麥麵",
-    desc: "使用北海道蕎麥、自家石磨製粉的手打蕎麥麵店，作為日之出公園後的另一個午餐候選。預算約 ¥1,000–2,000；11:00–16:00（最後點餐 15:30），售完提早結束，週一、二休（國定假日例外）。不接受訂位、只收現金，滿座先在店內登記；若選這間可縮短公園停留，靠近 11:00 到店。停車約 8 格，滿位依店家指示停見晴台公園停車場，勿停路邊；12/24 臨休行前再確認。",
+    desc: "使用北海道蕎麥、自家石磨製粉的手打蕎麥麵店，安排在日之出公園後的上富良野午餐。預算約 ¥1,000–2,000；11:00–16:00（最後點餐 15:30），售完提早結束，週一、二休（國定假日例外）。不接受訂位、只收現金，滿座先在店內登記；若選這間可縮短公園停留，靠近 11:00 到店。停車約 8 格，滿位依店家指示停見晴台公園停車場，勿停路邊；12/24 臨休行前再確認。",
     highlight: "D2 午餐備選"
   },
   {
@@ -4941,8 +4941,8 @@ const dayOptionalSpots = {
   },
   2: {
     title: "D2 晚餐備選",
-    note: "精靈露臺後選餐廳晚餐，或到 Lawson 買輕食後直接回札幌。先保留候選，尚未選定或預約；若改走札幌天候備案，這些富良野選項就不適用。午餐兩間候選接在日之出公園後。",
-    ids: ["kamifurano-marumasu", "kamifurano-mansaku", "furano-kumagera", "furano-yuiga-doxon", "lawson-furano-kitanomine"],
+    note: "精靈露臺後選餐廳晚餐，或到 Lawson 買輕食後直接回札幌。先保留候選，尚未選定或預約；若改走札幌天候備案，這些富良野選項就不適用。午餐只保留まん作，接在日之出公園後。",
+    ids: ["kamifurano-mansaku", "furano-kumagera", "furano-yuiga-doxon", "lawson-furano-kitanomine"],
     dinnerIds: ["furano-kumagera", "furano-yuiga-doxon", "lawson-furano-kitanomine"]
   },
   4: {
@@ -5004,7 +5004,7 @@ function getDayTwoLunchInsertionIndex(ids) {
 }
 
 function dayTwoLunchOptionsHtml() {
-  return dayTwoMealOptionsHtml(dayTwoLunchIds, "上富良野午餐", "日之出公園後就近吃午餐，先留約 11:30–13:00。兩間都保留參考，和同伴討論後擇一；尚未預約。", "午餐");
+  return dayTwoMealOptionsHtml(["kamifurano-mansaku"], "上富良野午餐", "日之出公園後吃手打ちそば まん作，先留約 11:30–13:00，含候位。店家不接受訂位，當天現場候位。", "午餐");
 }
 
 function getDayTwoDinnerInsertionIndex(ids) {
@@ -5031,7 +5031,7 @@ function dayThreeLunchOptionsHtml() {
 
 function dayTwoMealOptionsHtml(ids, title, note, meal, day = 2) {
   const selectedIds = ids.filter(id => state.plan[day].includes(id));
-  const choiceLabel = ids.length === 3 ? "三選一" : "二選一";
+  const choiceLabel = ids.length === 1 ? "餐廳資訊" : ids.length === 3 ? "三選一" : "二選一";
   return `<details class="day-alternative inline-lunch-options" aria-label="${title}${choiceLabel}">
     <summary>${title} · ${choiceLabel} · ${selectedIds.length === 1 ? escapeHtml(spotById(selectedIds[0]).name) : "選擇用餐"}</summary>
     <p>${note}</p>
