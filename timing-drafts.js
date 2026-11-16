@@ -160,13 +160,22 @@ const dailyTimingDrafts = {
 };
 // 依現行共編順序重排；各段為冬季移動、停車與候位的規劃預留，非即時導航結果。
 function buildDayThreeTimingDraft(stops) {
-  if (!stops.some(id => ["otaru-gunjo-sui", "sandria-honten"].includes(id))) return dailyTimingDrafts[3];
-  const lunch = stops.includes("wakadori-naruto-honten") ? "wakadori-naruto-honten" : "otaru-takeda";
+  const lunchIds = ["wakadori-naruto-honten", "otaru-takeda", "otaru-new-sanko"];
+  const lunch = lunchIds.find(id => stops.includes(id)) || "wakadori-naruto-honten";
+  if (!stops.some(id => ["otaru-gunjo-sui", "sandria-honten"].includes(id))) {
+    const base = dailyTimingDrafts[3];
+    if (lunch !== "otaru-new-sanko") return base;
+    return {...base,
+      requiredIds: base.requiredIds.map(id => id === "wakadori-naruto-honten" ? lunch : id),
+      stopGroups: base.stopGroups.map(ids => ids.includes("wakadori-naruto-honten") ? [lunch] : ids),
+      rows: base.rows.map(row => row[3]?.includes("wakadori-naruto-honten") ? [row[0], "ニュー三幸 小樽本店午餐", "11:30開門，含候位預留約1小時；候位過久須調整後續行程。", [lunch], row[4]] : row)
+    };
+  }
   const letao = stops.includes("letao-otaru-honten");
   return {
     intro: "07:45從APA出發，08:45抵神宮為目標。伏見稻荷已移至D6，接手稻與小樽；下午群青・翠後先看天狗山夜景，晚餐暫排下山後，再逛運河。回札幌買Sandria早餐後，約23:00回APA。這是完整清單的估排，不是訂位或即時車程保證。",
     route: `APA → 北海道神宮 → 手稻神社 → 小樽午餐 → 小樽稻荷 → 大正硝子${letao ? " → LeTAO" : ""} → 童話十字路 → 群青・翠 → 天狗山夜景 → 晚餐 → 運河 → Sandria → APA`,
-    stopGroups: [["hokkaido-shrine"],["teine-shrine"],["wakadori-naruto-honten","otaru-takeda"],["otaru-inari-shrine"],["taisho-glass"],["letao-otaru-honten"],["otaru-meruhen-crossing"],["otaru-gunjo-sui"],["otaru-tenguyama"],["otaru-canal"],["sandria-honten"]],
+    stopGroups: [["hokkaido-shrine"],["teine-shrine"],["wakadori-naruto-honten","otaru-takeda","otaru-new-sanko"],["otaru-inari-shrine"],["taisho-glass"],["letao-otaru-honten"],["otaru-meruhen-crossing"],["otaru-gunjo-sui"],["otaru-tenguyama"],["otaru-canal"],["sandria-honten"]],
     requiredIds: ["hokkaido-shrine","teine-shrine",lunch,"otaru-inari-shrine","taisho-glass","otaru-meruhen-crossing","otaru-gunjo-sui","otaru-tenguyama","otaru-canal","sandria-honten"],
     optionalIds: [],
     rows: [
@@ -175,7 +184,7 @@ function buildDayThreeTimingDraft(stops) {
       ["09:35–10:15","開車：北海道神宮 → 手稻神社","不再繞伏見稻荷；含冬季路口、停車與步行預留40分鐘。"],
       ["10:15–10:35","手稻神社","短暫參拜、拍照約20分鐘，不排長時間散步。",["teine-shrine"],"約20分鐘"],
       ["10:35–11:25","開車：手稻 → 小樽午餐","走可通行的主要道路／札樽道，含進城停車預留50分鐘；風雪另延長。"],
-      ["11:25–12:25","小樽午餐：若雞／武田二選一","含候位先留1小時；武田若要挑選、料理整隻螃蟹，請先確認價格與供餐時間，可能需要更久，不能照一般午餐估時硬走。",["wakadori-naruto-honten","otaru-takeda"],"含候位約1小時"],
+      ["11:25–12:25","小樽午餐：若雞／武田／ニュー三幸擇一","含候位先留1小時；ニュー三幸11:30開門，11:25抵達需等開門。武田若要挑選、料理整隻螃蟹，請先確認價格與供餐時間，可能需要更久，不能照一般午餐估時硬走。",["wakadori-naruto-honten","otaru-takeda","otaru-new-sanko"],"含候位約1小時"],
       ["12:25–12:55","開車到小樽稻荷神社","含停車與雪地步行先留30分鐘。"],
       ["12:55–13:15","小樽稻荷神社","短暫參拜20分鐘，只走安全開放區域。",["otaru-inari-shrine"],"約20分鐘"],
       ["13:15–13:40","移車至堺町周邊停車場","玻璃店與童話十字路以步行串接，先確認車位與取車路程。"],

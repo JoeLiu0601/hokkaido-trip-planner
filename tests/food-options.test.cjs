@@ -54,6 +54,16 @@ test('D3 lunch replaces Naruto in place, restores it on change and leaves other 
   c.choose('wakadori-naruto-honten', 3);
   assert.deepEqual(Array.from(c.state.plan[3]), original);
   assert.equal(c.runtime.isDailyTimingDraftApplicable(3), true);
+  c.choose('otaru-new-sanko', 3);
+  assert.equal(c.state.plan[3][lunch], 'otaru-new-sanko');
+  assert.equal(c.state.plan[3].includes('wakadori-naruto-honten'), false);
+  assert.equal(c.runtime.isDailyTimingDraftApplicable(3), true);
+  c.state.plan[3].splice(lunch, 0, 'wakadori-naruto-honten');
+  assert.equal(c.runtime.isDailyTimingDraftApplicable(3), false, 'two lunch choices must not keep a single-meal schedule');
+  c.choose('otaru-new-sanko', 3);
+  assert.equal(c.state.plan[3].filter(id => id === 'otaru-new-sanko').length, 1);
+  c.choose('wakadori-naruto-honten', 3);
+  assert.deepEqual(Array.from(c.state.plan[3]), original);
   assert.equal(JSON.stringify(Object.fromEntries(Object.entries(c.state.plan).filter(([day]) => day !== '3'))), otherDays);
 });
 

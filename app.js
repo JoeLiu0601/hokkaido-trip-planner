@@ -1,5 +1,16 @@
 const spots = [
   {
+    id: "otaru-new-sanko",
+    name: "ニュー三幸 小樽本店（洋食／燴炒麵）",
+    area: "小樽",
+    type: "洋食・餐食",
+    season: ["winter"],
+    time: "1h",
+    best: "小樽燴炒麵、漢堡排、牛肉燉肉蛋包飯",
+    desc: "Sun Mall一番街的老牌洋食餐廳，四人可各點喜歡的餐點。官網列燴炒麵¥1,430、漢堡排¥1,430、北海道產黑毛和牛牛肉燉肉蛋包飯¥1,925，價格依現場菜單。作為D3午餐候選，與若雞、武田擇一，當天看口味與候位再決定；含候位先留約1小時，候位過久需調整後續行程。尚未訂位，12/25特別營業行前確認。",
+    highlight: "D3 午餐候選・當天選"
+  },
+  {
     id: "sotorent-teine-pickup",
     name: "SOTORENT 手稻站前店（取滑雪用具）",
     area: "札幌",
@@ -1332,13 +1343,13 @@ const winterProfile = {
 
 const tripDates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29", "12/30", "12/31", "1/1"];
 const dayTwoLunchIds = ["kamifurano-marumasu", "kamifurano-mansaku"];
-const dayThreeLunchIds = ["wakadori-naruto-honten", "otaru-takeda"];
+const dayThreeLunchIds = ["wakadori-naruto-honten", "otaru-takeda", "otaru-new-sanko"];
 const dayFourOptionalStopIds = ["muroran-hakucho-bridge-view", "happiness-bell"];
 
 const daySummaries = {
   "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先規劃約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住規劃約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
   "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景。晚餐可選くまげら、唯我獨尊，或到 Lawson 買輕食後直接經芦別回札幌 APA。餐廳方案原估約 18:30 出發、22:00 入住；選輕食可提早離開，抵達仍依當晚路況，不直接套用餐廳時刻。大通與薄野僅留彈性備選，晚到不再硬逛。",
-  "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。神宮約 50 分鐘，接著手稻短暫參拜；小樽午餐若雞／武田二選一後，再到小樽稻荷短暫參拜。玻璃店、童話十字路後到群青・翠、上天狗山看夜景，再逛運河；回札幌後到 Sandria 買 D4 早餐，買完回 APA。伏見稻荷不列D3，依D4／D6當日清單與天候安排。",
+  "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。神宮約 50 分鐘，接著手稻短暫參拜；小樽午餐若雞／武田／ニュー三幸擇一後，再到小樽稻荷短暫參拜。玻璃店、童話十字路後到群青・翠、上天狗山看夜景，再逛運河；回札幌後到 Sandria 買 D4 早餐，買完回 APA。伏見稻荷不列D3，依D4／D6當日清單與天候安排。",
   "4": "06:30 從 APA 出發，登別地獄谷與溫泉街午餐後，先到 SOTORENT 手稻站前新店取滑雪用具，再去藻岩山夜景。取件先留約1小時，預約日期、前日15:00後取件及19:40到店截止請確認。白鳥大橋、幸福之鐘仍是有空再去；這版建議兩處皆略過。依11/03既有Google路段及11/11新取件路段，×1.5／×2加停車休息緩衝，略過室蘭兩處約16:55／18:25抵藻岩山；兩處都繞會壓縮取件與纜車時間，不能照完整清單硬走。",
   "5": "白天分組：A 線中島公園、鰻魚飯、大丸與同棟 8F 寶可夢中心後搭地鐵到白色戀人公園；B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA，附近晚餐後約 20:00–21:00 步行逛狸小路；雪天與停車先留至 16:30 的會合緩衝。藻岩山夜景依D4／D6當日清單安排。",
   "6": "A線搭車逛啤酒博物館、Ario與Toriton，下午回市中心逛地下街；晚餐後約20:30到伏見稻荷夜間參拜，計程車往返，約21:45回APA。B線同伴自駕滑雪，會合另約；若改成藻岩山夜景，需重排晚餐與交通。",
@@ -1469,6 +1480,14 @@ const dayTenSchedule = [
 
 // 未個別標示日期的票券於 2026/10/6（Asia/Taipei）查核；金額為成人一般票價、日圓。
 const spotLogistics = {
+  "otaru-new-sanko": {
+    hours: "一般11:30–21:00（L.O.20:30），官網列元旦休；12/25特別營業另確認",
+    access: "小樽市稲穂1-3-6 サンモール1番街；電話0134-33-3500。JR小樽站步行約5分鐘，專用停車場8格，滿位另找合法停車場。可由官網預約，本行程先保留當天選擇、未訂位",
+    infoUrl: "https://www.hokkaido-sapporolion.jp/shop/newsanko/otaru.html",
+    foodUrl: "https://booking.ebica.jp/webrsv/search/e014017301/30843?isfixshop=true",
+    foodUrlLabel: "官方訂位／空位查詢",
+    checkedAt: "2026/11/17"
+  },
   "sotorent-teine-pickup": {
     hours: "冬季12–4月08:00–20:00；貸出須19:40前到店。使用前一日15:00後可取件，依預約及租期確認",
     access: "札幌市手稲区手稲本町2条4丁目8-24 キテネビルA棟1F；電話070-2407-1147。使用同棟地下停車場，官方列1小時免費；不是8-27的手稻站前歸還店。先確認車高限制及取件日期，保留試穿與裝車時間",
@@ -2132,6 +2151,7 @@ const dayDepartures = {
 const drivingPlaceOverrides = {
   "noboribetsu-onsen-street": "閻魔堂 北海道登別市登別温泉町",
   "letao-otaru-honten": "ルタオ本店 小樽市堺町7-16",
+  "otaru-new-sanko": "ニュー三幸 小樽本店 小樽市稲穂1-3-6",
   "otaru-takeda": "味処たけだ 小樽市稲穂3丁目10-16 三角市場",
   "apa-sogo": "モユク札幌ロフト 札幌市中央区南2条西3丁目20 モユクサッポロ3階",
   "pokemon-center-sapporo": "ポケモンセンターサッポロ 大丸札幌店 8F 札幌市中央区北5条西4丁目7",
@@ -3197,7 +3217,7 @@ function isWeatherAdjustedDay(day) {
 }
 
 function isDailyTimingDraftApplicable(day) {
-  if (day === 3 && ["wakadori-naruto-honten", "otaru-takeda"].filter(id => state.plan[day]?.includes(id)).length > 1) return false;
+  if (day === 3 && dayThreeLunchIds.filter(id => state.plan[day]?.includes(id)).length > 1) return false;
   if (day === 2 && [dayTwoLunchIds, ["furano-kumagera", "furano-yuiga-doxon"]].some(ids => ids.filter(id => state.plan[day]?.includes(id)).length > 1)) return false;
   const draft = getDailyTimingDraft(day);
   if (!draft) return false;
@@ -4936,7 +4956,7 @@ const dayOptionalSpots = {
     ids: ["stellar-place", "tokyu-sapporo"]
   },
   3: {
-    title: "D3 小樽午餐二選一",
+    title: "D3 小樽午餐選擇",
     ids: dayThreeLunchIds
   },
   2: {
@@ -5026,7 +5046,7 @@ function getDayThreeLunchInsertionIndex(ids) {
 }
 
 function dayThreeLunchOptionsHtml() {
-  return dayTwoMealOptionsHtml(dayThreeLunchIds, "小樽午餐", "若雞炸半雞／武田鮮魚店整蟹海鮮二選一。想吃整隻蟹四人分食可先詢問武田，先留 1.5–2 小時、候位另計；尚未預約。改選整蟹餐後，當日時間需依用餐與候位重新安排。", "午餐", 3);
+  return dayTwoMealOptionsHtml(dayThreeLunchIds, "小樽午餐", "若雞炸半雞／武田海鮮／ニュー三幸洋食，當天依口味與候位選一間即可。ニュー三幸11:30開門；若選武田整蟹餐，先留1.5–2小時、候位另計，須重估下午行程。均未代訂位。", "午餐", 3);
 }
 
 function dayTwoMealOptionsHtml(ids, title, note, meal, day = 2) {
