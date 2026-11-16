@@ -941,7 +941,7 @@ const spots = [
     season: ["winter"],
     time: "1h",
     best: "紅色鳥居、雪景、拍照",
-    desc: "札幌市區南側、藻岩山麓一帶的稻荷神社，有連排紅色鳥居。依你的偏好安排D6晚餐後、天黑時短暫參拜，無車以計程車往返。官方2026公告列參拜24小時，授與所另有白天時段；不預設夜間可領御朱印或購買御守。冬季照明、除雪與臨時限制另確認。",
+    desc: "札幌市區南側、藻岩山麓一帶的稻荷神社，有連排紅色鳥居。依你的偏好安排天黑後短暫參拜；D6無車以計程車往返，若天候互換至D4則取裝備後自駕前往，再回APA吃晚餐。官方2026公告列參拜24小時，授與所另有白天時段；不預設夜間可領御朱印或購買御守。冬季照明、除雪與臨時限制另確認。",
     highlight: "雪中鳥居"
   },
   {
@@ -1835,7 +1835,7 @@ const spotLogistics = {
   },
   "sapporo-fushimi-inari": {
     hours: "神社官方2026公告列參拜24小時；授與所另有白天時段，12/28照明、除雪與臨時限制行前確認",
-    access: "地址：札幌市中央区伏見2丁目2-17；電話011-562-1753。D6晚餐後以計程車往返，各留45分鐘含候車與雪季交通，未預約車輛。若改搭車：円山公園轉JR北海道巴士至慈啓会前，再步行；夜間班次另確認",
+    access: "地址：札幌市中央区伏見2丁目2-17；電話011-562-1753。D6晚餐後以計程車往返，各留45分鐘含候車與雪季交通，未預約車輛；若互換到D4，則取裝備後自駕前往、回APA再用餐。若改搭車：円山公園轉JR北海道巴士至慈啓会前，再步行；夜間班次另確認",
     infoUrl: "https://fushimiinari.or.jp/hokkaido-kamitama-junpai-2026/",
     checkedAt: "2026/11/11"
   },
@@ -2251,7 +2251,7 @@ function getGroupRouteForDay(day, group) {
   const route = group === "B" ? skiRouteDays[day] || null : null;
   if (!route) return route;
   const mountainDay = state.plan?.[6]?.includes("moiwa-yama") ? "6" : Object.keys(state.plan || {}).find(key => state.plan[key].includes("moiwa-yama"));
-  const nightNote = mountainDay ? `藻岩山目前${mountainDay === "6" ? "換到" : "排在"}D${mountainDay}；若要會合，晚餐及往返安排另約，以當日清單為準。` : "藻岩山目前未排入清單；晚餐與會合另約。";
+  const nightNote = mountainDay ? `藻岩山目前${mountainDay === "6" ? "換到" : "排在"}D${mountainDay}；${mountainDay === "6" ? "A線17:00先吃晚餐、18:00自行搭車；滑雪組若要會合請另約。" : "晚餐與會合依當日清單另約。"}` : "藻岩山目前未排入清單；晚餐與會合另約。";
   return {...route,
     route: day === 6 ? "APA → 藻岩山滑雪場 → SOTORENT 手稲駅前リターン店歸還裝備 → APA；時間依課程與預約待確認" : route.route,
     stages: route.stages.map((stage, index) => index !== route.stages.length - 1 ? stage : day === 6
@@ -3016,6 +3016,19 @@ function getDaySixTransport(day, index, spotId) {
   const museum = "サッポロビール博物館 札幌市東区北7条東9丁目1-1";
   const toriton = "回転寿しトリトン 北8条光星店 札幌市東区北8条東5丁目19-1";
   const walkingGuide = (summary, steps) => ({ summary, steps });
+  if (spotId === "moiwa-yama" && previous === "ramen-haruka") {
+    return {
+      summary: "18:00出發｜市電すすきのSC23 → ロープウェイ入口SC10 → 免費接駁",
+      boarding: {label:"走到薄野市電站", destination:"すすきの停留場 外回り 札幌市電"},
+      steps: [
+        walk("晚餐提前至17:00，18:00離開餐廳，步行到市電すすきのSC23外回り乘車處；勿走進地下鐵月台。", "① 走到市電すすきの站", "すすきの停留場 外回り 札幌市電"),
+        {text:"搭外回り往静修学園前／中央図書館前方向，到ロープウェイ入口SC10下車；候車與行車先留約40分鐘，不指定尚未公告的12/28班次。",label:"② 市電到纜車入口",origin:"すすきの停留場 札幌市電",destination:"ロープウェイ入口停留場 札幌市電",mode:"transit"},
+        walk("下車步行約1分鐘到免費接駁處，轉乘約2分鐘至山麓站；週一一般17:17起約15分鐘一班，冬季班次行前確認。全段先留60分鐘。", "③ 走到免費接駁乘車處", "もいわ山ロープウェイ 無料シャトルバス乗り場"),
+        {text:"目標21:30回山麓；接駁回SC10，搭內回り往電車事業所前／静修学園前，到すすきの再步行回APA。冬季末班須先核對，接不上改計程車，不預設朋友接送。",label:"④ 查看回薄野市電路線",origin:"ロープウェイ入口停留場 札幌市電",destination:"すすきの停留場 札幌市電",mode:"transit"}
+      ],
+      sourceUrl:"https://mt-moiwa.jp/access/shuttlebus-tram/"
+    };
+  }
   if (spotId === "sapporo-beer-museum" && (index === 0 || previous === "apa-sapporo-susukino-ekinishi")) {
     return {
       summary: "東豐線往栄町｜豊水すすきの H09 → 東区役所前 H05",
@@ -3198,7 +3211,6 @@ function isDayTenTimingDraftApplicable() {
 
 function getDailyTimingDraft(day) {
   const stops = state.plan[day] || [];
-  if (isWeatherAdjustedDay(day)) return null;
   if (day === 3) return buildDayThreeTimingDraft(stops);
   if (day === 5) return buildDayFiveTimingDraft(stops);
   if (day === 6) return buildDaySixTimingDraft(stops);
@@ -3313,12 +3325,9 @@ function dayFourDriveReviewHtml(draft) {
 
 function dailyTimingDraftHtml(day, headingId = "day-timing-title") {
   const draft = getDailyTimingDraft(day);
-  if (!draft) return isWeatherAdjustedDay(day) ? `<h3 id="${headingId}">Day ${day} · 天候調整後的路線</h3>
-    <p class="day-schedule-warning"><strong>待重新估時</strong>：目前D${day}改為${day === 4 ? "伏見稻荷" : "藻岩山夜景"}，不沿用互換前的抵達、用餐及回程時刻。</p>
-    <details class="day-schedule" open><summary>目前順序 · 時間待確認</summary><ol>${(state.plan[day] || []).map(id => `<li><strong class="day-schedule-time">待估時</strong><span><b>${escapeHtml(spotById(id)?.name || id)}</b></span></li>`).join("")}</ol></details>
-    <p>${day === 4 ? `${state.plan[4].includes("sotorent-teine-pickup") ? "SOTORENT取件維持原位；" : ""}神社依偏好天黑後參拜，自駕往返、停車與晚餐重新安排。` : "市區組無車，藻岩山去程搭市電至ロープウェイ入口，再轉免費接駁；下山回程、晚餐及與滑雪組會合重新安排。"}</p>` : "";
+  if (!draft) return "";
   const applicable = isDailyTimingDraftApplicable(day);
-  return `<h3 id="${headingId}">Day ${day} 時間規劃${draft === dayTwoBackupTimingDraft ? " · 天候備案" : ""}</h3>
+  return `<h3 id="${headingId}">Day ${day} 時間規劃${draft.weatherAdjusted ? " · 天候調整" : draft === dayTwoBackupTimingDraft ? " · 天候備案" : ""}</h3>
     <p>${escapeHtml(draft.intro)}</p>
     <p class="day-schedule-route"><strong>規劃路線：</strong>${escapeHtml(draft.route)}</p>
     ${!applicable ? `<p class="day-schedule-warning"><strong>本表採建議順序：</strong>目前景點卡的內容或排序與規劃不同，景點上的時間先隱藏。請 review 下方完整時間與路線，再決定如何調整景點。</p>` : ""}
@@ -3326,7 +3335,7 @@ function dailyTimingDraftHtml(day, headingId = "day-timing-title") {
       <p>以下皆為日本時間與冬季估算，已留用餐、候車／停車與休息；不是預約班次，遇風雪或候位需調整。</p>
       <ol>${draft.rows.map(([time, title, note]) => `<li><strong class="day-schedule-time">${escapeHtml(time)}</strong><span><b>${escapeHtml(title)}</b><small>${escapeHtml(note)}</small></span></li>`).join("")}</ol>
     </details>
-    ${day === 4 ? dayFourDriveReviewHtml(draft) : ""}
+    ${day === 4 && draft.driveReview ? dayFourDriveReviewHtml(draft) : ""}
     ${draft.notes.map((note) => `<p>${escapeHtml(note)}</p>`).join("")}
     <p class="day-schedule-sources">行前確認：${draft.sources.map(([label, url]) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`).join(" · ")}</p>`;
 }
@@ -3531,7 +3540,7 @@ function getDriveInfoForStop(day, index, spotId) {
     const mode = getStopNavigationMode(day, index, spotId);
     const prefix = "A 線市區觀光｜同伴用車滑雪，這段不自駕。";
     if (day === 6 && spotId === "sapporo-fushimi-inari") return `${prefix}晚餐後天黑再去，往返先以計程車規劃，各留45分鐘含叫車與冬季交通；神社短暫參拜約30分鐘，地址札幌市中央区伏見2丁目2-17。若改搭車可從円山公園轉JR巴士至慈啓会前再步行，但必須確認夜間班次，不當作本版已安排好的交通。`;
-    if (day === 6 && spotId === "moiwa-yama") return `${prefix}市中心步行到市電站，搭至ロープウェイ入口，再搭免費接駁至藻岩山纜車山麓站；接駁及纜車依當日運行。回程原路返回市電站往薄野方向，不預設同伴接送。`;
+    if (day === 6 && spotId === "moiwa-yama") return `${prefix}17:00先吃晚餐，18:00從市電すすきのSC23搭外回り，ロープウェイ入口SC10下車轉免費接駁；19:00–21:30纜車與觀景。下山轉接駁及內回り市電回薄野、步行回APA，約22:30抵達；末班行前核對，接不上就計程車，不預設同伴接送。若前站不是拉麵悠，出發點與時刻需另確認。`;
     const daySixGuide = getDaySixTransport(day, index, spotId);
     if (daySixGuide) return `${prefix}${daySixGuide.summary}。${daySixGuide.steps.map(step => step.text).join(" ")}`;
     if (day === 5 && spotId === "tanukikoji-shopping-street") return "D5 晚間｜白色戀人公園後先搭同伴車回 APA，19:00–20:00 附近晚餐；約 20:00 再從飯店／用餐地點步行去狸小路 3–5 丁目，先逛約 1 小時。各店關門時間不同，走累就回飯店休息。";
@@ -5085,7 +5094,7 @@ function dayWeatherSwapHtml() {
   const swapped = mode === "swapped";
   return `<details class="day-alternative"><summary>天候調整 · D4／D6互換</summary>
     <p>${mode ? (swapped ? "目前D4伏見稻荷、D6藻岩山夜景。" : "目前D4藻岩山夜景、D6伏見稻荷。") : "請先在D4與D6各保留一個藻岩山／伏見稻荷，才能互換。"}</p>
-    <p>D4天氣不適合看夜景時可手動交換，也能換回。只交換這兩站的位置，SOTORENT取件與其他景點維持原位；交換後時段須重新估算。${swapped ? "D4伏見稻荷排天黑後、自駕往返；D6市區組無車，藻岩山搭市電與免費接駁，回程與晚餐另排。" : "D4藻岩山自駕；D6伏見稻荷排天黑後，無車組以計程車往返。"}</p>
+    <p>D4天氣不適合看夜景時可手動交換，也能換回。只交換這兩站的位置，SOTORENT取件與其他景點維持原位；交換後套用對應的冬季估時；另改景點順序時需再確認。${swapped ? "D4取件後天黑參拜伏見稻荷、自駕回APA再吃晚餐；D6地下街短逛、17:00先吃晚餐，18:00搭市電與免費接駁，約22:30回APA。" : "D4藻岩山自駕；D6伏見稻荷排天黑後，無車組以計程車往返。"}</p>
     <button type="button" class="small-button" data-weather-swap-mode="${mode}" ${mode ? "" : "disabled"}>${swapped ? "換回D4藻岩山・D6神社" : "改為D4神社・D6藻岩山"}</button></details>`;
 }
 
@@ -5743,7 +5752,7 @@ function renderSummary() {
       ? (day === 2 && isDayTwoBackup()
           ? "Plan B：假設美瑛、富良野方向因火山活動或道路管制無法通行，從旭川出發，途中在砂川 Highway Oasis 休息補給。抵達札幌先到 APA 飯店寄放行李、入住休息，確認宮之森佛朗西斯教會開放後再前往，最後到薄野吃飯。"
           : isWeatherAdjustedDay(day)
-            ? `天候調整：目前D${day}安排${day === 4 ? "伏見稻荷（天黑後參拜），SOTORENT取件保留" : "藻岩山夜景，市區組搭市電與免費接駁"}。交通、用餐與回程待重新估時，不沿用互換前時刻。`
+            ? getDailyTimingDraft(day).intro
           : JSON.stringify(state.plan[day]) === JSON.stringify(winterTemplate[day])
             ? daySummaries[day]
             : `從${dayBaseAreas[day]}出發，安排${dayAreas.join("、")}共 ${daySpots.length} 個點位，包含${[...new Set(daySpots.map((spot) => spot.type))].slice(0, 3).join("、")}。`)

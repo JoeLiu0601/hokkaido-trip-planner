@@ -1,5 +1,5 @@
 (() => {
-  const version = "hokkaido-shell-20261117-sanko-lunch";
+  const version = "hokkaido-shell-20261117-weather-timing";
   const status = document.getElementById("offline-status");
   let ready = false;
   const paint = () => {

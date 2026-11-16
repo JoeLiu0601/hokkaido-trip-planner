@@ -71,16 +71,31 @@ test('weather swap replaces stale D4 and D6 tables, then restores originals when
   const snapshot=JSON.stringify(state.plan);
   for(const day of [4,6]) {
     const html=api.completeScheduleHtml(day);
-    assert.match(html,/天候調整後的路線/);
-    assert.match(html,/待重新估時/);
-    assert.doesNotMatch(html,/\d{2}:\d{2}[–／]/,'do not show the previous clock times');
-    assert.equal(api.getDailyTimingDraft(day),null);
-    assert.equal(api.getTimingDraftForStop(day,day===4?'sapporo-fushimi-inari':'moiwa-yama'),null);
+    assert.match(html,/天候調整/);
+    assert.doesNotMatch(html,/待重新估時/);
+    assert.equal(api.getDailyTimingDraft(day).weatherAdjusted,true);
+    assert.ok(api.getTimingDraftForStop(day,day===4?'sapporo-fushimi-inari':'moiwa-yama'));
+    const rows=api.getDailyTimingDraft(day).rows;
+    let end=0;
+    for(const row of rows) {
+      const range=row[0].match(/^(\d\d):(\d\d)–(\d\d):(\d\d)$/);
+      assert.ok(range,row[0]);
+      const start=Number(range[1])*60+Number(range[2]), finish=Number(range[3])*60+Number(range[4]);
+      assert.ok(start>=end && finish>start,`D${day} rows must not overlap or reverse`);
+      end=finish;
+    }
   }
-  assert.match(api.completeScheduleHtml(4),/sotorent-teine-pickup/);
+  assert.match(api.completeScheduleHtml(4),/SOTORENT 手稻站前店取滑雪用具/);
   assert.doesNotMatch(api.completeScheduleHtml(4),/<b>moiwa-yama<\/b>/);
   assert.match(api.completeScheduleHtml(6),/市電.*免費接駁/);
-  assert.doesNotMatch(api.completeScheduleHtml(6),/20:30|21:45|伏見稻荷神社夜間參拜/);
+  assert.doesNotMatch(api.completeScheduleHtml(6),/伏見稻荷神社夜間參拜/);
+  assert.match(api.completeScheduleHtml(6),/17:00–18:00/);
+  assert.match(api.completeScheduleHtml(6),/21:30–22:30/);
+  assert.doesNotMatch(api.completeScheduleHtml(4),/藻岩山夜景、纜車上下山|四種走法比較/);
+  assert.match(api.completeScheduleHtml(4),/開車回APA、停車/);
+  state.plan[6].reverse();
+  assert.equal(api.getTimingDraftForStop(6,'moiwa-yama'),null,'reordering must hide the newly estimated clock times too');
+  state.plan[6].reverse();
   assert.doesNotMatch(api.completeScheduleHtml(5,{group:'B'}),/夜景已排 D4/);
   assert.match(api.completeScheduleHtml(6,{group:'B'}),/8-27/);
   assert.equal(JSON.stringify(state.plan),snapshot,'reading routes must not edit shared data');

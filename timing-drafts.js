@@ -245,6 +245,7 @@ function buildDaySevenTimingDraft(stops) {
 
 function buildDaySixTimingDraft(stops) {
   const base = dailyTimingDrafts[6];
+  if (stops.includes("moiwa-yama") && !stops.includes("sapporo-fushimi-inari")) return buildDaySixMountainTimingDraft(stops);
   if (!stops.includes("sapporo-fushimi-inari")) return base;
   const rows = base.rows.slice(0, -1).map(row => [...row]);
   rows.push(
@@ -260,6 +261,32 @@ function buildDaySixTimingDraft(stops) {
     rows,
     notes: [...base.notes, "伏見稻荷依指示排天黑後，不改到白天。官方參拜24小時與授與所開放分開；冬季照明及當日通行不保證。夜間去回程是計程車規劃估時，非已預訂或即時導航。若與D4藻岩山互換，須重排夜景交通與晚餐，舊時刻不沿用。"],
     sources: [...base.sources, ["伏見稻荷官方24小時參拜說明", "https://fushimiinari.or.jp/hokkaido-kamitama-junpai-2026/"], ["神社官方交通", "https://fushimiinari.or.jp/"]]
+  };
+}
+
+function buildDaySixMountainTimingDraft(stops) {
+  const base = dailyTimingDrafts[6];
+  const rows = base.rows.slice(0, 7).map(row => [...row]);
+  if (stops.includes("rokkatei-ario-sapporo")) {
+    rows[3] = [...rows[3]];
+    rows[3][2] += " 六花亭在同棟1F，放在這段一起採買，不另加車程。";
+    rows[3][3] = ["ario-sapporo", "rokkatei-ario-sapporo"];
+  }
+  rows.push(
+    ["16:30–16:45", "KINOTOYA短逛／外帶", "夜景換到今天，地下街只短逛；午餐候位延誤就先略過購物，不壓縮上山與回程。", ["kinotoya-bake-pole-town"], "約15分鐘"],
+    ["16:45–17:00", "3COINS短逛", "同一地下街快速買需要的東西，17:00前往晚餐。", ["3coins-pole-town"], "約15分鐘"],
+    ["17:00–18:00", "提前吃拉麵悠晚餐", "晚餐提前，含步行、候位與用餐先留1小時；排隊太久改附近有位的店，18:00離開薄野。尚未訂位。", ["ramen-haruka"], "含候位約1小時"],
+    ["18:00–19:00", "市電＋免費接駁：薄野 → 藻岩山山麓站", "步行到市電すすきのSC23，搭外回り往静修学園前／中央図書館前方向，到ロープウェイ入口SC10；步行約1分鐘至免費接駁處，轉乘到山麓站。全段含步行、候車先留60分鐘；12/28週一接駁一般17:17起約每15分鐘，正式冬季班次仍須確認。"],
+    ["19:00–21:30", "藻岩山夜景、纜車往返", "含購票、候車、兩段纜車與觀景留2.5小時，目標21:30前回到山麓。候車長時縮短觀景、提早下山；冬季迷你纜車至21:50，不把上行末班當作到場目標。停駛就取消上山。", ["moiwa-yama"], "含候車約2.5小時"],
+    ["21:30–22:30", "接駁＋市電回APA", "山麓轉免費接駁回ロープウェイ入口，搭內回り往電車事業所前／静修学園前方向，到すすきのSC23再步行回APA，含候車先留60分鐘。出門前核對冬季接駁末班與市電，接不上就改計程車回APA；不預設滑雪組接送。"]
+  );
+  return {...base, weatherAdjusted: true,
+    intro: "天候互換後：D6改看藻岩山夜景。白天市區路線保留，地下街縮短、17:00先吃晚餐，18:00搭市電與免費接駁，19:00上山、約22:30回APA。這是冬季規劃估時，非即時班次或已預約交通。",
+    route: base.route.replace("步行回 APA", "市電すすきのSC23 → ロープウェイ入口SC10 → 免費接駁 → 藻岩山夜景 → 接駁／市電或計程車回APA"),
+    stopGroups: base.stopGroups.map(ids => ids.includes("ario-sapporo") ? ["ario-sapporo", "rokkatei-ario-sapporo"] : ids).concat([["moiwa-yama"]]),
+    requiredIds: [...base.requiredIds, "moiwa-yama"], rows,
+    notes: ["優先保留夜景與回程緩衝；Toriton候位延誤先縮短Ario／地下街，不把晚餐推到上山之後。", "市電／接駁全段各留60分鐘，纜車往返留150分鐘，是規劃預留，不是Google即時車程或保證班次。", "滑雪組仍需先到手稲歸還裝備，會合另約；市區組自行搭車，不預設同伴接送。", "約22:30回APA後整理行李，D7翌日07:00出發；疲累可縮短觀景並提早回飯店。"],
+    sources: [...base.sources, ["藻岩山市電／免費接駁", "https://mt-moiwa.jp/access/shuttlebus-tram/"], ["藻岩山冬季營業", "https://mt-moiwa.jp/guide/"], ["市電路線與利用方法", "https://www.stsp.or.jp/streetcar/guide/"]]
   };
 }
 
@@ -339,6 +366,7 @@ function calculateDayFourScenario(stops, factor = 1.5) {
 }
 
 function buildDayFourTimingDraft(stops) {
+  if (stops.includes("sapporo-fushimi-inari") && !stops.includes("moiwa-yama")) return buildDayFourShrineTimingDraft(stops);
   const normal = calculateDayFourScenario(stops, 1.5);
   const conservative = calculateDayFourScenario(stops, 2);
   const direct = calculateDayFourScenario(normal.rental ? ["sotorent-teine-pickup"] : [], 2);
@@ -365,6 +393,43 @@ function buildDayFourTimingDraft(stops) {
       `白鳥與幸福之鐘尚未替你刪除。若兩處都略過，即使以 ×2＋緩衝估算，也約 ${dayFourTime(direct.moiwaArrival)} 抵山麓、${dayFourTime(direct.hotelArrival)} 回 APA，藻岩山時間較充足。`,
       "午餐留在登別溫泉街，候位過久就調整附近用餐選擇。封路、暴風雪或纜車停駛不能靠倍率推算，出發前查道路與運行資訊。"
     ]
+  };
+}
+
+function buildDayFourShrineTimingDraft(stops) {
+  const original = buildDayFourTimingDraft(stops.map(id => id === "sapporo-fushimi-inari" ? "moiwa-yama" : id));
+  const scenario = factor => {
+    const road = calculateDayFourScenario(stops, factor);
+    const lastLeg = dayFourDriveLegs[road.legIds.at(-2)];
+    const transferIndex = original.rows.findIndex(row => row[1] === `開車：${lastLeg.label}`);
+    const roadTransfer = road.rows.find(row => row[1] === `開車：${lastLeg.label}`);
+    const rows = factor === 1.5 ? original.rows.slice(0, transferIndex).map(row => [row[0], row[1], row[2].replaceAll("藻岩山", "取件與夜間參拜"), ...row.slice(3)]) : [];
+    const parse = value => { const [h,m] = value.split(":").map(Number); return h*60+m; };
+    let clock = parse(roadTransfer[0].split("–")[0]);
+    const add = (minutes, title, note, ids, stay) => {
+      rows.push([`${dayFourTime(clock)}–${dayFourTime(clock+minutes)}`, title, note, ids, stay]); clock += minutes;
+    };
+    // 新增路段採規劃預留，不冒充查詢過的Google基準。
+    const transfer = road.rental ? (factor === 1.5 ? 60 : 90) : parse(roadTransfer[0].split("–")[1])-clock+20;
+    add(transfer, `開車：${road.rental ? "SOTORENT取件店" : "登別／室蘭"} → 伏見稻荷`, "這段為冬季規劃預留，非新查Google車程；手稻出發先留60分鐘、保守90分鐘，含市區交通、停車與步行。地址札幌市中央区伏見2丁目2-17，依當日停車與通行安排。");
+    if (clock < 17*60) add(17*60-clock, "暖身與等待天黑", "依偏好保留天黑後參拜；較早抵達先在附近可休息處暖身，不在車道等候。");
+    const shrineArrival = clock;
+    add(30, "伏見稻荷夜間參拜", "短暫參拜與拍照約30分鐘；官方列參拜24小時，授與所另有時間。冬季照明、除雪與當日限制行前確認。", ["sapporo-fushimi-inari"], "約30分鐘");
+    add(factor === 1.5 ? 45 : 60, "開車回APA、停車", "含雪天市區交通與停車的規劃預留；今天有車，不套用D6計程車安排。");
+    const hotelArrival = clock;
+    add(75, "APA附近晚餐與休息", "先回飯店停車再就近用餐，餐廳當天決定；若時間已晚，改有開的店或便利商店，回飯店休息。");
+    return {rows, shrineArrival, hotelArrival, rentalExceedsWindow:road.rentalExceedsWindow};
+  };
+  const normal = scenario(1.5), conservative = scenario(2);
+  const {driveReview, ...base} = original;
+  return {...base, weatherAdjusted:true,
+    intro: `天候互換後：D4改為天黑後參拜伏見稻荷，SOTORENT取件若已列入則維持原位。預估${dayFourTime(normal.shrineArrival)}參拜、${dayFourTime(normal.hotelArrival)}回APA停車，再就近吃晚餐。`,
+    route: original.route.replace("藻岩山（必去）→ APA", "伏見稻荷（天黑後）→ APA停車 → 附近晚餐"),
+    requiredIds: base.requiredIds.map(id => id === "moiwa-yama" ? "sapporo-fushimi-inari" : id),
+    stopGroups: base.stopGroups.map(ids => ids.map(id => id === "moiwa-yama" ? "sapporo-fushimi-inari" : id)),
+    rows: normal.rows,
+    notes: ["登別至取件前沿用既有Google參考車程×1.5及各段緩衝；神社轉移與回程另用冬季規劃預留，並未查得這些新路段的Google即時時間。", `保守情境：既有長途路段×2，手稻至神社90分鐘、神社至APA60分鐘，約${dayFourTime(conservative.shrineArrival)}參拜、${dayFourTime(conservative.hotelArrival)}回APA。這不是雪季保證上限。`, ...(conservative.rentalExceedsWindow ? ["目前完整繞行的保守情境會錯過取件窗口；先略過室蘭彈性點並聯絡門市，不照完整清單硬走。"] : []), "室蘭兩點仍列有空再去，不因交換神社就自動變必去；取裝備、道路狀況與體力優先。"],
+    sources: base.sources.filter(([label]) => !label.includes("藻岩山")).concat([["伏見稻荷官方參拜說明", "https://fushimiinari.or.jp/hokkaido-kamitama-junpai-2026/"]])
   };
 }
 dailyTimingDrafts[4] = buildDayFourTimingDraft(["muroran-hakucho-bridge-view", "happiness-bell"]);

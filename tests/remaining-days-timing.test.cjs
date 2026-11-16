@@ -42,11 +42,13 @@ test('current D5/6/7/9 plans receive times without changing shared stops or base
   }
 });
 
-test('new timing variants refuse reordered, duplicate and weather-swapped routes', () => {
+test('new timing variants accept the weather route and refuse reordered or duplicate stops', () => {
   const {state, api} = setup();
   state.plan[5].reverse();
   assert.equal(api.isDayTimingDraftApplicable(5), false);
   state.plan[6][6] = 'moiwa-yama';
+  assert.equal(api.isDayTimingDraftApplicable(6), true);
+  state.plan[6].reverse();
   assert.equal(api.isDayTimingDraftApplicable(6), false);
   state.plan[7].unshift(state.plan[7].pop());
   assert.equal(api.isDayTimingDraftApplicable(7), false);
