@@ -40,6 +40,8 @@ test('D2 candidates follow Hinode, fall back before lunch/terrace and stay out o
 test('D3 lunch replaces Naruto in place, restores it on change and leaves other days untouched', () => {
   const c = setup();
   c.state.selectedDay = 3;
+  assert.ok(!c.state.plan[3].includes('wakadori-naruto-honten'));
+  c.state.plan[3].splice(c.state.plan[3].indexOf('otaru-inari-shrine'), 0, 'wakadori-naruto-honten');
   const original = Array.from(c.state.plan[3]);
   const otherDays = JSON.stringify(Object.fromEntries(Object.entries(c.state.plan).filter(([day]) => day !== '3')));
   const lunch = original.indexOf('wakadori-naruto-honten');

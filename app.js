@@ -1284,7 +1284,6 @@ const winterTemplate = {
     "hokkaido-shrine",
     "sapporo-fushimi-inari",
     "teine-shrine",
-    "wakadori-naruto-honten",
     "otaru-inari-shrine",
     "taisho-glass",
     "letao-otaru-honten",
@@ -5093,7 +5092,10 @@ function getDayThreeLunchInsertionIndex(ids) {
 }
 
 function dayThreeLunchOptionsHtml() {
-  return dayTwoMealOptionsHtml(dayThreeLunchIds, "小樽午餐", "若雞炸半雞／武田海鮮／ニュー三幸洋食，當天依口味與候位選一間即可。ニュー三幸11:30開門；若選武田整蟹餐，先留1.5–2小時、候位另計，須重估下午行程。均未代訂位。", "午餐", 3);
+  const draft = getDailyTimingDraft(3);
+  const slot = draft.rows.find(row => row[1] === "小樽午餐（店家待選）");
+  const timing = slot && isDailyTimingDraftApplicable(3) ? `預留 ${slot[0]} 吃午餐。` : "";
+  return dayTwoMealOptionsHtml(dayThreeLunchIds, "小樽午餐", `${timing}若雞炸半雞／武田海鮮／ニュー三幸洋食，當天依口味與候位決定。ニュー三幸11:30開門；若選武田整蟹餐，先留1.5–2小時、候位另計，須重估下午行程。均未代訂位。`, "午餐", 3);
 }
 
 function dayTwoMealOptionsHtml(ids, title, note, meal, day = 2) {

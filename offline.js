@@ -1,5 +1,5 @@
 (() => {
-  const version = "hokkaido-shell-20261119-route-layout";
+  const version = "hokkaido-shell-20261119-d3-lunch-open";
   const status = document.getElementById("offline-status");
   let ready = false;
   const paint = () => {

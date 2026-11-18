@@ -32,6 +32,10 @@ test('current D3 receives sequential estimates through breakfast shopping withou
     previous = end;
   }
   assert.equal(JSON.stringify(state.plan), before);
+  state.plan[3].splice(2, 1);
+  assert.equal(api.isDailyTimingDraftApplicable(3), true);
+  assert.ok(api.getDailyTimingDraft(3).rows.some(row => row[0] === '11:25–12:25' && row[1] === '小樽午餐（店家待選）'));
+  assert.equal(api.getTimingDraftForStop(3, 'wakadori-naruto-honten'), null);
 });
 
 test('current D3 supports one lunch alternative and an existing LeTAO stop, rejects stale ordering', () => {
