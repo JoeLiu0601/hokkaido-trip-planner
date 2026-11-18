@@ -49,7 +49,15 @@ test('D10 station route shows luggage, food, bus and flight without the Motomach
   assert.match(html,/函館站採買、午餐與休息/);
   assert.match(html,/15:30–17:00/);
   assert.doesNotMatch(html,/<b>元町散步<\/b>/);
-  assert.match(api.completeScheduleHtml(10,{station:false}),/<b>元町散步<\/b>/);
+  const original = api.completeScheduleHtml(10,{station:false});
+  assert.match(original,/<b>元町散步<\/b>/);
+  for (const schedule of [html, original]) {
+    assert.match(schedule, /2026\/12\/1–2027\/1\/4/);
+    assert.match(schedule, /<td>13:10<\/td><td>13:30<\/td>/);
+    assert.match(schedule, /<td>13:20<\/td><td>13:40<\/td>/);
+    assert.match(schedule, /<td>13:30<\/td><td>13:50<\/td><td>首選<\/td>/);
+    assert.doesNotMatch(schedule, /<td>13:40<\/td><td>14:00<\/td>|過往跨年參考/);
+  }
 });
 
 test('B ski route follows the selected route and reflects a D6 weather swap', () => {

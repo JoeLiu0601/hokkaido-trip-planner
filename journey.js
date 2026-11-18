@@ -143,6 +143,7 @@
   function travelSpot(id) { return travelTools.spot(state.selectedDay, spotById(id), stationRouteActive()); }
 
   function travelTiming(id) {
+    if (stationRouteActive() && id === "hakodate-station-airport-bus") return dayTenTimingDraft[id];
     return travelTools.timing(state.selectedDay, id, stationRouteActive()) || getTimingDraftForStop(state.selectedDay, id);
   }
 
@@ -216,10 +217,9 @@
       hachimanzaka: "飯店步行到函館駅前，搭 5 系統往函館どつく前→末廣町（末広町）下車，再上坡拍港景；2 系統不經這站。",
       "kanemori-warehouse": "八幡坂下坡後逛金森；午餐與咖啡安排在海灣周邊，14:15 離開。",
       "hakodate-mt": "14:45 抵達山麓站為目標，預留排隊；下午上山看日景轉夜景，17:00 開始下山。",
-      "hakodate-gokoku-shrine": "晚餐後先回飯店休息；僅在午夜開放及往返車輛確認後，23:15 左右搭車前往。",
+      "hakodate-gokoku-shrine": "午夜開放、往返計程車及天候都確認後，約 23:15 搭車前往。任一項未確定就在飯店跨年。",
       "morning-market": "朝市有開才去；未開改函館站內備案，取代元町往返。退房帶著行李去車站採買、吃午餐，13:10 前到機場巴士乘車處。",
       motomachi: "10:15 前退房寄行李；函館駅前搭 2 往谷地頭／5 往函館どつく前→十字街下車。11:45 折返，搭往湯の川→函館駅前。",
-      "hakodate-station-airport-bus": "12:15 回 La'gent Stay 取行李，最晚 13:10 到函館站前巴士總站 11 號乘車處。13:30 目標班次待確認；不符就改搭計程車。",
       "hakodate-airport": "14:10 前後到國際線 1F 為目標；JX861 18:00 起飛，星宇櫃檯一般 15:30 開始、17:00 截止報到。"
     };
     const timing = travelTiming(spot.id);
@@ -238,7 +238,8 @@
       if (destinations[id]) return { url: daySixStepUrl({ destination: destinations[id], mode: "walking" }), label: "步行導航", mode: "walking" };
     }
     const index = (state.plan[state.selectedDay] || []).indexOf(id);
-    const nav = getStopNavigation(state.selectedDay, index, spotById(id));
+    const skipNakajimaPark = state.selectedDay === 5 && statusFor("nakajima-park") === "skipped";
+    const nav = getStopNavigation(state.selectedDay, index, spotById(id), skipNakajimaPark);
     return { ...nav, url: nav.boardingUrl || nav.url, label: nav.boardingLabel || (nav.label === "地圖" ? "開啟地圖" : nav.label) };
   }
 
@@ -376,7 +377,7 @@
     const preview = previewPosition !== null;
     const nav = navigationFor(id);
     const logistics = stationRouteActive() && id === "lagent-hakodate-ekimae" ? null : getSpotLogistics(id);
-    const transportGuide = stopTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id);
+    const transportGuide = stopTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id, state.selectedDay === 5 && statusFor("nakajima-park") === "skipped");
     return `<div class="winter-focus-top"><span class="winter-focus-eyebrow">${preview ? "正在預覽這一站" : "接下來去哪裡"}</span><span>${escapeHtml(timingText(spot))}</span></div>
       <h3 id="journey-next-title" tabindex="-1">${escapeHtml(spot.name)}</h3><p class="winter-focus-summary">${escapeHtml(summaryText(spot))}</p>
 
@@ -526,7 +527,7 @@
     const nav = navigationFor(id);
     const logistics = stationRouteActive() && id === "lagent-hakodate-ekimae" ? null : getSpotLogistics(id);
     const timing = travelTiming(id);
-    const transportGuide = stopTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id);
+    const transportGuide = stopTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id, state.selectedDay === 5 && statusFor("nakajima-park") === "skipped");
     return `
       <li class="journey-stop is-${status}${id === nextId ? " is-next" : ""}">
         <span class="journey-stop-dot" aria-hidden="true">${status === "done" ? "✓" : status === "skipped" ? "↷" : index + 1}</span>

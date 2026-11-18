@@ -8,6 +8,7 @@ const app = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 const section = (start, end) => app.slice(app.indexOf(start), app.indexOf(end));
 const runtime = vm.runInNewContext(
   app.slice(0, app.indexOf('const flights ='))
+  + section('const dayTenBusTarget =', 'const daySummaries =')
   + section('const dayOneTimingDraft =', 'const dayOneTimedStopIds =')
   + section('const accommodations =', 'const storageKey =')
   + section('function getMapUrl(', 'function isDayOneTimingDraftApplicable(')
@@ -239,7 +240,18 @@ test('D6 hotel return is offered after dinner only when dinner is the final stop
 test('travel view prioritizes the boarding walk without changing other days navigation', () => {
   const journey = fs.readFileSync(path.join(__dirname, '..', 'journey.js'), 'utf8');
   const body = journey.slice(journey.indexOf('  function navigationFor('), journey.indexOf('  function companionGroupTransform('));
-  const navFor = vm.runInNewContext(body + '\n navigationFor;', { ...runtime, stationRouteActive: () => false });
+  let nakajimaStatus = 'pending';
+  const navFor = vm.runInNewContext(body + '\n navigationFor;', { ...runtime, stationRouteActive: () => false, statusFor: () => nakajimaStatus });
+  runtime.state.selectedDay = 5;
+  runtime.state.plan[5] = ['nakajima-park', 'unagi-nakajima'];
+  const initialPlan = JSON.stringify(runtime.state.plan[5]);
+  assert.match(navFor('unagi-nakajima').label, /步行導航/);
+  nakajimaStatus = 'skipped';
+  assert.match(navFor('unagi-nakajima').label, /走到薄野站 4 號入口/);
+  assert.match(new URL(navFor('unagi-nakajima').url).searchParams.get('destination'), /すすきの駅 4番出入口/);
+  assert.equal(JSON.stringify(runtime.state.plan[5]), initialPlan);
+  runtime.state.plan[5] = ['moiwa-yama', 'nakajima-park', 'unagi-nakajima'];
+  assert.match(navFor('unagi-nakajima').label, /步行導航/);
   runtime.state.selectedDay = 6;
   runtime.state.plan[6] = ['sapporo-beer-museum'];
   assert.match(navFor('sapporo-beer-museum').label, /走到豊水すすきの/);
@@ -247,6 +259,13 @@ test('travel view prioritizes the boarding walk without changing other days navi
   runtime.state.selectedDay = 3;
   runtime.state.plan[3] = ['hokkaido-shrine'];
   assert.equal(new URL(navFor('hokkaido-shrine').url).searchParams.get('travelmode'), 'driving');
+});
+
+test('D6 COCONO drive information renders for both nearby walking and reordered transit', () => {
+  runtime.state.plan[6] = ['3coins-pole-town', 'cocono-susukino'];
+  assert.match(runtime.getDriveInfoForStop(6, 1, 'cocono-susukino'), /すすきの站5號出口/);
+  runtime.state.plan[6] = ['sapporo-beer-museum', 'cocono-susukino'];
+  assert.match(runtime.getDriveInfoForStop(6, 1, 'cocono-susukino'), /依目前位置搭地鐵/);
 });
 
 test('a manually restored D5 night visit does not promise the former shared ride', () => {

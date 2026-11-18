@@ -1,9 +1,9 @@
-const CACHE_NAME = "hokkaido-shell-20261119-d8-lighting";
-const VERSION = "20261119-d8-lighting";
+const CACHE_NAME = "hokkaido-shell-20261119-trip-review";
+const VERSION = "20261119-trip-review";
 const SHELL = [
   "./", "./index.html", "./styles.css?v=20261103-day-flights", "./journey.css?v=20261104-sapporo-shopping",
   `./journey-winter.css?v=${VERSION}`, `./timing-drafts.js?v=${VERSION}`, `./app.js?v=${VERSION}`,
-  `./travel-tools.js?v=${VERSION}`, "./journey-scenes.js?v=20261119-d8-lighting", `./journey.js?v=${VERSION}`,
+  `./travel-tools.js?v=${VERSION}`, "./journey-scenes.js?v=20261119-trip-review", `./journey.js?v=${VERSION}`,
   `./departure-prep.js?v=${VERSION}`,
   `./offline.js?v=${VERSION}`, "./sync-config.js", "./assets/hero-snow-hokkaido-v2.jpg",
   "./assets/pikachu-travel-cutout.png", "./assets/piplup-travel-cutout.png", "./assets/mew-travel-cutout.png", "./assets/mimikyu-cursor.png",

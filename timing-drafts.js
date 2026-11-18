@@ -302,7 +302,7 @@ const dayFourDriveLegs = {
   bridgeMoiwa: { label: "祝津公園 → 藻岩山山麓站", from: "祝津公園展望台 室蘭", to: "もいわ山ロープウェイ山麓駅", minutes: 108, km: 132, buffer: 30 },
   capeMoiwa: { label: "地球岬 → 藻岩山山麓站", from: "地球岬駐車場", to: "もいわ山ロープウェイ山麓駅", minutes: 113, km: 129, buffer: 30 },
   directMoiwa: { label: "登別 → 藻岩山山麓站（略過室蘭）", from: "登別地獄谷駐車場", to: "もいわ山ロープウェイ山麓駅", minutes: 90, km: 108, buffer: 30 },
-  directRental: { label: "登別溫泉市場 → SOTORENT 手稻站前店", from: "温泉市場 登別温泉町50", to: "札幌市手稲区手稲本町2条4丁目8-24", minutes: 92, km: 124, buffer: 30, checkedAt: "11/11" },
+  directRental: { label: "登別溫泉街 → SOTORENT 手稻站前店", from: "温泉市場 登別温泉町50", to: "札幌市手稲区手稲本町2条4丁目8-24", minutes: 92, km: 124, buffer: 30, checkedAt: "11/11" },
   bridgeRental: { label: "祝津公園 → SOTORENT 手稻站前店", from: "祝津公園展望台 室蘭", to: "札幌市手稲区手稲本町2条4丁目8-24", minutes: 111, km: 148, buffer: 30, checkedAt: "11/11" },
   capeRental: { label: "地球岬 → SOTORENT 手稻站前店", from: "地球岬駐車場", to: "札幌市手稲区手稲本町2条4丁目8-24", minutes: 113, km: 146, buffer: 30, checkedAt: "11/11" },
   rentalMoiwa: { label: "SOTORENT 手稻站前店 → 藻岩山山麓站", from: "札幌市手稲区手稲本町2条4丁目8-24", to: "もいわ山ロープウェイ山麓駅", minutes: 23, km: 14.3, buffer: 20, checkedAt: "11/11" },
