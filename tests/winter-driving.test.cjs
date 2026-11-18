@@ -45,6 +45,8 @@ test('optional presentation follows each day without deleting shared stops', () 
   const journey = fs.readFileSync(path.join(root, 'journey.js'), 'utf8');
   const isOptional = vm.runInNewContext(journey.slice(journey.indexOf('  function isOptional('), journey.indexOf('  function durationText(')) + '\nisOptional',
     { state, travelTools: require('../travel-tools.js'), dailyTimingDrafts: vm.runInNewContext(timing+'\ndailyTimingDrafts'), dayOneTimingDraft: r.dayOneTimingDraft, dayFourOptionalStopIds: r.dayFourOptionalStopIds });
+  assert.equal(state.plan[4].some(id => isOptional(id)), false);
+  state.plan[4].splice(-1, 0, ...r.dayFourOptionalStopIds);
   const before = JSON.stringify(state.plan);
   assert.deepEqual(Array.from(state.plan[4]).filter(id => isOptional(id)), Array.from(r.dayFourOptionalStopIds));
   const main = state.plan[4].filter(id => !isOptional(id));
@@ -63,7 +65,8 @@ test('optional presentation follows each day without deleting shared stops', () 
 });
 
 test('D4 edit cards and the full schedule clearly label the optional detours', () => {
-  const { r } = setup();
+  const { r, state } = setup();
+  state.plan[4].splice(-1, 0, ...r.dayFourOptionalStopIds);
   for (const id of r.dayFourOptionalStopIds) {
     const timing = r.getTimingDraftForStop(4, id);
     assert.equal(timing.optional, true);
@@ -94,6 +97,7 @@ test('D4 twofold scenarios expose the late full route and compare all optional-p
 
 test('D4 actual timing stays applicable after removing either optional lookout, but requires Moiwa', () => {
   const { r, state } = setup();
+  state.plan[4].splice(-1, 0, ...r.dayFourOptionalStopIds);
   const all = Array.from(state.plan[4]);
   for (const removed of [[], ['muroran-hakucho-bridge-view'], ['happiness-bell'], ['muroran-hakucho-bridge-view', 'happiness-bell']]) {
     state.plan[4] = all.filter(id => !removed.includes(id));
@@ -109,7 +113,9 @@ test('D4 actual timing stays applicable after removing either optional lookout, 
 });
 
 test('D4 derived schedules preserve the plan and distinguish a feasible draft from the stress warning', () => {
-  const { r, state } = setup(), before = JSON.stringify(state.plan);
+  const { r, state } = setup();
+  state.plan[4].splice(-1, 0, ...r.dayFourOptionalStopIds);
+  const before = JSON.stringify(state.plan);
   const draft = r.getDailyTimingDraft(4);
   assert.equal(draft.driveReview.normal.moiwaArrival, 1080);
   assert.equal(draft.driveReview.normal.exceedsOperatingWindow, false);
@@ -139,10 +145,13 @@ test('D4 rental route visits the new pickup store before Moiwa and warns when op
   assert.ok(!draft.driveReview.normal.legIds.includes('directMoiwa'));
   assert.equal(draft.driveReview.conservative.rentalExceedsWindow, false);
   assert.equal(draft.driveReview.conservative.exceedsOperatingWindow, false);
-  const html = r.dayFourDriveReviewHtml(draft);
+  assert.match(draft.rows.at(-1)[1], /下山後晚餐（店家待選）/);
+  assert.match(draft.route, /藻岩山.*APA 停車.*晚餐/);
+  assert.doesNotMatch(r.dayFourDriveReviewHtml(draft), /四種走法|白鳥|幸福之鐘/);
+  state.plan[4] = [...direct, 'muroran-hakucho-bridge-view', 'happiness-bell'];
+  const html = r.dayFourDriveReviewHtml(r.getDailyTimingDraft(4));
   assert.match(html, /兩點都略過：約 18:25/);
   assert.match(html, /四種走法皆包含手稻取件/);
-  state.plan[4] = [...direct, 'muroran-hakucho-bridge-view', 'happiness-bell'];
   assert.equal(r.getDailyTimingDraft(4).driveReview.normal.moiwaArrival, draft.driveReview.normal.moiwaArrival);
   const full = r.calculateDayFourScenario([...direct, 'muroran-hakucho-bridge-view', 'happiness-bell'], 2);
   assert.equal(full.rentalExceedsWindow, true);

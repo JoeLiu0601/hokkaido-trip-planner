@@ -365,7 +365,9 @@ function calculateDayFourScenario(stops, factor = 1.5) {
   add(150, "藻岩山夜景、纜車上下山（必去）", "含購票、排隊、轉乘、觀景與下山預留 2.5 小時。冬季纜車至 22:00、上山末班 21:30，迷你纜車至 21:50；停駛仍以官方營運為準。", ["moiwa-yama"], "含候車約 2.5 小時");
   const moiwaFinish = clock;
   drive("hotel");
-  return { rows, legIds, drivingMinutes, moiwaArrival, moiwaFinish, hotelArrival: clock, exceedsOperatingWindow: moiwaFinish > 21 * 60 + 50, bridge, cape, rental, rentalArrival, rentalFinish, rentalExceedsWindow: rental && (rentalArrival > 19 * 60 + 40 || rentalFinish > 20 * 60) };
+  const hotelArrival = clock;
+  add(60, "下山後晚餐（店家待選）", "暫抓回 APA 停車後，就近在薄野用餐。實際時間依下山與交通調整，出發前看店家最後點餐時間。");
+  return { rows, legIds, drivingMinutes, moiwaArrival, moiwaFinish, hotelArrival, exceedsOperatingWindow: moiwaFinish > 21 * 60 + 50, bridge, cape, rental, rentalArrival, rentalFinish, rentalExceedsWindow: rental && (rentalArrival > 19 * 60 + 40 || rentalFinish > 20 * 60) };
 }
 
 function buildDayFourTimingDraft(stops) {
@@ -373,7 +375,8 @@ function buildDayFourTimingDraft(stops) {
   const normal = calculateDayFourScenario(stops, 1.5);
   const conservative = calculateDayFourScenario(stops, 2);
   const direct = calculateDayFourScenario(normal.rental ? ["sotorent-teine-pickup"] : [], 2);
-  const stopsLabel = normal.bridge && normal.cape ? "白鳥與幸福之鐘有空再去，建議最多挑一處" : normal.bridge ? "白鳥大橋有空再去" : normal.cape ? "幸福之鐘有空再去" : "略過室蘭兩處，午餐後直接回札幌";
+  const hasDetours = normal.bridge || normal.cape;
+  const stopsLabel = normal.bridge && normal.cape ? "白鳥與幸福之鐘有空再去，建議最多挑一處" : normal.bridge ? "白鳥大橋有空再去" : normal.cape ? "幸福之鐘有空再去" : "登別午餐後直接回札幌";
   const rows = normal.rows.map(row => [...row]);
   const streetIndex = rows.findIndex(row => row[3]?.includes("noboribetsu-onsen-street"));
   const lunchIndex = rows.findIndex(row => row[3]?.includes("noboribetsu-onsen-ichiba"));
@@ -384,7 +387,7 @@ function buildDayFourTimingDraft(stops) {
   }
   return { ...dailyTimingDrafts[4],
     intro: `藻岩山夜景必去；${stopsLabel}。${normal.rental ? "回札幌先到SOTORENT手稻站前新店取裝備，再去藻岩山；取件日期與時段需先預約確認。" : ""}${normal.bridge || normal.cape ? "完整規劃包含目前清單中的室蘭備選，略過可提早抵達。" : ""}本表以 Google 11/03${normal.rental ? "及11/11取件路段" : ""}參考車程 ×1.5＋各段停車／休息緩衝規劃；×2 情境約 ${dayFourTime(conservative.moiwaArrival)} 抵藻岩山山麓站，詳細依據可展開查看。`,
-    route: `APA → 登別地獄谷／溫泉街午餐${normal.bridge ? " → 白鳥大橋（有空再去）" : ""}${normal.cape ? " → 幸福之鐘（有空再去）" : ""}${normal.rental ? " → SOTORENT手稻站前店取件" : ""} → 藻岩山（必去）→ APA`,
+    route: `APA → 登別地獄谷／溫泉街午餐${normal.bridge ? " → 白鳥大橋（有空再去）" : ""}${normal.cape ? " → 幸福之鐘（有空再去）" : ""}${normal.rental ? " → SOTORENT手稻站前店取件" : ""} → 藻岩山（必去）→ APA 停車 → 晚餐（店家待選）`,
     stopGroups: [...dailyTimingDrafts[4].stopGroups.filter(group => !group.includes("sotorent-teine-pickup")).slice(0, -1), ["sotorent-teine-pickup"], ["moiwa-yama"]],
     requiredIds: normal.rental ? [...dailyTimingDrafts[4].requiredIds.filter(id => id !== "sotorent-teine-pickup"), "sotorent-teine-pickup"] : dailyTimingDrafts[4].requiredIds,
     rows,
@@ -393,7 +396,7 @@ function buildDayFourTimingDraft(stops) {
       ...(normal.rental && normal.exceedsOperatingWindow ? ["×1.5情境的完整清單也會超過藻岩山營業時間，請略過室蘭備選或縮短前段，取件與夜景優先；不能直接照此完整時刻走。"] : []),
       ...(normal.rental ? [`取件為本日必辦停靠，先留1小時。${conservative.rentalExceedsWindow ? "×2情境會錯過19:40貸出到店或20:00關門時間，不能照此完整路線走；請優先略過室蘭兩處並聯絡門市。" : "×2情境仍須依預約時段、到店截止及20:00關門時間調整。"}前日15:00取件的規則須與實際使用日核對，提前更多天或多日連租的費用先問清楚。`] : []),
       `×2 是保守試算，不是雪季固定倍率或保證上限。若每段都按 ×2＋緩衝，目前路線約 ${dayFourTime(conservative.moiwaArrival)} 抵山麓，按相同觀景安排約 ${dayFourTime(conservative.moiwaFinish)} 完成下山。${conservative.exceedsOperatingWindow ? "這會超過迷你纜車 21:50 營業時間，不能直接照走；請優先刪減室蘭備選，保留藻岩山。" : "仍需依當天路況、排隊與運行調整。"}`,
-      `白鳥與幸福之鐘尚未替你刪除。若兩處都略過，即使以 ×2＋緩衝估算，也約 ${dayFourTime(direct.moiwaArrival)} 抵山麓、${dayFourTime(direct.hotelArrival)} 回 APA，藻岩山時間較充足。`,
+      ...(hasDetours ? [`若略過室蘭備選，以 ×2＋緩衝估算，約 ${dayFourTime(direct.moiwaArrival)} 抵山麓、${dayFourTime(direct.hotelArrival)} 回 APA。`] : []),
       "午餐留在登別溫泉街，候位過久就調整附近用餐選擇。封路、暴風雪或纜車停駛不能靠倍率推算，出發前查道路與運行資訊。"
     ]
   };
@@ -427,15 +430,15 @@ function buildDayFourShrineTimingDraft(stops) {
   const {driveReview, ...base} = original;
   return {...base, weatherAdjusted:true,
     intro: `天候互換後：D4改為天黑後參拜伏見稻荷，SOTORENT取件若已列入則維持原位。預估${dayFourTime(normal.shrineArrival)}參拜、${dayFourTime(normal.hotelArrival)}回APA停車，再就近吃晚餐。`,
-    route: original.route.replace("藻岩山（必去）→ APA", "伏見稻荷（天黑後）→ APA停車 → 附近晚餐"),
+    route: original.route.replace("藻岩山（必去）", "伏見稻荷（天黑後）"),
     requiredIds: base.requiredIds.map(id => id === "moiwa-yama" ? "sapporo-fushimi-inari" : id),
     stopGroups: base.stopGroups.map(ids => ids.map(id => id === "moiwa-yama" ? "sapporo-fushimi-inari" : id)),
     rows: normal.rows,
-    notes: ["登別至取件前沿用既有Google參考車程×1.5及各段緩衝；神社轉移與回程另用冬季規劃預留，並未查得這些新路段的Google即時時間。", `保守情境：既有長途路段×2，手稻至神社90分鐘、神社至APA60分鐘，約${dayFourTime(conservative.shrineArrival)}參拜、${dayFourTime(conservative.hotelArrival)}回APA。這不是雪季保證上限。`, ...(conservative.rentalExceedsWindow ? ["目前完整繞行的保守情境會錯過取件窗口；先略過室蘭彈性點並聯絡門市，不照完整清單硬走。"] : []), "室蘭兩點仍列有空再去，不因交換神社就自動變必去；取裝備、道路狀況與體力優先。"],
+    notes: ["登別至取件前沿用既有Google參考車程×1.5及各段緩衝；神社轉移與回程另用冬季規劃預留，並未查得這些新路段的Google即時時間。", `保守情境：既有長途路段×2，手稻至神社90分鐘、神社至APA60分鐘，約${dayFourTime(conservative.shrineArrival)}參拜、${dayFourTime(conservative.hotelArrival)}回APA。這不是雪季保證上限。`, ...(conservative.rentalExceedsWindow ? ["目前完整繞行的保守情境會錯過取件窗口；先略過室蘭彈性點並聯絡門市，不照完整清單硬走。"] : [])],
     sources: base.sources.filter(([label]) => !label.includes("藻岩山")).concat([["伏見稻荷官方參拜說明", "https://fushimiinari.or.jp/hokkaido-kamitama-junpai-2026/"]])
   };
 }
-dailyTimingDrafts[4] = buildDayFourTimingDraft(["muroran-hakucho-bridge-view", "happiness-bell"]);
+dailyTimingDrafts[4] = buildDayFourTimingDraft([]);
 
 const dayTwoBackupTimingDraft = {
   intro: "天候備案獨立規劃：08:30 從旭川退房，走道央道回札幌，下午先在 APA 入住休息，宮之森教會僅在當晚對一般旅客開放時前往。嚴重風雪時以安全抵達札幌為主。",

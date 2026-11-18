@@ -1294,8 +1294,6 @@ const winterTemplate = {
   "4": [
     "noboribetsu-valley",
     "noboribetsu-onsen-street",
-    "muroran-hakucho-bridge-view",
-    "happiness-bell",
     "moiwa-yama"
   ],
   "5": [
@@ -1360,7 +1358,7 @@ const daySummaries = {
   "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先規劃約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住規劃約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
   "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景。晚餐可選くまげら、唯我獨尊，或到 Lawson 買輕食後直接經芦別回札幌 APA。餐廳方案原估約 18:30 出發、22:00 入住；選輕食可提早離開，抵達仍依當晚路況，不直接套用餐廳時刻。大通與薄野僅留彈性備選，晚到不再硬逛。",
   "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。神宮約 50 分鐘，先參拜，09:00 授與所開門後買梅酒「神宮の梅」＋御守；接著手稻只停靠買御守；小樽午餐若雞／武田／ニュー三幸擇一後，再到小樽稻荷短暫參拜。玻璃店、童話十字路後到群青・翠、上天狗山看夜景，再逛運河；回札幌後到 Sandria 買 D4 早餐，買完回 APA。伏見稻荷不列D3，依D4／D6當日清單與天候安排。",
-  "4": "06:30 從 APA 出發，登別地獄谷與溫泉街午餐後，先到 SOTORENT 手稻站前新店取滑雪用具，再去藻岩山夜景。取件先留約1小時，預約日期、前日15:00後取件及19:40到店截止請確認。白鳥大橋、幸福之鐘仍是有空再去；這版建議兩處皆略過。依11/03既有Google路段及11/11新取件路段，×1.5／×2加停車休息緩衝，略過室蘭兩處約16:55／18:25抵藻岩山；兩處都繞會壓縮取件與纜車時間，不能照完整清單硬走。",
+  "4": "06:30 從 APA 出發，逛登別地獄谷，在溫泉街吃午餐，再回札幌。依當日行程在 SOTORENT 手稻站前店取滑雪用具，取件約 1 小時，預約時段與到店截止先確認。藻岩山夜景看完下山再吃晚餐，店家當天決定。",
   "5": "白天分組：A 線中島公園、鰻魚飯、大丸與同棟 8F 寶可夢中心後搭地鐵到白色戀人公園；B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA，附近晚餐後約 20:00–21:00 步行逛狸小路；雪天與停車先留至 16:30 的會合緩衝。藻岩山夜景依D4／D6當日清單安排。",
   "6": "A線搭車逛啤酒博物館、Ario與Toriton，下午回市中心逛地下街；晚餐後約20:30到伏見稻荷夜間參拜，計程車往返，約21:45回APA。B線同伴自駕滑雪，會合另約；若改成藻岩山夜景，需重排晚餐與交通。",
   "7": "約07:00從札幌APA退房出發，冬季含休息先抓約3小時、約10:00到真狩村；多出的時間留給休息與羊蹄山短拍，午餐仍等11:30後供餐。午餐後經SAIRO展望台到洞爺湖，15:15左右入住Toya Kohan Tei；不安排火口，下午留給泡湯與休息。車程為冬季估計。",
@@ -2503,7 +2501,7 @@ function migratePreviousTemplate(plan) {
 
   if (planStopsEqual(plan[4], ["noboribetsu-valley", "muroran-hakucho-bridge-view", "happiness-bell"])
     || planStopsEqual(plan[4], ["noboribetsu-valley", "noboribetsu-onsen-street", "muroran-hakucho-bridge-view", "happiness-bell"])) {
-    plan[4] = [...winterTemplate[4]];
+    plan[4] = ["noboribetsu-valley", "noboribetsu-onsen-street", ...dayFourOptionalStopIds, "moiwa-yama"];
     changed = true;
   }
 
@@ -3340,6 +3338,7 @@ function dayTenTimingDraftHtml(headingId = "day-timing-title") {
 function dayFourDriveReviewHtml(draft) {
   const format = minutes => `${Math.floor(minutes / 60) ? Math.floor(minutes / 60) + " 小時 " : ""}${minutes % 60 ? minutes % 60 + " 分" : ""}`.trim();
   const rental = draft.driveReview.normal.rental;
+  const showDetours = state.plan[4]?.some(id => dayFourOptionalStopIds.includes(id));
   const keys = [...new Set([...draft.driveReview.normal.legIds, rental ? "directRental" : "directMoiwa"])];
   const variants = [
     ["兩點都去", ["muroran-hakucho-bridge-view", "happiness-bell"]],
@@ -3355,9 +3354,9 @@ function dayFourDriveReviewHtml(draft) {
       const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(leg.from)}&destination=${encodeURIComponent(leg.to)}&travelmode=driving`;
       return `<li><strong>${escapeHtml(leg.label)}</strong><p>Google 基準 ${format(leg.minutes)}／${leg.km} 公里；另加 ${leg.buffer} 分停車或休息。<br>×1.5＋緩衝：${format(dayFourDriveMinutes(leg, 1.5))}；×2＋緩衝：${format(dayFourDriveMinutes(leg, 2))}。</p><a class="map-link" href="${url}" target="_blank" rel="noopener noreferrer">查看這段 Google 路線</a></li>`;
     }).join("")}</ul>
-    <p><strong>四種走法比較：</strong>同樣 06:30 出發、地獄谷 1 小時、溫泉街 45 分、午餐 1 小時，以下皆為 ×2＋緩衝抵達山麓的時間。</p>
+    ${showDetours ? `<p><strong>四種走法比較：</strong>同樣 06:30 出發、地獄谷 1 小時、溫泉街 45 分、午餐 1 小時，以下皆為 ×2＋緩衝抵達山麓的時間。</p>
     ${rental ? "<p>以下四種走法皆包含手稻取件、約1小時試穿與裝車，再前往藻岩山；不是略過取件的比較。</p>" : ""}
-    <ul>${variants.map(([label, stops]) => { const scenario = calculateDayFourScenario(rental ? [...stops, "sotorent-teine-pickup"] : stops, 2); return `<li>${label}：約 ${dayFourTime(scenario.moiwaArrival)}${scenario.rentalExceedsWindow ? "；會錯過取件到店或關門時間，須先調整" : ""}${scenario.exceedsOperatingWindow ? "；再留 2.5 小時上山觀景下山會超過營業時間，需先刪減前段" : ""}。</li>`; }).join("")}</ul>
+    <ul>${variants.map(([label, stops]) => { const scenario = calculateDayFourScenario(rental ? [...stops, "sotorent-teine-pickup"] : stops, 2); return `<li>${label}：約 ${dayFourTime(scenario.moiwaArrival)}${scenario.rentalExceedsWindow ? "；會錯過取件到店或關門時間，須先調整" : ""}${scenario.exceedsOperatingWindow ? "；再留 2.5 小時上山觀景下山會超過營業時間，需先刪減前段" : ""}。</li>`; }).join("")}</ul>` : ""}
   </details>`;
 }
 

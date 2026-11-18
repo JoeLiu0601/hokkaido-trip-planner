@@ -55,7 +55,7 @@ test('D3 places Tenguyama after the crossroads and keeps the canal after it', ()
 test('D4 retains the night ropeway and D5 reunites at Shiroi Koibito Park', () => {
   const plan = runtime.buildPlan();
   assert.equal(runtime.dayDepartures[4].time, '06:30');
-  assert.equal(plan[4][plan[4].indexOf('happiness-bell') + 1], 'moiwa-yama');
+  assert.deepEqual(Array.from(plan[4]), ['noboribetsu-valley', 'noboribetsu-onsen-street', 'moiwa-yama']);
   assert.ok(!plan[5].includes('moiwa-yama'));
   assert.deepEqual(Array.from(plan[5]), ['nakajima-park','unagi-nakajima','daimaru-sapporo','pokemon-center-sapporo','shiroi-koibito-park','tanukikoji-shopping-street']);
   assert.match(runtime.skiRouteDays[5].route, /15:00.*16:00.*白色戀人/);
