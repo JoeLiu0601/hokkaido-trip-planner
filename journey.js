@@ -247,7 +247,7 @@
     const count = companions.length;
     const groupWidth = count * width + (count - 1) * 6;
     const left = Math.max(8, Math.min(380 - groupWidth - 8, x - groupWidth / 2));
-    return `translate(${left} ${y - 78})`;
+    return `translate(${left} ${y - (playback?.winter ? 78 : 52)})`;
   }
 
   function mapCompanionsHtml() {
@@ -337,7 +337,7 @@
     if (playback?.winter) return winterStops[playback.stops[index]?.id];
     const row = Math.floor(index / 2);
     const column = row % 2 ? 1 - index % 2 : index % 2;
-    const y = 154 + row * 105;
+    const y = 154 + row * 118;
     return { x: column ? 286 : 94, y, lx: column ? 202 : 10, ly: y + 17, width: 168 };
   }
 
@@ -479,7 +479,7 @@
       "lucky-pierrot-goryokaku": "小丑漢堡", "shiroi-koibito-park": "白色戀人公園",
       "kamifurano-mansaku": "まん作蕎麥麵", "otaru-new-sanko": "ニュー三幸", "otaru-gunjo-sui": "群青・翠",
       "sotorent-teine-pickup": "SOTORENT取件", "sapporo-fushimi-inari": "札幌伏見稻荷",
-      "pokemon-center-sapporo": "寶可夢中心", "cocono-susukino": "COCONO",
+      "pokemon-center-sapporo": "寶可夢中心", "cocono-susukino": "COCONO", "stellar-place": "Stellar Place",
       "tanukikoji-shopping-street": "狸小路", "lucky-pierrot-hakodate-station": "站前小丑漢堡",
       "hakodate-shunka-sushi": "旬花迴轉壽司", "hokkaido-shikisai-hakodate": "函館站採買",
       "hakodate-gokoku-shrine": "護國神社初詣"
@@ -500,7 +500,8 @@
           const clock = playback.stops[index].clock;
           const cleanName = (origin ? spot.shortName : point.label || shortNames[point.id] || spot.name).replace(/（.*?）|\(.*?\)/g, "").trim();
           const chars = Array.from(cleanName);
-          const name = !playback.winter && chars.length > 10 ? `${chars.slice(0, 9).join("")}…` : cleanName;
+          const useShortName = !origin && Boolean(shortNames[point.id]);
+          const name = playback.winter || useShortName || chars.length <= 10 ? cleanName : `${chars.slice(0, 9).join("")}…`;
           return `<a href="#journey-next-title" role="button" data-preview-stop="${point.id}" aria-label="預覽${escapeHtml(spot.name)}">
             ${!playback.winter ? scenes.icon(origin ? "city" : scenes.spotIcon(spot), point.x, point.y - 27, .48) : ""}
             <rect class="journey-map-hit-area" x="${point.x - 32}" y="${point.y - 32}" width="64" height="64" rx="22" />
