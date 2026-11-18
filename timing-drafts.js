@@ -66,15 +66,15 @@ const dailyTimingDrafts = {
   },
   5: {
     intro: "D5 A 線：中島公園、鰻魚飯後到大丸札幌與同棟 8F 寶可夢中心，14:20 左右離開購物區，搭地鐵去白色戀人公園。B 線同伴自駕滑雪，15:00 離開滑雪場，約 16:00 在園區入口會合；逛完四人一起搭車回 APA，晚餐後步行逛狸小路。",
-    route: "A：APA → 中島公園 → 鰻魚飯 → 大丸札幌／寶可夢中心 → 白色戀人；B：滑雪場 15:00 出發 → 約 16:00 會合 → 一起搭車回 APA → 晚餐 → 狸小路",
+    route: "A：APA → 薄野站搭南北線 → 中島公園／鰻魚飯 → 大丸札幌／寶可夢中心 → 大通轉東西線 → 白色戀人；B：滑雪場 15:00 出發 → 約 16:00 會合 → 一起搭車回 APA → 晚餐 → 狸小路",
     stopGroups: [["nakajima-park"],["unagi-nakajima"],["daimaru-sapporo"],["pokemon-center-sapporo"],["shiroi-koibito-park"],["tanukikoji-shopping-street"]],
     requiredIds: ["nakajima-park","unagi-nakajima","daimaru-sapporo","pokemon-center-sapporo","shiroi-koibito-park","tanukikoji-shopping-street"],
     rows: [
-      ["10:00–10:20","A 線步行：APA → 中島公園","市區觀光組先吃早餐，雪地步行抓約 20 分鐘；同伴自行開車去滑雪。"],
+      ["10:00–10:20","A 線南北線：薄野 N08 → 中島公園 N09","從 APA 步行到薄野站 4 號入口，搭往真駒内 1 站約 2 分鐘。中島公園 1 號出口到公園北側；整段含步行與候車先留 20 分鐘。"],
       ["10:20–11:10","中島公園雪景散步","挑公園北側與已清雪步道走約 50 分；日本庭園冬季關閉，太冷就早點到室內。",["nakajima-park"],"約 50 分"],
       ["11:10–11:30","步行到うなぎ仲じま","往公園北側的 Hotel Mystays Premier Sapporo Park 2F，午餐前留約 20 分找路與候位。"],
       ["11:30–12:45","鰻魚飯午餐","先抓 75 分含點餐等候；座位與年末營業請行前確認。",["unagi-nakajima"],"約 75 分"],
-      ["12:45–13:15","南北線：中島公園 N09 → さっぽろ N06","從餐廳步行到中島公園站，搭往麻生，3 站約 6 分鐘到さっぽろ，再沿 JR札幌站／大丸標示走到百貨；候車與站內步行合計先留 30 分鐘。"],
+      ["12:45–13:15","南北線：中島公園 N09 → さっぽろ N06","從餐廳步行到中島公園站，搭往麻生，3 站約 5 分鐘到さっぽろ，再沿 JR札幌站／大丸標示走到百貨；整段含候車與步行先留 30 分鐘。"],
       ["13:15–13:35","大丸札幌短逛","先看地下食品街或最想逛的樓層，接著上同棟 8F；這不是安排完整逛完每一層。",["daimaru-sapporo"],"約 20 分"],
       ["13:35–14:20","寶可夢中心札幌・大丸 8F","必逛約 45 分，熱門商品或入場候位另計；排隊久就縮短大丸採買，14:20 左右離開，保留 16:00 會合。",["pokemon-center-sapporo"],"約 45 分"],
       ["14:20–15:30","地鐵：さっぽろ → 大通 → 宮の沢","回地下鐵南北線さっぽろ，搭往真駒内 1 站到大通，轉東西線往宮の沢至終點。宮の沢 5 號出口往白色戀人，官方平常步行約 7 分、雪天留 10–15 分；含百貨離場、轉乘與步行先留 70 分鐘。"],
@@ -86,7 +86,7 @@ const dailyTimingDrafts = {
       ["20:00–21:00","晚餐後逛狸小路商店街","回 APA、吃完晚餐後再步行到 3–5 丁目，先抓約 1 小時；依仍有營業的店採買、散步，太晚就縮短。",["tanukikoji-shopping-street"],"約 1 小時，含步行"]
     ],
     notes: ["同伴約 15:00 從滑雪場開車離場，裝備於 D6 歸還。15:00–16:00 只作會合目標，冬季行車、停車與走到入口先預留 60–90 分鐘規劃緩衝，非即時導航估計；延誤可改 16:30 碰面。","燈飾庭院免費；付費區、咖啡及商店各有截止時間，要參觀工廠需提早到並另查最後入場，不把 19:00 當作所有設施關門時間。"],
-    sources: [["中島公園","https://www.sapporo.travel/spot/facility/nakajima_park/"],["白色戀人當季燈飾","https://www.shiroikoibitopark.jp/illumination/"],["公園交通與停車","https://www.shiroikoibitopark.jp/park-guide/access.html"],["滑雪場入口","https://sapporo-moiwa.jp/access/"]]
+    sources: [["札幌地鐵站間時間","https://www.city.sapporo.jp/st/subway/jikan_kyori/jikan_kyori.html"],["中島公園出口","https://www.sapporo-park.or.jp/nakajima/?page_id=5"],["うなぎ仲じま","https://unaginakajima.owst.jp/"],["白色戀人當季燈飾","https://www.shiroikoibitopark.jp/illumination/"],["公園交通與停車","https://www.shiroikoibitopark.jp/park-guide/access.html"],["滑雪場入口","https://sapporo-moiwa.jp/access/"]]
   },
   6: {
     intro: "A 線無車：10:00 從 APA 步行到豊水すすきの，搭東豐線直達東区役所前，再步行到啤酒博物館；Ario 與 Toriton 以步行串接，下午東豐線回大通。B 線同伴自行開車滑雪。搭車卡已列方向、出口及現行平日參考班次。",

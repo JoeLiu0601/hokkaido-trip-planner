@@ -376,7 +376,7 @@
     const preview = previewPosition !== null;
     const nav = navigationFor(id);
     const logistics = stationRouteActive() && id === "lagent-hakodate-ekimae" ? null : getSpotLogistics(id);
-    const transportGuide = daySixTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id);
+    const transportGuide = stopTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id);
     return `<div class="winter-focus-top"><span class="winter-focus-eyebrow">${preview ? "正在預覽這一站" : "接下來去哪裡"}</span><span>${escapeHtml(timingText(spot))}</span></div>
       <h3 id="journey-next-title" tabindex="-1">${escapeHtml(spot.name)}</h3><p class="winter-focus-summary">${escapeHtml(summaryText(spot))}</p>
 
@@ -526,7 +526,7 @@
     const nav = navigationFor(id);
     const logistics = stationRouteActive() && id === "lagent-hakodate-ekimae" ? null : getSpotLogistics(id);
     const timing = travelTiming(id);
-    const transportGuide = daySixTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id);
+    const transportGuide = stopTransportHtml(state.selectedDay, (state.plan[state.selectedDay] || []).indexOf(id), id);
     return `
       <li class="journey-stop is-${status}${id === nextId ? " is-next" : ""}">
         <span class="journey-stop-dot" aria-hidden="true">${status === "done" ? "✓" : status === "skipped" ? "↷" : index + 1}</span>

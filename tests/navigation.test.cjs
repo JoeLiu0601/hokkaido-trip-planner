@@ -33,7 +33,7 @@ const cases = [
   ['D3 shrine by car', 3, ['hokkaido-shrine'], 'driving'],
   ['D3 Otaru shops on foot', 3, ['taisho-glass', 'otaru-meruhen-crossing'], 'walking'],
   ['D4 onsen street on foot', 4, ['noboribetsu-valley', 'noboribetsu-onsen-street'], 'walking'],
-  ['D5 park from APA on foot', 5, ['nakajima-park'], 'walking'],
+  ['D5 park from APA by subway', 5, ['nakajima-park'], 'transit'],
   ['D5 unagi on foot', 5, ['nakajima-park', 'unagi-nakajima'], 'walking'],
   ['D5 COCONO after the shared ride uses a walking destination', 5, ['shiroi-koibito-park', 'cocono-susukino'], 'walking'],
   ['D6 COCONO after underground shops is on foot', 6, ['3coins-pole-town', 'cocono-susukino'], 'walking'],
@@ -104,6 +104,22 @@ test('D5 Pokemon stays in Daimaru and the onward subway goes through Odori', () 
   assert.equal(runtime.getStopNavigation(5, 3, runtime.spotById('stellar-place')).mode, 'walking');
 });
 
+test('D5 transit cards link to each boarding station along the planned route', () => {
+  const stops = ['nakajima-park', 'unagi-nakajima', 'daimaru-sapporo', 'pokemon-center-sapporo', 'stellar-place', 'shiroi-koibito-park'];
+  runtime.state.plan[5] = stops;
+  for (const [index, station] of [[0, /すすきの駅 4番出入口/], [2, /中島公園駅/], [5, /さっぽろ駅/]]) {
+    const nav = runtime.getStopNavigation(5, index, runtime.spotById(stops[index]));
+    const boarding = new URL(nav.boardingUrl);
+    assert.match(boarding.searchParams.get('destination'), station);
+    assert.equal(boarding.searchParams.get('travelmode'), 'walking');
+    assert.equal(boarding.searchParams.has('origin'), false);
+  }
+  assert.match(runtime.getDriveInfoForStop(5, 0, stops[0]), /真駒内.*1 站.*1 號出口/);
+  assert.match(runtime.getDriveInfoForStop(5, 5, stops[5]), /大通.*東西線.*宮の沢.*5 號出口.*Welcome Gate/);
+  runtime.state.plan[5] = ['moiwa-yama', 'nakajima-park'];
+  assert.equal(runtime.getStopNavigation(5, 1, runtime.spotById('nakajima-park')).boardingUrl, '');
+});
+
 test('planned route keeps hotel origin only in secondary preview', () => {
   runtime.state.plan[8] = ['lagent-hakodate-ekimae'];
   const url = new URL(runtime.getDrivingRouteUrlForStop(8, 0, 'lagent-hakodate-ekimae'));
@@ -152,7 +168,7 @@ test('D5 ski group navigates to the park parking rather than the night ropeway',
   assert.equal(url.searchParams.has('origin'), false);
   runtime.state.plan[5] = ['unagi-nakajima', 'shiroi-koibito-park'];
   assert.match(runtime.getDriveInfoForStop(5, 1, 'shiroi-koibito-park'), /南北線.*大通.*東西線.*宮の沢/);
-  assert.match(runtime.getDriveInfoForStop(5, 1, 'shiroi-koibito-park'), /逛完搭他們的車回 APA/);
+  assert.match(runtime.getDriveInfoForStop(5, 1, 'shiroi-koibito-park'), /逛完搭同伴的車回 APA/);
 });
 
 test('D5 shared ride returns to APA using the current location', () => {

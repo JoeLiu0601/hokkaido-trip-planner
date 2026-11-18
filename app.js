@@ -1359,7 +1359,7 @@ const daySummaries = {
   "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景。晚餐可選くまげら、唯我獨尊，或到 Lawson 買輕食後直接經芦別回札幌 APA。餐廳方案原估約 18:30 出發、22:00 入住；選輕食可提早離開，抵達仍依當晚路況，不直接套用餐廳時刻。大通與薄野僅留彈性備選，晚到不再硬逛。",
   "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。神宮約 50 分鐘，先參拜，09:00 授與所開門後買梅酒「神宮の梅」＋御守；接著手稻只停靠買御守；小樽午餐若雞／武田／ニュー三幸擇一後，再到小樽稻荷短暫參拜。玻璃店、童話十字路後到群青・翠、上天狗山看夜景，再逛運河；回札幌後到 Sandria 買 D4 早餐，買完回 APA。伏見稻荷不列D3，依D4／D6當日清單與天候安排。",
   "4": "06:30 從 APA 出發，逛登別地獄谷，在溫泉街吃午餐，再回札幌。依當日行程在 SOTORENT 手稻站前店取滑雪用具，取件約 1 小時，預約時段與到店截止先確認。藻岩山夜景看完下山再吃晚餐，店家當天決定。",
-  "5": "白天分組：A 線中島公園、鰻魚飯、大丸與同棟 8F 寶可夢中心後搭地鐵到白色戀人公園；B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA，附近晚餐後約 20:00–21:00 步行逛狸小路；雪天與停車先留至 16:30 的會合緩衝。藻岩山夜景依D4／D6當日清單安排。",
+  "5": "白天分組：A 線從薄野站搭南北線一站到中島公園，散步、吃鰻魚飯後搭車到大丸與同棟 8F 寶可夢中心，再經大通轉車到白色戀人公園。B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA，晚餐後步行逛狸小路。雪天會合可延至 16:30。",
   "6": "A線搭車逛啤酒博物館、Ario與Toriton，下午回市中心逛地下街；晚餐後約20:30到伏見稻荷夜間參拜，計程車往返，約21:45回APA。B線同伴自駕滑雪，會合另約；若改成藻岩山夜景，需重排晚餐與交通。",
   "7": "約07:00從札幌APA退房出發，冬季含休息先抓約3小時、約10:00到真狩村；多出的時間留給休息與羊蹄山短拍，午餐仍等11:30後供餐。午餐後經SAIRO展望台到洞爺湖，15:15左右入住Toya Kohan Tei；不安排火口，下午留給泡湯與休息。車程為冬季估計。",
   "8": "07:00 從洞爺湖出發，約10:45到函館飯店寄行李、加油還車，再吃函館站前小丑漢堡，搭市電去五稜郭。公園有餘裕才短逛；15:30到塔購票、16:00–17:30看日景轉夜景，之後到對面的回轉壽司旬花吃晚餐，約20:05回飯店入住。湖畔亭早餐07:00開始，這版自備；車程與候餐皆為估計。",
@@ -2188,6 +2188,8 @@ const drivingPlaceOverrides = {
   "otaru-takeda": "味処たけだ 小樽市稲穂3丁目10-16 三角市場",
   "apa-sogo": "モユク札幌ロフト 札幌市中央区南2条西3丁目20 モユクサッポロ3階",
   "pokemon-center-sapporo": "ポケモンセンターサッポロ 大丸札幌店 8F 札幌市中央区北5条西4丁目7",
+  "nakajima-park": "中島公園駅 1番出入口 札幌市中央区",
+  "unagi-nakajima": "うなぎ仲じま ホテルマイステイズプレミア札幌パーク 2階 札幌市中央区南9条西2丁目2-10",
   "sandria-honten": "サンドリア本店 札幌市中央区南8条西9丁目758-14",
   "hakodate-shunka-sushi": "回転寿司 函館 旬花 函館市五稜郭町29-18",
   "rokkatei-ario-sapporo": "六花亭 アリオ札幌店 札幌市東区北7条東9丁目2-20 1F",
@@ -2951,7 +2953,7 @@ function inlineSpotDetailsHtml(spot, day, index) {
     ${logistics?.access ? `<p><strong>交通建議：</strong>${escapeHtml(logistics.access)}</p>` : ""}
     ${practicalOptionsHtml(spot)}
     <p>${escapeHtml(transport)}</p>
-    ${daySixTransportHtml(day, index, spot.id)}
+    ${stopTransportHtml(day, index, spot.id)}
     ${dayTenMorningBackupHtml(day, spot.id)}
     ${plannedDrivingRouteHtml(day, index, spot.id)}
     <p class="inline-detail-note">票價、營業時間與交通班次，請以官方最新公告為準。</p>
@@ -3114,16 +3116,69 @@ function getDaySixTransport(day, index, spotId) {
   return null;
 }
 
+function getStopTransport(day, index, spotId) {
+  if (day !== 5) return getDaySixTransport(day, index, spotId);
+  const stops = state.plan[day] || [];
+  if (index < 0 || stops[index] !== spotId) return null;
+  const previous = stops[index - 1];
+  const susukino = "すすきの駅 4番出入口 札幌市営地下鉄南北線";
+  const nakajima = "中島公園駅 札幌市営地下鉄南北線";
+  const sapporo = "さっぽろ駅 札幌市営地下鉄南北線";
+  const odori = "大通駅 札幌市営地下鉄";
+  const miyanosawa = "宮の沢駅 札幌市営地下鉄東西線";
+  const walk = (text, label, destination) => ({ text, label, destination, mode: "walking" });
+  const train = (text, label, origin, destination) => ({ text, label, origin, destination, mode: "transit" });
+
+  if (spotId === "nakajima-park" && (index === 0 || previous === "apa-sapporo-susukino-ekinishi")) {
+    return {
+      summary: "南北線往真駒内｜薄野 N08 → 中島公園 N09",
+      boarding: { label: "走到薄野站 4 號入口", destination: susukino },
+      steps: [
+        walk("10:00 從 APA 出發，沿南4条往東走約 5 分鐘到薄野站 4 號入口，雪天加留步行時間。", "步行到薄野站", susukino),
+        train("搭南北線往「真駒内（Makomanai）」，坐 1 站約 2 分鐘，在「中島公園 N09」下車，從 1 號出口到公園北側。", "查看薄野到中島公園", susukino, nakajima),
+        { text: "公園北側逛到約 11:10，再走去 2F 的うなぎ仲じま吃 11:30 午餐。風雪大可晚一點從 APA 出發，走同一段地鐵直接去餐廳。" }
+      ]
+    };
+  }
+  if (spotId === "daimaru-sapporo" && previous === "unagi-nakajima") {
+    return {
+      summary: "南北線往麻生｜中島公園 N09 → 札幌 N06",
+      boarding: { label: "走到中島公園站", destination: nakajima },
+      steps: [
+        walk("午餐後步行約 2 分鐘回中島公園站。", "步行到中島公園站", nakajima),
+        train("搭南北線往「麻生（Asabu）」，3 站約 5 分鐘到「さっぽろ N06」。出閘後沿 JR 札幌站／大丸指標走，進大丸後上 8F 到寶可夢中心。", "查看中島公園到札幌", nakajima, sapporo)
+      ]
+    };
+  }
+  if (spotId === "shiroi-koibito-park" && ["daimaru-sapporo", "pokemon-center-sapporo", "stellar-place", "tokyu-sapporo", "unagi-nakajima", "nakajima-park"].includes(previous)) {
+    const fromNakajima = ["unagi-nakajima", "nakajima-park"].includes(previous);
+    const boarding = fromNakajima
+      ? { label: "走到中島公園站", destination: nakajima }
+      : { label: "走到札幌地鐵站", destination: sapporo };
+    return {
+      summary: "地鐵在大通轉東西線｜搭到宮之澤 T01",
+      boarding,
+      steps: [
+        walk(fromNakajima ? "先走到中島公園站。" : "離開札幌站購物區，沿地下鐵「南北線」指標走到さっぽろ N06。", boarding.label, boarding.destination),
+        train(fromNakajima ? "搭南北線往麻生，2 站到大通 N07。" : "搭南北線往「真駒内」，1 站到大通 N07。", "查看南北線到大通", boarding.destination, odori),
+        train("在大通站內轉東西線 T09 往「宮の沢」，搭 8 站約 16 分鐘，在終點 T01 下車。", "查看大通到宮之澤", odori, miyanosawa),
+        walk("從宮之澤站 5 號出口去白色戀人公園，雪天步行先抓 10–15 分鐘。約 16:00 在 Welcome Gate 會合，逛完搭同伴的車回 APA。", "步行到白色戀人公園", "白い恋人パーク ウェルカムゲート 札幌")
+      ]
+    };
+  }
+  return null;
+}
+
 function daySixStepUrl(step) {
   if (!step.destination) return "";
   if (step.mapOnly) return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(step.destination)}`;
   return `https://www.google.com/maps/dir/?api=1&${step.origin ? `origin=${encodeURIComponent(step.origin)}&` : ""}destination=${encodeURIComponent(step.destination)}&travelmode=${step.mode}${step.mode === "walking" ? "&dir_action=navigate" : ""}`;
 }
 
-function daySixTransportHtml(day, index, spotId) {
-  const guide = getDaySixTransport(day, index, spotId);
+function stopTransportHtml(day, index, spotId) {
+  const guide = getStopTransport(day, index, spotId);
   if (!guide) return "";
-  return `<details class="day-six-transport"><summary>${escapeHtml(guide.summary)}<span>查看${guide.boarding ? "搭車步驟與班次" : "步行方式"}</span></summary>
+  return `<details class="day-six-transport"><summary>${escapeHtml(guide.summary)}<span>查看${guide.timetable ? "搭車步驟與班次" : guide.boarding ? "搭車步驟" : "步行方式"}</span></summary>
     <ol>${guide.steps.map(step => `<li><p>${escapeHtml(step.text)}</p>${step.destination ? `<a class="small-button map-link" href="${escapeHtml(daySixStepUrl(step))}" target="_blank" rel="noopener noreferrer">${escapeHtml(step.label)}</a>` : ""}</li>`).join("")}</ol>
     ${guide.timetable ? `<div class="day-six-timetable"><strong>${escapeHtml(guide.timetableTitle)}</strong><p>現行平日參考班次・白天多為約 7–8 分一班</p><dl>${guide.timetable.map(([hour, minutes]) => `<div><dt>${escapeHtml(hour)}</dt><dd>${escapeHtml(minutes)}</dd></div>`).join("")}</dl><p>2026/11/6 查核官方現行班表；D6 12/28（週一）年末臨時調整尚未確認，並非即時到站資訊。時間對不上就搭同方向下一班，不必追車。</p><a class="small-button map-link" href="${guide.timetableUrl}" target="_blank" rel="noopener noreferrer">官方完整時刻表</a><a class="small-button map-link" href="${guide.sourceUrl}" target="_blank" rel="noopener noreferrer">官方交通說明</a></div>` : ""}
   </details>`;
@@ -3160,7 +3215,7 @@ function getStopNavigation(day, index, spot) {
   const destination = mode === "driving" ? getDrivingPlaceQuery(spot)
     : drivingPlaceOverrides[spot.id] || `${spot.name} ${spot.area} 北海道`;
   if (!mode || !destination) return { url: getMapUrl(spot), label: "搜尋地點", mode: "" };
-  const boarding = getDaySixTransport(day, index, spot.id)?.boarding;
+  const boarding = getStopTransport(day, index, spot.id)?.boarding;
   // 不指定 origin，交由地圖 App 使用裝置目前位置；規劃用起點只放在細節。
   return {
     url: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=${mode}${mode === "transit" ? "" : "&dir_action=navigate"}`,
@@ -3189,11 +3244,10 @@ function getStopNavigationMode(day, index, spotId) {
   const previous = stops[index - 1];
   if (day === 5 || day === 6) {
     if (day === 5 && ["tanukikoji-shopping-street", "cocono-susukino"].includes(spotId)) return "walking";
+    if (day === 5 && spotId === "nakajima-park" && (index === 0 || previous === "apa-sapporo-susukino-ekinishi")) return "transit";
     if (day === 6 && spotId === "toriton-kita8" && ["ario-sapporo", "rokkatei-ario-sapporo"].includes(previous)) return "walking";
     if ([previous, spotId].every(id => ["ario-sapporo", "rokkatei-ario-sapporo"].includes(id))) return "walking";
     if (getKnownWalkingLeg(day, index, spotId)) return "walking";
-    if (day === 5 && ["nakajima-park", "unagi-nakajima"].includes(spotId)
-      && (index === 0 || ["nakajima-park", "unagi-nakajima"].includes(previous))) return "walking";
     const downtown = ["kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka", "sapporo-susukino", "sapporo-odori", "apa-sapporo-susukino-ekinishi", "samurai-cocono-susukino", "kushidori-susukino-nishi5"];
     downtown.push("donki-tanukikoji", "tanukikoji-shopping-street", "sandria-honten", "cocono-susukino");
     if (day === 6 && downtown.includes(spotId) && (index === 0 || downtown.includes(previous))) return "walking";
@@ -3581,10 +3635,9 @@ function getDriveInfoForStop(day, index, spotId) {
     const prefix = "A 線市區觀光｜同伴用車滑雪，這段不自駕。";
     if (day === 6 && spotId === "sapporo-fushimi-inari") return `${prefix}晚餐後天黑再去，往返先以計程車規劃，各留45分鐘含叫車與冬季交通；神社短暫參拜約30分鐘，地址札幌市中央区伏見2丁目2-17。若改搭車可從円山公園轉JR巴士至慈啓会前再步行，但必須確認夜間班次，不當作本版已安排好的交通。`;
     if (day === 6 && spotId === "moiwa-yama") return `${prefix}17:00先吃晚餐，18:00從市電すすきのSC23搭外回り，ロープウェイ入口SC10下車轉免費接駁；19:00–21:30纜車與觀景。下山轉接駁及內回り市電回薄野、步行回APA，約22:30抵達；末班行前核對，接不上就計程車，不預設同伴接送。若前站不是拉麵悠，出發點與時刻需另確認。`;
-    const daySixGuide = getDaySixTransport(day, index, spotId);
-    if (daySixGuide) return `${prefix}${daySixGuide.summary}。${daySixGuide.steps.map(step => step.text).join(" ")}`;
+    const guide = getStopTransport(day, index, spotId);
+    if (guide) return `${prefix}${guide.summary}。${guide.steps.map(step => step.text).join(" ")}`;
     if (day === 5 && spotId === "tanukikoji-shopping-street") return "D5 晚間｜白色戀人公園後先搭同伴車回 APA，19:00–20:00 附近晚餐；約 20:00 再從飯店／用餐地點步行去狸小路 3–5 丁目，先逛約 1 小時。各店關門時間不同，走累就回飯店休息。";
-    if (day === 5 && spotId === "daimaru-sapporo" && dayStops[index - 1] === "unagi-nakajima") return `${prefix}中島公園 N09 搭南北線往麻生，3 站到さっぽろ N06，沿 JR 札幌站／大丸標示步行；含候車與站內移動先留 30 分鐘。`;
     if (day === 5 && spotId === "pokemon-center-sapporo" && dayStops[index - 1] === "daimaru-sapporo") return "同棟移動｜已在大丸札幌，搭電梯／手扶梯上 8F，不需出大樓或搭車。";
     if (day === 5 && spotId === "shiroi-koibito-park") return `${prefix}${["daimaru-sapporo", "pokemon-center-sapporo", "stellar-place", "tokyu-sapporo"].includes(dayStops[index - 1]) ? "從地下鐵さっぽろ N06 搭南北線往真駒内，1 站到大通" : "中島公園／薄野站搭南北線往麻生至大通"}，轉東西線往宮の沢至終點，再步行約 7 分（雪天留 10–15 分）。${dayStops.includes("stellar-place") ? "14:45" : "14:20"} 前離開札幌站購物區，約 16:00 在 Welcome Gate 與同伴會合，逛完搭他們的車回 APA；雪天會合可延至 16:30。`;
     if (day === 5 && spotId === "moiwa-yama") return `自行加回 D5 的搭車備案｜APA 步行到資生館小学校前，搭市電至ロープウェイ入口，再搭免費接駁至夜景纜車山麓站。依當日清單安排，回程與集合需另排，不預設朋友接送。`;
