@@ -276,19 +276,35 @@
 
   function createPlayback(ids) {
     const origin = playbackOrigin(ids);
-    const timed = state.selectedDay === 1 && isDayOneTimingDraftApplicable()
-      && ids.every((id) => /^\d{2}:\d{2}–\d{2}:\d{2}$/.test(dayOneTimingDraft[id]?.time || ""));
-    const stops = ids.map((id, index) => {
-      const time = timed && /^(\d{2}):(\d{2})–(\d{2}):(\d{2})$/.exec(dayOneTimingDraft[id]?.time || "");
-      return time ? { id, start: Number(time[1]) * 60 + Number(time[2]), end: Number(time[3]) * 60 + Number(time[4]) }
-        : { id, start: (index + (origin ? 1 : 0)) * 100, end: (index + (origin ? 1 : 0)) * 100 };
+    const stopTimes = ids.map(id => ({ id, ...mapTiming(travelTiming(id)?.time) }));
+    const departure = mapTiming(origin?.departure.time);
+    const timed = stopTimes.length > 0 && stopTimes.every((stop, index) =>
+      Number.isFinite(stop.start) && stop.end >= stop.start && (!index ||
+        (stop.start > stopTimes[index - 1].start && stop.start >= stopTimes[index - 1].end))) &&
+      (!origin || (departure && departure.start < stopTimes[0].start));
+    const stops = stopTimes.map((stop, index) => {
+      if (timed) return stop;
+      const position = (index + (origin ? 1 : 0)) * 100;
+      return { ...stop, start: position, end: position };
     });
-    if (origin) stops.unshift({ id: origin.id, start: 0, end: 0, origin: true });
+    if (origin) {
+      const start = timed ? departure.start : 0;
+      stops.unshift({ id: origin.id, start, end: start, origin: true, clock: departure?.clock });
+    }
     return { stops, origin, timed, winter: state.selectedDay === 1 && ids.length > 0 && ids.every((id) => winterStops[id]), min: stops[0]?.start || 0, max: Math.max((stops.at(-1)?.end || 0), (stops[0]?.start || 0) + 1) };
   }
 
+  function mapTiming(value = "") {
+    const match = /^(\d{2}):(\d{2})(?:–(翌日)?(\d{2}):(\d{2}))?/.exec(value);
+    if (!match) return null;
+    const [, hour, minute, nextDay, endHour, endMinute] = match;
+    const start = Number(hour) * 60 + Number(minute);
+    const end = endHour ? Number(endHour) * 60 + Number(endMinute) + (nextDay ? 1440 : 0) : start;
+    return { start, end, clock: `${hour}:${minute}` };
+  }
+
   function timeLabel(value) {
-    return `${String(Math.floor(value / 60) % 24).padStart(2, "0")}:${String(Math.floor(value) % 60).padStart(2, "0")}`;
+    return `${value >= 1440 ? "翌日 " : ""}${String(Math.floor(value / 60) % 24).padStart(2, "0")}:${String(Math.floor(value) % 60).padStart(2, "0")}`;
   }
 
   function playbackPosition() {
@@ -298,7 +314,11 @@
     const position = Math.max(playback.min, Math.min(playback.max, previewPosition ?? initialPosition ?? playback.max));
     if (!playback.timed) {
       const index = Math.min(playback.stops.length - 1, Math.floor(position / 100));
-      return { position, id: playback.stops[index].id, from: index, to: Math.min(index + 1, playback.stops.length - 1), fraction: (position % 100) / 100, moving: false, label: playback.stops[index].origin ? "出發點" : `第 ${index + (playback.origin ? 0 : 1)} 站` };
+      const fraction = (position % 100) / 100;
+      const to = Math.min(index + 1, playback.stops.length - 1);
+      const moving = playing && fraction > 0 && to !== index;
+      const stop = playback.stops[moving ? to : index];
+      return { position, id: stop.id, from: index, to, fraction, moving, label: stop.origin ? "出發點" : `第 ${index + (moving ? 1 : 0) + (playback.origin ? 0 : 1)} 站` };
     }
     for (let index = 0; index < playback.stops.length; index += 1) {
       const stop = playback.stops[index];
@@ -306,7 +326,7 @@
       if (position < stop.start && previous) {
         return { position, id: stop.id, from: index - 1, to: index, fraction: (position - previous.end) / (stop.start - previous.end), moving: true, label: timeLabel(position) };
       }
-      if (position < stop.end || index === playback.stops.length - 1) {
+      if (position === stop.start || position < stop.end || index === playback.stops.length - 1) {
         return { position, id: stop.id, from: index, to: index, fraction: 0, moving: false, label: timeLabel(position) };
       }
     }
@@ -317,14 +337,20 @@
     if (playback?.winter) return winterStops[playback.stops[index]?.id];
     const row = Math.floor(index / 2);
     const column = row % 2 ? 1 - index % 2 : index % 2;
-    return { x: 94 + column * 192, y: 174 + row * 150, lx: column ? 208 : 16, ly: 202 + row * 150, width: 156 };
+    const y = 154 + row * 105;
+    return { x: column ? 286 : 94, y, lx: column ? 202 : 10, ly: y + 17, width: 168 };
   }
 
   function routeGeometry(ids) {
     const points = ids.map((id, index) => ({ id, ...activeMapPoint(index) }));
     const segments = points.slice(1).map((point, index) => {
       const previous = points[index];
-      let curve = `C ${previous.x} ${(previous.y + point.y) / 2} ${point.x} ${(previous.y + point.y) / 2} ${point.x} ${point.y}`;
+      const middleY = (previous.y + point.y) / 2;
+      let curve = `C ${previous.x} ${middleY} ${point.x} ${middleY} ${point.x} ${point.y}`;
+      if (!playback?.winter && previous.x === point.x) {
+        const edge = point.x < 190 ? 6 : 374;
+        curve = `C ${edge} ${previous.y + 8} ${edge} ${point.y - 8} ${point.x} ${point.y}`;
+      }
       if (playback?.winter && previous.id === "nippon-rentacar-new-chitose" && point.id === "premier-cabin-asahikawa") curve = "C 202 312 242 268 230 220 S 250 130 300 88";
       if (playback?.winter && previous.id === "premier-cabin-asahikawa" && point.id === "aeon-mall-asahikawa-ekimae") curve = "C 358 110 356 180 310 220";
       if (playback?.winter && previous.id === "aeon-mall-asahikawa-ekimae" && point.id === "asahikawa-heiwa-dori") curve = "C 270 292 202 260 170 186";
@@ -421,7 +447,8 @@
     if (!playing || !playback) return;
     const elapsed = previousFrameTime === null ? 0 : Math.min((timestamp - previousFrameTime) / 1000, 0.25);
     previousFrameTime = timestamp;
-    previewPosition = Math.min(playback.max, (previewPosition ?? playback.min) + elapsed * (playback.timed ? 8 : 20) * speeds[speedIndex]);
+    const rate = playback.timed ? Math.max(8, (playback.max - playback.min) / 60) : 20;
+    previewPosition = Math.min(playback.max, (previewPosition ?? playback.min) + elapsed * rate * speeds[speedIndex]);
     if (previewPosition >= playback.max) pausePlayback();
     paintPlayback();
     if (playing) animationFrame = window.requestAnimationFrame(animatePlayback);
@@ -439,18 +466,26 @@
     if (!ids.length) return "";
     const mapIds = playback.stops.map(stop => stop.id);
     const { points, segments, path } = routeGeometry(mapIds);
-    const height = playback.winter ? 394 : Math.ceil(mapIds.length / 2) * 150 + 120;
+    const height = playback.winter ? 394 : points.at(-1).y + 82;
+    const areas = [...new Set(ids.map(id => playbackSpot(id).area).filter(Boolean))];
+    const cityBackup = state.selectedDay === 2 && ids.includes("sunagawa-highway-oasis");
     const background = playback.winter
       ? `<image href="assets/day1-winter-scene.svg?v=20261026-contrast" width="380" height="394" aria-hidden="true" />`
-      : scenes.background(state.selectedDay, height);
+      : scenes.background(state.selectedDay, height, cityBackup ? "city" : undefined);
     const shortNames = {
       "apa-sapporo-susukino-ekinishi": "APA 入住", "lagent-hakodate-ekimae": "函館入住",
       "toya-kohan-tei": "洞爺湖入住", "hakodate-station-airport-bus": "機場巴士",
       "sapporo-beer-museum": "啤酒博物館", "muroran-hakucho-bridge-view": "白鳥大橋",
-      "lucky-pierrot-goryokaku": "小丑漢堡", "shiroi-koibito-park": "白色戀人公園"
+      "lucky-pierrot-goryokaku": "小丑漢堡", "shiroi-koibito-park": "白色戀人公園",
+      "kamifurano-mansaku": "まん作蕎麥麵", "otaru-new-sanko": "ニュー三幸", "otaru-gunjo-sui": "群青・翠",
+      "sotorent-teine-pickup": "SOTORENT取件", "sapporo-fushimi-inari": "札幌伏見稻荷",
+      "pokemon-center-sapporo": "寶可夢中心", "cocono-susukino": "COCONO",
+      "tanukikoji-shopping-street": "狸小路", "lucky-pierrot-hakodate-station": "站前小丑漢堡",
+      "hakodate-shunka-sushi": "旬花迴轉壽司", "hokkaido-shikisai-hakodate": "函館站採買",
+      "hakodate-gokoku-shrine": "護國神社初詣"
     };
     return `<section class="journey-map-shell winter-map-shell" aria-label="Day ${state.selectedDay} 插畫路線與播放">
-      <div class="winter-map-topline"><span>❄ ${escapeHtml(scenes.days[state.selectedDay - 1].place)}的冬日風景</span><span>${playback.timed ? "日本時間 · 預估" : "依行程順序播放"}</span></div>
+      <div class="winter-map-topline"><span>${escapeHtml(areas.join(" → ") || scenes.days[state.selectedDay - 1].place)}</span><span>${playback.timed ? "日本時間 · 預估" : "依行程順序播放"}</span></div>
       <svg viewBox="0 0 380 ${height}" class="journey-map journey-winter-map" role="group" aria-label="北海道主題插畫，路線依行程順序，位置非實際地圖；點景點可預覽">
         ${background}
         <path class="winter-road-base" d="${path}" />
@@ -461,24 +496,26 @@
           const origin = point.id === playback.origin?.id;
           const spot = playbackSpot(point.id);
           const status = origin ? "departure" : statusFor(point.id);
-          const draft = origin ? null : travelTiming(point.id);
           const stopNumber = index + (playback.origin ? 0 : 1);
-          const prefix = origin ? "出發 ·" : draft && playback.timed ? draft.time.slice(0,5) : `${stopNumber} ·`;
-          const name = origin ? spot.shortName : point.label || shortNames[point.id] || Array.from(spot.name).slice(0, 6).join("") + (Array.from(spot.name).length > 6 ? "…" : "");
+          const clock = playback.stops[index].clock;
+          const cleanName = (origin ? spot.shortName : point.label || shortNames[point.id] || spot.name).replace(/（.*?）|\(.*?\)/g, "").trim();
+          const chars = Array.from(cleanName);
+          const name = !playback.winter && chars.length > 10 ? `${chars.slice(0, 9).join("")}…` : cleanName;
           return `<a href="#journey-next-title" role="button" data-preview-stop="${point.id}" aria-label="預覽${escapeHtml(spot.name)}">
             ${!playback.winter ? scenes.icon(origin ? "city" : scenes.spotIcon(spot), point.x, point.y - 27, .48) : ""}
             <rect class="journey-map-hit-area" x="${point.x - 32}" y="${point.y - 32}" width="64" height="64" rx="22" />
             <g data-map-stop="${point.id}" class="journey-map-stop winter-stop ${point.id === nextId ? "is-next" : ""} is-${status}">
               <circle cx="${point.x}" cy="${point.y}" r="12" /><text x="${point.x}" y="${point.y + 4}" text-anchor="middle" class="winter-stop-number">${origin ? "起" : status === "done" ? "✓" : status === "skipped" ? "↷" : stopNumber}</text>
-              <rect x="${point.lx}" y="${point.ly}" width="${point.width}" height="28" rx="14" />
-              <text x="${point.lx + point.width / 2}" y="${point.ly + 18}" text-anchor="middle" class="winter-stop-label${playback.winter ? " is-day-one" : ""}">${prefix} ${escapeHtml(name)}</text>
+              <rect x="${point.lx}" y="${point.ly}" width="${point.width}" height="${playback.winter ? 28 : 41}" rx="12" />
+              <text x="${point.lx + point.width / 2}" y="${point.ly + 18}" text-anchor="middle" class="winter-stop-label${playback.winter ? " is-day-one" : ""}">${playback.winter && clock ? `${clock} ` : ""}${escapeHtml(name)}</text>
+              ${!playback.winter ? `<text x="${point.lx + point.width / 2}" y="${point.ly + 33}" text-anchor="middle" class="winter-stop-time">${origin ? (clock ? `${clock} 出發` : "出發點") : clock || `第 ${stopNumber} 站`}</text>` : ""}
             </g></a>`;
         }).join("")}
         ${!playback.winter ? mapCompanionsHtml() : ""}
       </svg>
       <div class="journey-playback" id="journey-playback"><div class="journey-playback-caption"><strong data-player-time></strong><span data-player-caption></span></div>
         <div class="journey-playback-controls"><button type="button" data-player-toggle aria-label="播放行程" aria-pressed="false">▶</button><input type="range" data-player-slider aria-label="行程播放進度" min="${playback.min}" max="${playback.max}" step="0.1" value="${playback.min}" /><button type="button" data-player-speed aria-label="切換播放速度">×1</button></div>
-        <p class="winter-player-note">${playback.timed ? "日本時間" : "依行程順序預覽"} · 預覽不會改動完成紀錄</p>
+        <p class="winter-player-note">點站點即可預覽 · 路線示意，非實際導航地圖</p>
       </div></section>`;
   }
 
@@ -670,13 +707,14 @@
     const ids = travelIds().filter((id) => spotById(id));
     const mainIds = ids.filter((id) => !isOptional(id));
     const optionalIds = ids.filter(id => isOptional(id));
-    const newPlaybackContext = `${context}|${mainIds.join(",")}|${isDayOneTimingDraftApplicable()}`;
+    const nextPlayback = createPlayback(mainIds);
+    const newPlaybackContext = `${context}|${nextPlayback.stops.map(stop => `${stop.id}:${stop.start}:${stop.end}`).join(",")}|${nextPlayback.timed}`;
     if (newPlaybackContext !== playbackContext) {
       pausePlayback();
       previewPosition = null;
       playbackContext = newPlaybackContext;
     }
-    playback = createPlayback(mainIds);
+    playback = nextPlayback;
     focusedCardKey = "";
     const doneCount = mainIds.filter((id) => statusFor(id) === "done").length;
     const skippedCount = mainIds.filter((id) => statusFor(id) === "skipped").length;

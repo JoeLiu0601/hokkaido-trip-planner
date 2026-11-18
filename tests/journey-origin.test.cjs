@@ -10,7 +10,7 @@ const sceneSource = fs.readFileSync(path.join(root, 'journey-scenes.js'), 'utf8'
 const section = (source, a, b) => source.slice(source.indexOf(a), source.indexOf(b));
 const plain = value => JSON.parse(JSON.stringify(value));
 
-function setup() {
+function setup(times = {}) {
   const state = { selectedDay: 2 }, statuses = {};
   const runtime = vm.runInNewContext(
     fs.readFileSync(path.join(root, 'timing-drafts.js'), 'utf8') + '\n' + app.slice(0, app.indexOf('const state ='))
@@ -37,6 +37,7 @@ function setup() {
     { state, statuses, window: {HOKKAIDO_TRAVEL_TOOLS: require('../travel-tools.js')}, statusFor: id => statuses[id] || 'pending',
       readLocalStorage: () => null, isDayTimingDraftApplicable: () => true,
       isDayOneTimingDraftApplicable: () => true, escapeHtml: value => String(value),
+      getTimingDraftForStop: (day, id) => day === 1 ? runtime.dayOneTimingDraft[id] : times[id],
       host: { innerHTML: '', classList: { remove() {} }, setAttribute() {}, querySelectorAll: () => [], querySelector: selector => selector === '.journey-next-card' ? { innerHTML: '' } : null },
       workspace: { classList: { toggle() {} } }, document: { body: { classList: { toggle() {}, add() {} } } },
       switchButtons: [], refreshDayNavigation() {}, progressKey: () => 'test-trip', paintPlayback() {},
@@ -152,4 +153,21 @@ test('D1 retains the timed airport origin and empty itineraries add no departure
   assert.equal(empty.origin, null);
   assert.equal(empty.stops.length, 0);
   assert.equal(r.playbackPosition(), null);
+});
+
+test('road playback uses the selected route time after midnight and falls back when stops are reordered', () => {
+  const { r } = setup({
+    'hachimanzaka': { time: '10:10–11:00' },
+    'hakodate-gokoku-shrine': { time: '23:40–翌日00:30' }
+  });
+  const ids = ['hachimanzaka', 'hakodate-gokoku-shrine'];
+  const timed = r.start(9, ids);
+  assert.equal(timed.timed, true);
+  assert.equal(timed.min, 570);
+  assert.equal(timed.max, 1470);
+  assert.equal(r.playbackPosition().id, timed.origin.id);
+  r.preview(timed.max);
+  assert.equal(r.playbackPosition().label, '翌日 00:30');
+  assert.equal(r.playbackPosition().id, ids[1]);
+  assert.equal(r.start(9, ids.reverse()).timed, false);
 });

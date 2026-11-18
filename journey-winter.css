@@ -47,6 +47,8 @@ body.winter-view-active {
 .winter-stop-number { font: 700 10px sans-serif; fill: #4f6a70; }
 .winter-stop-label { font: 600 15px "Noto Sans TC","Microsoft JhengHei",sans-serif; fill: #526e77; }
 .winter-stop-label.is-day-one { font-size: 14px; }
+.winter-stop-time { font: 650 12px "Noto Sans TC","Microsoft JhengHei",sans-serif; fill: #465d65; }
+.journey-winter-map [data-preview-stop]:focus-visible .winter-stop > rect { stroke: #795320; stroke-width: 3; }
 .winter-stop.is-preview circle, .winter-stop.is-next circle { fill: #f6df9e; stroke: #c49f56; stroke-width: 2; }
 .winter-stop.is-preview > rect { fill: #f8e7b9; stroke: #d5b66d; }
 .winter-stop.is-done > rect { fill: #e3efe7; }

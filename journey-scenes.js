@@ -5,7 +5,7 @@
     ["富良野到札幌", "富良野・札幌", "forest"],
     ["小樽日", "小樽", "canal"],
     ["登別地獄谷", "登別・室蘭", "onsen"],
-    ["札幌慢慢走", "札幌", "mountain"],
+    ["札幌慢慢走", "札幌", "city"],
     ["札幌好食光", "札幌", "city"],
     ["向洞爺湖出發", "洞爺湖", "lake"],
     ["百萬夜景", "函館", "fort"],
@@ -29,9 +29,9 @@
   function icon(theme, x, y, scale = 1) {
     return `<use href="#winter-icon-${theme}" transform="translate(${x} ${y}) scale(${scale})" aria-hidden="true"/>`;
   }
-  function background(day, height) {
-    const scene = days[day - 1];
-    const theme = scene.theme === "forest" ? "mountain" : scene.theme;
+  function background(day, height, themeOverride) {
+    const sceneTheme = themeOverride || days[day - 1].theme;
+    const theme = sceneTheme === "forest" ? "mountain" : sceneTheme;
     let snow = "";
     for (let y = 170; y < height; y += 155) snow += `<path d="M0 ${y}q90-27 190 0t190-5" fill="none" stroke="#fffdf8" stroke-width="28" opacity=".8"/>${icon("pine", y % 310 ? 20 : 353, y + 17, .48)}`;
     const terrain = {
@@ -42,7 +42,7 @@
       onsen: `<path d="M0 205 44 160 85 208m225 90 37-43 33 40" fill="#d6decf"/><path d="M22 275q-17-17 0-34t0-34m337 255q-17-17 0-34t0-34" fill="none" stroke="#adc8c6" stroke-width="4"/>`,
       forest: `${icon("pine",37,250,.9)}${icon("pine",346,320,.9)}`,
       city: `<path d="M0 232h25v77H0m355 90v-80h25v80M0 ${height - 130}h23v80H0" fill="#d6e4df"/>`
-    }[scene.theme] || "";
+    }[sceneTheme] || "";
     return `${defs}<rect width="380" height="${height}" fill="#eef3ee"/><path d="M0 0h380v115Q270 87 190 112T0 110Z" fill="#e1edf0"/>
       <path d="m0 96 58-60 44 48 54-71 62 79 58-55 104 63v24H0Z" fill="#d3e2e3"/>
       <path d="m156 13-25 33 24-8 19 6Z" fill="#fffdf8"/>
@@ -61,6 +61,7 @@
     if (/洞爺湖/.test(spot.name)) return "lake";
     if (/藻岩|函館山|展望/.test(spot.name)) return "mountain";
     if (/八幡坂|元町|倉庫/.test(spot.name)) return "harbor";
+    if (/裝備租借|取車/.test(spot.type)) return "shop";
     if (/公園|雪原/.test(spot.name)) return "pine";
     return /入住|飯店/.test(spot.type) ? "city" : "shop";
   }
