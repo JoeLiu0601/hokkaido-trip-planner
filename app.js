@@ -1,5 +1,16 @@
 const spots = [
   {
+    id: "cocono-susukino",
+    name: "COCONO SUSUKINO（薄野購物商場）",
+    area: "札幌",
+    type: "購物商場・美食",
+    season: ["winter"],
+    time: "0.5–1h",
+    best: "食品超市、雜貨美妝、餐廳、NIKKA看板拍照",
+    desc: "薄野路口的複合商場，南北線すすきの站5號出口直結。B2超市、B1食品、1–2F雜貨美妝，3–4F餐飲；2–3F戶外廣場可看NIKKA看板，冬天依現場開放與路況使用。適合與狸小路順逛、吃飯或室內暖身，先留30–60分鐘。D5可回APA、吃完晚餐後再來，與狸小路擇一或各縮短；購物樓層一般21:00結束，想逛店要先來。D6若改看藻岩山，優先保留18:00出發上山，不額外加長購物。",
+    highlight: "薄野站直結・札幌逛街備選"
+  },
+  {
     id: "otaru-new-sanko",
     name: "ニュー三幸 小樽本店（洋食／燴炒麵）",
     area: "小樽",
@@ -1480,6 +1491,14 @@ const dayTenSchedule = [
 
 // 未個別標示日期的票券於 2026/10/6（Asia/Taipei）查核；金額為成人一般票價、日圓。
 const spotLogistics = {
+  "cocono-susukino": {
+    hours: "B2–2F一般10:00–21:00；3F 11:00–23:00；4F 11:00–24:00，部分店家不同。年末年始依官方公告",
+    access: "札幌市中央区南4条西4丁目1-1；南北線すすきのN08站5號出口直結，市電すすきの站步行約1分鐘。從APA或狸小路可步行串接，不需為此取車；餐廳與戶外廣場開放依現場",
+    infoUrl: "https://cocono-susukino.jp/",
+    foodUrl: "https://cocono-susukino.jp/information/detail/87",
+    foodUrlLabel: "官方年末年始營業公告",
+    checkedAt: "2026/11/19"
+  },
   "otaru-new-sanko": {
     hours: "一般11:30–21:00（L.O.20:30），官網列元旦休；12/25特別營業另確認",
     access: "小樽市稲穂1-3-6 サンモール1番街；電話0134-33-3500。JR小樽站步行約5分鐘，專用停車場8格，滿位另找合法停車場。可由官網預約，本行程先保留當天選擇、未訂位",
@@ -2149,6 +2168,7 @@ const dayDepartures = {
 };
 
 const drivingPlaceOverrides = {
+  "cocono-susukino": "COCONO SUSUKINO 札幌市中央区南4条西4丁目1-1",
   "noboribetsu-onsen-street": "閻魔堂 北海道登別市登別温泉町",
   "letao-otaru-honten": "ルタオ本店 小樽市堺町7-16",
   "otaru-new-sanko": "ニュー三幸 小樽本店 小樽市稲穂1-3-6",
@@ -3112,6 +3132,9 @@ function dayTenMorningBackupHtml(day, spotId) {
 }
 
 function getStopNavigation(day, index, spot) {
+  if (day === 5 && index >= 0 && state.plan[5]?.[index] === spot.id && spot.id === "cocono-susukino") {
+    return {url: daySixStepUrl({destination:drivingPlaceOverrides[spot.id],mode:"walking"}), label:"步行到COCONO", mode:"walking", beforeUrl: state.plan[5][index-1] === "shiroi-koibito-park" ? getDayFiveReturnUrl() : "", beforeLabel:"先搭同伴車回 APA", note:"白色戀人結束先搭同伴車回APA、吃晚餐，再步行到COCONO；購物樓層一般21:00結束，可與狸小路擇一或各縮短。"};
+  }
   if (day === 6 && spot.id === "sapporo-fushimi-inari") return {url: getMapUrl(spot), label: "計程車目的地", mode: "", note: "晚餐後夜間參拜，請給司機看札幌市中央区伏見2丁目2-17。往返計程車與叫車等待另留時間，不預設夜間巴士接得上。"};
   if (day === 5 && index >= 0 && state.plan[5]?.[index] === spot.id && spot.id === "tanukikoji-shopping-street") {
     const destination = drivingPlaceOverrides[spot.id];
@@ -3152,14 +3175,14 @@ function getStopNavigationMode(day, index, spotId) {
   }
   const previous = stops[index - 1];
   if (day === 5 || day === 6) {
-    if (day === 5 && spotId === "tanukikoji-shopping-street") return "walking";
+    if (day === 5 && ["tanukikoji-shopping-street", "cocono-susukino"].includes(spotId)) return "walking";
     if (day === 6 && spotId === "toriton-kita8" && ["ario-sapporo", "rokkatei-ario-sapporo"].includes(previous)) return "walking";
     if ([previous, spotId].every(id => ["ario-sapporo", "rokkatei-ario-sapporo"].includes(id))) return "walking";
     if (getKnownWalkingLeg(day, index, spotId)) return "walking";
     if (day === 5 && ["nakajima-park", "unagi-nakajima"].includes(spotId)
       && (index === 0 || ["nakajima-park", "unagi-nakajima"].includes(previous))) return "walking";
     const downtown = ["kinotoya-bake-pole-town", "3coins-pole-town", "ramen-haruka", "sapporo-susukino", "sapporo-odori", "apa-sapporo-susukino-ekinishi", "samurai-cocono-susukino", "kushidori-susukino-nishi5"];
-    downtown.push("donki-tanukikoji", "tanukikoji-shopping-street", "sandria-honten");
+    downtown.push("donki-tanukikoji", "tanukikoji-shopping-street", "sandria-honten", "cocono-susukino");
     if (day === 6 && downtown.includes(spotId) && (index === 0 || downtown.includes(previous))) return "walking";
     return "transit";
   }
@@ -3537,6 +3560,9 @@ function getDriveInfoForStop(day, index, spotId) {
 
   const dayStops = state.plan[day] || [];
   if (day === 5 || day === 6) {
+    if (spotId === "cocono-susukino" && index >= 0 && dayStops[index] === spotId && (day === 5 || mode === "walking")) return day === 5
+      ? "白色戀人公園後先搭同伴車回APA、吃晚餐，再步行到COCONO。可與狸小路擇一或各縮短；購物樓層一般21:00結束，別等逛完狸小路才來。"
+      : "Pole Town沿すすきの站／COCONO指標，經南北線すすきの站5號出口直結商場，逛完步行至薄野晚餐。若今天換成藻岩山夜景，縮短其他購物，保留18:00離開薄野。";
     const mode = getStopNavigationMode(day, index, spotId);
     const prefix = "A 線市區觀光｜同伴用車滑雪，這段不自駕。";
     if (day === 6 && spotId === "sapporo-fushimi-inari") return `${prefix}晚餐後天黑再去，往返先以計程車規劃，各留45分鐘含叫車與冬季交通；神社短暫參拜約30分鐘，地址札幌市中央区伏見2丁目2-17。若改搭車可從円山公園轉JR巴士至慈啓会前再步行，但必須確認夜間班次，不當作本版已安排好的交通。`;
@@ -4960,9 +4986,9 @@ function renderDayAlternative() {
 
 const dayOptionalSpots = {
   5: {
-    title: "D5 札幌站購物備選",
-    note: "大丸＋8F 寶可夢中心已排主線。Stellar Place 與大丸相鄰、適合優先順逛；東急百貨在札幌站南口附近。這些只作備選，想逛時需縮短原購物，不把每間百貨都加成必去；14:20 左右出發去白色戀人，16:00 會合優先。狸小路已排在晚餐後，先搭同伴車回 APA，吃完飯再步行去晃。",
-    ids: ["stellar-place", "tokyu-sapporo"]
+    title: "D5 札幌購物備選",
+    note: "大丸＋8F 寶可夢中心已排主線。Stellar Place 與大丸相鄰、適合優先順逛；東急百貨在札幌站南口附近。這些只作備選，想逛時需縮短原購物，不把每間百貨都加成必去；14:20 左右出發去白色戀人，16:00 會合優先。狸小路已排在晚餐後，先搭同伴車回 APA，吃完飯再步行去晃。COCONO位在薄野，選用時放晚餐後、狸小路前，與狸小路擇一或各縮短；購物樓層一般21:00結束。",
+    ids: ["stellar-place", "tokyu-sapporo", "cocono-susukino"]
   },
   3: {
     title: "D3 小樽午餐選擇",
@@ -4981,8 +5007,8 @@ const dayOptionalSpots = {
   },
   6: {
     title: "D6 天候調整與市區備選",
-    note: "有空再選，不必全部加入。狸小路商店街已排 D5 晚餐後，D6 不重複加入；若之後改日期，可接 Pole Town 地下街後逛。六花亭在 Ario 順買，三明治可當早餐或宵夜。正式加入後請依當天體力調整其他停留，原規劃不會自動多出購物時間。",
-    ids: ["tanukikoji-shopping-street", "rokkatei-ario-sapporo", "donki-tanukikoji", "sandria-honten"]
+    note: "有空再選，不必全部加入。狸小路商店街已排 D5 晚餐後，D6 不重複加入；若之後改日期，可接 Pole Town 地下街後逛。六花亭在 Ario 順買，三明治可當早餐或宵夜。COCONO可接地下街後順逛，與D5擇一天；若D6換看藻岩山，不擠掉18:00出發。正式加入後請依當天體力調整其他停留，原規劃不會自動多出購物時間。",
+    ids: ["tanukikoji-shopping-street", "rokkatei-ario-sapporo", "donki-tanukikoji", "sandria-honten", "cocono-susukino"]
   },
   9: {
     title: "D9 早上備選・五稜郭公園",
@@ -5185,9 +5211,11 @@ function bindDayOptionButtons(panel, day, options) {
           insertion = valleyIndex >= 0 ? valleyIndex + 1 : stops.findIndex(spotId => [...dayFourOptionalStopIds, "moiwa-yama"].includes(spotId));
         }
       } else if (day === 5) {
-        insertion = stops.indexOf("shiroi-koibito-park");
+        insertion = id === "cocono-susukino"
+          ? (stops.includes("tanukikoji-shopping-street") ? stops.indexOf("tanukikoji-shopping-street") : stops.length)
+          : stops.indexOf("shiroi-koibito-park");
       } else if (day === 6) {
-        const anchor = id === "rokkatei-ario-sapporo" ? "ario-sapporo" : id === "tanukikoji-shopping-street" ? "3coins-pole-town" : id === "donki-tanukikoji" ? (stops.includes("tanukikoji-shopping-street") ? "tanukikoji-shopping-street" : "3coins-pole-town") : null;
+        const anchor = id === "rokkatei-ario-sapporo" ? "ario-sapporo" : ["tanukikoji-shopping-street", "cocono-susukino"].includes(id) ? "3coins-pole-town" : id === "donki-tanukikoji" ? (stops.includes("tanukikoji-shopping-street") ? "tanukikoji-shopping-street" : "3coins-pole-town") : null;
         const anchorIndex = anchor ? stops.indexOf(anchor) : -1;
         insertion = anchorIndex >= 0 ? anchorIndex + 1 : stops.indexOf("apa-sapporo-susukino-ekinishi");
       } else if (day === 9) {
@@ -5476,6 +5504,7 @@ const spotAreas = [
 ];
 
 const shoppingSpotIds = new Set([
+  "cocono-susukino",
   "letao-otaru-honten",
   "pokemon-center-sapporo",
   "asahikawa-heiwa-dori",

@@ -91,6 +91,13 @@ test('D5 shopping alternatives stay before the park meeting and preserve other d
   assert.deepEqual(stops.slice(-4), ['stellar-place', 'tokyu-sapporo', 'shiroi-koibito-park', 'tanukikoji-shopping-street']);
   assert.equal(c.edits(), 2);
   assert.equal(c.runtime.isDailyTimingDraftApplicable(5), false, 'extra shopping must not retain the original times');
+  c.choose('cocono-susukino', 5);
+  c.choose('cocono-susukino', 5);
+  assert.deepEqual(Array.from(c.state.plan[5]).slice(-3), ['shiroi-koibito-park', 'cocono-susukino', 'tanukikoji-shopping-street']);
+  assert.equal(c.edits(), 3, 'evening mall is inserted once, after the park meeting');
+  c.state.selectedDay = 6;
+  c.choose('cocono-susukino', 6);
+  assert.equal(c.edits(), 3, 'the other day must not duplicate the selected mall');
   assert.equal(JSON.stringify(Object.fromEntries(Object.entries(c.state.plan).filter(([day]) => day !== '5'))), others);
 });
 
