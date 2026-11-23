@@ -1,5 +1,5 @@
 (() => {
-  const version = "hokkaido-shell-20261119-trip-review";
+  const version = `hokkaido-shell-${new URL(document.currentScript.src).searchParams.get("v")}`;
   const status = document.getElementById("offline-status");
   let ready = false;
   const paint = () => {

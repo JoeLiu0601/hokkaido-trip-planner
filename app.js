@@ -62,8 +62,8 @@ const spots = [
     season: ["winter"],
     time: "1–1.5h",
     best: "古民家、日本茶、手作和菓子、上天狗山前休息",
-    desc: "百年日式宅邸裡的日本茶與和菓子店，安排在天狗山夜景前坐下休息，非晚餐餐廳。11:00–18:00、最後點餐17:00，週三、四休；冬天從建物後方停車場側入口入店。依你的準備安排，11/25（D3前一個月）先確認四人訂位；目前預約頁明示下午採現場到店順序入座，不能保證預訂下午場，也尚未完成訂位。新增停留及候位後須重估下午時段，保留天狗山與運河。",
-    highlight: "D3 天狗山前・11/25確認訂位"
+    desc: "百年日式宅邸裡的日本茶與和菓子店，排在天狗山夜景前。一般 11:00–18:00、最後點餐 17:00，週三、四休；冬天走建物後方停車場側入口。D3 約 15:30 到店，下午依現場到店順序入座，先確認 12/25 營業。四人若候位太久，可直接去天狗山。",
+    highlight: "D3 天狗山前・下午現場候位"
   },
   {
     id: "lawson-furano-kitanomine",
@@ -1095,7 +1095,7 @@ const spots = [
     season: ["winter"],
     time: "1h",
     best: "羊蹄山、雪原、鄉村景",
-    desc: "真狩村位在羊蹄山南側，是拍攝羊蹄山輪廓很舒服的位置。Day7 從札幌往洞爺湖移動時，可作為羊蹄山景觀停留。",
+    desc: "Day 7 先導航到「道の駅 真狩フラワーセンター」（真狩村字光8番地3）。有停車場、洗手間和休息空間，天氣好再拍羊蹄山。午餐在真狩村當天決定。",
     highlight: "羊蹄山視角"
   },
   {
@@ -1305,14 +1305,15 @@ const winterTemplate = {
   ],
   "3": [
     "hokkaido-shrine",
-    "sapporo-fushimi-inari",
     "teine-shrine",
     "otaru-inari-shrine",
     "taisho-glass",
     "letao-otaru-honten",
     "otaru-meruhen-crossing",
+    "otaru-gunjo-sui",
     "otaru-tenguyama",
-    "otaru-canal"
+    "otaru-canal",
+    "sandria-honten"
   ],
   "4": [
     "noboribetsu-valley",
@@ -1564,10 +1565,10 @@ const spotLogistics = {
   },
   "otaru-gunjo-sui": {
     hours: "11:00–18:00（L.O.17:00）；週三、四休；12/25 特別營業及四人座位需確認",
-    access: "小樽市住ノ江2丁目2-4；電話0134-64-7812。建物後方有停車場，冬季走停車場側入口；訂到座位不保證有停車位。上午可預約、下午現場候位；先依11/25確認訂位的準備安排辦理，店家未確認必須提前一個月",
+    access: "小樽市住ノ江2丁目2-4；電話0134-64-7812。建物後方有少量停車位，冬季走停車場側入口。D3 下午場採現場候位，四人先確認 12/25 營業。",
     infoUrl: "https://otaru-gunjo.com/",
     foodUrl: "https://booking.ebica.jp/webrsv/search/e020101901/34954",
-    checkedAt: "2026/11/11"
+    checkedAt: "2026/11/24"
   },
   "lawson-furano-kitanomine": {
     hours: "餐飲平台目前列 24 小時；12/24 臨時營業及餐點庫存以門市為準",
@@ -1622,7 +1623,7 @@ const spotLogistics = {
   },
   "miyanomori-frances-church": {
     hours: "2026/12/24 夜間點燈與一般參觀待確認；前一季 17:00–20:00 僅供參考，婚禮／包場可能不開放",
-    access: "地址：札幌市中央区宮の森3条10丁目3-25。D2 Plan B 接在白色戀人公園之後，參觀前先確認當晚是否開放，之後到薄野；電話 011-633-1111",
+    access: "札幌市中央区宮の森3条10丁目3-25。D2 札幌備案先到 APA 入住，再視開放情況去教會，之後到薄野用餐；電話 011-633-1111。",
     infoUrl: "https://www.j-mfc.com/",
     checkedAt: "2026/10/11"
   },
@@ -2037,8 +2038,10 @@ const spotLogistics = {
     checkedAt: "2026/10/12"
   },
   "makkari-village": {
-    hours: "鄉村景觀點全天可停留；冬季請以除雪道路為主",
-    access: "從二世谷/洞爺湖方向自駕順路，適合挑安全停車點拍羊蹄山"
+    hours: "真狩花卉中心冬季一般 09:30–16:30；12/31–1/3 休館。",
+    access: "導航到道の駅 真狩フラワーセンター（真狩村字光8番地3），到站後再看羊蹄山能見度並決定是否拍照。",
+    infoUrl: "https://www.vill.makkari.lg.jp/kanko/kau/michinoeki/",
+    checkedAt: "2026/11/24"
   },
   "silo-observatory": {
     tickets: "展望台免費，不需買票",
@@ -2271,6 +2274,7 @@ const drivingPlaceOverrides = {
   "muroran-hakucho-bridge-view": "祝津公園展望台 室蘭市祝津町3丁目 北海道",
   "happiness-bell": "地球岬展望台 室蘭市母恋南町4丁目 北海道",
   "miyanomori-frances-church": "札幌市中央区宮の森3条10丁目3-25 宮の森フランセス教会",
+  "makkari-village": "道の駅 真狩フラワーセンター 北海道虻田郡真狩村字光8番地3",
   "nippon-rentacar-new-chitose": "北海道千歳市美々758-136 ニッポンレンタカー新千歳空港営業所",
   "moiwa-yama": "もいわ山ロープウェイ山麓駅 札幌 北海道",
   "hakodate-mt": "函館山ロープウェイ山麓駅 函館市元町19-7",
@@ -2283,7 +2287,7 @@ const unspecifiedDrivingStops = new Set([
   "otaru-sakaimachi", "otaru-meruhen-crossing", "yotei-mountain",
   "toyako-lake", "noboribetsu-onsen-street", "soup-curry", "sapporo-ramen-yokocho",
   "kinotoya-bake-pole-town", "3coins-pole-town",
-  "makkari-village", "konpira-crater-view", "motomachi", "seicomart-hot-chef"
+  "konpira-crater-view", "motomachi", "seicomart-hot-chef"
 ]);
 
 const knownWalkingLegs = {
@@ -2364,6 +2368,10 @@ const towerNightTemplateVersion = "2026-11-02-tower-night";
 const dayFiveParkMeetingTemplateVersion = "2026-11-03-day5-park-meeting";
 const daySevenRouteTemplateVersion = "2026-11-03-day7-route";
 const currentPlanTemplateVersion = "2026-11-03-day2-scenery-note";
+const formerDayThreeDefault = [
+  "hokkaido-shrine", "sapporo-fushimi-inari", "teine-shrine", "otaru-inari-shrine",
+  "taisho-glass", "letao-otaru-honten", "otaru-meruhen-crossing", "otaru-tenguyama", "otaru-canal"
+];
 const fixedCarModel = "VOXY";
 const savedAtKey = "hokkaido-trip-planner-saved-at";
 const syncCodeKey = "hokkaido-trip-planner-sync-code";
@@ -2764,6 +2772,11 @@ function loadPlan() {
       plan[2] = plan[2].filter(id => id !== "shiroi-koibito-park");
       loadedPlanNeedsSave = true;
       loadedPlanNeedsSync = true;
+    }
+    if (!loadSyncCode() && planStopsEqual(plan[3], formerDayThreeDefault)
+      && !Object.values(plan).some(ids => ids.includes("otaru-gunjo-sui") || ids.includes("sandria-honten"))) {
+      plan[3] = [...winterTemplate[3]];
+      loadedPlanNeedsSave = true;
     }
     const beforeRequiredStops = JSON.stringify(plan);
     ensureRequiredStops(plan);
@@ -5299,7 +5312,7 @@ function renderDayOptions() {
   panel.querySelector("[data-weather-swap-mode]")?.addEventListener("click", event => applyDayWeatherSwap(event.currentTarget.dataset.weatherSwapMode));
 }
 
-function bindDayOptionButtons(panel, day, options) {
+function bindDayOptionButtons(panel, day, options, onChoose) {
   panel.querySelectorAll("[data-day-option]").forEach((button) => {
     button.addEventListener("click", () => {
       const id = button.dataset.dayOption;
@@ -5353,6 +5366,7 @@ function bindDayOptionButtons(panel, day, options) {
       state.summaryMode = "day";
       markDirty();
       render();
+      onChoose?.(id);
     });
   });
 }

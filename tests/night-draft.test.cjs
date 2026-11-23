@@ -43,11 +43,12 @@ test('D7 default route follows its timing draft and omits the crater', () => {
   assert.equal(runtime.dayDepartures[7].time, '07:00');
 });
 
-test('D3 places Tenguyama after the crossroads and keeps the canal after it', () => {
+test('D3 default keeps Gunjo Sui between the crossroads and Tenguyama', () => {
   assert.equal(runtime.dayDepartures[3].time, '07:45');
   assert.equal(runtime.dailyTimingDrafts[3].rows.find(row => row[3]?.includes('hokkaido-shrine'))[0], '08:45–09:35');
   const day = runtime.buildPlan()[3];
-  assert.equal(day[day.indexOf('otaru-meruhen-crossing') + 1], 'otaru-tenguyama');
+  assert.equal(day[day.indexOf('otaru-meruhen-crossing') + 1], 'otaru-gunjo-sui');
+  assert.equal(day[day.indexOf('otaru-gunjo-sui') + 1], 'otaru-tenguyama');
   assert.equal(day[day.indexOf('otaru-tenguyama') + 1], 'otaru-canal');
   assert.match(runtime.drivingPlaceOverrides['otaru-tenguyama'], /山麓駅/);
 });

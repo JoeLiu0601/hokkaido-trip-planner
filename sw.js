@@ -1,4 +1,4 @@
-const VERSION = "20261124-d3-dinner";
+const VERSION = "20261124-travel-next";
 const CACHE_NAME = `hokkaido-shell-${VERSION}`;
 const SHELL = [
   "./", "./index.html", "./styles.css?v=20261103-day-flights", "./journey.css?v=20261104-sapporo-shopping",

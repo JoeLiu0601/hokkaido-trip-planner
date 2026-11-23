@@ -171,6 +171,21 @@ test('D7 migration preserves custom routes, empty days and unrelated meals', () 
   }
 });
 
+test('D3 repairs an unconnected old default without changing custom or synced plans', () => {
+  const oldDefault = ['hokkaido-shrine', 'sapporo-fushimi-inari', 'teine-shrine', 'otaru-inari-shrine', 'taisho-glass',
+    'letao-otaru-honten', 'otaru-meruhen-crossing', 'otaru-tenguyama', 'otaru-canal'];
+  for (const [syncCode, stops, repair] of [['', oldDefault, true], ['test', oldDefault, false], ['', oldDefault.slice(1), false]]) {
+    const c = setup(), r = c.runtime;
+    c.state.syncCode = syncCode;
+    c.state.plan[3] = [...stops];
+    c.state.plan[4] = ['noboribetsu-cafe-denen'];
+    r.savePlan();
+    const expected = plain(c.state.plan);
+    if (repair) expected[3] = Array.from(r.buildPlan()[3]);
+    assert.deepEqual(plain(r.loadPlan()), expected);
+  }
+});
+
 test('the previous night-review version updates D8 and adds only the D5 meeting to custom plans', () => {
   const c = setup(), r = c.runtime;
   c.state.plan[1] = c.state.plan[1].filter(id => id !== 'biei-blue');

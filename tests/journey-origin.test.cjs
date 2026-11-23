@@ -10,7 +10,7 @@ const sceneSource = fs.readFileSync(path.join(root, 'journey-scenes.js'), 'utf8'
 const section = (source, a, b) => source.slice(source.indexOf(a), source.indexOf(b));
 const plain = value => JSON.parse(JSON.stringify(value));
 
-function setup(times = {}) {
+function setup(times = {}, timingApplicable = () => true) {
   const state = { selectedDay: 2 }, statuses = {}, storage = {};
   const runtime = vm.runInNewContext(
     fs.readFileSync(path.join(root, 'timing-drafts.js'), 'utf8') + '\n' + app.slice(0, app.indexOf('const state ='))
@@ -20,30 +20,35 @@ function setup(times = {}) {
     + section(journey, '  const companions =', '  const winterStops =')
     + section(journey, '  const winterStops =', '  const speeds =')
     + '\nconst travelTools = window.HOKKAIDO_TRAVEL_TOOLS;'
+    + section(app, 'const dayOptionalSpots =', 'function airportBusTimetableHtml(')
+    + section(app, 'function getDayDinnerInsertionIndex(', 'function dayDinnerOptionsHtml(')
+    + section(app, 'function getDayThreeLunchInsertionIndex(', 'function dayThreeLunchOptionsHtml(')
+    + section(journey, '  const mealChoicesByDay =', '  const dayTabs =')
     + section(journey, '  function dayTenRouteKey(', '  function progressKey(')
     + '\nlet playback = null, previewPosition = null, playing = false, previousFrameTime = null, animationFrame = null;'
     + section(journey, '  function playbackOrigin(', '  function timeLabel(')
     + section(journey, '  function timeLabel(', '  function winterFocusCardHtml(')
     + section(journey, '  function winterFocusCardHtml(', '  function focusCardHtml(')
-    + section(journey, '  function isOptional(', '  function durationText(')
+    + section(journey, '  function nextMealChoice(', '  function durationText(')
     + section(journey, '  function renderOverview(', '  function setMode(')
-    + '\nlet mode = "travel", progressContext = "", playbackContext = "", feedback = "", focusedCardKey = "", undoProgress = null;'
+    + '\nlet mode = "travel", progressContext = "", playbackContext = "", feedback = "", focusedCardKey = "", undoProgress = null, pendingMeal = null;'
     + section(journey, '  function renderJourney()', '  switchButtons.forEach((button) => button.addEventListener')
-    + '\n({buildPlan, dayDepartures, dayOneTimingDraft, nextPlaybackStop, playbackPosition, routeGeometry,'
+    + '\n({buildPlan, dayDepartures, dayOneTimingDraft, dayEightDraft: dailyTimingDrafts[8], nextPlaybackStop, playbackPosition, routeGeometry, travelIds, travelTiming, nextMealChoice,'
     + 'start(day, ids) { state.selectedDay = day; playback = createPlayback(ids); previewPosition = null; return playback; },'
     + 'preview(value) { previewPosition = value; }, originCard() { return winterFocusCardHtml(playback.origin.id); },'
     + 'overview(group) { selectedGroup = group; renderOverview(); return host.innerHTML; },'
     + 'travel(day) { state.selectedDay = day; renderJourney(); return host.innerHTML; }})',
     { state, statuses, window: {HOKKAIDO_TRAVEL_TOOLS: require('../travel-tools.js')}, statusFor: id => statuses[id] || 'pending',
-      readLocalStorage: key => storage[key] || null, isDayTimingDraftApplicable: () => true,
+      readLocalStorage: key => storage[key] || null, isDayTimingDraftApplicable: timingApplicable,
       navigationFor: id => ({ url: `https://maps.example/${id}` }),
       isDayOneTimingDraftApplicable: () => true, escapeHtml: value => String(value),
+      getDailyTimingDraft: day => day === 8 ? runtime.dayEightDraft : null,
       getTimingDraftForStop: (day, id) => day === 1 ? runtime.dayOneTimingDraft[id] : times[id],
       host: { innerHTML: '', classList: { remove() {} }, setAttribute() {}, querySelectorAll: () => [], querySelector: selector => selector === '.journey-next-card' ? { innerHTML: '' } : null },
       workspace: { classList: { toggle() {} } }, document: { body: { classList: { toggle() {}, add() {} } } },
       switchButtons: [], refreshDayNavigation() {}, progressKey: () => 'test-trip', paintPlayback() {},
       dayFlightHtml: () => '', dayDepartureHtml: () => '', timelineHtml: ids => ids.join(','),
-      mapHtml: () => '', stopHtml: id => id, focusCardHtml: () => '', dayOptionalSpots: { 2: {} },
+      mapHtml: () => '', stopHtml: id => id, focusCardHtml: () => '',
       bindDisclosures() {}, bindDayOptionButtons() {}, getDayTimingDraftHtml() { throw new Error('Trial section must not render'); },
       progress: () => ({}), groupRouteSwitchHtml: () => '' }
   );
@@ -136,6 +141,45 @@ test('completed progress moves onward without treating the hotel as an unfinishe
   for (const id of state.plan[2]) statuses[id] = 'done';
   assert.equal(r.nextPlaybackStop(), undefined);
   assert.equal(r.playbackPosition().id, state.plan[2].at(-1));
+});
+
+test('undecided meals are the next action at the right point, without rewinding completed visits', () => {
+  const { r, state, statuses } = setup();
+  state.selectedDay = 3;
+  const ids = state.plan[3];
+  const lunch = ids.indexOf('otaru-inari-shrine');
+  const dinner = ids.indexOf('otaru-canal') + 1;
+  assert.equal(r.nextMealChoice(ids, 0), undefined);
+  assert.equal(r.nextMealChoice(ids, lunch).id, 'd3-lunch-choice');
+  assert.equal(r.nextMealChoice([...ids.slice(0, lunch), 'otaru-new-sanko', ...ids.slice(lunch)], lunch), undefined);
+  statuses['otaru-inari-shrine'] = 'done';
+  assert.equal(r.nextMealChoice(ids, dinner).id, 'd3-dinner-choice');
+  statuses['d3-dinner-choice'] = 'skipped';
+  assert.equal(r.nextMealChoice(ids, dinner), undefined);
+
+  state.selectedDay = 2;
+  const furano = ['hinode-park', 'ningle-terrace', 'apa-sapporo-susukino-ekinishi'];
+  assert.equal(r.nextMealChoice(furano, 2).id, 'd2-dinner-choice');
+  assert.equal(r.nextMealChoice(['ningle-terrace', 'lawson-furano-kitanomine'], 1), undefined);
+  assert.equal(r.nextMealChoice(['sunagawa-highway-oasis', 'apa-sapporo-susukino-ekinishi'], 2), undefined);
+});
+
+test('D8 travel adds the two morning stages and keeps check-in at the end of the route', () => {
+  let applicable = true;
+  const { r, state } = setup({}, day => day !== 8 || applicable);
+  const hotel = 'lagent-hakodate-ekimae';
+  const original = [...state.plan[8]];
+  const projected = ['d8-luggage-drop', 'd8-car-return', ...original];
+  assert.deepEqual(Array.from(r.travelIds(8)), projected);
+  assert.deepEqual(Array.from(state.plan[8]), original);
+
+  state.plan[8] = [hotel, ...original.filter(id => id !== hotel)];
+  assert.deepEqual(Array.from(r.travelIds(8)), projected);
+  state.selectedDay = 8;
+  assert.equal(r.travelTiming(hotel).time, '20:05–20:35');
+
+  applicable = false;
+  assert.deepEqual(Array.from(r.travelIds(8)), state.plan[8]);
 });
 
 test('the departure preview shows the hotel map without completion controls', () => {

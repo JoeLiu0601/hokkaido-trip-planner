@@ -50,7 +50,7 @@ test('D3 lunch replaces Naruto in place, restores it on change and leaves other 
   c.choose('otaru-takeda', 3);
   assert.equal(c.state.plan[3][lunch], 'otaru-takeda');
   assert.equal(c.state.plan[3].includes('wakadori-naruto-honten'), false);
-  assert.equal(c.runtime.isDailyTimingDraftApplicable(3), false);
+  assert.equal(c.runtime.isDailyTimingDraftApplicable(3), true);
   c.choose('otaru-takeda', 3);
   assert.equal(c.edits(), 1);
   c.choose('wakadori-naruto-honten', 3);
@@ -144,7 +144,8 @@ test('D6 optional purchases stay near their anchors, avoid duplicates and preser
   assert.equal(stops[stops.indexOf('3coins-pole-town') + 1], 'tanukikoji-shopping-street');
   assert.equal(stops[stops.indexOf('tanukikoji-shopping-street') + 1], 'donki-tanukikoji');
   assert.equal(stops.filter(id => id === 'donki-tanukikoji').length, 1);
-  assert.equal(c.edits(), 4);
+  assert.ok(!stops.includes('sandria-honten'), 'D6 must not duplicate the D3 breakfast purchase');
+  assert.equal(c.edits(), 3);
   const after = JSON.parse(JSON.stringify(c.state.plan));
   after[6] = JSON.parse(before)[6];
   assert.equal(JSON.stringify(after), before);

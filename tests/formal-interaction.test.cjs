@@ -52,6 +52,7 @@ test('Undo restores the previous progress and refuses a different day or trip', 
   let tripKey = 'trip-a';
   const sandbox = {
     state, undoProgress: null, previewPosition: null, feedback: '',
+    mealChoicesByDay: {},
     host: { addEventListener(type, handler) { click = handler; }, querySelector: () => null },
     pausePlayback() {}, progress: () => saved, progressKey: () => tripKey,
     spotById: () => ({ name: '測試站' }), renderJourney() {},
@@ -83,4 +84,25 @@ test('Undo restores the previous progress and refuses a different day or trip', 
   assert.equal(saved[1].stop, 'skipped');
   undo();
   assert.equal(saved[1].stop, 'done');
+});
+
+test('skipping and undoing an undecided meal only writes local progress', () => {
+  let click;
+  const writes = [];
+  const meal = { id: 'd3-dinner-choice', title: '小樽運河後晚餐' };
+  const state = { selectedDay: 3, plan: { 3: ['otaru-canal', 'sandria-honten'] } };
+  const saved = {};
+  const sandbox = {
+    state, pendingMeal: meal, mealChoicesByDay: { 3: [meal] }, undoProgress: null, feedback: '', previewPosition: null,
+    host: { addEventListener(type, handler) { click = handler; }, querySelector: () => null },
+    pausePlayback() {}, progress: () => saved, progressKey: () => 'test-trip', renderJourney() {},
+    window: { localStorage: { setItem(key, value) { writes.push([key, JSON.parse(value)]); } } }
+  };
+  vm.runInNewContext(section('  host.addEventListener("click", (event) => {', '  host.addEventListener("input",'), sandbox);
+  click({ target: { closest: selector => selector === '[data-journey-status]' ? { dataset: { journeyId: meal.id, journeyStatus: 'skipped' } } : null } });
+  assert.deepEqual(writes[0], ['test-trip', { 3: { [meal.id]: 'skipped' } }]);
+  sandbox.pendingMeal = null;
+  click({ target: { closest: selector => selector === '[data-journey-undo]' ? {} : null } });
+  assert.deepEqual(writes[1], ['test-trip', { 3: {} }]);
+  assert.deepEqual(state.plan[3], ['otaru-canal', 'sandria-honten']);
 });

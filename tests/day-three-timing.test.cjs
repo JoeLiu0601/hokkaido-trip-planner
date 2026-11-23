@@ -10,7 +10,7 @@ function setup() {
   const state = {plan: {3: [...current], 4: ['moiwa-yama'], 6: ['sapporo-fushimi-inari']}};
   const code = timing + '\n' + app.slice(0, app.indexOf('const state ='))
     + app.slice(app.indexOf('function getDailyTimingDraft('), app.indexOf('function timingDraftHtml('))
-    + '\n({getDailyTimingDraft,isDailyTimingDraftApplicable,getTimingDraftForStop})';
+    + '\n({buildPlan,getDailyTimingDraft,isDailyTimingDraftApplicable,getTimingDraftForStop})';
   const api = vm.runInNewContext(code, {state, window: {}});
   return {state, api};
 }
@@ -37,6 +37,13 @@ test('current D3 receives sequential estimates through breakfast shopping withou
   assert.equal(api.isDailyTimingDraftApplicable(3), true);
   assert.ok(api.getDailyTimingDraft(3).rows.some(row => row[0] === '11:25–12:25' && row[1] === '小樽午餐（店家待選）'));
   assert.equal(api.getTimingDraftForStop(3, 'wakadori-naruto-honten'), null);
+});
+
+test('the default D3 afternoon uses the same cafe and mountain times as the shared route', () => {
+  const {state, api} = setup();
+  state.plan = api.buildPlan();
+  assert.equal(api.getTimingDraftForStop(3, 'otaru-gunjo-sui').time, '15:30–16:30');
+  assert.equal(api.getTimingDraftForStop(3, 'otaru-tenguyama').time, '17:05–18:35');
 });
 
 test('D3 retains one dinner estimate after the canal and rejects two dinner stops', () => {
