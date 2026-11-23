@@ -56,6 +56,7 @@ test('D10 station route shows luggage, food, bus and flight without the Motomach
     assert.match(schedule, /<td>13:10<\/td><td>13:30<\/td>/);
     assert.match(schedule, /<td>13:20<\/td><td>13:40<\/td>/);
     assert.match(schedule, /<td>13:30<\/td><td>13:50<\/td><td>首選<\/td>/);
+    assert.match(schedule, /現金搭車請備硬幣或千圓鈔，車上不收 ¥2,000 以上紙鈔/);
     assert.doesNotMatch(schedule, /<td>13:40<\/td><td>14:00<\/td>|過往跨年參考/);
   }
 });

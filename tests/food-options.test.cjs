@@ -15,7 +15,7 @@ function setup() {
     + section('const dayOptionalSpots =', 'function renderDayTabs()')
     + section('function getDailyTimingDraft(', 'function getTimingDraftForStop(')
     + section('function spotById(', 'function getSpotLogistics(')
-    + '\n({ buildPlan, getDayTwoLunchInsertionIndex, getDayTwoDinnerInsertionIndex, getDayThreeLunchInsertionIndex, bindDayOptionButtons, dayOptionalSpots, isDailyTimingDraftApplicable })',
+    + '\n({ buildPlan, getDayTwoLunchInsertionIndex, getDayDinnerInsertionIndex, getDayThreeLunchInsertionIndex, bindDayOptionButtons, dayOptionalSpots, isDailyTimingDraftApplicable })',
   { window: {}, state, markDirty() { edits++; }, render() {}, recordChange() {} });
   state.plan = runtime.buildPlan();
   function choose(id, day = 2) {
@@ -80,6 +80,24 @@ test('D3 lunch refuses cross-day duplicates and ignores clicks after switching d
   c.state.selectedDay = 2;
   c.choose('otaru-takeda', 3);
   assert.equal(c.edits(), 0);
+});
+
+test('D3 dinner choices replace each other after the canal while retaining lunch', () => {
+  const c = setup();
+  c.state.selectedDay = 3;
+  c.choose('otaru-new-sanko', 3);
+  const original = Array.from(c.state.plan[3]);
+  const anchor = original.indexOf('otaru-canal') + 1;
+  assert.equal(c.runtime.getDayDinnerInsertionIndex(original), anchor);
+  for (const dinner of ['otaru-iso', 'otaru-waraku-sushi']) {
+    c.choose(dinner, 3);
+    assert.deepEqual(Array.from(c.state.plan[3]), [...original.slice(0, anchor), dinner, ...original.slice(anchor)]);
+  }
+  c.choose('otaru-waraku-sushi', 3);
+  assert.equal(c.edits(), 3);
+  c.state.plan[3] = original.filter(id => id !== 'otaru-canal');
+  c.choose('otaru-iso', 3);
+  assert.equal(c.edits(), 3);
 });
 
 test('D5 shopping alternatives stay before the park meeting and preserve other days', () => {
@@ -161,15 +179,15 @@ test('D2 choice refuses an unrelated day, unknown ID or stale hidden-day click',
 
 test('D2 dinner changes independently after the terrace, retaining the chosen lunch', () => {
   const c = setup();
-  assert.equal(c.runtime.getDayTwoDinnerInsertionIndex(c.state.plan[2]), c.state.plan[2].indexOf('ningle-terrace') + 1);
-  assert.equal(c.runtime.getDayTwoDinnerInsertionIndex(['sunagawa-highway-oasis', 'apa-sapporo-susukino-ekinishi', 'sapporo-susukino']), -1);
+  assert.equal(c.runtime.getDayDinnerInsertionIndex(c.state.plan[2]), c.state.plan[2].indexOf('ningle-terrace') + 1);
+  assert.equal(c.runtime.getDayDinnerInsertionIndex(['sunagawa-highway-oasis', 'apa-sapporo-susukino-ekinishi', 'sapporo-susukino']), -1);
   c.choose('kamifurano-mansaku');
   c.choose('furano-kumagera');
   c.choose('furano-yuiga-doxon');
   assert.ok(c.state.plan[2].includes('kamifurano-mansaku'));
   assert.ok(!c.state.plan[2].includes('furano-kumagera'));
   assert.equal(c.state.plan[2][c.state.plan[2].indexOf('ningle-terrace') + 1], 'furano-yuiga-doxon');
-  assert.equal(c.runtime.getDayTwoDinnerInsertionIndex(c.state.plan[2]), c.state.plan[2].indexOf('furano-yuiga-doxon'));
+  assert.equal(c.runtime.getDayDinnerInsertionIndex(c.state.plan[2]), c.state.plan[2].indexOf('furano-yuiga-doxon'));
 });
 
 test('D2 timing accepts one lunch and dinner but rejects two meals in either slot', () => {

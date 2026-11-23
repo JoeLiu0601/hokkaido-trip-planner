@@ -8,6 +8,7 @@ const app = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 const section = (start, end) => app.slice(app.indexOf(start), app.indexOf(end));
 const runtime = vm.runInNewContext(
   app.slice(0, app.indexOf('const flights ='))
+  + section('const dayThreeDinnerIds =', 'const dayFourOptionalStopIds =')
   + section('const dayTenBusTarget =', 'const daySummaries =')
   + section('const dayOneTimingDraft =', 'const dayOneTimedStopIds =')
   + section('const accommodations =', 'const storageKey =')
@@ -33,6 +34,8 @@ const cases = [
   ['D2 church is not a walk from APA', 2, ['apa-sapporo-susukino-ekinishi', 'miyanomori-frances-church'], 'driving'],
   ['D3 shrine by car', 3, ['hokkaido-shrine'], 'driving'],
   ['D3 Otaru shops on foot', 3, ['taisho-glass', 'otaru-meruhen-crossing'], 'walking'],
+  ['D3 canal to ISO on foot', 3, ['otaru-canal', 'otaru-iso'], 'walking'],
+  ['D3 canal to Waraku on foot', 3, ['otaru-canal', 'otaru-waraku-sushi'], 'walking'],
   ['D4 onsen street on foot', 4, ['noboribetsu-valley', 'noboribetsu-onsen-street'], 'walking'],
   ['D5 park from APA by subway', 5, ['nakajima-park'], 'transit'],
   ['D5 unagi on foot', 5, ['nakajima-park', 'unagi-nakajima'], 'walking'],

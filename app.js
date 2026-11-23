@@ -22,6 +22,28 @@ const spots = [
     highlight: "D3 午餐候選・當天選"
   },
   {
+    id: "otaru-iso",
+    name: "ISO（イソ）",
+    area: "小樽",
+    type: "洋食・餐食",
+    season: ["winter"],
+    time: "1–1.5h",
+    best: "紅磚倉庫、薪火牛排、海鮮義大利麵",
+    desc: "運河附近的紅磚倉庫餐廳，主打薪火料理和北海道食材。一般晚餐至22:00，餐點最後點餐21:00。可用食べログ查詢座位，12/25特別營業與空位請確認。",
+    highlight: "D3 運河後晚餐候選"
+  },
+  {
+    id: "otaru-waraku-sushi",
+    name: "回轉壽司 和楽 小樽店",
+    area: "小樽",
+    type: "壽司・餐食",
+    season: ["winter"],
+    time: "1–1.5h",
+    best: "北海道魚介、迴轉壽司、四人卡座",
+    desc: "從運河步行幾分鐘即可到店。晚餐一般17:00–22:00，最後點餐21:30。不接受訂位，請到店候位並備現金。12/25特別營業另確認。",
+    highlight: "D3 運河後晚餐候選・現場候位"
+  },
+  {
     id: "sotorent-teine-pickup",
     name: "SOTORENT 手稻站前店（取滑雪用具）",
     area: "札幌",
@@ -1353,9 +1375,11 @@ const winterProfile = {
 const tripDates = ["12/23", "12/24", "12/25", "12/26", "12/27", "12/28", "12/29", "12/30", "12/31", "1/1"];
 const dayTwoLunchIds = ["kamifurano-marumasu", "kamifurano-mansaku"];
 const dayThreeLunchIds = ["wakadori-naruto-honten", "otaru-takeda", "otaru-new-sanko"];
+const dayThreeDinnerIds = ["otaru-iso", "otaru-waraku-sushi"];
 const dayFourOptionalStopIds = ["muroran-hakucho-bridge-view", "happiness-bell"];
 const dayTenBusTarget = { departure: "13:30", arrival: "13:50", label: "首選" };
 const dayTenBusTime = `${dayTenBusTarget.departure}–${dayTenBusTarget.arrival}`;
+const dayTenBusCashNote = "現金搭車請備硬幣或千圓鈔，車上不收 ¥2,000 以上紙鈔。";
 const dayTenBusTimetable = {
   rows: [
     { departure: "13:10", arrival: "13:30", label: "提早出發" },
@@ -1363,14 +1387,14 @@ const dayTenBusTimetable = {
     dayTenBusTarget
   ],
   period: "2026/12/1–2027/1/4",
-  note: "2027/1/1 適用。函館站前 11 號乘車處，上車先付費，車程約 20 分鐘；雪天另留緩衝。若 13:30 客滿或延誤，下一班 14:20 才發車，建議直接改搭計程車。",
+  note: `2027/1/1 適用。函館站前 11 號乘車處，上車先付費，車程約 20 分鐘。${dayTenBusCashNote}雪天另留緩衝。若 ${dayTenBusTarget.departure} 客滿或延誤，下一班 14:20 才發車，建議直接改搭計程車。`,
   infoUrl: "https://www.hakotaxi.co.jp/shuttlebus/"
 };
 
 const daySummaries = {
   "1": "11:00 抵達新千歲機場，入境後留約 1 小時逛機場，再接駁取車前往旭川。先規劃約 17:45 入住、18:15 採買雪靴、19:15 到平和通找晚餐；常磐公園與上川神社保留為彈性選項，晚到或疲累就略過。 飯店後新增白金青池點燈為可略過的開車支線；12 月 16:30–21:00 點燈，但原入住規劃約 18:15 才能離開，17:00 通常趕不上，晚去須另排採買與晚餐。",
   "2": "旭川退房後先到美瑛神社，再經日之出公園與上富良野午餐，約 15:00 到精靈露臺，留到天黑看木屋燈景。午餐在まん作現場候位。晚餐可選くまげら、唯我獨尊，或到 Lawson 買輕食後直接經芦別回札幌 APA。餐廳方案原估約 18:30 出發、22:00 入住；選輕食可提早離開，抵達仍依當晚路況。大通與薄野留作彈性備選。",
-  "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。神宮約 50 分鐘，先參拜，09:00 授與所開門後買梅酒「神宮の梅」＋御守；接著手稻只停靠買御守；小樽午餐若雞／武田／ニュー三幸擇一後，再到小樽稻荷短暫參拜。玻璃店、童話十字路後到群青・翠、上天狗山看夜景，再逛運河；回札幌後到 Sandria 買 D4 早餐，買完回 APA。伏見稻荷不列D3，依D4／D6當日清單與天候安排。",
+  "3": "07:45 從 APA 出發，目標 08:45 抵達北海道神宮，首段含冬季行車、停車與步行先留一小時。神宮約 50 分鐘，先參拜，09:00 授與所開門後買梅酒「神宮の梅」＋御守；接著手稻只停靠買御守；小樽午餐若雞／武田／ニュー三幸擇一後，再到小樽稻荷短暫參拜。玻璃店、童話十字路後到群青・翠、上天狗山看夜景，再逛運河。晚餐從 ISO／和楽擇一，回札幌後到 Sandria 買 D4 早餐。伏見稻荷依D4／D6當日清單與天候安排。",
   "4": "06:30 從 APA 出發，逛登別地獄谷，在溫泉街閻魔堂附近自選午餐，再回札幌。依當日行程在 SOTORENT 手稻站前店取滑雪用具，取件約 1 小時，預約時段與到店截止先確認。藻岩山夜景看完下山再吃晚餐，店家當天決定。",
   "5": "白天分組：A 線從薄野站搭南北線一站到中島公園，散步、吃鰻魚飯後搭車到大丸與同棟 8F 寶可夢中心，再經大通轉車到白色戀人公園。B 線同伴自駕滑雪，約 15:00 從藻岩山滑雪場出發。約 16:00 在白色戀人公園入口會合、一起看燈飾，逛完搭同伴的車回 APA，晚餐後步行逛狸小路。雪天會合可延至 16:30。",
   "6": "A線搭車逛啤酒博物館、Ario與Toriton，下午回市中心逛地下街；晚餐後約20:30到伏見稻荷夜間參拜，計程車往返，約21:45回APA。B線同伴自駕滑雪，會合另約；若改成藻岩山夜景，需重排晚餐與交通。",
@@ -1516,6 +1540,20 @@ const spotLogistics = {
     foodUrl: "https://booking.ebica.jp/webrsv/search/e014017301/30843?isfixshop=true",
     foodUrlLabel: "官方訂位／空位查詢",
     checkedAt: "2026/11/17"
+  },
+  "otaru-iso": {
+    hours: "一般晚餐至22:00（最後點餐21:00）；12/25特別營業與空位另確認",
+    access: "小樽市色内2丁目2-14；電話0134-31-1888。從中央橋步行前往。",
+    infoUrl: "https://otaru.gr.jp/project/town-western-food-2",
+    foodUrl: "https://tabelog.com/hokkaido/A0106/A010601/1057501/",
+    foodUrlLabel: "食べログ菜單與訂位",
+    checkedAt: "2026/11/24"
+  },
+  "otaru-waraku-sushi": {
+    hours: "一般晚餐17:00–22:00（最後點餐21:30）；12/25特別營業另確認",
+    access: "小樽市堺町3-1；電話0134-24-0011。接受現場候位，只收現金；有停車場。",
+    infoUrl: "https://www.waraku1.jp/shop/05/",
+    checkedAt: "2026/11/24"
   },
   "sotorent-teine-pickup": {
     hours: "冬季12–4月08:00–20:00；貸出須19:40前到店。使用前一日15:00後可取件，依預約及租期確認",
@@ -2198,6 +2236,8 @@ const drivingPlaceOverrides = {
   "noboribetsu-onsen-street": "閻魔堂 北海道登別市登別温泉町",
   "letao-otaru-honten": "ルタオ本店 小樽市堺町7-16",
   "otaru-new-sanko": "ニュー三幸 小樽本店 小樽市稲穂1-3-6",
+  "otaru-iso": "ISO 小樽市色内2丁目2-14",
+  "otaru-waraku-sushi": "回転寿し 和楽 小樽店 小樽市堺町3-1",
   "otaru-takeda": "味処たけだ 小樽市稲穂3丁目10-16 三角市場",
   "apa-sogo": "モユク札幌ロフト 札幌市中央区南2条西3丁目20 モユクサッポロ3階",
   "pokemon-center-sapporo": "ポケモンセンターサッポロ 大丸札幌店 8F 札幌市中央区北5条西4丁目7",
@@ -3287,6 +3327,7 @@ function getStopNavigationMode(day, index, spotId) {
   if (getKnownWalkingLeg(day, index, spotId)) return "walking";
   if (day === 2 && ["sapporo-odori", "sapporo-susukino"].includes(spotId)
     && ["apa-sapporo-susukino-ekinishi", "sapporo-odori"].includes(previous)) return "walking";
+  if (day === 3 && previous === "otaru-canal" && dayThreeDinnerIds.includes(spotId)) return "walking";
   const otaruWalk = ["letao-otaru-honten", "otaru-canal", "taisho-glass", "otaru-meruhen-crossing", "otaru-sakaimachi"];
   if (otaruWalk.includes(previous) && otaruWalk.includes(spotId)) return "walking";
   return "driving";
@@ -3337,7 +3378,7 @@ function isWeatherAdjustedDay(day) {
 }
 
 function isDailyTimingDraftApplicable(day) {
-  if (day === 3 && dayThreeLunchIds.filter(id => state.plan[day]?.includes(id)).length > 1) return false;
+  if (day === 3 && [dayThreeLunchIds, dayThreeDinnerIds].some(ids => ids.filter(id => state.plan[day]?.includes(id)).length > 1)) return false;
   if (day === 2 && [dayTwoLunchIds, ["furano-kumagera", "furano-yuiga-doxon"]].some(ids => ids.filter(id => state.plan[day]?.includes(id)).length > 1)) return false;
   const draft = getDailyTimingDraft(day);
   if (!draft) return false;
@@ -5077,8 +5118,9 @@ const dayOptionalSpots = {
     ids: ["stellar-place", "tokyu-sapporo", "cocono-susukino"]
   },
   3: {
-    title: "D3 小樽午餐選擇",
-    ids: dayThreeLunchIds
+    title: "D3 小樽用餐選擇",
+    ids: [...dayThreeLunchIds, ...dayThreeDinnerIds],
+    dinnerIds: dayThreeDinnerIds
   },
   2: {
     title: "D2 晚餐備選",
@@ -5139,13 +5181,14 @@ function dayTwoLunchOptionsHtml() {
   return dayTwoMealOptionsHtml(["kamifurano-mansaku"], "上富良野午餐", "日之出公園後吃手打ちそば まん作，先留約 11:30–13:00，含候位。店家不接受訂位，當天現場候位。", "午餐");
 }
 
-function getDayTwoDinnerInsertionIndex(ids) {
-  if (state.selectedDay !== 2) return -1;
-  const terrace = ids.indexOf("ningle-terrace");
-  return terrace >= 0 ? terrace + 1 : -1;
+function getDayDinnerInsertionIndex(ids) {
+  const anchor = { 2: "ningle-terrace", 3: "otaru-canal" }[state.selectedDay];
+  const index = ids.indexOf(anchor);
+  return index >= 0 ? index + 1 : -1;
 }
 
-function dayTwoDinnerOptionsHtml() {
+function dayDinnerOptionsHtml() {
+  if (state.selectedDay === 3) return dayTwoMealOptionsHtml(dayThreeDinnerIds, "小樽運河後晚餐", "逛完運河後，ISO 與和楽擇一，約 19:45 用餐。ISO 可先查空位，和楽採現場候位、只收現金。12/25 特別營業請確認。", "晚餐", 3);
   return dayTwoMealOptionsHtml(dayOptionalSpots[2].dinnerIds, "富良野晚餐", "精靈露臺看完燈景後，可選くまげら／唯我獨尊用餐，或到 Lawson 買輕食、熱飲就直接回札幌。三種方式擇一；餐廳原留約 17:30–18:30，Lawson 採買先留 15–30 分鐘，回程與入住時間依當晚路況調整。", "晚餐");
 }
 
@@ -5261,17 +5304,18 @@ function bindDayOptionButtons(panel, day, options) {
     button.addEventListener("click", () => {
       const id = button.dataset.dayOption;
       if (state.selectedDay !== day || !options.ids.includes(id)) return;
-      const choiceIds = day === 3 ? dayThreeLunchIds : day === 2 ? (options.dinnerIds.includes(id) ? options.dinnerIds : dayTwoLunchIds) : [];
+      const isDinner = options.dinnerIds?.includes(id);
+      if (day === 3 && isDinner && !state.plan[day].includes("otaru-canal")) return;
+      const choiceIds = isDinner ? options.dinnerIds : day === 3 ? dayThreeLunchIds : day === 2 ? dayTwoLunchIds : [];
       if (state.plan[day].includes(id) && (!choiceIds.length || choiceIds.filter(spotId => state.plan[day].includes(spotId)).length === 1)) return;
       const otherDays = Object.keys(state.plan).filter(key => Number(key) !== day && state.plan[key].includes(id));
       if (otherDays.some(key => Number(key) !== options.moveFromDay)) return;
       for (const key of otherDays) state.plan[key] = state.plan[key].filter(spotId => spotId !== id);
-      const oldLunchIndex = day === 3 ? state.plan[day].findIndex(spotId => choiceIds.includes(spotId)) : -1;
+      const oldLunchIndex = day === 3 && !isDinner ? state.plan[day].findIndex(spotId => choiceIds.includes(spotId)) : -1;
       if (choiceIds.length) state.plan[day] = state.plan[day].filter(spotId => !choiceIds.includes(spotId));
       const stops = state.plan[day];
       let insertion = -1;
       if (day === 2) {
-        const isDinner = options.dinnerIds.includes(id);
         const anchorIndex = stops.indexOf(isDinner ? "ningle-terrace" : "hinode-park");
         if (anchorIndex >= 0) {
           insertion = anchorIndex + 1;
@@ -5280,7 +5324,7 @@ function bindDayOptionButtons(panel, day, options) {
           insertion = stops.indexOf(isDinner ? "apa-sapporo-susukino-ekinishi" : "ningle-terrace");
         }
       } else if (day === 3) {
-        insertion = oldLunchIndex >= 0 ? oldLunchIndex : getDayThreeLunchInsertionIndex(stops);
+        insertion = isDinner ? getDayDinnerInsertionIndex(stops) : oldLunchIndex >= 0 ? oldLunchIndex : getDayThreeLunchInsertionIndex(stops);
       } else if (day === 4) {
         const streetIndex = stops.indexOf("noboribetsu-onsen-street");
         if (streetIndex >= 0) {
@@ -5366,7 +5410,7 @@ function renderItinerary() {
   const ids = state.plan[state.selectedDay];
   const lunchIndex = state.selectedDay === 3 ? getDayThreeLunchInsertionIndex(ids) : getDayTwoLunchInsertionIndex(ids);
   const lunchOptionsHtml = () => state.selectedDay === 3 ? dayThreeLunchOptionsHtml() : dayTwoLunchOptionsHtml();
-  const dinnerIndex = getDayTwoDinnerInsertionIndex(ids);
+  const dinnerIndex = getDayDinnerInsertionIndex(ids);
   dom.dayDeparture.innerHTML = dayDepartureHtml(state.selectedDay);
   window.HOKKAIDO_JOURNEY?.render();
   renderDayTimingDraft();
@@ -5392,7 +5436,7 @@ function renderItinerary() {
         const key = `stop-${state.selectedDay}-${spot.id}`;
         const detailsOpen = disclosureIsOpen(`${key}-details`);
         const adjustOpen = disclosureIsOpen(`${key}-adjust`);
-        return `${index === lunchIndex ? lunchOptionsHtml() : ""}${index === dinnerIndex ? dayTwoDinnerOptionsHtml() : ""}
+        return `${index === lunchIndex ? lunchOptionsHtml() : ""}${index === dinnerIndex ? dayDinnerOptionsHtml() : ""}
           <article class="stop-card" data-index="${index}" data-spot-id="${spot.id}">
             ${timingDraftHtml(timingDraft)}
             <div class="stop-top">
@@ -5428,7 +5472,7 @@ function renderItinerary() {
                 <button class="small-button" data-remove="${spot.id}">移除</button>
               </div>
             </div>
-          </article>${index === ids.length - 1 && lunchIndex === ids.length ? lunchOptionsHtml() : ""}${index === ids.length - 1 && dinnerIndex === ids.length ? dayTwoDinnerOptionsHtml() : ""}
+          </article>${index === ids.length - 1 && lunchIndex === ids.length ? lunchOptionsHtml() : ""}${index === ids.length - 1 && dinnerIndex === ids.length ? dayDinnerOptionsHtml() : ""}
         `;
       })
       .join("");

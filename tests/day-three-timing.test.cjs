@@ -21,7 +21,8 @@ test('current D3 receives sequential estimates through breakfast shopping withou
   assert.equal(api.getTimingDraftForStop(3, 'hokkaido-shrine').time, '08:45–09:35');
   assert.equal(api.getTimingDraftForStop(3, 'otaru-gunjo-sui').time, '15:30–16:30');
   assert.equal(api.getTimingDraftForStop(3, 'otaru-tenguyama').time, '17:05–18:35');
-  assert.equal(api.getTimingDraftForStop(3, 'sandria-honten').time, '22:20–22:45');
+  assert.equal(api.getTimingDraftForStop(3, 'otaru-canal').time, '19:10–19:35');
+  assert.equal(api.getTimingDraftForStop(3, 'sandria-honten').time, '22:30–22:55');
   const draft = api.getDailyTimingDraft(3);
   assert.ok(!draft.rows.some(row => row[3]?.includes('sapporo-fushimi-inari')));
   assert.ok(!draft.rows.some(row => row[3]?.includes('letao-otaru-honten')));
@@ -36,6 +37,17 @@ test('current D3 receives sequential estimates through breakfast shopping withou
   assert.equal(api.isDailyTimingDraftApplicable(3), true);
   assert.ok(api.getDailyTimingDraft(3).rows.some(row => row[0] === '11:25–12:25' && row[1] === '小樽午餐（店家待選）'));
   assert.equal(api.getTimingDraftForStop(3, 'wakadori-naruto-honten'), null);
+});
+
+test('D3 retains one dinner estimate after the canal and rejects two dinner stops', () => {
+  const {state, api} = setup();
+  const dinnerIndex = current.indexOf('otaru-canal') + 1;
+  for (const dinner of ['otaru-iso', 'otaru-waraku-sushi']) {
+    state.plan[3] = [...current.slice(0, dinnerIndex), dinner, ...current.slice(dinnerIndex)];
+    assert.equal(api.getTimingDraftForStop(3, dinner).time, '19:45–20:50');
+  }
+  state.plan[3].splice(dinnerIndex, 0, 'otaru-iso');
+  assert.equal(api.isDailyTimingDraftApplicable(3), false);
 });
 
 test('current D3 supports one lunch alternative and an existing LeTAO stop, rejects stale ordering', () => {

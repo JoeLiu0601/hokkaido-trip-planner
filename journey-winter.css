@@ -385,6 +385,18 @@ body.winter-view-active[data-planner-theme="dark"] {
 .prep-item input:checked + span strong { color: var(--muted); text-decoration: line-through; }
 .prep-item a { display: flex; align-items: center; min-height: 44px; width: fit-content; max-width: calc(100% - 36px); margin-left: 36px; padding: 8px 0; font-size: .875rem; color: var(--accent-2); text-underline-offset: 3px; overflow-wrap: anywhere; }
 .workspace.is-travel:not(.is-overview) #day-options-shell[data-day="5"]:not([hidden]) { display: block; }
+.airport-bus-quick {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px 12px;
+  margin: 0 0 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px;
+  background: var(--paper); color: var(--text); font-size: .875rem; line-height: 1.5;
+}
+.airport-bus-quick p { margin: 0; overflow-wrap: anywhere; }
+.airport-bus-quick a {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+  padding: 0 10px; border: 1px solid #c8a868; border-radius: 10px;
+  background: var(--warm-surface); color: #423619; font-weight: 700; text-decoration: none; white-space: nowrap;
+}
+.airport-bus-quick .airport-bus-quick-note { grid-column: 1 / -1; color: var(--muted); font-size: .8125rem; }
 .travel-route-picker { margin: 12px 0; }
 .travel-route-picker > div { display: flex; gap: 8px; }
 .travel-route-picker button { flex: 1; min-height: 44px; padding: 10px; border: 1px solid var(--line); border-radius: 12px; color: var(--text); background: var(--surface); font: inherit; cursor: pointer; }

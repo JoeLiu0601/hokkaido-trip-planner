@@ -147,6 +147,21 @@
     return travelTools.timing(state.selectedDay, id, stationRouteActive()) || getTimingDraftForStop(state.selectedDay, id);
   }
 
+  function airportBusQuickInfoHtml(ids) {
+    const busId = "hakodate-station-airport-bus";
+    if (state.selectedDay !== 10 || !ids.includes(busId)) return "";
+    const busNav = navigationFor(busId);
+    const { departure, arrival } = dayTenBusTarget;
+    return `<section class="airport-bus-quick" aria-label="D10 機場巴士重點">
+      <div>
+        <p><strong>13:10 前到函館站 11 號站牌</strong></p>
+        <p><strong>${escapeHtml(departure)}</strong> 發車 → <strong>${escapeHtml(arrival)}</strong> 到機場</p>
+      </div>
+      <a href="${escapeHtml(busNav.url)}" target="_blank" rel="noopener noreferrer" aria-label="步行導航到函館站 11 號站牌">站牌導航</a>
+      <p class="airport-bus-quick-note">星宇 <strong>17:00 截止報到</strong>。${escapeHtml(dayTenBusCashNote)}</p>
+    </section>`;
+  }
+
   function routeChoiceHtml() {
     if (state.selectedDay !== 10) return "";
     const active = stationRouteActive();
@@ -230,12 +245,9 @@
   }
 
   function navigationFor(id) {
-    if (stationRouteActive()) {
-      const destinations = {
-        "hokkaido-shikisai-hakodate": "JR函館駅 正面入口 函館市若松町12-13",
-        "hakodate-station-airport-bus": "函館駅前 バスターミナル 11番のりば"
-      };
-      if (destinations[id]) return { url: daySixStepUrl({ destination: destinations[id], mode: "walking" }), label: "步行導航", mode: "walking" };
+    if (id === "hokkaido-shikisai-hakodate" && stationRouteActive()) {
+      const destination = "JR函館駅 正面入口 函館市若松町12-13";
+      return { url: daySixStepUrl({ destination, mode: "walking" }), label: "步行導航", mode: "walking" };
     }
     const index = (state.plan[state.selectedDay] || []).indexOf(id);
     const skipNakajimaPark = state.selectedDay === 5 && statusFor("nakajima-park") === "skipped";
@@ -559,9 +571,9 @@
 
   function timelineHtml(ids, nextId) {
     const lunchIndex = state.selectedDay === 3 ? getDayThreeLunchInsertionIndex(ids) : getDayTwoLunchInsertionIndex(ids);
-    const dinnerIndex = getDayTwoDinnerInsertionIndex(ids);
+    const dinnerIndex = getDayDinnerInsertionIndex(ids);
     const lunchHtml = () => `<li class="journey-lunch-choice">${state.selectedDay === 3 ? dayThreeLunchOptionsHtml() : dayTwoLunchOptionsHtml()}</li>`;
-    const dinnerHtml = () => `<li class="journey-lunch-choice">${dayTwoDinnerOptionsHtml()}</li>`;
+    const dinnerHtml = () => `<li class="journey-lunch-choice">${dayDinnerOptionsHtml()}</li>`;
     return ids.map((id, index) => `${index === lunchIndex ? lunchHtml() : ""}${index === dinnerIndex ? dinnerHtml() : ""}${stopHtml(id, index, nextId)}`).join("")
       + (lunchIndex === ids.length ? lunchHtml() : "") + (dinnerIndex === ids.length ? dinnerHtml() : "");
   }
@@ -727,6 +739,7 @@
     const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"][new Date(Date.UTC(2026, 11, 22 + state.selectedDay)).getUTCDay()];
     host.innerHTML = `
       <header class="winter-heading"><div><p>HOKKAIDO WINTER WALK</p><h2 id="journey-title" tabindex="-1">Day ${state.selectedDay} · ${scene.title}</h2><span>${escapeHtml(areas.join(" → ") || "今天的路線，等你來安排")}</span></div><div class="winter-date"><strong>${tripDates[state.selectedDay - 1].replace("/", ".")}</strong><span>${weekday} · 日本時間</span></div></header>
+      ${airportBusQuickInfoHtml(ids)}
       ${dayFlightHtml(state.selectedDay, "journey")}
       ${getGroupRouteForDay(state.selectedDay, "B") ? groupRouteSwitchHtml() : ""}
       ${routeChoiceHtml()}
@@ -809,8 +822,15 @@
     }
   });
 
+  function focusJourneyHeading(preserveScroll = false) {
+    const title = host.querySelector("#journey-title");
+    const showBus = state.selectedDay === 10 && window.matchMedia("(max-width: 640px)").matches;
+    title?.focus({ preventScroll: preserveScroll || showBus });
+    if (showBus) title?.scrollIntoView({ block: "start", behavior: "auto" });
+  }
+
   document.getElementById("day-tabs")?.addEventListener("click", (event) => {
-    if (mode === "travel" && event.target.closest("[data-day]")) host.querySelector("#journey-title")?.focus();
+    if (mode === "travel" && event.target.closest("[data-day]")) focusJourneyHeading();
   });
 
   host.addEventListener("toggle", (event) => {
@@ -832,7 +852,7 @@
       catch { feedback = "此裝置無法保存路線選擇，請確認瀏覽器允許儲存。"; renderJourney(); return; }
       pausePlayback(); previewPosition = null; undoProgress = null;
       renderJourney();
-      host.querySelector("#journey-title")?.focus({ preventScroll: true });
+      focusJourneyHeading(true);
       return;
     }
     const groupButton = target.closest("[data-group-route]");
@@ -862,7 +882,7 @@
       state.summaryMode = "day";
       setMode("travel");
       render();
-      host.querySelector("#journey-title")?.focus();
+      focusJourneyHeading();
       return;
     }
     const preview = target.closest("[data-preview-stop]");

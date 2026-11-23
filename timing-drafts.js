@@ -162,8 +162,17 @@ const dailyTimingDrafts = {
 function buildDayThreeTimingDraft(stops) {
   const lunchIds = ["wakadori-naruto-honten", "otaru-takeda", "otaru-new-sanko"];
   const lunch = lunchIds.find(id => stops.includes(id));
+  const dinner = dayThreeDinnerIds.find(id => stops.includes(id));
+  const dinnerTitle = dinner === "otaru-iso" ? "ISO 晚餐" : dinner ? "和楽小樽店晚餐" : "運河後晚餐（ISO／和楽擇一）";
+  const dinnerRow = ["19:45–20:50", dinnerTitle, "從運河步行到店。ISO 最後點餐21:00，可先查訂位；和楽最後點餐21:30，現場候位、只收現金。12/25特別營業另確認，候位過久就調整晚餐，保留回札幌車程。", dinner ? [dinner] : [], "含候位約65分鐘"];
   if (!stops.some(id => ["otaru-gunjo-sui", "sandria-honten"].includes(id))) {
-    const base = dailyTimingDrafts[3];
+    const original = dailyTimingDrafts[3];
+    const base = {...original,
+      route: original.route.replace("運河 → APA", "運河 → 晚餐 → APA"),
+      stopGroups: [...original.stopGroups, dayThreeDinnerIds],
+      rows: [...original.rows.slice(0, -2), dinnerRow, ["20:50–22:40","取車、開車回 APA", "含冬季返程、短休息與市區停車，風雪可能延長。"]],
+      notes: [original.notes[0], "運河後步行用餐，約20:50取車回札幌。"]
+    };
     if (lunch && lunch !== "otaru-new-sanko") return base;
     return {...base,
       requiredIds: base.requiredIds.flatMap(id => id === "wakadori-naruto-honten" ? (lunch ? [lunch] : []) : [id]),
@@ -176,9 +185,9 @@ function buildDayThreeTimingDraft(stops) {
   }
   const letao = stops.includes("letao-otaru-honten");
   return {
-    intro: "07:45從APA出發，08:45抵神宮為目標。伏見稻荷已移至D6，接手稻與小樽；下午群青・翠後先看天狗山夜景，晚餐暫排下山後，再逛運河。回札幌買Sandria早餐後，約23:00回APA。這是完整清單的估排，不是訂位或即時車程保證。",
-    route: `APA → 北海道神宮 → 手稻神社 → 小樽午餐 → 小樽稻荷 → 大正硝子${letao ? " → LeTAO" : ""} → 童話十字路 → 群青・翠 → 天狗山夜景 → 晚餐 → 運河 → Sandria → APA`,
-    stopGroups: [["hokkaido-shrine"],["teine-shrine"],["wakadori-naruto-honten","otaru-takeda","otaru-new-sanko"],["otaru-inari-shrine"],["taisho-glass"],["letao-otaru-honten"],["otaru-meruhen-crossing"],["otaru-gunjo-sui"],["otaru-tenguyama"],["otaru-canal"],["sandria-honten"]],
+    intro: "07:45從APA出發，08:45抵神宮為目標。伏見稻荷已移至D6，接手稻與小樽；下午群青・翠後看天狗山夜景，再逛運河、約19:45吃晚餐。回札幌買Sandria早餐後，約23:10回APA。時間依當天路況與候位調整。",
+    route: `APA → 北海道神宮 → 手稻神社 → 小樽午餐 → 小樽稻荷 → 大正硝子${letao ? " → LeTAO" : ""} → 童話十字路 → 群青・翠 → 天狗山夜景 → 運河 → 晚餐 → Sandria → APA`,
+    stopGroups: [["hokkaido-shrine"],["teine-shrine"],lunchIds,["otaru-inari-shrine"],["taisho-glass"],["letao-otaru-honten"],["otaru-meruhen-crossing"],["otaru-gunjo-sui"],["otaru-tenguyama"],["otaru-canal"],dayThreeDinnerIds,["sandria-honten"]],
     requiredIds: ["hokkaido-shrine","teine-shrine","otaru-inari-shrine","taisho-glass","otaru-meruhen-crossing","otaru-gunjo-sui","otaru-tenguyama","otaru-canal","sandria-honten"],
     optionalIds: [],
     rows: [
@@ -197,16 +206,17 @@ function buildDayThreeTimingDraft(stops) {
       ["15:00–15:30","取車、前往群青・翠","含取車、開車、停車及走後方入口先留30分鐘；請停正式車位。"],
       ["15:30–16:30","群青・翠下午茶","日本茶與和菓子，不是晚餐。下午現場候位，這1小時不保證能入座；候位超過預期就縮短／放棄本次入店，保住天狗山。一般18:00關門、17:00最後點餐。",["otaru-gunjo-sui"],"候位及下午茶先留1小時"],
       ["16:30–17:05","開車：群青 → 天狗山山麓站","含雪地行車、停車與走到售票處先留35分鐘；不要導航山頂。"],
-      ["17:05–18:35","天狗山夜景、纜車往返","含購票候車、上下山及觀景留90分鐘。2026–27冬季官方上山末班19:48、下山20:00；強風停駛改回市區。下山回市區後19:10–20:10晚餐（店家待選），再去運河。",["otaru-tenguyama"],"含候車約90分鐘"],
-      ["18:35–19:10","下山取車、回小樽市區停車","往運河附近用餐區，含停車與步行留35分鐘。"],
-      ["19:10–20:10","小樽晚餐（餐廳待選）","暫排下山後吃，選確認12/25晚間營業的店；不是群青下午茶，也不是已訂好的座位。若改上山前吃，要重新安排下午與纜車時段。"],
-      ["20:10–20:40","小樽運河夜景","留30分鐘散步拍照，不把這段當商店購物時間。",["otaru-canal"],"約30分鐘"],
-      ["20:40–22:20","取車、開車回札幌Sandria本店","含取車、冬季返程、短休與市區停車先留100分鐘；非Google即時實測，風雪可能更久。"],
-      ["22:20–22:45","Sandria買D4早餐","回札幌後採買隔日早餐，含候餐留25分鐘。依包裝標示保存與確認食用期限，買完回APA。",["sandria-honten"],"約25分鐘"],
-      ["22:45–23:00","回APA、停車休息","約23:00回飯店為完整清單估計；D4隔天06:30出發，今晚不要再加宵夜或購物。"]
+      ["17:05–18:35","天狗山夜景、纜車往返","含購票候車、上下山及觀景留90分鐘。2026–27冬季官方上山末班19:48、下山20:00；強風停駛改回市區。下山後先逛運河，再吃晚餐。",["otaru-tenguyama"],"含候車約90分鐘"],
+      ["18:35–19:10","下山取車、回運河附近停車","可停小樽港第1觀光停車場，含停車與步行留35分鐘。"],
+      ["19:10–19:35","小樽運河夜景","沿淺草橋到中央橋短逛。12/25港邊燭光活動20:00起陸續熄燈，有餘裕再順看。",["otaru-canal"],"約25分鐘"],
+      ["19:35–19:45","步行：運河 → 晚餐","餐廳在運河周邊，走已清雪路段。"],
+      dinnerRow,
+      ["20:50–22:30","取車、開車回札幌Sandria本店","含取車、冬季返程、短休與市區停車先留100分鐘；風雪可能更久。"],
+      ["22:30–22:55","Sandria買D4早餐","回札幌後採買隔日早餐，含候餐留25分鐘。依包裝標示保存與確認食用期限，買完回APA。",["sandria-honten"],"約25分鐘"],
+      ["22:55–23:10","回APA、停車休息","約23:10回飯店為完整清單估計；D4隔天06:30出發，今晚不要再加宵夜或購物。"]
     ],
-    notes: ["車程是冬季規劃預留，非本輪Google逐段實測或固定雪季倍率，也不是暴風雪上限。","下午茶候位、午餐吃整隻蟹或商店久逛都會讓回飯店更晚；優先縮短購物／候位，保留天狗山與運河。","D4隔天06:30出發，約23:00回飯店偏晚。若想早點休息，縮短堺町緩衝、群青候位與用餐時間；三明治採買保留。12/25各店營業與座位尚未保證。"],
-    sources: [["群青官方營業","https://otaru-gunjo.com/"],["群青預約規則","https://booking.ebica.jp/webrsv/search/e020101901/34954"],["天狗山2026–27冬季時間","https://tenguyama.ckk.chuo-bus.co.jp/hours-and-fees/"],["Sandria本店官方","https://www.s-sandwich.com/"]]
+    notes: ["車程是冬季規劃預留，非本輪Google逐段實測或固定雪季倍率，也不是暴風雪上限。","下午茶候位、午餐吃整隻蟹或商店久逛都會讓回飯店更晚；優先縮短購物／候位，保留天狗山與運河。","D4隔天06:30出發，約23:10回飯店偏晚。若想早點休息，縮短堺町緩衝、群青候位與用餐時間；三明治採買保留。12/25各店營業與座位尚未保證。"],
+    sources: [["群青官方營業","https://otaru-gunjo.com/"],["群青預約規則","https://booking.ebica.jp/webrsv/search/e020101901/34954"],["天狗山2026–27冬季時間","https://tenguyama.ckk.chuo-bus.co.jp/hours-and-fees/"],["運河燭光活動","https://otaru.gr.jp/event/otaru-canal-candle-night"],["小樽港觀光停車場","https://otaru-kankousen.jp/parking/"],["Sandria本店官方","https://www.s-sandwich.com/"]]
   };
 }
 

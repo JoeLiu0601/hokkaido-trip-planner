@@ -11,7 +11,7 @@ const section = (source, a, b) => source.slice(source.indexOf(a), source.indexOf
 const plain = value => JSON.parse(JSON.stringify(value));
 
 function setup(times = {}) {
-  const state = { selectedDay: 2 }, statuses = {};
+  const state = { selectedDay: 2 }, statuses = {}, storage = {};
   const runtime = vm.runInNewContext(
     fs.readFileSync(path.join(root, 'timing-drafts.js'), 'utf8') + '\n' + app.slice(0, app.indexOf('const state ='))
     + sceneSource + '\nconst scenes = window.HOKKAIDO_SCENES; let selectedGroup = "A";'
@@ -35,7 +35,8 @@ function setup(times = {}) {
     + 'overview(group) { selectedGroup = group; renderOverview(); return host.innerHTML; },'
     + 'travel(day) { state.selectedDay = day; renderJourney(); return host.innerHTML; }})',
     { state, statuses, window: {HOKKAIDO_TRAVEL_TOOLS: require('../travel-tools.js')}, statusFor: id => statuses[id] || 'pending',
-      readLocalStorage: () => null, isDayTimingDraftApplicable: () => true,
+      readLocalStorage: key => storage[key] || null, isDayTimingDraftApplicable: () => true,
+      navigationFor: id => ({ url: `https://maps.example/${id}` }),
       isDayOneTimingDraftApplicable: () => true, escapeHtml: value => String(value),
       getTimingDraftForStop: (day, id) => day === 1 ? runtime.dayOneTimingDraft[id] : times[id],
       host: { innerHTML: '', classList: { remove() {} }, setAttribute() {}, querySelectorAll: () => [], querySelector: selector => selector === '.journey-next-card' ? { innerHTML: '' } : null },
@@ -47,7 +48,7 @@ function setup(times = {}) {
       progress: () => ({}), groupRouteSwitchHtml: () => '' }
   );
   state.plan = runtime.buildPlan();
-  return { r: runtime, state, statuses };
+  return { r: runtime, state, statuses, storage };
 }
 
 test('the full overview renders ten days and all three companions for both route groups', () => {
@@ -64,7 +65,7 @@ test('the full overview renders ten days and all three companions for both route
 });
 
 test('formal daily views render every day without trial blocks and keep tools collapsed', () => {
-  const { r, state } = setup();
+  const { r, state, storage } = setup();
   const before = JSON.stringify(state.plan);
   for (let day = 1; day <= 10; day++) {
     const html = r.travel(day);
@@ -72,6 +73,14 @@ test('formal daily views render every day without trial blocks and keep tools co
     assert.doesNotMatch(html, /journey-day-timing-title|初步試排/);
     assert.match(html, /<details class="winter-route-details">/);
     assert.ok(html.indexOf('journey-timeline-section') < html.indexOf('winter-route-details'));
+    assert.equal(html.includes('airport-bus-quick'), day === 10);
+  }
+  for (const route of ['main', 'station']) {
+    storage['hokkaido-d10-route-local'] = route;
+    const html = r.travel(10);
+    assert.ok(html.indexOf('airport-bus-quick') < html.indexOf('travel-route-picker'));
+    assert.match(html, /https:\/\/maps\.example\/hakodate-station-airport-bus/);
+    assert.match(html, /17:00 截止報到/);
   }
   assert.equal(JSON.stringify(state.plan), before);
   state.plan[2] = [];
